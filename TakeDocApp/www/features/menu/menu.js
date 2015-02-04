@@ -9,7 +9,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', 'menuService', '$i
             currentView: null,
             disabledRegistrableTagNames: []
         };
-        $rootScope.hideBackButton = false;
+        $rootScope.hideBackButton = true;
     });
     
     $scope.items = [
