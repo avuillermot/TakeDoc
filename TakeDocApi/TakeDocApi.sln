@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocApi", "TakeDocApi\TakeDocApi.csproj", "{98BDAD01-493E-42F9-9FF6-A906F73877D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocApp", "..\TakeDocApp\TakeDocApp.csproj", "{A56D066D-7B03-4AE6-8060-C8FA8E092BDC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocService", "TakeDocService\TakeDocService.csproj", "{EF64B8FC-6C24-442E-8235-C27D874D8CB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocModel", "TakeDocModel\TakeDocModel.csproj", "{2DE865A8-995D-4564-9EEC-5F039E682967}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocDataAccess", "TakeDocDataAccess\TakeDocDataAccess.csproj", "{C5A17E0A-2D43-41EF-A116-A998A38C407D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTakeDocService", "UnitTestTakeDocService\UnitTestTakeDocService.csproj", "{9082B97C-BECE-4979-A888-AA830E8F1479}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestTakeDocDataAccess", "UnitTestTakeDocDataAccess\UnitTestTakeDocDataAccess.csproj", "{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{98BDAD01-493E-42F9-9FF6-A906F73877D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98BDAD01-493E-42F9-9FF6-A906F73877D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98BDAD01-493E-42F9-9FF6-A906F73877D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98BDAD01-493E-42F9-9FF6-A906F73877D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A56D066D-7B03-4AE6-8060-C8FA8E092BDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A56D066D-7B03-4AE6-8060-C8FA8E092BDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A56D066D-7B03-4AE6-8060-C8FA8E092BDC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF64B8FC-6C24-442E-8235-C27D874D8CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF64B8FC-6C24-442E-8235-C27D874D8CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF64B8FC-6C24-442E-8235-C27D874D8CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF64B8FC-6C24-442E-8235-C27D874D8CB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DE865A8-995D-4564-9EEC-5F039E682967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DE865A8-995D-4564-9EEC-5F039E682967}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DE865A8-995D-4564-9EEC-5F039E682967}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DE865A8-995D-4564-9EEC-5F039E682967}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A17E0A-2D43-41EF-A116-A998A38C407D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A17E0A-2D43-41EF-A116-A998A38C407D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A17E0A-2D43-41EF-A116-A998A38C407D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A17E0A-2D43-41EF-A116-A998A38C407D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9082B97C-BECE-4979-A888-AA830E8F1479}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9082B97C-BECE-4979-A888-AA830E8F1479}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9082B97C-BECE-4979-A888-AA830E8F1479}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9082B97C-BECE-4979-A888-AA830E8F1479}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,35 @@
+﻿<ion-view view-title="Menu">
+    <ion-content>
+        <div ng-view="">Utilisateur&#160;:&#160;{{user.FullName}}</div>
+        <div class="list">
+            <div class="item item-divider">
+                Mes documents
+            </div>
+            <ion-list>
+                <ion-item ng-repeat="item in items | filter:'DOCUMENTS'" ng-click="show()" href="{{item.url}}">
+                    {{item.title}}
+                </ion-item>
+            </ion-list>
+        </div>
+        <div class="list">
+            <div class="item item-divider">
+                Mon Compte
+            </div>
+            <ion-list>
+                <ion-item ng-repeat="item in items | filter:'COMPTE'" ng-click="show()" href="{{item.url}}">
+                    {{item.title}}
+                </ion-item>
+            </ion-list>
+        </div>
+        <div class="list">
+            <div class="item item-divider">
+                Autres
+            </div>
+            <ion-list>
+                <ion-item ng-repeat="item in items | filter:'AUTRE'" ng-click="show()" href="{{item.url}}">
+                    {{item.title}}
+                </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+</ion-view>

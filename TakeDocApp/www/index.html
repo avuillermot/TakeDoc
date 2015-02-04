@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+    <script src="utils/routeHelper.js"></script>
+    <script src="utils/modalHelper.js"></script>
+    <script src="utils/scenario.js"></script>
+    <script src="lib/jquery-2.1.1.min.js"></script>
+
+    <!-- ionic/angularjs js -->
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- your app's js -->
+    <script src="models/userTk.js"></script>
+    <script src="models/documents.js"></script>
+    <script src="applications/takeDoc.js"></script>
+    <script src="features/about/about.js"></script>
+    <script src="features/menu/menu.js"></script>
+    <script src="features/takePicture/takePicture.js"></script>
+    <script src="features/selectEntity/selectEntity.js"></script>
+    <script src="features/selectTypeDocument/selectTypeDocument.js"></script>
+    <script src="features/createDocument/createDocument.js"></script>
+  </head>
+
+  <body ng-app="takeDoc">
+    <ion-nav-bar class="bar-positive">
+        <ion-nav-back-button ng-hide="hideBackButton">
+        </ion-nav-back-button>
+    </ion-nav-bar>
+    <ion-nav-view></ion-nav-view>
+  </body>
+
+<script id="error-modal" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-assertive">
+            <h1 id="errorTitle" class="title"></h1>
+            <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+        </ion-header-bar>
+        <ion-content>
+            <div class="errorMessage" id="errorMessage"></div>
+        </ion-content>
+    </ion-modal-view>
+</script>
+</html>

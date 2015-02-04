@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TakeDocService.Document.Interface
+{
+    public interface IVersionService
+    {
+        TakeDocModel.Version CreateMajor(Guid userId, Guid entityId, Guid versionId, Guid documentId);
+        TakeDocModel.Version CreateMinor(Guid userId, Guid entityId, Guid versionId, Guid documentId);
+        TakeDocModel.Version GetById(Guid versionId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Version, object>>[] properties);
+        void SetReceive(Guid versionId);
+        void SetReceive(TakeDocModel.Version version);
+    }
+}

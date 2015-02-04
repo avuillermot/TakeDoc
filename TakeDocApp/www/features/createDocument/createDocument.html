@@ -1,0 +1,13 @@
+﻿<ion-view view-title="Création document">
+    <ion-content>
+        <label class="item item-input">
+            <input type="text" id="documentLabel" placeholder="Nom du document" ng-keyup="setLabel(this);"/>
+        </label>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <button class="button button-dark" go-back="">Annuler</button>
+            <button class="button button-dark" go-click="{{nextUrl}}" valid-input="doCheck()">Suivant</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

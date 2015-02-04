@@ -1,0 +1,878 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TakeDocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Counter">
+          <Key>
+            <PropertyRef Name="counterName" />
+          </Key>
+          <Property Name="counterName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="counterPrefix" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="counterValue" Type="bigint" />
+        </EntityType>
+        <EntityType Name="DataField">
+          <Key>
+            <PropertyRef Name="DataFieldId" />
+          </Key>
+          <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DataFieldReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DataFieldMandatory" Type="bit" Nullable="false" />
+          <Property Name="DataFieldType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DocumentSatutId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentCurrentVersion" Type="uniqueidentifier" />
+          <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DocumentTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MetaData">
+          <Key>
+            <PropertyRef Name="MetaDataId" />
+          </Key>
+          <Property Name="MetaDataId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MetaDataName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MetaDataValue" Type="nvarchar(max)" />
+          <Property Name="MetaDataDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="PageStreamId" Type="uniqueidentifier" />
+          <Property Name="PageVersionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="PageNumber" Type="int" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Statut_Document">
+          <Key>
+            <PropertyRef Name="StatutDocumentId" />
+          </Key>
+          <Property Name="StatutDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatutDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatutDocumentLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Statut_Version">
+          <Key>
+            <PropertyRef Name="StatutVersionId" />
+          </Key>
+          <Property Name="StatutVersionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatutVersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatutVersionLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Type_Document">
+          <Key>
+            <PropertyRef Name="TypeDocumentId" />
+          </Key>
+          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeDocumentLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="VersionId" />
+          </Key>
+          <Property Name="VersionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="VersionStreamId" Type="uniqueidentifier" />
+          <Property Name="VersionStatutId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VersionDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="VersionMajor" Type="bit" Nullable="false" />
+          <Property Name="VersionNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="View_PageStoreLocator">
+          <Key>
+            <PropertyRef Name="StreamId" />
+          </Key>
+          <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StreamLocator" Type="nvarchar(max)" />
+        </EntityType>
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <EntityType Name="View_VersionStoreLocator">
+          <Key>
+            <PropertyRef Name="StreamId" />
+          </Key>
+          <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StreamLocator" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_DataField_Type_Document">
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="1" />
+          <End Role="DataField" Type="Self.DataField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="DataField">
+              <PropertyRef Name="TypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Type_Document">
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetaData_DataField">
+          <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
+          <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataField">
+              <PropertyRef Name="DataFieldId" />
+            </Principal>
+            <Dependent Role="MetaData">
+              <PropertyRef Name="DataFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetaData_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="MetaData">
+              <PropertyRef Name="MetaDataDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Page_Version">
+          <End Role="Version" Type="Self.Version" Multiplicity="1" />
+          <End Role="Page" Type="Self.Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Version">
+              <PropertyRef Name="VersionId" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="PageVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="VersionDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Statut_Version">
+          <End Role="Statut_Version" Type="Self.Statut_Version" Multiplicity="1" />
+          <End Role="Version" Type="Self.Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statut_Version">
+              <PropertyRef Name="StatutVersionId" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="VersionStatutId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetNewReference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="table" Type="nvarchar" Mode="In" />
+          <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
+        </Function>
+        <EntityContainer Name="TakeDocModelStoreContainer">
+          <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataField" EntityType="Self.DataField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statut_Document" EntityType="Self.Statut_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statut_Version" EntityType="Self.Statut_Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_Document" EntityType="Self.Type_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="View_PageStoreLocator" EntityType="Self.View_PageStoreLocator" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_PageStoreLocator].[StreamId] AS [StreamId], 
+    [View_PageStoreLocator].[StreamLocator] AS [StreamLocator]
+    FROM [dbo].[View_PageStoreLocator] AS [View_PageStoreLocator]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="View_VersionStoreLocator" EntityType="Self.View_VersionStoreLocator" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [View_VersionStoreLocator].[StreamId] AS [StreamId], 
+    [View_VersionStoreLocator].[StreamLocator] AS [StreamLocator]
+    FROM [dbo].[View_VersionStoreLocator] AS [View_VersionStoreLocator]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_DataField_Type_Document" Association="Self.FK_DataField_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="DataField" EntitySet="DataField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Document_Type_Document" Association="Self.FK_Document_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetaData_DataField" Association="Self.FK_MetaData_DataField">
+            <End Role="DataField" EntitySet="DataField" />
+            <End Role="MetaData" EntitySet="MetaData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetaData_Document" Association="Self.FK_MetaData_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="MetaData" EntitySet="MetaData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Page_Version" Association="Self.FK_Page_Version">
+            <End Role="Version" EntitySet="Version" />
+            <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Document" Association="Self.FK_Version_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Statut_Version" Association="Self.FK_Version_Statut_Version">
+            <End Role="Statut_Version" EntitySet="Statut_Version" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TakeDocModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="TakeDocEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Counter" EntityType="TakeDocModel.Counter" />
+          <EntitySet Name="Document" EntityType="TakeDocModel.Document" />
+          <EntitySet Name="Page" EntityType="TakeDocModel.Page" />
+          <EntitySet Name="Statut_Document" EntityType="TakeDocModel.Statut_Document" />
+          <AssociationSet Name="FK_Document_Statut_Document" Association="TakeDocModel.FK_Document_Statut_Document">
+            <End Role="Statut_Document" EntitySet="Statut_Document" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <FunctionImport Name="GetNewReference" ReturnType="Collection(String)">
+            <Parameter Name="table" Mode="In" Type="String" />
+            <Parameter Name="reference" Mode="InOut" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Statut_Version" EntityType="TakeDocModel.Statut_Version" />
+          <EntitySet Name="Version" EntityType="TakeDocModel.Version" />
+          <AssociationSet Name="FK_Version_Document" Association="TakeDocModel.FK_Version_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Page_Version" Association="TakeDocModel.FK_Page_Version">
+            <End Role="Version" EntitySet="Version" />
+            <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Version_Statut_Version" Association="TakeDocModel.FK_Version_Statut_Version">
+            <End Role="Statut_Version" EntitySet="Statut_Version" />
+            <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+          <EntitySet Name="View_PageStoreLocator" EntityType="TakeDocModel.View_PageStoreLocator" />
+          <EntitySet Name="View_VersionStoreLocator" EntityType="TakeDocModel.View_VersionStoreLocator" />
+          <EntitySet Name="Type_Document" EntityType="TakeDocModel.Type_Document" />
+          <AssociationSet Name="FK_Document_Type_Document" Association="TakeDocModel.FK_Document_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <EntitySet Name="DataField" EntityType="TakeDocModel.DataField" />
+          <EntitySet Name="MetaData" EntityType="TakeDocModel.MetaData" />
+          <AssociationSet Name="FK_DataField_Type_Document" Association="TakeDocModel.FK_DataField_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="DataField" EntitySet="DataField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetaData_DataField" Association="TakeDocModel.FK_MetaData_DataField">
+            <End Role="DataField" EntitySet="DataField" />
+            <End Role="MetaData" EntitySet="MetaData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetaData_Document" Association="TakeDocModel.FK_MetaData_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="MetaData" EntitySet="MetaData" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="Counter">
+          <Key>
+            <PropertyRef Name="counterName" />
+          </Key>
+          <Property Name="counterName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="counterPrefix" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="counterValue" Type="Int64" />
+          </EntityType>
+        <EntityType Name="Document">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+          </Key>
+          <Property Name="DocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentSatutId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Statut_Document" Relationship="TakeDocModel.FK_Document_Statut_Document" FromRole="Document" ToRole="Statut_Document" />
+          <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Version_Document" FromRole="Document" ToRole="Version" />
+          <Property Name="DocumentCurrentVersion" Type="Guid" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="DocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentTypeId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Document" ToRole="Type_Document" />
+          <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaData_Document" FromRole="Document" ToRole="MetaData" />
+          </EntityType>
+        <EntityType Name="Page">
+          <Key>
+            <PropertyRef Name="PageId" />
+          </Key>
+          <Property Name="PageId" Type="Guid" Nullable="false" />
+          <Property Name="PageReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PageStreamId" Type="Guid" />
+          <Property Name="PageVersionId" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="PageNumber" Type="Int32" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Statut_Document">
+          <Key>
+            <PropertyRef Name="StatutDocumentId" />
+          </Key>
+          <Property Name="StatutDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="StatutDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatutDocumentLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Statut_Document" FromRole="Statut_Document" ToRole="Document" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          </EntityType>
+        <Association Name="FK_Document_Statut_Document">
+          <End Type="TakeDocModel.Statut_Document" Role="Statut_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statut_Document">
+              <PropertyRef Name="StatutDocumentId" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="DocumentSatutId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Statut_Version">
+          <Key>
+            <PropertyRef Name="StatutVersionId" />
+          </Key>
+          <Property Name="StatutVersionId" Type="Guid" Nullable="false" />
+          <Property Name="StatutVersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatutVersionLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Version_Statut_Version" FromRole="Statut_Version" ToRole="Version" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          </EntityType>
+        <EntityType Name="Version">
+          <Key>
+            <PropertyRef Name="VersionId" />
+          </Key>
+          <Property Name="VersionId" Type="Guid" Nullable="false" />
+          <Property Name="VersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="VersionStreamId" Type="Guid" />
+          <Property Name="VersionStatutId" Type="Guid" Nullable="false" />
+          <Property Name="VersionDocumentId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Version_Document" FromRole="Version" ToRole="Document" />
+          <NavigationProperty Name="Page" Relationship="TakeDocModel.FK_Page_Version" FromRole="Version" ToRole="Page" />
+          <NavigationProperty Name="Statut_Version" Relationship="TakeDocModel.FK_Version_Statut_Version" FromRole="Version" ToRole="Statut_Version" />
+          <Property Name="VersionMajor" Type="Boolean" Nullable="false" />
+          <Property Name="VersionNumber" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="EntityId" Type="Guid" />
+          <Property Name="UserCreateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          </EntityType>
+        <Association Name="FK_Version_Document">
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
+          <End Type="TakeDocModel.Version" Role="Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="VersionDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Page_Version">
+          <End Type="TakeDocModel.Version" Role="Version" Multiplicity="1" />
+          <End Type="TakeDocModel.Page" Role="Page" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Version">
+              <PropertyRef Name="VersionId" />
+            </Principal>
+            <Dependent Role="Page">
+              <PropertyRef Name="PageVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Version_Statut_Version">
+          <End Type="TakeDocModel.Statut_Version" Role="Statut_Version" Multiplicity="1" />
+          <End Type="TakeDocModel.Version" Role="Version" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statut_Version">
+              <PropertyRef Name="StatutVersionId" />
+            </Principal>
+            <Dependent Role="Version">
+              <PropertyRef Name="VersionStatutId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="View_PageStoreLocator">
+          <Key>
+            <PropertyRef Name="StreamId" />
+          </Key>
+          <Property Name="StreamId" Type="Guid" Nullable="false" />
+          <Property Name="StreamLocator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="View_VersionStoreLocator">
+          <Key>
+            <PropertyRef Name="StreamId" />
+          </Key>
+          <Property Name="StreamId" Type="Guid" Nullable="false" />
+          <Property Name="StreamLocator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Type_Document">
+          <Key>
+            <PropertyRef Name="TypeDocumentId" />
+          </Key>
+          <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="TypeDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeDocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Type_Document" ToRole="Document" />
+          <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_DataField_Type_Document" FromRole="Type_Document" ToRole="DataField" />
+          </EntityType>
+        <Association Name="FK_Document_Type_Document">
+          <End Type="TakeDocModel.Type_Document" Role="Type_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="DocumentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DataField">
+          <Key>
+            <PropertyRef Name="DataFieldId" />
+          </Key>
+          <Property Name="DataFieldId" Type="Guid" Nullable="false" />
+          <Property Name="DataFieldReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DataFieldMandatory" Type="Boolean" Nullable="false" />
+          <Property Name="DataFieldType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_DataField_Type_Document" FromRole="DataField" ToRole="Type_Document" />
+          <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaData_DataField" FromRole="DataField" ToRole="MetaData" />
+          </EntityType>
+        <EntityType Name="MetaData">
+          <Key>
+            <PropertyRef Name="MetaDataId" />
+          </Key>
+          <Property Name="MetaDataId" Type="Guid" Nullable="false" />
+          <Property Name="MetaDataName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DataFieldId" Type="Guid" Nullable="false" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_MetaData_DataField" FromRole="MetaData" ToRole="DataField" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_MetaData_Document" FromRole="MetaData" ToRole="Document" />
+          </EntityType>
+        <Association Name="FK_DataField_Type_Document">
+          <End Type="TakeDocModel.Type_Document" Role="Type_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="DataField">
+              <PropertyRef Name="TypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetaData_DataField">
+          <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
+          <End Type="TakeDocModel.MetaData" Role="MetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataField">
+              <PropertyRef Name="DataFieldId" />
+            </Principal>
+            <Dependent Role="MetaData">
+              <PropertyRef Name="DataFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MetaData_Document">
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
+          <End Type="TakeDocModel.MetaData" Role="MetaData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="MetaData">
+              <PropertyRef Name="MetaDataDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TakeDocModelStoreContainer" CdmEntityContainer="TakeDocEntities1">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="TakeDocModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Counter">
+            <EntityTypeMapping TypeName="TakeDocModel.Counter">
+              <MappingFragment StoreEntitySet="Counter">
+                <ScalarProperty Name="counterValue" ColumnName="counterValue" />
+                <ScalarProperty Name="counterPrefix" ColumnName="counterPrefix" />
+                <ScalarProperty Name="counterName" ColumnName="counterName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Document">
+            <EntityTypeMapping TypeName="TakeDocModel.Document">
+              <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
+                <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DocumentCurrentVersion" ColumnName="DocumentCurrentVersion" />
+                <ScalarProperty Name="DocumentSatutId" ColumnName="DocumentSatutId" />
+                <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Page">
+            <EntityTypeMapping TypeName="TakeDocModel.Page">
+              <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="PageVersionId" ColumnName="PageVersionId" />
+                <ScalarProperty Name="PageStreamId" ColumnName="PageStreamId" />
+                <ScalarProperty Name="PageReference" ColumnName="PageReference" />
+                <ScalarProperty Name="PageId" ColumnName="PageId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statut_Document">
+            <EntityTypeMapping TypeName="TakeDocModel.Statut_Document">
+              <MappingFragment StoreEntitySet="Statut_Document">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="StatutDocumentLibelle" ColumnName="StatutDocumentLibelle" />
+                <ScalarProperty Name="StatutDocumentReference" ColumnName="StatutDocumentReference" />
+                <ScalarProperty Name="StatutDocumentId" ColumnName="StatutDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetNewReference" FunctionName="TakeDocModel.Store.GetNewReference" />
+          <EntitySetMapping Name="Statut_Version">
+            <EntityTypeMapping TypeName="TakeDocModel.Statut_Version">
+              <MappingFragment StoreEntitySet="Statut_Version">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="StatutVersionLibelle" ColumnName="StatutVersionLibelle" />
+                <ScalarProperty Name="StatutVersionReference" ColumnName="StatutVersionReference" />
+                <ScalarProperty Name="StatutVersionId" ColumnName="StatutVersionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Version">
+            <EntityTypeMapping TypeName="TakeDocModel.Version">
+              <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
+                <ScalarProperty Name="VersionDocumentId" ColumnName="VersionDocumentId" />
+                <ScalarProperty Name="VersionStatutId" ColumnName="VersionStatutId" />
+                <ScalarProperty Name="VersionStreamId" ColumnName="VersionStreamId" />
+                <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_PageStoreLocator">
+            <EntityTypeMapping TypeName="TakeDocModel.View_PageStoreLocator">
+              <MappingFragment StoreEntitySet="View_PageStoreLocator">
+                <ScalarProperty Name="StreamLocator" ColumnName="StreamLocator" />
+                <ScalarProperty Name="StreamId" ColumnName="StreamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="View_VersionStoreLocator">
+            <EntityTypeMapping TypeName="TakeDocModel.View_VersionStoreLocator">
+              <MappingFragment StoreEntitySet="View_VersionStoreLocator">
+                <ScalarProperty Name="StreamLocator" ColumnName="StreamLocator" />
+                <ScalarProperty Name="StreamId" ColumnName="StreamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Type_Document">
+            <EntityTypeMapping TypeName="TakeDocModel.Type_Document">
+              <MappingFragment StoreEntitySet="Type_Document">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="TypeDocumentLabel" ColumnName="TypeDocumentLabel" />
+                <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
+                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataField">
+            <EntityTypeMapping TypeName="TakeDocModel.DataField">
+              <MappingFragment StoreEntitySet="DataField">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DataFieldType" ColumnName="DataFieldType" />
+                <ScalarProperty Name="DataFieldMandatory" ColumnName="DataFieldMandatory" />
+                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
+                <ScalarProperty Name="DataFieldReference" ColumnName="DataFieldReference" />
+                <ScalarProperty Name="DataFieldId" ColumnName="DataFieldId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetaData">
+            <EntityTypeMapping TypeName="TakeDocModel.MetaData">
+              <MappingFragment StoreEntitySet="MetaData">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DataFieldId" ColumnName="DataFieldId" />
+                <ScalarProperty Name="MetaDataDocumentId" ColumnName="MetaDataDocumentId" />
+                <ScalarProperty Name="MetaDataValue" ColumnName="MetaDataValue" />
+                <ScalarProperty Name="MetaDataName" ColumnName="MetaDataName" />
+                <ScalarProperty Name="MetaDataId" ColumnName="MetaDataId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
