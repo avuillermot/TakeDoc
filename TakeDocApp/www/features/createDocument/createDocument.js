@@ -1,19 +1,18 @@
 ﻿'use strict';
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', 'createDocumentService', function ($scope, $rootScope, createDocumentService) {
-    $rootScope.documentToAdd = new documents();
-    $rootScope.hideBackButton = true;
+
+    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $rootScope.documentToAdd = new documents();
+        $rootScope.documentToAdd.DocumentLabel = "";
+        $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity.Id;
+    });
 
     var step = $rootScope.Scenario.next();
 
     $scope.nextUrl = step.to;
-    $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity.Id;
-
-    $scope.setLabel = function () {
-        $rootScope.documentToAdd.DocumentLabel = $("#documentLabel").val();
-    };
 
     $scope.doCheck = function () {
-        var ok = !($("#documentLabel").val() == "");
+        var ok = !($rootScope.documentToAdd.DocumentLabel == "");
         if (ok == false) {
             $rootScope.ErrorHelper.show("Erreur", "Veuillez saisir un nom de document.");
         }

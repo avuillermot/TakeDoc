@@ -46,7 +46,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
 takeDoc.directive( 'goClick', function ( $location ) {
     return function ($scope, element, attrs) {
         var path;
-
+        element.addClass("button next");
         attrs.$observe( 'goClick', function (val) {
             path = val;
         });
@@ -69,6 +69,7 @@ takeDoc.directive( 'goClick', function ( $location ) {
 
 takeDoc.directive('goBack', function ($location) {
     return function (scope, element, attrs) {
+        element.addClass("button home");
         element.bind('click', function () {
             scope.$apply(function () {
                 $location.path("menu");

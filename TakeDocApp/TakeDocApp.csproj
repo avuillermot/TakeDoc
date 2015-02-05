@@ -34,6 +34,7 @@
   <ItemGroup>
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
+    <Content Include="www\img\windows8-icons.png" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\utils\fileHelper.js" />
     <Content Include="www\utils\scenario.js" />

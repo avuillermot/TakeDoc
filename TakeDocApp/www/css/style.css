@@ -15,3 +15,20 @@ div.button-bar {
     padding-right: 10px;
     padding-top:50px;
 }
+
+.home {
+    background-image: url("../img/home.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+}
+
+.next {
+    background-image: url("../img/next.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+}
+
+.button-bar .button {
+    height:150px;
+}
+

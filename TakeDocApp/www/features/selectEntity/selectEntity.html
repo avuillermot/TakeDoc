@@ -1,6 +1,6 @@
 ﻿<ion-view view-title="Société">
     <ion-content>
-        Sélection entreprise111
+        <div>Sélection entreprise111</div>
         <ion-list>
             <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}">
                 {{Entity.Label}}
@@ -9,7 +9,7 @@
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <button class="button button-dark" go-back="">Annuler</button>
+            <button go-back=""></button>
         </div>
    </ion-footer-bar>
 </ion-view>
