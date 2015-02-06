@@ -13,9 +13,12 @@ typeDocumentService.prototype.get = function (entityId) {
     var add = new typeDocument();
     add.EntityId = null; add.TypeDocumentId = 1; add.TypeDocumentLibelle = "Note de frais";
     retour.push(add);
+
     add = new typeDocument();
     add.EntityId = null; add.TypeDocumentId = 2; add.TypeDocumentLibelle = "Facture";
     retour.push(add);
+
+    add = new typeDocument();
     add.EntityId = null; add.TypeDocumentId = 2; add.TypeDocumentLibelle = "Note de service";
     retour.push(add);
 
