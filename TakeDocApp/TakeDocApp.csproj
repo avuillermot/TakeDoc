@@ -509,8 +509,6 @@
     <Content Include="www\css\style.css" />
     <Content Include="www\img\ionic.png" />
     <Content Include="www\index.html" />
-    <Content Include="www\js\app.js" />
-    <Content Include="www\js\controllers.js" />
     <Content Include="www\lib\ionic\css\ionic.css" />
     <Content Include="www\lib\ionic\css\ionic.min.css" />
     <Content Include="www\lib\ionic\js\angular-ui\angular-ui-router.js" />

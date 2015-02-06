@@ -1,13 +1,10 @@
 ﻿'use strict';
-takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', 'selectTypeDocumentService', function ($scope, $rootScope, selectTypeDocumentService) {
-    var step = $rootScope.Scenario.next();
-    $scope.nextUrl = step.to;
-    $scope.TypeDocuments = $rootScope.User.Entitys;
-}]);
+takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    debugger;
+    var servTypeDocument = new typeDocumentService();
+    //var step = $rootScope.Scenario.next();
 
-
-
-takeDoc.service('selectTypeDocumentService', ['$http', function ($http) {
-
+    //$scope.nextUrl = step.to;
+    $scope.TypeDocuments = servTypeDocument.get(null);
 }]);
 
