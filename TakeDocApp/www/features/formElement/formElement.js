@@ -1,13 +1,16 @@
 ﻿'use strict';
 takeDoc.controller('formElementController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    $scope.title = "Eau froide";
-    $scope.description = "Température relevé au robinet aprs 30 secondes d'écoulement d'eau froide. Doit être supérieur à 20°C."
-    $scope.typeData = "text";
-    $scope.label = "Température";
-    $scope.textValue = "valeur";
-    $scope.observation = "";
-    $scope.mandatory = true;
+    var aText = new askText();
+    var aBox = new askCheckbox();
+
+    $scope.title = aText.title;
+    $scope.description = aText.description;
+    $scope.typeData = aText.typeData;
+    $scope.label = aText.label;
+    $scope.textValue = aText.textValue;
+    $scope.observation = aText.observation;
+    $scope.mandatory = aText.mandatory;
 
     $scope.doCheck = function () {
         $scope.textValue = $("#valueZone").val();
