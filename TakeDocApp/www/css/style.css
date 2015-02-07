@@ -34,7 +34,17 @@ div.button-bar {
     background-position-x:center;
 }
 
+.photo {
+    background-image: url("../img/photo.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+}
+
 .button-bar .button {
     height:150px;
+}
+
+section p {
+    margin-top:15px;
 }
 

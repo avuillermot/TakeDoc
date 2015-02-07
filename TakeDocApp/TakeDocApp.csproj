@@ -32,10 +32,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="www\features\formElement\formElement.html" />
+    <Content Include="www\features\formElement\formElement.js" />
     <Content Include="www\features\profil\profil.html" />
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
+    <Content Include="www\img\home.png" />
+    <Content Include="www\img\next.png" />
+    <Content Include="www\img\photo.png" />
+    <Content Include="www\img\save.png" />
+    <Content Include="www\img\windows8-icons - Copie.png" />
     <Content Include="www\img\windows8-icons.png" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />

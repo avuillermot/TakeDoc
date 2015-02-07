@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('createDocumentController', ['$scope', '$rootScope', 'createDocumentService', function ($scope, $rootScope, createDocumentService) {
+takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $rootScope.documentToAdd = new documents();
@@ -19,10 +19,3 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', 'createD
         return ok;
     }
 }]);
-
-
-
-takeDoc.service('createDocumentService', ['$http', function ($http) {
-
-}]);
-

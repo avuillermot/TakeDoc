@@ -1,0 +1,20 @@
+﻿<ion-view view-title="{{title}}">
+   <ion-content>
+        <section>
+            <p>{{description}}</p>
+            <label class="item item-input">
+                <span class="input-label">{{label}}</span>
+                <input id="valueZone" type="{{typeData}}" ng-model="textValue" />
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Observations</span>
+                <textarea rows="8" cols="10"></textarea>
+            </label>
+        </section>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <button go-click="{{nextUrl}}" valid-input="doCheck()"></button>
+        </div>
+    </ion-footer-bar>
+</ion-view>
