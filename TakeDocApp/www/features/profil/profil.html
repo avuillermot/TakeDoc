@@ -1,0 +1,28 @@
+﻿<ion-view view-title="Profil">
+    <ion-content>
+        <section>
+            <label class="item item-input">
+                <span class="input-label">Nom</span>
+                <input type="text" ng-model="User.LastName">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Prénom</span>
+                <input type="text" ng-model="User.FirstName">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Email</span>
+                <input type="email" ng-model="User.Email">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Téléphone</span>
+                <input type="tel" ng-model="User.Telephone">
+            </label>
+        </section>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <button go-back=""></button>
+            <button class="button save"></button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

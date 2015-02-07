@@ -1,14 +1,13 @@
 ﻿'use strict';
-takeDoc.controller('selectEntityController', ['$scope', '$rootScope', 'selectEntityService', function ($scope, $rootScope, selectEntityService) {
+takeDoc.controller('selectEntityController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+    var servEntity = new entityService();
     var step = $rootScope.Scenario.next();
+
     $scope.nextUrl = step.to;
-    $scope.Entitys = $rootScope.User.Entitys;
-    $rootScope.User.CurrentEntity = $scope.Entitys[0];
-}]);
+    $scope.Entitys = servEntity.get(null);
 
-
-
-takeDoc.service('selectEntityService', ['$http', function ($http) {
-
+    $scope.onChoose = function (entityId) {
+        $rootScope.User.CurrentEntity = entityId;
+    }
 }]);
 

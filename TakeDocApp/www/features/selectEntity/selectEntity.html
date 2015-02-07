@@ -1,8 +1,8 @@
 ﻿<ion-view view-title="Société">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}">
-                {{Entity.Label}}
+            <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}" ng-click="onChoose('{{Entity.EntityId}}')">
+                {{Entity.EntityLabel}}
             </ion-item>
         </ion-list>
     </ion-content>

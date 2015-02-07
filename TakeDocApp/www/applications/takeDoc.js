@@ -35,6 +35,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('createDocument', _routeHelper.get("createDocument", false))
         .state('selectEntity', _routeHelper.get("selectEntity", false))
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
+        .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false));

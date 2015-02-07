@@ -28,6 +28,12 @@ div.button-bar {
     background-position-x:center;
 }
 
+.save {
+    background-image: url("../img/save.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+}
+
 .button-bar .button {
     height:150px;
 }
