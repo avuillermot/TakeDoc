@@ -1,8 +1,6 @@
 ﻿var scenario = function () {
-    
     this.stories = new Array();
     this.currentStory = null;
-
 };
 
 scenario.prototype.init = function () {

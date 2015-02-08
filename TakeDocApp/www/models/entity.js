@@ -7,7 +7,7 @@ function entityService() {
 
 }
 
-entityService.prototype.get = function (userId) {
+entityService.get = function (userId) {
     var retour = new Array();
     var add = new entity();
     add.EntityId = null; add.EntityLabel = "Altran";

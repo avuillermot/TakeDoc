@@ -48,3 +48,17 @@ section p {
     margin-top:15px;
 }
 
+.login {
+    background-image: url("../img/login-small.jpg");
+    background-repeat: no-repeat;
+    background-position-x:center;
+    padding-top:150px;
+}
+
+.logout {
+    background-image: url("../img/logout-small.png");
+    background-repeat: no-repeat;
+    height:22px;
+    width:22px;
+}
+

@@ -1,9 +1,15 @@
 ﻿'use strict';
 var takeDoc = angular.module("takeDoc", ['ionic']);
 
-takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal) {
+takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
+    
+    $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        if ($location.$$path != "/login") {
+            if ($rootScope.User == null) $location.path("#/login");
+            else if ($rootScope.User.IsLog == false) $location.path("#/login");
+        }
+    });
 
-    $rootScope.User = new userTk();
     $rootScope.ErrorHelper = new modalHelper($ionicModal, $rootScope, 'error-modal');
     $rootScope.Scenario = new scenario();
 
@@ -15,6 +21,10 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal) {
         { from: "#/takePicture", to: "#/formElement" },
         { from: "#/formElement", to: "#/menu" }
     ];
+    var scenarioLgin = [
+        { from: "#/login", to: "#/menu" }
+    ];
+    $rootScope.Scenario.init("login", scenarioLgin);
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     
     $ionicPlatform.ready(function() {
@@ -33,6 +43,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal) {
 takeDoc.config(function ($stateProvider, $urlRouterProvider) {
     var _routeHelper = new routeHelper();
     $stateProvider
+        .state('login', _routeHelper.get("login", false))
         .state('createDocument', _routeHelper.get("createDocument", false))
         .state('selectEntity', _routeHelper.get("selectEntity", false))
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
@@ -43,7 +54,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('menu', _routeHelper.get("menu", false));
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/menu');
+    $urlRouterProvider.otherwise('/login');
 });
 
 takeDoc.directive( 'goClick', function ( $location ) {

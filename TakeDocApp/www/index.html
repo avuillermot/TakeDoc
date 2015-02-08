@@ -30,6 +30,7 @@
     <script src="models/typeDocument.js"></script>
     <script src="models/askElement.js"></script>
     <script src="applications/takeDoc.js"></script>
+    <script src="features/login/login.js"></script>
     <script src="features/about/about.js"></script>
     <script src="features/formElement/formElement.js"></script>
     <script src="features/menu/menu.js"></script>
@@ -42,8 +43,9 @@
 
   <body ng-app="takeDoc">
     <ion-nav-bar class="bar-positive">
-        <!--<ion-nav-back-button ng-hide="hideBackButton">
-        </ion-nav-back-button>-->
+        <ion-nav-buttons side="primary">
+            <button class="button logout" ng-click="doSomething()"></button>
+        </ion-nav-buttons>
     </ion-nav-bar>
     <ion-nav-view></ion-nav-view>
   </body>

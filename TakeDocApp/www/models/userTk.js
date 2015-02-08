@@ -7,8 +7,16 @@
     this.Entitys = new Array();
     this.Entitys.push({ Id: "55C72E33-8864-4E0E-9BC8-C82378B2BF8C", Reference: "MASTER", Label: "MASTER" });
     this.CurrentEntity = this.Entitys[0];
+    this.IsLog = false;
 };
 
-userTk.prototype.getFullName = function() {
-    return this.FirstName + " " + this.LastName;
+function userTkService() {
+
+}
+
+userTkService.logon = function (login, pwd) {
+    var retour = new userTk();
+    retour.Entitys = entityService.get(login);
+    retour.IsLog = true;
+    return retour;
 };

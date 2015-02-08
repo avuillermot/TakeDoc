@@ -12,6 +12,8 @@ takeDoc.controller('formElementController', ['$scope', '$rootScope', function ($
     $scope.observation = aText.observation;
     $scope.mandatory = aText.mandatory;
 
+    $scope.nextUrl = $rootScope.Scenario.next().to;
+
     $scope.doCheck = function () {
         $scope.textValue = $("#valueZone").val();
         var ok = true;
