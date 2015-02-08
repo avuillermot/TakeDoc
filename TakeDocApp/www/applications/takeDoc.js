@@ -92,15 +92,17 @@ takeDoc.directive('goBack', function ($location) {
     };
 });
 
-/*takeDoc.directive('goValidInput', function ($location) {
+takeDoc.directive('tdLogout', function ($rootScope, $location) {
     return function (scope, element, attrs) {
+        element.addClass("button logout");
         element.bind('click', function () {
             scope.$apply(function () {
-                alert("bb");
+                $rootScope.User = null;
+                $location.path("login");
             });
         });
     };
-});*/
+});
 
 
 
