@@ -1,6 +1,7 @@
 ﻿var scenario = function () {
     this.stories = new Array();
     this.currentStory = null;
+    this.currentStepIndex = 0;
 };
 
 scenario.prototype.init = function () {
@@ -9,24 +10,27 @@ scenario.prototype.init = function () {
 
 scenario.prototype.start = function (storyName) {
     var that = this;
+    that.currentStory = null;
     $.each(this.stories, function (index, value) {
         if (value.name === storyName){
             that.currentStory = value;
         }
     });
     
-    var step = this.currentStory.steps[0];
+    if (this.currentStory == null) return null;
+    this.currentStepIndex = 0;
+    var step = this.currentStory.steps[this.currentStepIndex];
     return step;
 };
 
 scenario.prototype.next = function () {
-    var step = null;
-    $.each(this.currentStory.steps, function (index, value) {
-        if (window.location.href.indexOf(value.from) > -1) {
-            step = value;
-        }
-    });
+    var step = this.currentStory.steps[this.currentStepIndex++];
     return step;
+};
+
+scenario.prototype.nextUrl = function () {
+    var step = this.next();
+    return step.to.substr(0, step.to.indexOf("@"));
 };
 
 

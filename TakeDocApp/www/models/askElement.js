@@ -14,3 +14,9 @@ function askText() {
 	this.observation = "";
 	this.mandatory = true;
 }
+
+function askService() { }
+
+askService.get = function () {
+
+}

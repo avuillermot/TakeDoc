@@ -5,7 +5,7 @@
                 Mes documents
             </div>
             <ion-list>
-                <ion-item ng-repeat="item in items | filter:'DOCUMENTS'" ng-click="show()" href="{{item.url}}">
+                <ion-item ng-repeat="item in items | filter:'DOCUMENTS'" ng-click="start('{{item.scenario}}')">
                     {{item.title}}
                 </ion-item>
             </ion-list>
@@ -15,7 +15,7 @@
                 Mon Compte
             </div>
             <ion-list>
-                <ion-item ng-repeat="item in items | filter:'COMPTE'" ng-click="show()" href="{{item.url}}">
+                <ion-item ng-repeat="item in items | filter:'COMPTE'" ng-click="start('{{item.scenario}}')">
                     {{item.title}}
                 </ion-item>
             </ion-list>
@@ -25,7 +25,7 @@
                 Autres
             </div>
             <ion-list>
-                <ion-item ng-repeat="item in items | filter:'AUTRE'" ng-click="show()" href="{{item.url}}">
+                <ion-item ng-repeat="item in items | filter:'AUTRE'" ng-click="start('{{item.scenario}}')">
                     {{item.title}}
                 </ion-item>
             </ion-list>
