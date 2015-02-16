@@ -1,7 +1,9 @@
 ﻿'use strict';
-takeDoc.controller('formElementController', ['$scope', '$rootScope', function ($scope, $rootScope) {
-
+takeDoc.controller('formElementController', ['$scope', '$rootScope', '$stateParams', '$window', function ($scope, $rootScope, $stateParams, $window) {
+    var _routeHelper = new routeHelper();
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        var myPage = $stateParams.page;
+
         var aText = new askText();
         var aBox = new askCheckbox();
 
@@ -14,8 +16,9 @@ takeDoc.controller('formElementController', ['$scope', '$rootScope', function ($
         $scope.mandatory = aText.mandatory;
 
         $scope.nextUrl = $rootScope.Scenario.next().to;
+
+        $window.location.reload(true);
     });
-   
 
     $scope.doCheck = function () {
         $scope.textValue = $("#valueZone").val();

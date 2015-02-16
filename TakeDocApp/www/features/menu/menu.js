@@ -10,7 +10,6 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
     ];
 
     $scope.show = function (scenario, url) {
-        debugger;
         if (url != null && url != "") {
             $location.path(url.substr(2));
         }
