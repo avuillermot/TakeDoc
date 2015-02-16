@@ -18,14 +18,21 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
-        { from: "#/takePicture", to: "#/formElement" },
+        { from: "#/takePicture", to: "#/formElement/page1" },
         { from: "#/formElement", to: "#/menu" }
     ];
-    var scenarioLgin = [
+    var scenarioLogin = [
         { from: "#/login", to: "#/menu" }
     ];
-    $rootScope.Scenario.init("login", scenarioLgin);
+    var scenarioTestForm = [
+        { from: "#/menu", to: "#/formElement/page1" },
+        { from: "#/formElement/page1", to: "#/formElement/page2" },
+        { from: "#/formElement/page2", to: "#/menu" }
+    ];
+
+    $rootScope.Scenario.init("login", scenarioLogin);
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
+    $rootScope.Scenario.init("scenarioTestForm", scenarioTestForm);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -49,7 +56,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
-        .state('formElement', _routeHelper.get("formElement", false))
+        .state('formElement', _routeHelper.get("formElement", false, "/:page"))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false));
 
