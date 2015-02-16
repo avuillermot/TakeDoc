@@ -21,18 +21,11 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
         { from: "#/takePicture", to: "#/formElement" },
         { from: "#/formElement", to: "#/menu" }
     ];
-    var scenarioLogin = [
+    var scenarioLgin = [
         { from: "#/login", to: "#/menu" }
     ];
-    var scenarioTestForm = [
-        { from: "#/menu", to: "#/formElement@1" },
-        { from: "#/formElement@1", to: "#/formElement@2" },
-        { from: "#/formElement@2", to: "#/menu" }
-    ];
-
-    $rootScope.Scenario.init("login", scenarioLogin);
+    $rootScope.Scenario.init("login", scenarioLgin);
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
-    $rootScope.Scenario.init("scenarioTestForm", scenarioTestForm);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -64,11 +57,11 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
-takeDoc.directive('nextClick', function ($location) {
+takeDoc.directive( 'goClick', function ( $location ) {
     return function ($scope, element, attrs) {
         var path;
         element.addClass("button next");
-        attrs.$observe('nextClick', function (val) {
+        attrs.$observe( 'goClick', function (val) {
             path = val;
         });
 
@@ -81,7 +74,6 @@ takeDoc.directive('nextClick', function ($location) {
             if (isValid) {
                 $scope.$apply(function () {
                     if (path.substring(0, 2) == "#/") path = path.substring(2);
-                    if (path.indexOf("@") > -1) path = path.substr(0, path.indexOf("@"));
                     $location.path(path);
                 });
             }

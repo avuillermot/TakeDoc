@@ -1,21 +1,18 @@
 ﻿'use strict';
 takeDoc.controller('formElementController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        var aText = new askText();
-        var aBox = new askCheckbox();
+    var aText = new askText();
+    var aBox = new askCheckbox();
 
-        $scope.title = aText.title;
-        $scope.description = aText.description;
-        $scope.typeData = aText.typeData;
-        $scope.label = aText.label;
-        $scope.textValue = aText.textValue;
-        $scope.observation = aText.observation;
-        $scope.mandatory = aText.mandatory;
+    $scope.title = aText.title;
+    $scope.description = aText.description;
+    $scope.typeData = aText.typeData;
+    $scope.label = aText.label;
+    $scope.textValue = aText.textValue;
+    $scope.observation = aText.observation;
+    $scope.mandatory = aText.mandatory;
 
-        $scope.nextUrl = $rootScope.Scenario.next().to;
-    });
-   
+    $scope.nextUrl = $rootScope.Scenario.next().to;
 
     $scope.doCheck = function () {
         $scope.textValue = $("#valueZone").val();

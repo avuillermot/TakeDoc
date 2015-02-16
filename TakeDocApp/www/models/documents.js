@@ -11,11 +11,7 @@
     //this.UrlBase = "http://localhost/takedoc/";
 }
 
-function documentService() {
-
-}
-
-documentService.create = function () {
+documents.prototype.create = function () {
     var that = this;
     console.log("documents.prototype.create:start");
     $.ajax({
@@ -39,7 +35,7 @@ documentService.create = function () {
     });
 }
 
-documentService.addPage = function (extension, fileStringFormat, index) {
+documents.prototype.addPage = function (extension, fileStringFormat, index) {
     console.log("documents.prototype.addPage:start");
 
     var urlAddPage = this.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>";
@@ -80,7 +76,7 @@ documentService.addPage = function (extension, fileStringFormat, index) {
     var promise = fh.read(fileName).done(ok);
 }*/
 
-documentService.setReceive = function () {
+documents.prototype.setReceive = function () {
     console.log("documents.prototype.setReceivd:e:start");
     var urlSetReceive = this.UrlBase + "Document/SetReceive/<documentId/>";
     urlSetReceive = urlSetReceive.replace("<documentId/>", this.DocumentId);

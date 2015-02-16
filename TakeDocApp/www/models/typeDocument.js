@@ -8,7 +8,7 @@ function typeDocumentService() {
 
 }
 
-typeDocumentService.get = function (entityId) {
+typeDocumentService.prototype.get = function (entityId) {
     var retour = new Array();
     var add = new typeDocument();
     add.EntityId = null; add.TypeDocumentId = 1; add.TypeDocumentLibelle = "Note de frais";

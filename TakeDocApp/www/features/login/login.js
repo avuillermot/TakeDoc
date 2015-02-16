@@ -3,6 +3,7 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', function ($scope,
     $scope.nextUrl = $rootScope.Scenario.start("login").to;
 
     $scope.doCheck = function () {
+
         var ok = true;
         if (ok) {
             $rootScope.User = userTkService.logon("", "");
