@@ -1,23 +1,19 @@
 ﻿'use strict';
-takeDoc.controller('formElementController', ['$scope', '$rootScope', '$stateParams', '$window', function ($scope, $rootScope, $stateParams, $window) {
-    var _routeHelper = new routeHelper();
+takeDoc.controller('formElementController', ['$scope', '$rootScope', '$stateParams', '$route', function ($scope, $rootScope, $stateParams, $route) {
+    alert(1);
+    var myPage = $stateParams.page;
+    var aText = new askText();
+    var aBox = new askCheckbox();
+    $scope.title = aText.title;
+    $scope.description = aText.description;
+    $scope.typeData = aText.typeData;
+    $scope.label = aText.label;
+    $scope.textValue = aText.textValue;
+    $scope.observation = aText.observation;
+    $scope.mandatory = aText.mandatory;
+
+    $scope.nextUrl = $rootScope.Scenario.next().to;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        var myPage = $stateParams.page;
-
-        var aText = new askText();
-        var aBox = new askCheckbox();
-
-        $scope.title = aText.title;
-        $scope.description = aText.description;
-        $scope.typeData = aText.typeData;
-        $scope.label = aText.label;
-        $scope.textValue = aText.textValue;
-        $scope.observation = aText.observation;
-        $scope.mandatory = aText.mandatory;
-
-        $scope.nextUrl = $rootScope.Scenario.next().to;
-
-        $window.location.reload(true);
     });
 
     $scope.doCheck = function () {

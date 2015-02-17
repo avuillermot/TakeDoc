@@ -1,5 +1,5 @@
 ﻿'use strict';
-var takeDoc = angular.module("takeDoc", ['ionic']);
+var takeDoc = angular.module("takeDoc", ['ionic','ngRoute']);
 
 takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
     
@@ -64,7 +64,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
-takeDoc.directive( 'goClick', function ( $location ) {
+takeDoc.directive( 'goClick', function ( $location, $route ) {
     return function ($scope, element, attrs) {
         var path;
         element.addClass("button next");
