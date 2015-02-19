@@ -1,6 +1,10 @@
 ﻿'use strict';
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', function ($scope, $rootScope, takePictureService) {
 
+    $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        //alert("test");
+    });
+
     var step = $rootScope.Scenario.next();
     $scope.nextUrl = step.to;
     $scope.takePicture = function () {
@@ -14,23 +18,27 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         $rootScope.documentToAdd.callback = callback;
         $rootScope.documentToAdd.create();
     };
+
+    $scope.Pages = $rootScope.documentToAdd.Pages;
 }]);
 
 
 
-takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $rootScope) {
+takeDoc.service('takePictureService', ['$http', '$scope', '$rootScope', function ($http, $scope, $rootScope) {
     var that = this;
     this.onSuccess = function (imageURI) {
         try {
             $rootScope.documentToAdd.Pages.push({ fileURI: imageURI, state: "toAdd" });
         }
         catch (ex) {
-            alert(ex.message);
+            $rootScope.ErrorHelper.show("Camera", ex.message);
         }
+        $scope.$broadcast('scroll.refreshComplete');
     };
 
     this.onFail = function () {
-        alert("nok");
+        $rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
+        $scope.$broadcast('scroll.refreshComplete');
     };
 
     this.takePicture = function () {
@@ -44,11 +52,10 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
                     targetHeight: 1000,
                     targetWidth: 750,
                     correctOrientation: true
-
                 });
         }
         catch (ex) {
-            alert(ex.message);
+            $rootScope.ErrorHelper.show("Camera", ex.message);
         }
     }
 

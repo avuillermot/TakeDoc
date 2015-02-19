@@ -1,5 +1,10 @@
 ﻿<ion-view view-title="Photographier">
     <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="Page in Pages">
+                <img src="data:image/jpg;base64,{{Page}}"/>
+            </ion-item>
+        </ion-list>
 
     </ion-content>
     <ion-footer-bar>

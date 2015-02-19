@@ -1,6 +1,6 @@
 ﻿'use strict';
 takeDoc.controller('formElementController', ['$scope', '$rootScope', '$stateParams', '$route', function ($scope, $rootScope, $stateParams, $route) {
-    alert(1);
+
     var myPage = $stateParams.page;
     var aText = new askText();
     var aBox = new askCheckbox();
