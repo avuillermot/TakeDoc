@@ -1,19 +1,15 @@
 ﻿'use strict';
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', function ($scope, $rootScope, takePictureService) {
 
-    $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        //alert("test");
-    });
+    /*$rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
+
+    });*/
 
     var step = $rootScope.Scenario.next();
     $scope.nextUrl = step.to;
     $scope.takePicture = function () {
         takePictureService.takePicture();
-        /*var f = function () {
-            //alert($rootScope.documentToAdd.Pages.length);
-            $scope.$broadcast('scroll.refreshComplete');
-        };
-        window.setInterval(f, 5000);*/
+
     };
 
     $scope.doSave = function () {
@@ -24,9 +20,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         $rootScope.documentToAdd.create();
     };
 
-    $scope.refresh = function () {
-        that.$scope.$broadcast('scroll.refreshComplete');
-    }
+    var fRefresh = function () {
+        $scope.Pages = $rootScope.documentToAdd.Pages;
+        $scope.$apply();
+    };
+    $scope.$on("takePicture$refreshPage", fRefresh);
     
     $scope.Pages = $rootScope.documentToAdd.Pages;
 }]);
@@ -37,21 +35,20 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     var that = this;
     this.onSuccess = function (imageURI) {
         try {
-            $rootScope.documentToAdd.Pages.push({ fileURI: imageURI, state: "toAdd" });
+            $rootScope.documentToAdd.Pages.push({ fileURI: imageURI, state: "toAdd", PageNumber: $rootScope.documentToAdd.Pages.length });
         }
         catch (ex) {
             $rootScope.ErrorHelper.show("Camera", ex.message);
         }
-        //that.$scope.$broadcast('scroll.refreshComplete');
+        $rootScope.$broadcast('takePicture$refreshPage');
     };
 
     this.onFail = function () {
         $rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
-        //that.$scope.$broadcast('scroll.refreshComplete');
+        $rootScope.$broadcast('takePicture$refreshPage');
     };
 
     this.takePicture = function () {
-        //that.$scope = $scope;
         try {
             navigator.camera.getPicture(this.onSuccess, this.onFail, 
                 { 
