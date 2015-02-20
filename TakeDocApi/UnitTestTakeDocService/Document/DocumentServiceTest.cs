@@ -34,6 +34,22 @@ namespace UnitTestTakeDocService.Document
         {
             
         }
+
+        [TestMethod]
+        public void TestOrdered() {
+            this.CreateDocument();
+            this.AddPage1();
+            this.AddPage2();
+            this.SetReceive();
+            this.AddVersionMajor();
+            this.AddPage1();
+            this.SetReceive();
+            this.AddVersionMinor();
+            this.AddPage2();
+            this.SetReceive();
+            this.SetMetaDataOk();
+            this.SetMetaDataError();
+        }
         
         [TestMethod]
         public void CreateDocument()
