@@ -1,9 +1,8 @@
 ﻿<ion-view view-title="Photographier">
-    <ion-content on-refresh="refresh()">
-        <ion-refresher></ion-refresher>
+    <ion-content>
         <ion-list>
             <ion-item ng-repeat="Page in Pages">
-                1
+                <img class="takePictureThumbnail" data-ng-src="data:image/jpeg;base64,{{Page.fileURI}}" />
             </ion-item>
         </ion-list>
 
