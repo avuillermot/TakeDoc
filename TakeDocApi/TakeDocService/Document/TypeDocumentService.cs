@@ -14,7 +14,7 @@ namespace TakeDocService.Document
 
         public ICollection<TakeDocModel.Type_Document> Get(Guid userId, Guid entityId)
         {
-            return daoTypeDocument.Get(userId, entityId);
+            return daoTypeDocument.GetBy(x => x.EntityId == entityId);
         }
     }
 }
