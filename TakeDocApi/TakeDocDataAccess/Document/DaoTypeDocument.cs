@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TakeDocDataAccess.Document
 {
-    public class DaoTypeDocument : DaoBase<TakeDocModel.Type_Document>, Interface.IDaoTypeDocument
+    public class DaoTypeDocument : DaoBase<TakeDocModel.TypeDocument>, Interface.IDaoTypeDocument
     {
         /*public ICollection<TakeDocModel.Type_Document> Get(Guid userId, Guid entityId)
         {

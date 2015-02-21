@@ -8,6 +8,12 @@ namespace TakeDocModel
 {
     public partial class TakeDocEntities1
     {
+        /*public TakeDocEntities1()
+            : base("name=TakeDocEntities1")
+        {
+            Configuration.ProxyCreationEnabled = false;
+        }*/
+
         public string GenerateReference(string entityName)
         {
             ObjectParameter reference = new ObjectParameter("reference", string.Empty);

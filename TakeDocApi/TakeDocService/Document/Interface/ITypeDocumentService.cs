@@ -8,6 +8,6 @@ namespace TakeDocService.Document.Interface
 {
     public interface ITypeDocumentService
     {
-        ICollection<TakeDocModel.Type_Document> Get(Guid userId, Guid entityId);
+        ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId);
     }
 }

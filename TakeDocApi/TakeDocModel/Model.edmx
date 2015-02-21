@@ -366,7 +366,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </AssociationSet>
           <EntitySet Name="View_PageStoreLocator" EntityType="TakeDocModel.View_PageStoreLocator" />
           <EntitySet Name="View_VersionStoreLocator" EntityType="TakeDocModel.View_VersionStoreLocator" />
-          <EntitySet Name="Type_Document" EntityType="TakeDocModel.Type_Document" />
+          <EntitySet Name="Type_Document" EntityType="TakeDocModel.TypeDocument" />
           <AssociationSet Name="FK_Document_Type_Document" Association="TakeDocModel.FK_Document_Type_Document">
             <End Role="Type_Document" EntitySet="Type_Document" />
             <End Role="Document" EntitySet="Document" />
@@ -554,7 +554,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="StreamId" Type="Guid" Nullable="false" />
           <Property Name="StreamLocator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityType Name="Type_Document">
+        <EntityType Name="TypeDocument">
           <Key>
             <PropertyRef Name="TypeDocumentId" />
           </Key>
@@ -573,7 +573,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_DataField_Type_Document" FromRole="Type_Document" ToRole="DataField" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
-          <End Type="TakeDocModel.Type_Document" Role="Type_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
           <End Type="TakeDocModel.Document" Role="Document" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Type_Document">
@@ -625,7 +625,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_MetaData_Document" FromRole="MetaData" ToRole="Document" />
           </EntityType>
         <Association Name="FK_DataField_Type_Document">
-          <End Type="TakeDocModel.Type_Document" Role="Type_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
           <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Type_Document">
@@ -798,7 +798,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Type_Document">
-            <EntityTypeMapping TypeName="TakeDocModel.Type_Document">
+            <EntityTypeMapping TypeName="TakeDocModel.TypeDocument">
               <MappingFragment StoreEntitySet="Type_Document">
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />

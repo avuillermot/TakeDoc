@@ -12,18 +12,17 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Document
+    public partial class TypeDocument
     {
-        public Document()
+        public TypeDocument()
         {
-            this.Version = new HashSet<Version>();
-            this.MetaData = new HashSet<MetaData>();
+            this.Document = new HashSet<Document>();
+            this.DataField = new HashSet<DataField>();
         }
     
-        public System.Guid DocumentId { get; set; }
-        public string DocumentReference { get; set; }
-        public System.Guid DocumentSatutId { get; set; }
-        public Nullable<System.Guid> DocumentCurrentVersion { get; set; }
+        public System.Guid TypeDocumentId { get; set; }
+        public string TypeDocumentReference { get; set; }
+        public string TypeDocumentLabel { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -32,12 +31,8 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
-        public string DocumentLabel { get; set; }
-        public System.Guid DocumentTypeId { get; set; }
     
-        public virtual Statut_Document Statut_Document { get; set; }
-        public virtual ICollection<Version> Version { get; set; }
-        public virtual TypeDocument Type_Document { get; set; }
-        public virtual ICollection<MetaData> MetaData { get; set; }
+        public virtual ICollection<Document> Document { get; set; }
+        public virtual ICollection<DataField> DataField { get; set; }
     }
 }

@@ -24,12 +24,13 @@ namespace TakeDocApi
             
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<TakeDocModel.Document>("Documents");
-            builder.EntitySet<TakeDocModel.Statut_Document>("oStatut_Document");
-            builder.EntitySet<TakeDocModel.Statut_Version>("oStatut_Version");
-            builder.EntitySet<TakeDocModel.Version>("oVersion");
-            builder.EntitySet<TakeDocModel.Page>("oPage");
-            builder.EntitySet<TakeDocModel.Type_Document>("oType_Document");
-            builder.EntitySet<TakeDocModel.MetaData>("oMetaData");
+            builder.EntitySet<TakeDocModel.Statut_Document>("Statut_Documents");
+            builder.EntitySet<TakeDocModel.Statut_Version>("Statut_Versions");
+            builder.EntitySet<TakeDocModel.Version>("Versions");
+            builder.EntitySet<TakeDocModel.Page>("Pages");
+            builder.EntitySet<TakeDocModel.TypeDocument>("TypeDocuments");
+            builder.EntitySet<TakeDocModel.MetaData>("MetaDatas");
+            builder.EntitySet<TakeDocModel.DataField>("DataFields");
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }
     }

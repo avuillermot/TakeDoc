@@ -13,14 +13,12 @@ using System.Web.Http.OData.Routing;
 using TakeDocModel;
 using Microsoft.Data.OData;
 
-namespace TakeDocApi.oData.Controllers
+namespace TakeDocApi.Controllers.oData
 {
-    public class DocumentsController : ODataController
+    public class DocumentsController : oDataBase<Document>
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
-
-        TakeDocEntities1 _db = new TakeDocEntities1();
-
+        
         // GET: odata/Documents
         [Queryable]
         public async Task<IHttpActionResult> GetDocuments(ODataQueryOptions<Document> queryOptions)
@@ -41,23 +39,6 @@ namespace TakeDocApi.oData.Controllers
 
             return Ok<IEnumerable<Document>>(documents);
             //return StatusCode(HttpStatusCode.NotImplemented);
-        }
-
-        // GET: odata/Documents(5)
-        public async Task<IHttpActionResult> GetDocument([FromODataUri] System.Guid key, ODataQueryOptions<Document> queryOptions)
-        {
-            // validate the query.
-            try
-            {
-                queryOptions.Validate(_validationSettings);
-            }
-            catch (ODataException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            // return Ok<Document>(document);
-            return StatusCode(HttpStatusCode.NotImplemented);
         }
 
         // PUT: odata/Documents(5)
@@ -81,48 +62,6 @@ namespace TakeDocApi.oData.Controllers
            }
 
            return Ok(document);
-        }
-
-        // POST: odata/Documents
-        public async Task<IHttpActionResult> Post(Document document)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // TODO: Add create logic here.
-
-            // return Created(document);
-            return StatusCode(HttpStatusCode.NotImplemented);
-        }
-
-        // PATCH: odata/Documents(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public async Task<IHttpActionResult> Patch([FromODataUri] System.Guid key, Delta<Document> delta)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            // TODO: Get the entity here.
-
-            // delta.Patch(document);
-
-            // TODO: Save the patched entity.
-
-            // return Updated(document);
-            return StatusCode(HttpStatusCode.NotImplemented);
-        }
-
-        // DELETE: odata/Documents(5)
-        public async Task<IHttpActionResult> Delete([FromODataUri] System.Guid key)
-        {
-            // TODO: Add delete logic here.
-
-            // return StatusCode(HttpStatusCode.NoContent);
-            return StatusCode(HttpStatusCode.NotImplemented);
         }
     }
 }

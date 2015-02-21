@@ -95,7 +95,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="TakeDocEntities1.cs" />
-    <Compile Include="Type_Document.cs">
+    <Compile Include="TypeDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Version.cs">

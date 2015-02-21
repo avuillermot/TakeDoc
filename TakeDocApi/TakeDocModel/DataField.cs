@@ -33,7 +33,7 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
     
-        public virtual Type_Document Type_Document { get; set; }
+        public virtual TypeDocument Type_Document { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }

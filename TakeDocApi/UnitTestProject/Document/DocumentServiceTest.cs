@@ -15,7 +15,7 @@ namespace UnitTestTakeDocService.Document
         IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
         IMetaDataService servMetaData = UnityHelper.Resolve<IMetaDataService>();
         IImageService servImage = new ImageService();
-        TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Type_Document> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.Type_Document>>();
 
         TakeDocModel.Document MyDocument
         {
@@ -55,7 +55,7 @@ namespace UnitTestTakeDocService.Document
         public void CreateDocument()
         {
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
-            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "EMPTY").First();
+            TakeDocModel.Type_Document typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "EMPTY").First();
             MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test creation document");
 
             Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals("CREATE"), "Statut du document CREATE");

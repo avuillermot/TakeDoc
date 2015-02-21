@@ -14,7 +14,7 @@ namespace UnitTestTakeDocService.Document
         public void Get()
         {
             ITypeDocumentService servTypeDocument = UnityHelper.Resolve<ITypeDocumentService>();
-            ICollection<TypeDocument> types = servTypeDocument.Get(userId, entityId);
+            ICollection<Type_Document> types = servTypeDocument.Get(userId, entityId);
             Assert.IsTrue(types.Count > 0);
         }
     }

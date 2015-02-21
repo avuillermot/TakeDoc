@@ -12,9 +12,9 @@ namespace TakeDocService.Document
     {
         private IDaoTypeDocument daoTypeDocument = UnityHelper.Resolve<IDaoTypeDocument>();
 
-        public ICollection<TakeDocModel.Type_Document> Get(Guid userId, Guid entityId)
+        public ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId)
         {
-            return daoTypeDocument.GetBy(x => x.EntityId == entityId);
+            return daoTypeDocument.GetBy(x => x.EntityId == entityId, x => x.DataField);
         }
     }
 }
