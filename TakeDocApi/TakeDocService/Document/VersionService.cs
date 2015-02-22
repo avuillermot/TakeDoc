@@ -50,22 +50,16 @@ namespace TakeDocService.Document
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
             TakeDocModel.Statut_Version stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == "RECEIVE").First();
-            this.SetStatut(version, stVersion.StatutVersionId);
+            this.SetStatut(version, stVersion);
         }
 
         public void SetReceive(TakeDocModel.Version version)
         {
             TakeDocModel.Statut_Version stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == "RECEIVE").First();
-            this.SetStatut(version, stVersion.StatutVersionId);
+            this.SetStatut(version, stVersion);
         }
 
-        private void SetStatut(Guid versionId, Guid statutId)
-        {
-            TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            this.SetStatut(version, statutId);
-        }
-
-        private void SetStatut(TakeDocModel.Version version, Guid statutId)
+        private void SetStatut(TakeDocModel.Version version, TakeDocModel.Statut_Version statut)
         {
             ICollection<byte[]> data = new List<byte[]>();
             foreach (TakeDocModel.Page page in version.Page)
@@ -84,7 +78,7 @@ namespace TakeDocService.Document
             version.VersionStreamId = locators.First().StreamId;
 
             if (version.Page.Count() == 0) version = daoVersion.GetBy(x => x.VersionId == version.VersionId, x => x.Page).First();
-            version.VersionStatutId = statutId;
+            version.VersionStatutId = statut.StatutVersionId;
             daoVersion.Update(version);
         }
 

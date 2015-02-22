@@ -160,25 +160,5 @@ namespace UnitTestTakeDocService.Document
             Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
             Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
         }
-
-        [TestMethod]
-        public void test()
-        {
-            
-            byte[] input = System.IO.File.ReadAllBytes(@"d:\\temp\\output.jpeg");
-            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(input));
-            
-            byte[] output = servImage.Rotate(bitmap);
-            System.IO.File.WriteAllBytes(@"d:\\temp\\output0.jpeg", output);
-
-
-            /*int numOfBytes = input.Length / 8;
-            byte[] bytes = new byte[numOfBytes];
-            for(int i = 0; i < numOfBytes; ++i)
-            {
-                bytes[i] = Convert.ToByte(input.Substring(8 * i, 8), 2);
-            }
-            System.IO.File.WriteAllBytes(@"c:\\temp\\avt.jpeg", bytes);*/
-        }
     }
 }
