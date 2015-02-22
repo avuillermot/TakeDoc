@@ -47,8 +47,8 @@ namespace UnitTestTakeDocService.Document
             this.AddVersionMinor();
             this.AddPage2();
             this.SetReceive();
-            this.SetMetaDataOk();
-            this.SetMetaDataError();
+            /*this.SetMetaDataOk();
+            this.SetMetaDataError();*/
         }
         
         [TestMethod]
