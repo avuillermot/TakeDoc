@@ -11,7 +11,7 @@ namespace TakeDocService.Document
 {
     public class DocumentService : BaseService, Interface.IDocumentService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.Statut_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Statut_Document>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.StatutDocument> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutDocument>();
 
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
 
@@ -39,7 +39,7 @@ namespace TakeDocService.Document
 
         public void SetReceive(Guid documentId)
         {
-            TakeDocModel.Statut_Document stDocument = daoStDocument.GetBy(x => x.StatutDocumentLibelle == "RECEIVE").First();
+            TakeDocModel.StatutDocument stDocument = daoStDocument.GetBy(x => x.StatutDocumentLibelle == TakeDocModel.StatutVersion.Complete).First();
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
 
             // mise à jour du statut de la version à recu

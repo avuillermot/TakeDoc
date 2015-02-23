@@ -9,7 +9,7 @@ namespace TakeDocDataAccess.Document
     {
         public TakeDocModel.Version Create(Guid userId, Guid entityId, Guid versionId, Guid documentId, decimal versionNumber)
         {
-            TakeDocModel.Statut_Version statut = base.Context.Statut_Version.Where(x => x.StatutVersionReference == "CREATE").ToList().First();
+            TakeDocModel.StatutVersion statut = base.Context.Statut_Version.Where(x => x.StatutVersionReference == TakeDocModel.StatutVersion.Create).ToList().First();
 
             TakeDocModel.Version retour = new TakeDocModel.Version();
             retour.VersionId = versionId;

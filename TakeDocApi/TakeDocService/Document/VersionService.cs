@@ -11,7 +11,7 @@ namespace TakeDocService.Document
     public class VersionService : BaseService, Interface.IVersionService
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.Statut_Version> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.Statut_Version>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
 
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
@@ -49,17 +49,17 @@ namespace TakeDocService.Document
         public void SetReceive(Guid versionId)
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            TakeDocModel.Statut_Version stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == "RECEIVE").First();
+            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.Complete).First();
             this.SetStatut(version, stVersion);
         }
 
         public void SetReceive(TakeDocModel.Version version)
         {
-            TakeDocModel.Statut_Version stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == "RECEIVE").First();
+            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.Complete).First();
             this.SetStatut(version, stVersion);
         }
 
-        private void SetStatut(TakeDocModel.Version version, TakeDocModel.Statut_Version statut)
+        private void SetStatut(TakeDocModel.Version version, TakeDocModel.StatutVersion statut)
         {
             ICollection<byte[]> data = new List<byte[]>();
             foreach (TakeDocModel.Page page in version.Page)

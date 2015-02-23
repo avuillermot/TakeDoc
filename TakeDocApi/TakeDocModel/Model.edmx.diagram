@@ -9,10 +9,10 @@
         <EntityTypeShape EntityType="TakeDocModel.Counter" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="6" PointY="1" />
         <EntityTypeShape EntityType="TakeDocModel.Page" Width="1.5" PointX="12.875" PointY="2.875" />
-        <EntityTypeShape EntityType="TakeDocModel.Statut_Document" Width="1.5" PointX="3.75" PointY="1.25" />
+        <EntityTypeShape EntityType="TakeDocModel.StatutDocument" Width="1.5" PointX="3.75" PointY="1.25" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Statut_Document" />
         <AssociationConnector Association="TakeDocModel.FK_PAGE_DOCUMENT" />
-        <EntityTypeShape EntityType="TakeDocModel.Statut_Version" Width="1.5" PointX="5.5" PointY="6.375" />
+        <EntityTypeShape EntityType="TakeDocModel.StatutVersion" Width="1.5" PointX="5.5" PointY="6.375" />
         <EntityTypeShape EntityType="TakeDocModel.Version" Width="1.5" PointX="9" PointY="3.75" />
         <AssociationConnector Association="TakeDocModel.FK_Version_Document" />
         <AssociationConnector Association="TakeDocModel.FK_Page_Version" />

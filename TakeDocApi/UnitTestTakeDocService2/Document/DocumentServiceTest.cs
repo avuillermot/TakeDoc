@@ -6,37 +6,38 @@ using Utility.MyUnityHelper;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace UnitTestTakeDocService.Document
+namespace UnitTestTakeDocService2.Document
 {
     [TestClass]
-    public class DocumentServiceTest : UnitTestTakeDocService.BaseServiceTest
+    public class DocumentServiceTest : UnitTestTakeDocService2.BaseServiceTest
     {
         IDocumentService servDocument = UnityHelper.Resolve<IDocumentService>();
         IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
         IMetaDataService servMetaData = UnityHelper.Resolve<IMetaDataService>();
         IImageService servImage = new ImageService();
-        TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Type_Document> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.Type_Document>>();
 
         TakeDocModel.Document MyDocument
         {
             get
             {
-                return UnitTestTakeDocService.TakeDocContext.CurrentDocument;
+                return UnitTestTakeDocService2.TakeDocContext.CurrentDocument;
             }
             set
             {
-                UnitTestTakeDocService.TakeDocContext.CurrentDocument = value;
+                UnitTestTakeDocService2.TakeDocContext.CurrentDocument = value;
             }
         }
 
         [TestInitialize]
         public void Init()
         {
-            
+
         }
 
         [TestMethod]
-        public void TestOrdered() {
+        public void TestOrdered()
+        {
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
@@ -47,18 +48,18 @@ namespace UnitTestTakeDocService.Document
             this.AddVersionMinor();
             this.AddPage2();
             this.SetReceive();
-            /*this.SetMetaDataOk();
-            this.SetMetaDataError();*/
+            this.SetMetaDataOk();
+            this.SetMetaDataError();
         }
-        
+
         [TestMethod]
         public void CreateDocument()
         {
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
-            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "EMPTY").First();
+            TakeDocModel.Type_Document typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "EMPTY").First();
             MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test creation document");
 
-            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Create), "Statut du document CREATE");
+            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals("CREATE"), "Statut du document CREATE");
             Assert.IsTrue(MyDocument.Version.Count() == 1);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 0);
@@ -110,7 +111,7 @@ namespace UnitTestTakeDocService.Document
         {
             servDocument.SetReceive(MyDocument.DocumentId);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Statut_Document);
-            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Complete), "Statut du document COMPLETE");
+            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals("RECEIVE"), "Statut du document RECEIVE");
         }
 
         [TestMethod]
@@ -152,13 +153,33 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void IsValidMetaData()
         {
-            Assert.IsTrue(servMetaData.IsValid("System.String", "test",true));
-            Assert.IsFalse(servMetaData.IsValid("System.DateTimeOffset", "test",true));
-            Assert.IsTrue(servMetaData.IsValid("System.DateTimeOffset", System.DateTimeOffset.UtcNow.ToString(),true));
-            Assert.IsFalse(servMetaData.IsValid("System.Boolean", "test",true));
-            Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true",true));
+            Assert.IsTrue(servMetaData.IsValid("System.String", "test", true));
+            Assert.IsFalse(servMetaData.IsValid("System.DateTimeOffset", "test", true));
+            Assert.IsTrue(servMetaData.IsValid("System.DateTimeOffset", System.DateTimeOffset.UtcNow.ToString(), true));
+            Assert.IsFalse(servMetaData.IsValid("System.Boolean", "test", true));
+            Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true", true));
             Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
             Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
         }
+
+        /*[TestMethod]
+        public void test()
+        {
+
+            byte[] input = System.IO.File.ReadAllBytes(@"d:\\temp\\output.jpeg");
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(input));
+
+            byte[] output = servImage.Rotate(bitmap);
+            System.IO.File.WriteAllBytes(@"d:\\temp\\output0.jpeg", output);
+
+
+            int numOfBytes = input.Length / 8;
+            byte[] bytes = new byte[numOfBytes];
+            for(int i = 0; i < numOfBytes; ++i)
+            {
+                bytes[i] = Convert.ToByte(input.Substring(8 * i, 8), 2);
+            }
+            System.IO.File.WriteAllBytes(@"c:\\temp\\avt.jpeg", bytes);
+        }*/
     }
 }

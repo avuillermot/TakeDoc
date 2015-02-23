@@ -85,6 +85,7 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="PageRotation" Type="int" />
         </EntityType>
         <EntityType Name="Statut_Document">
           <Key>
@@ -164,8 +165,8 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TakeDoc.dbo.View_PageStoreLocator' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="View_PageStoreLocator">
           <Key>
             <PropertyRef Name="StreamId" />
@@ -173,8 +174,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de 
           <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="View_VersionStoreLocator">
           <Key>
             <PropertyRef Name="StreamId" />
@@ -341,7 +342,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySet Name="Counter" EntityType="TakeDocModel.Counter" />
           <EntitySet Name="Document" EntityType="TakeDocModel.Document" />
           <EntitySet Name="Page" EntityType="TakeDocModel.Page" />
-          <EntitySet Name="Statut_Document" EntityType="TakeDocModel.Statut_Document" />
+          <EntitySet Name="Statut_Document" EntityType="TakeDocModel.StatutDocument" />
           <AssociationSet Name="FK_Document_Statut_Document" Association="TakeDocModel.FK_Document_Statut_Document">
             <End Role="Statut_Document" EntitySet="Statut_Document" />
             <End Role="Document" EntitySet="Document" />
@@ -350,7 +351,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <Parameter Name="table" Mode="In" Type="String" />
             <Parameter Name="reference" Mode="InOut" Type="String" />
           </FunctionImport>
-          <EntitySet Name="Statut_Version" EntityType="TakeDocModel.Statut_Version" />
+          <EntitySet Name="Statut_Version" EntityType="TakeDocModel.StatutVersion" />
           <EntitySet Name="Version" EntityType="TakeDocModel.Version" />
           <AssociationSet Name="FK_Version_Document" Association="TakeDocModel.FK_Version_Document">
             <End Role="Document" EntitySet="Document" />
@@ -434,8 +435,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserUpdateData" Type="Guid" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <Property Name="PageNumber" Type="Int32" Nullable="false" />
+          <Property Name="PageRotation" Type="Int32" />
           </EntityType>
-        <EntityType Name="Statut_Document">
+        <EntityType Name="StatutDocument">
           <Key>
             <PropertyRef Name="StatutDocumentId" />
           </Key>
@@ -453,7 +455,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           </EntityType>
         <Association Name="FK_Document_Statut_Document">
-          <End Type="TakeDocModel.Statut_Document" Role="Statut_Document" Multiplicity="1" />
+          <End Type="TakeDocModel.StatutDocument" Role="Statut_Document" Multiplicity="1" />
           <End Type="TakeDocModel.Document" Role="Document" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Statut_Document">
@@ -464,7 +466,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Statut_Version">
+        <EntityType Name="StatutVersion">
           <Key>
             <PropertyRef Name="StatutVersionId" />
           </Key>
@@ -529,7 +531,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Version_Statut_Version">
-          <End Type="TakeDocModel.Statut_Version" Role="Statut_Version" Multiplicity="1" />
+          <End Type="TakeDocModel.StatutVersion" Role="Statut_Version" Multiplicity="1" />
           <End Type="TakeDocModel.Version" Role="Version" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Statut_Version">
@@ -709,6 +711,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Page">
             <EntityTypeMapping TypeName="TakeDocModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="PageRotation" ColumnName="PageRotation" />
                 <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
@@ -726,7 +729,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Statut_Document">
-            <EntityTypeMapping TypeName="TakeDocModel.Statut_Document">
+            <EntityTypeMapping TypeName="TakeDocModel.StatutDocument">
               <MappingFragment StoreEntitySet="Statut_Document">
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
@@ -744,7 +747,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetNewReference" FunctionName="TakeDocModel.Store.GetNewReference" />
           <EntitySetMapping Name="Statut_Version">
-            <EntityTypeMapping TypeName="TakeDocModel.Statut_Version">
+            <EntityTypeMapping TypeName="TakeDocModel.StatutVersion">
               <MappingFragment StoreEntitySet="Statut_Version">
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />

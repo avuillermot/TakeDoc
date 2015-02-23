@@ -10,7 +10,7 @@ namespace TakeDocDataAccess.Document
     {
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel)
         {
-            TakeDocModel.Statut_Document statut = base.Context.Statut_Document.Where(x => x.StatutDocumentReference == "CREATE").ToList().First();
+            TakeDocModel.StatutDocument statut = base.Context.Statut_Document.Where(x => x.StatutDocumentReference == TakeDocModel.StatutDocument.Create).ToList().First();
  
             TakeDocModel.Document retour = new TakeDocModel.Document();
             retour.DocumentId = documentId;

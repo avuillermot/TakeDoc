@@ -60,6 +60,8 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Document\Document.cs" />
+    <Compile Include="Document\StatutDocument.cs" />
+    <Compile Include="Document\StatutVersion.cs" />
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Environnement.cs" />
@@ -85,10 +87,10 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Statut_Document.cs">
+    <Compile Include="StatutDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Statut_Version.cs">
+    <Compile Include="StatutVersion.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="sysdiagrams.cs">
