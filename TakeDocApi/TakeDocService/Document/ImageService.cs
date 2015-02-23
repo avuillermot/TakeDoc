@@ -61,7 +61,7 @@ namespace TakeDocService.Document
 
         public byte[] Rotate(Bitmap input, float angle)
         {
-            if (angle != 90 && angle != 180 && angle != 270 ) throw new Exception("Angle inconnu");
+            if (angle != 0 && angle != 90 && angle != 180 && angle != 270 ) throw new Exception("Angle inconnu");
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
                 RotateFlipType transformation = RotateFlipType.Rotate90FlipNone;

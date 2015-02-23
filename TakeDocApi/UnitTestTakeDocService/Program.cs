@@ -10,8 +10,10 @@ namespace UnitTestTakeDocService
     {
         public static void Main()
         {
+            Utility.Logger.myLogger.Init();
+
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
-            documentTest.test();
+            documentTest.TestOrdered();
             Console.WriteLine("fin");
             Console.Read();
         }

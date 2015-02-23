@@ -10,6 +10,11 @@ namespace TakeDocService
 {
     public abstract class BaseService
     {
-
+        public log4net.ILog Logger {
+            get {
+                return Utility.Logger.myLogger.getLogger("AdoNetAppender");
+            }
+        }
+                    
     }
 }
