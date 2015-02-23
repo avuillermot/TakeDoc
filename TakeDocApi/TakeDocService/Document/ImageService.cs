@@ -64,8 +64,9 @@ namespace TakeDocService.Document
             if (angle != 0 && angle != 90 && angle != 180 && angle != 270 ) throw new Exception("Angle inconnu");
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
-                RotateFlipType transformation = RotateFlipType.Rotate90FlipNone;
-                if (angle == 180) transformation = RotateFlipType.Rotate180FlipNone;
+                RotateFlipType transformation = RotateFlipType.RotateNoneFlipNone;
+                if (angle == 90) transformation = RotateFlipType.Rotate90FlipNone;
+                else if (angle == 180) transformation = RotateFlipType.Rotate180FlipNone;
                 else if (angle == 270) transformation = RotateFlipType.Rotate270FlipNone;
 
                 input.RotateFlip(transformation);
