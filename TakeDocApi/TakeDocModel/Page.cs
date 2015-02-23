@@ -27,6 +27,6 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserUpdateData { get; set; }
         public bool EtatDeleteData { get; set; }
         public int PageNumber { get; set; }
-        public Nullable<int> PageRotation { get; set; }
+        public int PageRotation { get; set; }
     }
 }

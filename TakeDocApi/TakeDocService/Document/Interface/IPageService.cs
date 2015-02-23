@@ -8,7 +8,7 @@ namespace TakeDocService.Document.Interface
 {
     public interface IPageService
     {
-        void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension);
+        void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation);
         byte[] GetBinary(Guid pageId);
     }
 }

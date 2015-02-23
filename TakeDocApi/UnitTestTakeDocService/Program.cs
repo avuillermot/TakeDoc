@@ -11,7 +11,7 @@ namespace UnitTestTakeDocService
         public static void Main()
         {
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
-            documentTest.TestOrdered();
+            documentTest.test();
             Console.WriteLine("fin");
             Console.Read();
         }

@@ -66,7 +66,9 @@ namespace TakeDocService.Document
             {
                 byte[] img = servPage.GetBinary(page.PageId);
                 System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-                img = servImage.Rotate(bitmap);
+                float angle = 0;
+                bool ok = float.TryParse(page.PageRotation.ToString(), out angle);
+                if (ok) img = servImage.Rotate(bitmap, angle);
                 data.Add(img);
             }
             byte[] fullDoc = servImage.GetPdfFromJpeg(data);

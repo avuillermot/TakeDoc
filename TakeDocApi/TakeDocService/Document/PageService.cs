@@ -14,7 +14,7 @@ namespace TakeDocService.Document
         TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator>();
         IDaoPage daoPage = UnityHelper.Resolve<IDaoPage>();
         
-        private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension)
+        private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
             TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId);
 
@@ -30,10 +30,10 @@ namespace TakeDocService.Document
             daoPage.Update(page);
         }
 
-        public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension)
+        public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)
         {
             byte[] bytes = Convert.FromBase64String(imageString);
-            this.AddPage(userId, entityId, versionId, bytes, extension);
+            this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
         }
 
         private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)

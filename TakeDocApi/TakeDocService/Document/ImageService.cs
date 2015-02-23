@@ -59,30 +59,16 @@ namespace TakeDocService.Document
             }
         }
 
-        public byte[] Rotate(Bitmap input)
+        public byte[] Rotate(Bitmap input, float angle)
         {
+            if (angle != 90 && angle != 180 && angle != 270 ) throw new Exception("Angle inconnu");
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())
             {
-                if (input.Width > input.Height)
-                {
-                    float angle = 90;
-                    float sin = (float)Math.Abs(Math.Sin(angle * Math.PI / 180.0));
+                RotateFlipType transformation = RotateFlipType.Rotate90FlipNone;
+                if (angle == 180) transformation = RotateFlipType.Rotate180FlipNone;
+                else if (angle == 270) transformation = RotateFlipType.Rotate270FlipNone;
 
-                    float originX = input.Height;
-                    float originY = input.Width - (sin * input.Width);
-
-                    Bitmap output = new Bitmap(input.Height, input.Width);
-                    Graphics g = Graphics.FromImage(output);
-
-                    g.TranslateTransform(originX, originY); // offset the origin to our calculated values
-                    g.RotateTransform(angle); // set up rotate
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBilinear;
-                    g.DrawImageUnscaled(input, 0, 0); // draw the image at 0, 0
-                    g.Dispose();
-
-                    output.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
-                    return ms.ToArray();
-                }
+                input.RotateFlip(transformation);
                 input.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
                 return ms.ToArray();
             }

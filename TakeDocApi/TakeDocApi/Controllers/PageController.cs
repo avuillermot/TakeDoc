@@ -18,7 +18,7 @@ namespace TakeDocApi.Controllers
         public void Post(Guid userId, Guid entityId, Guid versionId, string extension, [FromBody]string value)
         {
             IPageService servPage = Utility.MyUnityHelper.UnityHelper.Resolve<IPageService>();
-            servPage.Add(userId, entityId, versionId, value, extension);
+            servPage.Add(userId, entityId, versionId, value, extension, 0);
         }
     }
 }

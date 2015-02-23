@@ -31,10 +31,10 @@ namespace TakeDocService.Document
             return document;
         }
 
-        public void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension)
+        public void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation)
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            servPage.Add(userId, entityId, document.DocumentCurrentVersion.Value, imageString, extension);
+            servPage.Add(userId, entityId, document.DocumentCurrentVersion.Value, imageString, extension, rotation);
         }
 
         public void SetReceive(Guid documentId)

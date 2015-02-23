@@ -10,6 +10,6 @@ namespace TakeDocService.Document.Interface
     {
         byte[] GetPdfFromJpeg(ICollection<byte[]> pages);
         string ToBase64String(string pathFile);
-        byte[] Rotate(System.Drawing.Bitmap bitmap);
+        byte[] Rotate(System.Drawing.Bitmap bitmap, float angle);
     }
 }

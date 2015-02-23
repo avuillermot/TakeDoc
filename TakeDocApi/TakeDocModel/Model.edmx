@@ -85,7 +85,7 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
-          <Property Name="PageRotation" Type="int" />
+          <Property Name="PageRotation" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Statut_Document">
           <Key>
@@ -435,7 +435,7 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           <Property Name="UserUpdateData" Type="Guid" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <Property Name="PageNumber" Type="Int32" Nullable="false" />
-          <Property Name="PageRotation" Type="Int32" />
+          <Property Name="PageRotation" Type="Int32" Nullable="false" />
           </EntityType>
         <EntityType Name="StatutDocument">
           <Key>

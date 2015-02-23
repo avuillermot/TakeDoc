@@ -77,7 +77,7 @@ namespace UnitTestTakeDocService.Document
         public void AddPage1()
         {
             string base64image = servImage.ToBase64String(TakeDocModel.Environnement.JpegTestFile1);
-            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg");
+            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",0);
 
             TakeDocModel.Version version = servVersion.GetById(MyDocument.LastVersion.VersionId, x => x.Page);
 
@@ -93,7 +93,7 @@ namespace UnitTestTakeDocService.Document
         public void AddPage2()
         {
             string base64image = servImage.ToBase64String(TakeDocModel.Environnement.JpegTestFile2);
-            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg");
+            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",0);
 
             TakeDocModel.Version version = servVersion.GetById(MyDocument.LastVersion.VersionId, x => x.Page);
 
@@ -159,6 +159,24 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true",true));
             Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
             Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
+        }
+
+        public void test()
+        {
+            byte[] img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
+            System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
+            img = servImage.Rotate(bitmap, 90);
+            System.IO.File.WriteAllBytes(@"c:\temp\r1.jpeg",img);
+
+            img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
+            bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
+            img = servImage.Rotate(bitmap, 180);
+            System.IO.File.WriteAllBytes(@"c:\temp\r2.jpeg", img);
+
+            img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
+            bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
+            img = servImage.Rotate(bitmap, 270);
+            System.IO.File.WriteAllBytes(@"c:\temp\r3.jpeg", img);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace TakeDocService.Document.Interface
     public interface IDocumentService
     {
         TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel);
-        void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension);
+        void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation);
         void AddVersionMajor(Guid userId, Guid entityId, Guid documentId);
         void AddVersionMinor(Guid userId, Guid entityId, Guid documentId);
         void SetReceive(Guid userId);

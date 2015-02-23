@@ -21,6 +21,7 @@ namespace TakeDocDataAccess.Document
             page.UserCreateData = userId;
             page.EtatDeleteData = false;
             page.PageNumber = this.GetBy(x => x.PageVersionId == versionId).Count() + 1;
+            page.PageRotation = 0;
 
             base.Context.Page.Add(page);
             ctx.SaveChanges();
