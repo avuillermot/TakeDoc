@@ -5,7 +5,9 @@ using System.Web;
 using Thinktecture.IdentityServer.Core.Configuration;
 using Thinktecture.IdentityServer.Core.Services.InMemory;
 using Owin;
+using Microsoft.Owin;
 
+[assembly: OwinStartup(typeof(TakeDocApi.Controllers.oAuth2.Startup))]
 namespace TakeDocApi.Controllers.oAuth2
 {
     public class Startup
