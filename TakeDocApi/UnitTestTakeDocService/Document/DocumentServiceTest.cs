@@ -77,7 +77,7 @@ namespace UnitTestTakeDocService.Document
         public void AddPage1()
         {
             string base64image = servImage.ToBase64String(TakeDocModel.Environnement.JpegTestFile1);
-            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",0);
+            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",90);
 
             TakeDocModel.Version version = servVersion.GetById(MyDocument.LastVersion.VersionId, x => x.Page);
 
@@ -93,7 +93,7 @@ namespace UnitTestTakeDocService.Document
         public void AddPage2()
         {
             string base64image = servImage.ToBase64String(TakeDocModel.Environnement.JpegTestFile2);
-            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",0);
+            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",180);
 
             TakeDocModel.Version version = servVersion.GetById(MyDocument.LastVersion.VersionId, x => x.Page);
 
