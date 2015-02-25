@@ -11,9 +11,30 @@ namespace TakeDocApi.Controllers.oAuth2
     {
         public static ICollection<Scope> Get()
         {
-            ICollection<Scope> retour = new List<Scope>();
-            retour.Add(new Scope() { Name = "myApi1" });
-            return retour;
+            List<Scope> scopes = new List<Scope>
+            {
+                new Scope
+                {
+                    Enabled = true,
+                    Name = "roles",
+                    Type = ScopeType.Identity,
+                    Claims = new List<ScopeClaim>
+                    {
+                        new ScopeClaim("role")
+                    }
+                },
+                new Scope
+                {
+                    Enabled = true,
+                    Name = "sampleApi",
+                    Description = "Access to a sample API",
+                    Type = ScopeType.Resource
+                }
+            };
+
+            scopes.AddRange(StandardScopes.All);
+
+            return scopes;
         }
     }
 }
