@@ -8,7 +8,7 @@ using Utility.MyUnityHelper;
 
 namespace TakeDocService.Document
 {
-    public class TypeDocumentService : Interface.ITypeDocumentService
+    public class TypeDocumentService :BaseService, Interface.ITypeDocumentService
     {
         private IDaoTypeDocument daoTypeDocument = UnityHelper.Resolve<IDaoTypeDocument>();
 

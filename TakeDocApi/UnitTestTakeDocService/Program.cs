@@ -13,7 +13,9 @@ namespace UnitTestTakeDocService
             Utility.Logger.myLogger.Init();
 
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
-            documentTest.TestOrdered();
+            Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
+            //documentTest.TestOrdered();
+            userTest.TestOrdered();
             Console.WriteLine("fin");
             Console.Read();
         }

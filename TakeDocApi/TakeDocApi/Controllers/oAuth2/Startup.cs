@@ -21,10 +21,6 @@ namespace TakeDocApi.Controllers.oAuth2
             );
 
             IdentityServerOptions options = new IdentityServerOptions() { Factory = factory };
-
-            //app.UseIdentityServer(options);
-
-            //Action<IAppBuilder> param = app.UseIdentityServer(options);
             app.Map("/identity", idsrvApp => idsrvApp.UseIdentityServer(options));
         }
     }

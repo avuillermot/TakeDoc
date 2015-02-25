@@ -92,6 +92,8 @@
     <Compile Include="Document\PageStoreLocator.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
+    <Compile Include="Security\Interface\IUserTkService.cs" />
+    <Compile Include="Security\UserTkService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TakeDocDataAccess\TakeDocDataAccess.csproj">
@@ -103,6 +105,7 @@
       <Name>TakeDocModel</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

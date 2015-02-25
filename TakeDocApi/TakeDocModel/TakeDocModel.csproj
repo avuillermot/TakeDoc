@@ -87,6 +87,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\UserTk.cs" />
     <Compile Include="StatutDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -100,10 +101,16 @@
     <Compile Include="TypeDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="UserTk.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Version.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_PageStoreLocator.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View_UserEntity.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_VersionStoreLocator.cs">
