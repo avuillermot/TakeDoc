@@ -12,10 +12,11 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', func
         };
         var success = function () {
             $rootScope.User = arguments[0];
-
-            $location.path("#/menu");
+            console.log("goto menu");
+            $location.path("menu");
+            
         };
-        $rootScope.User = userTkService.logon($scope.identity.login, $scope.identity.password, success, error);
-        return false;
+        userTkService.logon($scope.identity.login, $scope.identity.password, success, error);
+        return true;
     }
 }]);

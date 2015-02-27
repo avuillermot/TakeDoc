@@ -40,18 +40,18 @@ function userTkService() {
 
 }
 
-userTkService.logon = function (login, pwd, sucess, error) {
+userTkService.logon = function (login, pwd, success, error) {
     var fn = function () {
         var user = new userTk(arguments[0]);
-        sucess(user);
+        success(user);
     };
     var url = environnement.UrlBase + "identity/logon/{login}/{password}";
     url = url.replace("{login}",login);
     url = url.replace("{password}", pwd);
     $.ajax({
         type: 'GET',
-        url: url,
+        url: url/*,
         success: fn,
-        error: error
-    });
+        error: error*/
+    }).done(success).fail(error);
 };

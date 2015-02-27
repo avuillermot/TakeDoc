@@ -21,9 +21,9 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
         { from: "#/takePicture", to: "#/formElement/page1" },
         { from: "#/formElement", to: "#/menu" }
     ];
-    /*var scenarioLogin = [
+    var scenarioLogin = [
         { from: "#/login", to: "#/menu" }
-    ];*/
+    ];
     var scenarioTestForm = [
         { from: "#/menu", to: "#/formElement/page1" },
         { from: "#/formElement/page1", to: "#/formElement/page2" },
