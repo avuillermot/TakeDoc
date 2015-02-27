@@ -6,9 +6,6 @@
     this.DocumentCurrentVersion = null;
     this.DocumentLabel = null;
     this.Pages = new Array();
-    
-    this.UrlBase = "http://192.168.0.100/takedoc/";
-    //this.UrlBase = "http://localhost/takedoc/";
 }
 
 function documentService() {
@@ -20,7 +17,7 @@ documentService.create = function () {
     console.log("documents.prototype.create:start");
     $.ajax({
         type: 'PUT',
-        url: that.UrlBase+"odata/Documents(0)",
+        url: environnement.UrlBase+"odata/Documents(0)",
         data: {
             EntityId: this.EntityId, UserCreateData: this.UserCreateData, DocumentTypeId: this.DocumentTypeId, DocumentLabel: this.DocumentLabel
         },

@@ -55,6 +55,7 @@
     <Content Include="www\models\entity.js" />
     <Content Include="www\models\questionChain.js" />
     <Content Include="www\models\typeDocument.js" />
+    <Content Include="www\utils\environnement.js" />
     <Content Include="www\utils\fileHelper.js" />
     <Content Include="www\utils\modalHelper.js" />
     <Content Include="www\utils\scenario.js" />

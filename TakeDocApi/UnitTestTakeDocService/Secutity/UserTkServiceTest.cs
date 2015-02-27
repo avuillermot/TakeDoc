@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TakeDocService.Security.Interface;
 using Utility.MyUnityHelper;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace UnitTestTakeDocService.Secutity
 {
@@ -14,6 +15,7 @@ namespace UnitTestTakeDocService.Secutity
         public void TestOrdered()
         {
             this.GetByLoginTest();
+            this.GetClaimsByLoginTest();
             this.GetAllTest();
         }
 
@@ -23,6 +25,13 @@ namespace UnitTestTakeDocService.Secutity
             TakeDocModel.UserTk user = servUser.GetByLogin("eleonore");
             Assert.IsTrue(user.UserTkLogin == "eleonore");
             Assert.IsTrue(user.Entitys.Count > 0);
+        }
+
+        [TestMethod]
+        public void GetClaimsByLoginTest()
+        {
+            ClaimsPrincipal cp = servUser.GetClaimsByLogin("eleonore");
+            Assert.IsTrue(cp.FindFirst("Login").Value == "eleonore");
         }
 
         [TestMethod]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace TakeDocService.Security
 {
@@ -36,6 +37,47 @@ namespace TakeDocService.Security
             }
 
             return users;
+        }
+
+        public ClaimsPrincipal GetClaimsByLogin(string login)
+        {
+            TakeDocModel.UserTk user = this.GetByLogin(login);
+            return this.GetClaimsPrincipal(user);
+
+        }
+
+        public TakeDocModel.UserTk Logon(string login, string password)
+        {
+            TakeDocModel.UserTk user = this.GetByLogin(login);
+            if (user != null && user.UserTkPassword != password) user = null;
+            if (user == null) {
+                string msg = "Utilisateur inconnu ou non authentifié.";
+                base.Logger.Info(msg);
+                throw new Exception(msg);
+            }
+            return user;
+        }
+
+        private ClaimsPrincipal GetClaimsPrincipal(TakeDocModel.UserTk user)
+        {
+            ICollection<Claim> claims = new List<Claim>();
+            claims.Add(new Claim(ClaimTypes.Email, user.UserTkEmail));
+            claims.Add(new Claim(ClaimTypes.Name, user.UserTkLastName));
+            claims.Add(new Claim(ClaimTypes.GivenName, user.UserTkFirstName));
+            claims.Add(new Claim("ExternalAccount", user.UserTkExternalAccount.ToString()));
+            claims.Add(new Claim("Reference", user.UserTkReference));
+            claims.Add(new Claim("Login", user.UserTkLogin));
+            claims.Add(new Claim("Id", user.UserTkId.ToString()));
+
+            foreach (TakeDocModel.View_UserEntity ue in user.Entitys)
+            {
+                claims.Add(new Claim(ue.EntityId.ToString(),ue.EntityLibelle,"entityId"));
+                claims.Add(new Claim(ue.EntityReference, ue.EntityLibelle, "entityReference"));
+            }
+
+            ClaimsIdentity ci = new ClaimsIdentity(claims);
+            
+            return new ClaimsPrincipal(ci);
         }
     }
 }
