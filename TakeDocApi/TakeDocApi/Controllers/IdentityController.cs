@@ -13,11 +13,13 @@ namespace TakeDocApi.Controllers
     [RoutePrefix("identity")]
     public class IdentityController : ApiController
     {
-        [HttpGet]
-        [Route("logon/{login}/{password}")]
-        public TakeDocModel.UserTk Logon(string login, string password) {
+        [HttpPost]
+        [Route("logon")]
+        public TakeDocModel.UserTk Post([FromBody]string value)
+        {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
-            return servUser.Logon(login, password);
+            Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+            return servUser.Logon(data.Value<string>("login"), data.Value<string>("password"));
         }
     }
 }
