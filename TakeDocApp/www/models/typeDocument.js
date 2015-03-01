@@ -8,19 +8,13 @@ function typeDocumentService() {
 
 }
 
-typeDocumentService.get = function (entityId) {
-    var retour = new Array();
-    var add = new typeDocument();
-    add.EntityId = null; add.TypeDocumentId = 1; add.TypeDocumentLibelle = "Note de frais";
-    retour.push(add);
+typeDocumentService.get = function (entityId, success, error) {
 
-    add = new typeDocument();
-    add.EntityId = null; add.TypeDocumentId = 2; add.TypeDocumentLibelle = "Facture";
-    retour.push(add);
-
-    add = new typeDocument();
-    add.EntityId = null; add.TypeDocumentId = 2; add.TypeDocumentLibelle = "Note de service";
-    retour.push(add);
-
-    return retour;
+    var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'"+entityId+"'";
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: success,
+        error: error
+    });
 }

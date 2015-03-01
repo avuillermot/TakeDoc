@@ -3,6 +3,13 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', func
     var step = $rootScope.Scenario.next();
 
     $scope.nextUrl = step.to;
-    $scope.TypeDocuments = typeDocumentService.get(null);
+    var success = function () {
+        $scope.TypeDocuments = arguments[0].value;
+    };
+
+    var error = function () {
+        alert("mm");
+    };
+    typeDocumentService.get($rootScope.User.CurrentEntity, success, error);
 }]);
 

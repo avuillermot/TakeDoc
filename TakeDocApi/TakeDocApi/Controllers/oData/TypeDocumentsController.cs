@@ -19,6 +19,7 @@ namespace TakeDocApi.Controllers.oData
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
         // GET: odata/TypeDocuments
+        //[Authorize]
         public IHttpActionResult GetTypeDocuments(ODataQueryOptions<TypeDocument> queryOptions)
         {
             ICollection<TypeDocument> items = this.Get(queryOptions, _validationSettings);

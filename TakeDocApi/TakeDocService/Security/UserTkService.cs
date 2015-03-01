@@ -58,7 +58,7 @@ namespace TakeDocService.Security
             return user;
         }
 
-        private ClaimsPrincipal GetClaimsPrincipal(TakeDocModel.UserTk user)
+        public ClaimsPrincipal GetClaimsPrincipal(TakeDocModel.UserTk user)
         {
             ICollection<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.Email, user.UserTkEmail));
