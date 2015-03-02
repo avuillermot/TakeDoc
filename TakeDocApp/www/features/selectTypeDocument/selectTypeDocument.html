@@ -1,7 +1,7 @@
 ﻿<ion-view view-title="Type de documents">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="TypeDocument in TypeDocuments" href="{{nextUrl}}">
+            <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" href="{{nextUrl}}">
                 {{TypeDocument.TypeDocumentLabel}}
             </ion-item>
         </ion-list>

@@ -58,8 +58,8 @@ section p {
 .logout {
     background-image: url("../img/logout-small.png");
     background-repeat: no-repeat;
-    height:22px;
-    width:22px;
+    height:25px;
+    width:25px;
 }
 
 .takePictureThumbnail {

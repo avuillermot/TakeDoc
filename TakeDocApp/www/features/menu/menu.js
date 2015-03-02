@@ -6,7 +6,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
         { title: 'Recherche', id: 2, scenario: "scenarioTestForm", url: null, group: "DOCUMENTS", cssClassName: "menuItem-Recherche" },
         { title: 'Derniers', id: 3, scenario: null, url: null, group: "DOCUMENTS", cssClassName: "menuItem-Derniers" },
         { title: 'Profil', id: 5, scenario: null, url: "#/profil", group: "COMPTE", cssClassName: "menuItem-Profil" },
-        { title: 'informations', id: 6, scenario: null, url: "#/about", group: "AUTRE", cssClassName: "menuItem-informations" }
+        { title: 'Informations', id: 6, scenario: null, url: "#/about", group: "AUTRE", cssClassName: "menuItem-informations" }
     ];
 
     $scope.show = function (scenario, url) {
