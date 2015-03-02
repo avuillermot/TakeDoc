@@ -2,11 +2,11 @@
 takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.items = [
-        { title: 'Nouveau', id: 1, scenario: "addDocument", url: null, group: "DOCUMENTS" },
-        { title: 'Recherche', id: 2, scenario: "scenarioTestForm", url: null, group: "DOCUMENTS" },
-        { title: 'Derniers', id: 3, scenario: null, url: null, group: "DOCUMENTS" },
-        { title: 'Profil', id: 5, scenario: null, url: "#/profil", group: "COMPTE" },
-        { title: 'About', id: 6, scenario: null, url: "#/about", group: "AUTRE" }
+        { title: 'Nouveau', id: 1, scenario: "addDocument", url: null, group: "DOCUMENTS", cssClassName: "menuItem-Nouveau" },
+        { title: 'Recherche', id: 2, scenario: "scenarioTestForm", url: null, group: "DOCUMENTS", cssClassName: "menuItem-Recherche" },
+        { title: 'Derniers', id: 3, scenario: null, url: null, group: "DOCUMENTS", cssClassName: "menuItem-Derniers" },
+        { title: 'Profil', id: 5, scenario: null, url: "#/profil", group: "COMPTE", cssClassName: "menuItem-Profil" },
+        { title: 'informations', id: 6, scenario: null, url: "#/about", group: "AUTRE", cssClassName: "menuItem-informations" }
     ];
 
     $scope.show = function (scenario, url) {

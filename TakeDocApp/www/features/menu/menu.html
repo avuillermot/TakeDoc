@@ -6,7 +6,7 @@
             </div>
             <ion-list>
                 <ion-item ng-repeat="item in items | filter:'DOCUMENTS'" ng-click="show('{{item.scenario}}','{{item.url}}')">
-                    {{item.title}}
+                    <div class="menuItem {{item.cssClassName}}">{{item.title}}</div>
                 </ion-item>
             </ion-list>
         </div>
@@ -16,7 +16,7 @@
             </div>
             <ion-list>
                 <ion-item ng-repeat="item in items | filter:'COMPTE'" ng-click="show('{{item.scenario}}','{{item.url}}')">
-                    {{item.title}}
+                    <div class="menuItem {{item.cssClassName}}">{{item.title}}</div>
                 </ion-item>
             </ion-list>
         </div>
@@ -26,7 +26,7 @@
             </div>
             <ion-list>
                 <ion-item ng-repeat="item in items | filter:'AUTRE'" ng-click="show('{{item.scenario}}','{{item.url}}')">
-                    {{item.title}}
+                    <div class="menuItem {{item.cssClassName}}">{{item.title}}</div>
                 </ion-item>
             </ion-list>
         </div>

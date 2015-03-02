@@ -8,7 +8,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', func
     };
 
     var error = function () {
-        alert("mm");
+        $rootScope.ErrorHelper.show("Type de documents", "La liste des types de document n'est pas disponibles.");
     };
     typeDocumentService.get($rootScope.User.CurrentEntity, success, error);
 }]);
