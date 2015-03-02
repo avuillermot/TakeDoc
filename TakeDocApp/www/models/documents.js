@@ -1,11 +1,11 @@
 ﻿function documents() {
     this.DocumentId = null;
     this.EntityId = null;
-    this.UserCreateData = "A90CEA2D-7599-437B-88D3-A5405BE3EF93";
-    this.DocumentTypeId = "75E455BD-0717-4121-BFBB-1AF71DB4DB95";
+    this.UserCreateData = null;
+    this.DocumentTypeId = null;
     this.DocumentCurrentVersion = null;
     this.DocumentLabel = null;
-    this.Pages = new Array();
+    this.Pages = null;
 }
 
 function documentService() {
@@ -28,7 +28,7 @@ documentService.create = function () {
             that.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
 
             var current = arguments[0];
-            that.addPage("jpeg", that.Pages[0].fileURI, 0);
+            that.addPage("jpeg", that.Pages[0].imageURI, 0);
         },
         error: function () {
             console.log("documents.prototype.create:error");
@@ -53,7 +53,7 @@ documentService.addPage = function (extension, fileStringFormat, index) {
         data: { '': fileStringFormat },
         success: function () {
             console.log("documents.prototype.addPage:success");
-            if (index + 1 < that.Pages.length) that.addPage("jpeg", that.Pages[index + 1].fileURI, index + 1);
+            if (index + 1 < that.Pages.length) that.addPage("jpeg", that.Pages[index + 1].imageURI, index + 1);
             else that.setReceive();
 
         },
@@ -62,20 +62,6 @@ documentService.addPage = function (extension, fileStringFormat, index) {
         }
     });
 }
-
-/*documents.prototype.readPage = function (extension, fileName, index) {
-    var that = this;
-    console.log("documents.prototype.readPage:start");
-    var fh = new fileHelper();
-
-    var ok = function () {
-        console.log("documents.prototype.readPage:ok:"+arguments[0]);
-        that.addPage(extension, arguments[0], index);
-    };
-
-    console.log("documents.prototype.readPage:fileHelper.read");
-    var promise = fh.read(fileName).done(ok);
-}*/
 
 documentService.setReceive = function () {
     console.log("documents.prototype.setReceivd:e:start");
@@ -90,10 +76,8 @@ documentService.setReceive = function () {
         url: urlSetReceive,
         success: function () {
             console.log("documents.prototype.setReceive:success");
-            //that.callback("setReceive", "success");
         },
         error: function () {
-            //that.callback("setReceive", "error");
             console.log("documents.prototype.setReceive:error");
         }
     });

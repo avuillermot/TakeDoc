@@ -1,8 +1,15 @@
 ﻿<ion-view view-title="Photographier">
     <ion-content>
         <ion-list>
-            <ion-item ng-repeat="Page in Pages">
-                <img class="takePictureThumbnail" data-ng-src="data:image/jpeg;base64,{{Page.fileURI}}" />
+            <ion-item ng-repeat="Page in Pages | orderBy:['attributes.pageNumber']">
+                <img class="takePictureThumbnail" data-ng-src="{{Page.attributes.imageURI}}" />
+                <span class="take-picture-page-number">page&#160;{{Page.attributes.pageNumber}}</span>
+                <div class="container-takePicture">
+                    <button class="button take-picture-moove-up" ng-click="mooveUp('{{Page.attributes.id}}')"></button>
+                    <button class="button take-picture-moove-down" ng-click="mooveDown('{{Page.attributes.id}}')"></button>
+                    <button class="button take-picture-rotate" ng-click="rotate('{{Page.attributes.id}}')"></button>
+                    <button class="button take-picture-delete" ng-click="delete('{{Page.attributes.id}}')"></button>
+                </div>
             </ion-item>
         </ion-list>
 

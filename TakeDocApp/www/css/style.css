@@ -67,7 +67,7 @@ section p {
     height: 50px;
 }
 
-/* MENU */
+/* MENU GENERAL */
 .menuItem {
     padding-left: 30px;
 }
@@ -86,4 +86,48 @@ section p {
 .menuItem-Profil {
     background-image: url("../img/administration.png");
     background-repeat: no-repeat;
+}
+/* PRISE PHOTO */
+.container-takePicture {
+    float:right;
+
+}
+.take-picture-moove-up {
+    background-color: transparent;
+    background-image: url("../img/up.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+    background-position-y:center;
+    height: 16px;
+    width: 16px;
+}
+.take-picture-moove-down {
+    background-color: transparent;
+    background-image: url("../img/down.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+    background-position-y:center;
+    height: 16px;
+    width: 16px;
+}
+.take-picture-rotate {
+    background-color: transparent;
+    background-image: url("../img/rotate.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+    background-position-y:center;
+    height: 16px;
+    width: 16px;
+}
+.take-picture-delete {
+    background-color: transparent;
+    background-image: url("../img/delete.png");
+    background-repeat: no-repeat;
+    background-position-x:center;
+    background-position-y:center;
+    height: 16px;
+    width: 16px;
+}
+.take-picture-page-number {
+    font-size: 8px;
 }
