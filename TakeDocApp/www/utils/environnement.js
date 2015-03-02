@@ -2,4 +2,4 @@
 
 }
 
-environnement.UrlBase = "http://localhost/takedocapi/";
+environnement.UrlBase = "http://192.168.0.11/TakeDocApi/";

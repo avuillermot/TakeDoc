@@ -16,15 +16,19 @@ var Picture = Backbone.Model.extend({
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', function ($scope, $rootScope, takePictureService) {
 
     $scope.nbPicture = 0;
-    $rootScope.documentToAdd = new documents();
-	$rootScope.documentToAdd.Pages = new Pictures();
 
-	var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
+    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $rootScope.documentToAdd = new documents();
+        $rootScope.documentToAdd.DocumentLabel = "";
+        $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity.Id;
+    });
+    
+	/*var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
 	var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
 	var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
     $rootScope.documentToAdd.Pages.push(p1);
     $rootScope.documentToAdd.Pages.push(p2);
-    $rootScope.documentToAdd.Pages.push(p3);
+    $rootScope.documentToAdd.Pages.push(p3);*/
 
     var step = $rootScope.Scenario.next();
     $scope.nextUrl = step.to;
@@ -96,7 +100,8 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
 
     this.onSuccess = function (imageURI) {
         try {
-            $rootScope.documentToAdd.Pages.push({ id: 'P' + that.index, imageURI: imageURI, state: "toAdd", PageNumber: $rootScope.documentToAdd.Pages.length });
+            var p1 = new Picture({ id: 'P' + that.index, imageURI: imageURI, state: "toAdd", PageNumber: 1 });
+            $rootScope.documentToAdd.Pages.push(p1);
         }
         catch (ex) {
             $rootScope.ErrorHelper.show("Camera", ex.message);

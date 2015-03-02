@@ -22,7 +22,7 @@ documentService.create = function () {
             EntityId: this.EntityId, UserCreateData: this.UserCreateData, DocumentTypeId: this.DocumentTypeId, DocumentLabel: this.DocumentLabel
         },
         success: function () {
-
+            alert("ok");
             console.log("documents.prototype.create:success");
             that.DocumentId = arguments[0].DocumentId;
             that.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
@@ -31,6 +31,7 @@ documentService.create = function () {
             that.addPage("jpeg", that.Pages[0].imageURI, 0);
         },
         error: function () {
+            alert("error");
             console.log("documents.prototype.create:error");
          }
     });

@@ -14,7 +14,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
     $rootScope.Scenario = new scenario();
 
     var scenarioAddDocument = [
-        { from: "#/menu", to: "#/takePicture" },
+        { from: "#/menu", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },

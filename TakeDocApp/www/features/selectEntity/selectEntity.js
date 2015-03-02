@@ -7,6 +7,12 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', function (
 
     $scope.onChoose = function (entityId) {
         $rootScope.User.CurrentEntity = entityId;
-    }
+    };
+
+    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $rootScope.documentToAdd = new documents();
+        $rootScope.documentToAdd.Pages = new Pictures();
+    });
+    
 }]);
 

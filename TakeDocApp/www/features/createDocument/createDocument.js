@@ -1,12 +1,6 @@
 ﻿'use strict';
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        $rootScope.documentToAdd = new documents();
-        $rootScope.documentToAdd.DocumentLabel = "";
-        $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity.Id;
-    });
-
     var step = $rootScope.Scenario.next();
 
     $scope.nextUrl = step.to;
