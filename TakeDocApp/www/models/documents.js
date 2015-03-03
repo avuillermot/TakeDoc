@@ -23,7 +23,6 @@ documentService.create = function (document, onSuccess, onError) {
             EntityId: document.EntityId, UserCreateData: document.UserCreateData, DocumentTypeId: document.DocumentTypeId, DocumentLabel: document.DocumentLabel
         },
         success: function () {
-            alert("in success");
             console.log("documents.prototype.create:success");
             document.DocumentId = arguments[0].DocumentId;
             document.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
@@ -32,7 +31,6 @@ documentService.create = function (document, onSuccess, onError) {
             that.addPage("jpeg", that.Pages[0].imageURI, 0);
         },
         error: function () {
-            alert("in error");
 			onError();
             console.log("documents.prototype.create:error");
          }

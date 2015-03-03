@@ -16,9 +16,9 @@
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <button go-back=""></button>
-            <button class="button photo" ng-click="takePicture()">Prendre</button>
-            <button go-click="{{nextUrl}}" valid-input="doSave()"></button>
+            <div go-back=""></div>
+            <div class="button button-stable ion-camera" ng-click="takePicture()"></div>
+            <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>
 </ion-view>

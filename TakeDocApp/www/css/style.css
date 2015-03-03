@@ -5,49 +5,13 @@ div.button-bar {
     float: right;
 }
 
-.item-divider {
-    font-weight: bold !important;
-    padding-left: 5px;
-}
-
 .errorMessage {
     padding-left:10px;
     padding-right: 10px;
     padding-top:50px;
 }
 
-.home {
-    background-image: url("../img/home.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-}
-
-.next {
-    background-image: url("../img/next.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-}
-
-.save {
-    background-image: url("../img/save.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-}
-
-.photo {
-    background-image: url("../img/photo.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-}
-
-.button-bar .button {
-    height:150px;
-}
-
-section p {
-    margin-top:15px;
-}
-
+/* LOGIN - page de login */
 .login {
     background-image: url("../img/login-small.jpg");
     background-repeat: no-repeat;
@@ -55,13 +19,7 @@ section p {
     padding-top:150px;
 }
 
-.logout {
-    background-image: url("../img/logout-small.png");
-    background-repeat: no-repeat;
-    height:25px;
-    width:25px;
-}
-
+/* TAKE PICTURE */
 .takePictureThumbnail {
     width:50px;
     height: 50px;
@@ -69,38 +27,13 @@ section p {
 
 /* MENU GENERAL */
 .td-menuItem {
-	margin-top: 5px;
-	width: 100%;
-}
-.td-menuItem-Nouveau {
-    background-image: url("../img/add.png");
-    background-repeat: no-repeat;
-}
-.td-menuItem-Recherche {
-    background-image: url("../img/find.png");
-    background-repeat: no-repeat;
-}
-.td-menuItem-Derniers {
-    background-image: url("../img/analyze.png");
-    background-repeat: no-repeat;
-}
-.td-menuItem-Profil {
-    background-image: url("../img/administration.png");
-    background-repeat: no-repeat;
-}
-.td-menuItem-Informations {
-    background-image: url("../img/administration.png");
-    background-repeat: no-repeat;
-}
-.td-menu .item {
-	padding:0px;
-	margin:0px;
-	border: none;
+	margin-left: 5px;
+	margin-top: 10px;
+	width: 45%;
 }
 /* PRISE PHOTO */
 .container-takePicture {
     float:right;
-
 }
 .take-picture-moove-up {
     background-color: transparent;

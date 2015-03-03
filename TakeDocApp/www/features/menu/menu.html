@@ -1,36 +1,7 @@
 ﻿<ion-view view-title="Menu">
     <ion-content>
-        <div class="list td-menu">
-            <div class="item item-divider">
-                Mes documents
-            </div>
-            <ion-list>
-                <ion-item ng-repeat="item in items | filter:'DOCUMENTS'" ng-click="show('{{item.scenario}}','{{item.url}}')">
-                    <div class="button button-light td-menuItem {{item.cssClassName}}">{{item.title}}</div>
-                </ion-item>
-            </ion-list>
+		<div ng-repeat="item in items" ng-click="show('{{item.scenario}}','{{item.url}}')" class="button button-light td-menuItem {{item.cssClassName}}" >
+			&#160;{{item.title}}
         </div>
-        <div class="list td-menu"">
-            <div class="item item-divider">
-                Mon Compte
-            </div>
-			<div>
-            <ion-list>
-                <ion-item ng-repeat="item in items | filter:'COMPTE'" ng-click="show('{{item.scenario}}','{{item.url}}')" ng-class="test">
-                    <div class="button button-light td-menuItem {{item.cssClassName}}">{{item.title}}</div>
-                </ion-item>
-            </ion-list>
-			</div>
-        </div>
-        <div class="list td-menu"">
-            <div class="item item-divider">
-                Autres
-            </div>
-            <ion-list>
-                <ion-item ng-repeat="item in items | filter:'AUTRE'" ng-click="show('{{item.scenario}}','{{item.url}}')">
-                    <div class="button button-light td-menuItem {{item.cssClassName}}">{{item.title}}</div>
-                </ion-item>
-            </ion-list>
-        </div>
-    </ion-content>
+	</ion-content>
 </ion-view>

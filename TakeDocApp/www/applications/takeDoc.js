@@ -57,7 +57,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
 takeDoc.directive( 'goClick', function ( $location, $route ) {
     return function ($scope, element, attrs) {
         var path;
-        element.addClass("button next");
+        element.addClass("button button-stable ion-checkmark-round");
         attrs.$observe( 'goClick', function (val) {
             path = val;
         });
@@ -80,7 +80,7 @@ takeDoc.directive( 'goClick', function ( $location, $route ) {
 
 takeDoc.directive('goBack', function ($location) {
     return function (scope, element, attrs) {
-        element.addClass("button home");
+        element.addClass("button button-stable ion-home");
         element.bind('click', function () {
             scope.$apply(function () {
                 $location.path("menu");
@@ -91,7 +91,6 @@ takeDoc.directive('goBack', function ($location) {
 
 takeDoc.directive('tdLogout', function ($rootScope, $location) {
     return function (scope, element, attrs) {
-        element.addClass("button logout");
         element.bind('click', function () {
             scope.$apply(function () {
                 $rootScope.User = null;
