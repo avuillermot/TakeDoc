@@ -68,24 +68,34 @@ section p {
 }
 
 /* MENU GENERAL */
-.menuItem {
-    padding-left: 30px;
+.td-menuItem {
+	margin-top: 5px;
+	width: 100%;
 }
-.menuItem-Nouveau {
+.td-menuItem-Nouveau {
     background-image: url("../img/add.png");
     background-repeat: no-repeat;
 }
-.menuItem-Recherche {
+.td-menuItem-Recherche {
     background-image: url("../img/find.png");
     background-repeat: no-repeat;
 }
-.menuItem-Derniers {
+.td-menuItem-Derniers {
     background-image: url("../img/analyze.png");
     background-repeat: no-repeat;
 }
-.menuItem-Profil {
+.td-menuItem-Profil {
     background-image: url("../img/administration.png");
     background-repeat: no-repeat;
+}
+.td-menuItem-Informations {
+    background-image: url("../img/administration.png");
+    background-repeat: no-repeat;
+}
+.td-menu .item {
+	padding:0px;
+	margin:0px;
+	border: none;
 }
 /* PRISE PHOTO */
 .container-takePicture {
@@ -125,8 +135,8 @@ section p {
     background-repeat: no-repeat;
     background-position-x:center;
     background-position-y:center;
-    height: 16px;
-    width: 16px;
+    height: 10px;
+    width: 10px;
 }
 .take-picture-page-number {
     font-size: 8px;

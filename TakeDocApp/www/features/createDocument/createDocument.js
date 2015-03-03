@@ -1,9 +1,10 @@
 ﻿'use strict';
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    var step = $rootScope.Scenario.next();
-
-    $scope.nextUrl = step.to;
+	$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+		var step = $rootScope.Scenario.next();
+		$scope.nextUrl = step.to;
+	});
 
     $scope.doCheck = function () {
         var ok = !($rootScope.documentToAdd.DocumentLabel == "");

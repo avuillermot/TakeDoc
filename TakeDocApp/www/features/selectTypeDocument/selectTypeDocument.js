@@ -7,15 +7,15 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         $rootScope.documentToAdd.DocumentLabel = "";
         $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity;
 		$rootScope.documentToAdd.UserCreateData = $rootScope.User.Id;
+		
+		var step = $rootScope.Scenario.next();
+		$scope.nextUrl = step.to;
     });
-	
-    var step = $rootScope.Scenario.next();
 
     $scope.searchTypeDocument = function () {
         return (arguments[0].EtatDeleteData == false);
     };
 
-    $scope.nextUrl = step.to;
     var success = function () {
         $scope.TypeDocuments = arguments[0].value;
         if ($scope.TypeDocuments.length == 0) {

@@ -27,10 +27,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 		$rootScope.documentToAdd.Pages.push(p3);
 		
 		$scope.Pages = $rootScope.documentToAdd.Pages.models;
+		
+		var step = $rootScope.Scenario.next();
+		$scope.nextUrl = step.to;
     });
 
-    var step = $rootScope.Scenario.next();
-    $scope.nextUrl = step.to;
+
     $scope.takePicture = function () {
         takePictureService.takePicture($scope.nbPicture++);
     };
