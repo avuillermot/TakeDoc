@@ -13,22 +13,21 @@ var Picture = Backbone.Model.extend({
     model: Picture
  });
 
-takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', function ($scope, $rootScope, takePictureService) {
+takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', function ($scope, $rootScope, takePictureService, $location) {
 
     $scope.nbPicture = 0;
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        $rootScope.documentToAdd = new documents();
-        $rootScope.documentToAdd.DocumentLabel = "";
-        $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity.Id;
+        $rootScope.documentToAdd.Pages = new Pictures();
+		var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
+		var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
+		var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
+		$rootScope.documentToAdd.Pages.push(p1);
+		$rootScope.documentToAdd.Pages.push(p2);
+		$rootScope.documentToAdd.Pages.push(p3);
+		
+		$scope.Pages = $rootScope.documentToAdd.Pages.models;
     });
-    
-	/*var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
-	var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
-	var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
-    $rootScope.documentToAdd.Pages.push(p1);
-    $rootScope.documentToAdd.Pages.push(p2);
-    $rootScope.documentToAdd.Pages.push(p3);*/
 
     var step = $rootScope.Scenario.next();
     $scope.nextUrl = step.to;
@@ -37,8 +36,20 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
     };
 
     $scope.doSave = function () {
-        $rootScope.documentToAdd.callback = callback;
-        $rootScope.documentToAdd.create();
+		var success = function () {
+			$location.path("menu");
+			$scope.$apply();
+		};
+		var error = function(success, error) {
+			$rootScope.ErrorHelper.show("Création", "Une erreur est survenue lors de la de la création du document.");
+		};
+		try {
+			documentService.create($rootScope.documentToAdd, success, error);
+		}
+		catch(ex) {
+			$rootScope.ErrorHelper.show("Création", ex);
+		};
+		return false;
     };
 
     var fRefresh = function () {
@@ -46,8 +57,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         $scope.$apply();
     };
     $scope.$on("takePicture$refreshPage", fRefresh);
-    
-    $scope.Pages = $rootScope.documentToAdd.Pages.models;
 
     $scope.mooveUp = function (id) {
 		var size = $rootScope.documentToAdd.Pages.length;

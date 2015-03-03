@@ -20,8 +20,8 @@ namespace TakeDocApi.Controllers.oData
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
         
         // GET: odata/Documents
-        [EnableQuery]
-        public IHttpActionResult GetDocuments(ODataQueryOptions<Document> queryOptions)
+        [Queryable]
+        public async Task<IHttpActionResult> GetDocuments(ODataQueryOptions<Document> queryOptions)
         {
             // validate the query.
             ICollection<TakeDocModel.Document> documents;
