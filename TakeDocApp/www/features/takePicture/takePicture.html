@@ -2,7 +2,7 @@
     <ion-content>
         <ion-list>
             <ion-item ng-repeat="Page in Pages | orderBy:['attributes.pageNumber']">
-                <img class="takePictureThumbnail" data-ng-src="{{Page.attributes.imageURI}}" />
+                <img class="takePictureThumbnail" data-ng-src="data:image/jpeg;base64,{{Page.attributes.imageURI}}" />
                 <span class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</span>
 				<div style="display:inline-block">
 					<div class="container-takePicture">

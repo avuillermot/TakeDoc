@@ -15,16 +15,14 @@ var Picture = Backbone.Model.extend({
 
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', function ($scope, $rootScope, takePictureService, $location) {
 
-    $scope.nbPicture = 0;
-
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $rootScope.documentToAdd.Pages = new Pictures();
-		var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
+		/*var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
 		var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
 		var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
 		$rootScope.documentToAdd.Pages.push(p1);
 		$rootScope.documentToAdd.Pages.push(p2);
-		$rootScope.documentToAdd.Pages.push(p3);
+		$rootScope.documentToAdd.Pages.push(p3);*/
 		
 		$scope.Pages = $rootScope.documentToAdd.Pages.models;
 		
@@ -34,7 +32,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
 
     $scope.takePicture = function () {
-        takePictureService.takePicture($scope.nbPicture++);
+        alert("take");
+        takePictureService.takePicture();
     };
 
     $scope.doSave = function () {
@@ -110,8 +109,10 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     var that = this;
 
     this.onSuccess = function (imageURI) {
+        alert("take ok");
         try {
-            var p1 = new Picture({ id: 'P' + that.index, imageURI: imageURI, state: "toAdd", PageNumber: 1 });
+            var myPageNumber = $rootScope.documentToAdd.Pages.length;
+            var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: imageURI, state: "toAdd", pageNumber: myPageNumber });
             $rootScope.documentToAdd.Pages.push(p1);
         }
         catch (ex) {
@@ -121,11 +122,13 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     };
 
     this.onFail = function () {
+        alert("tale nok");
         $rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
         $rootScope.$broadcast('takePicture$refreshPage');
     };
 
     this.takePicture = function (index) {
+        alert("get camera");
         that.index = index;
         try {
             navigator.camera.getPicture(this.onSuccess, this.onFail, 

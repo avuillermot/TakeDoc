@@ -13,6 +13,7 @@ function documentService() {
 }
 
 documentService.create = function (document, onSuccess, onError) {
+    alert("create doc");
 	if (document.Pages == null || document.Pages.length == 0) throw new Error("Aucune page n'est disponible.");
     var that = this;
     console.log("documents.prototype.create:start");
@@ -23,6 +24,7 @@ documentService.create = function (document, onSuccess, onError) {
             EntityId: document.EntityId, UserCreateData: document.UserCreateData, DocumentTypeId: document.DocumentTypeId, DocumentLabel: document.DocumentLabel
         },
         success: function () {
+            alert("create doc ok");
             console.log("documents.prototype.create:success");
             document.DocumentId = arguments[0].DocumentId;
             document.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
@@ -31,6 +33,7 @@ documentService.create = function (document, onSuccess, onError) {
             that.addPage("jpeg", that.Pages[0].imageURI, 0);
         },
         error: function () {
+            alert("create error");
 			onError();
             console.log("documents.prototype.create:error");
          }
@@ -39,7 +42,7 @@ documentService.create = function (document, onSuccess, onError) {
 
 documentService.addPage = function (extension, fileStringFormat, index, onSuccess, onError) {
     console.log("documents.prototype.addPage:start");
-
+    alert("add page");
     var urlAddPage = this.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>";
     urlAddPage = urlAddPage.replace("<userId/>", this.UserCreateData);
     urlAddPage = urlAddPage.replace("<entityId/>", this.EntityId);
@@ -53,14 +56,16 @@ documentService.addPage = function (extension, fileStringFormat, index, onSucces
         url: urlAddPage,
         data: { '': fileStringFormat },
         success: function () {
+            alert("add page ok");
             console.log("documents.prototype.addPage:success");
             if (index + 1 < that.Pages.length) that.addPage("jpeg", that.Pages[index + 1].imageURI, index + 1);
             else {
-				that.setReceive(onSucces, onError);
+                that.setReceive(onSucces, onError);
 			}
 
         },
         error: function () {
+            alert("add page error");
             console.log("documents.prototype.addPage:error");
 			onError();
         }
@@ -69,6 +74,7 @@ documentService.addPage = function (extension, fileStringFormat, index, onSucces
 
 documentService.setReceive = function (onSuccess, onError) {
     console.log("documents.prototype.setReceivd:e:start");
+    alert("set receive");
     var urlSetReceive = this.UrlBase + "Document/SetReceive/<documentId/>";
     urlSetReceive = urlSetReceive.replace("<documentId/>", this.DocumentId);
 
