@@ -12,14 +12,18 @@ namespace TakeDocService.Document
     public class PageService : BaseService, Interface.IPageService
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator>();
+        TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
+
         IDaoPage daoPage = UnityHelper.Resolve<IDaoPage>();
         
         private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
             TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId);
 
+            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
+
             // generate full path filename
-            System.IO.FileInfo file = this.GenerateUNC("MASTER", page.PageReference, extension);
+            System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, page.PageReference, extension);
             // write full path file name
             System.IO.File.WriteAllBytes(file.FullName, data);
 

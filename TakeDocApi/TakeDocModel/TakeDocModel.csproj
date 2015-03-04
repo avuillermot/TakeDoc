@@ -66,6 +66,9 @@
     <Compile Include="Document\StatutVersion.cs" />
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
+    <Compile Include="Entity.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Environnement.cs" />
     <Compile Include="MetaData.cs">
       <DependentUpon>Model.tt</DependentUpon>

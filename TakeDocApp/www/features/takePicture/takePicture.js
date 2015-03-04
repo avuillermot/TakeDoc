@@ -38,7 +38,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     $scope.doSave = function () {
 		var success = function () {
-			$location.path("menu");
+			$location.path("doSave");
 			$scope.$apply();
 		};
 		var error = function(success, error) {

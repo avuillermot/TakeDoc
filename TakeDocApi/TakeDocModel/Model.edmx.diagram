@@ -29,6 +29,7 @@
         <AssociationConnector Association="TakeDocModel.FK_MetaData_Document" />
         <EntityTypeShape EntityType="TakeDocModel.UserTk" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.View_UserEntity" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="TakeDocModel.Entity" Width="1.5" PointX="8.375" PointY="9.75" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

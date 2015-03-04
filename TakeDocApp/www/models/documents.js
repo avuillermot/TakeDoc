@@ -30,7 +30,7 @@ documentService.create = function (document, onSuccess, onError) {
             document.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
 
             var current = arguments[0];
-            that.addPage("jpeg", that.Pages[0].imageURI, 0);
+            that.addPage(document, "jpeg", 0, onSuccess, onError);
         },
         error: function () {
             alert("create error");
@@ -40,46 +40,45 @@ documentService.create = function (document, onSuccess, onError) {
     });
 }
 
-documentService.addPage = function (extension, fileStringFormat, index, onSuccess, onError) {
+documentService.addPage = function (document, extension, index, onSuccess, onError) {
     console.log("documents.prototype.addPage:start");
-    alert("add page");
-    var urlAddPage = this.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>";
-    urlAddPage = urlAddPage.replace("<userId/>", this.UserCreateData);
-    urlAddPage = urlAddPage.replace("<entityId/>", this.EntityId);
-    urlAddPage = urlAddPage.replace("<versionId/>", this.DocumentCurrentVersion);
+    var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>";
+    urlAddPage = urlAddPage.replace("<userId/>", document.UserCreateData);
+    urlAddPage = urlAddPage.replace("<entityId/>", document.EntityId);
+    urlAddPage = urlAddPage.replace("<versionId/>", document.DocumentCurrentVersion);
     urlAddPage = urlAddPage.replace("<extension/>", extension);
     console.log("documents.prototype.addPage:url -> " + urlAddPage);
-    var that = this;
+    alert("add page " + index + "url:" + urlAddPage);
 
+    var that = this;
     $.ajax({
         type: 'POST',
         url: urlAddPage,
-        data: { '': fileStringFormat },
+        data: { '': document.Pages.at(index).get("imageURI") },
         success: function () {
-            alert("add page ok");
+            alert("add page ok" + index);
             console.log("documents.prototype.addPage:success");
-            if (index + 1 < that.Pages.length) that.addPage("jpeg", that.Pages[index + 1].imageURI, index + 1);
+            if (index + 1 < that.Pages.length) that.addPage("jpeg", index++, onSuccess, onError);
             else {
                 that.setReceive(onSucces, onError);
 			}
 
         },
         error: function () {
-            alert("add page error");
+            alert("add page error" + index);
             console.log("documents.prototype.addPage:error");
 			onError();
         }
     });
 }
 
-documentService.setReceive = function (onSuccess, onError) {
+documentService.setReceive = function (document, onSuccess, onError) {
     console.log("documents.prototype.setReceivd:e:start");
     alert("set receive");
-    var urlSetReceive = this.UrlBase + "Document/SetReceive/<documentId/>";
-    urlSetReceive = urlSetReceive.replace("<documentId/>", this.DocumentId);
+    var urlSetReceive = environnement.UrlBase + "Document/SetReceive/<documentId/>";
+    urlSetReceive = urlSetReceive.replace("<documentId/>", document.DocumentId);
 
     console.log("documents.prototype.setReceive:url -> " + urlSetReceive);
-    var that = this;
 
     $.ajax({
         type: 'GET',

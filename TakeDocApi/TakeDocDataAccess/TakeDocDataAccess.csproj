@@ -80,6 +80,8 @@
     <Compile Include="Document\Interface\IDaoPageStoreLocator.cs" />
     <Compile Include="Document\Interface\IDaoVersion.cs" />
     <Compile Include="IDaoGeneric.cs" />
+    <Compile Include="Parameter\DaoEntity.cs" />
+    <Compile Include="Parameter\Interface\IDaoEntity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

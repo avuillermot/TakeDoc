@@ -50,6 +50,15 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="EntityId" />
+          </Key>
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EntityLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="MetaData">
           <Key>
             <PropertyRef Name="MetaDataId" />
@@ -157,6 +166,8 @@
           <Property Name="UserTkPassword" Type="nvarchar" MaxLength="200" />
           <Property Name="UserTkExternalAccount" Type="bit" Nullable="false" />
           <Property Name="UserTkEmail" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserTkExterneId" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserTkCompanyId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -178,8 +189,8 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TakeDoc.dbo.View_PageStoreLocator' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="View_PageStoreLocator">
           <Key>
             <PropertyRef Name="StreamId" />
@@ -187,8 +198,8 @@ warning 6002: The table/view 'TakeDoc.dbo.View_PageStoreLocator' does not have a
           <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TakeDoc.dbo.View_UserEntity' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="View_UserEntity">
           <Key>
             <PropertyRef Name="EntityId" />
@@ -203,8 +214,8 @@ warning 6002: The table/view 'TakeDoc.dbo.View_UserEntity' does not have a prima
           <Property Name="EntityLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <!--Erreurs détectées durant la génération :
+avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="View_VersionStoreLocator">
           <Key>
             <PropertyRef Name="StreamId" />
@@ -304,6 +315,7 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataField" EntityType="Self.DataField" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Statut_Document" EntityType="Self.Statut_Document" Schema="dbo" store:Type="Tables" />
@@ -427,6 +439,7 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           </AssociationSet>
           <EntitySet Name="UserTk" EntityType="TakeDocModel.UserTk" />
           <EntitySet Name="View_UserEntity" EntityType="TakeDocModel.View_UserEntity" />
+          <EntitySet Name="Entity" EntityType="TakeDocModel.Entity" />
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -715,6 +728,8 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           <Property Name="UserTkPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkExternalAccount" Type="Boolean" Nullable="false" />
           <Property Name="UserTkEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkExterneId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkCompanyId" Type="Guid" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -726,6 +741,15 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           </Key>
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserTkId" Type="Guid" Nullable="false" />
+          <Property Name="EntityReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EntityLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Entity">
+          <Key>
+            <PropertyRef Name="EntityId" />
+          </Key>
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="EntityReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
@@ -926,6 +950,8 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkCompanyId" ColumnName="UserTkCompanyId" />
+                <ScalarProperty Name="UserTkExterneId" ColumnName="UserTkExterneId" />
                 <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
                 <ScalarProperty Name="UserTkExternalAccount" ColumnName="UserTkExternalAccount" />
                 <ScalarProperty Name="UserTkPassword" ColumnName="UserTkPassword" />
@@ -944,6 +970,16 @@ warning 6002: The table/view 'TakeDoc.dbo.View_VersionStoreLocator' does not hav
                 <ScalarProperty Name="EntityLibelle" ColumnName="EntityLibelle" />
                 <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
                 <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Entity">
+            <EntityTypeMapping TypeName="TakeDocModel.Entity">
+              <MappingFragment StoreEntitySet="Entity">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="EntityLibelle" ColumnName="EntityLibelle" />
+                <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
               </MappingFragment>
             </EntityTypeMapping>
