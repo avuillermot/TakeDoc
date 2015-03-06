@@ -32,16 +32,15 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
 
     $scope.takePicture = function () {
-        alert("take");
         takePictureService.takePicture();
     };
 
     $scope.doSave = function () {
-		var success = function () {
-			$location.path("doSave");
+        var success = function () {
+			$location.path("menu");
 			$scope.$apply();
 		};
-		var error = function(success, error) {
+        var error = function (success, error) {
 			$rootScope.ErrorHelper.show("Création", "Une erreur est survenue lors de la de la création du document.");
 		};
 		try {
@@ -109,9 +108,8 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     var that = this;
 
     this.onSuccess = function (imageURI) {
-        alert("take ok");
         try {
-            var myPageNumber = $rootScope.documentToAdd.Pages.length;
+            var myPageNumber = $rootScope.documentToAdd.Pages.length + 1;
             var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: imageURI, state: "toAdd", pageNumber: myPageNumber });
             $rootScope.documentToAdd.Pages.push(p1);
         }
@@ -122,13 +120,11 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     };
 
     this.onFail = function () {
-        alert("tale nok");
         $rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
         $rootScope.$broadcast('takePicture$refreshPage');
     };
 
     this.takePicture = function (index) {
-        alert("get camera");
         that.index = index;
         try {
             navigator.camera.getPicture(this.onSuccess, this.onFail, 
