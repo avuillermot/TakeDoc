@@ -41,6 +41,7 @@
           <Property Name="DocumentCurrentVersion" Type="uniqueidentifier" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DocumentTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentOwner" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -168,6 +169,7 @@
           <Property Name="UserTkEmail" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserTkExterneId" Type="nvarchar" MaxLength="50" />
           <Property Name="UserTkCompanyId" Type="uniqueidentifier" />
+          <Property Name="UserTkAdresseId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -471,6 +473,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DocumentTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Document" ToRole="Type_Document" />
           <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaData_Document" FromRole="Document" ToRole="MetaData" />
+          <Property Name="DocumentOwner" Type="Guid" Nullable="false" />
           </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -730,6 +733,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserTkEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkExterneId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserTkCompanyId" Type="Guid" />
+          <Property Name="UserTkAdresseId" Type="Guid" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -783,6 +787,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Document">
             <EntityTypeMapping TypeName="TakeDocModel.Document">
               <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DocumentOwner" ColumnName="DocumentOwner" />
                 <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
@@ -950,6 +955,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkAdresseId" ColumnName="UserTkAdresseId" />
                 <ScalarProperty Name="UserTkCompanyId" ColumnName="UserTkCompanyId" />
                 <ScalarProperty Name="UserTkExterneId" ColumnName="UserTkExterneId" />
                 <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />

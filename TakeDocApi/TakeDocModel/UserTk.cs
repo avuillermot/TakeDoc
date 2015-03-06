@@ -24,5 +24,6 @@ namespace TakeDocModel
         public string UserTkEmail { get; set; }
         public string UserTkExterneId { get; set; }
         public Nullable<System.Guid> UserTkCompanyId { get; set; }
+        public Nullable<System.Guid> UserTkAdresseId { get; set; }
     }
 }

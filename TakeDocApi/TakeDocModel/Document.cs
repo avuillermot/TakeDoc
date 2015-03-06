@@ -34,6 +34,7 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public string DocumentLabel { get; set; }
         public System.Guid DocumentTypeId { get; set; }
+        public System.Guid DocumentOwner { get; set; }
     
         public virtual StatutDocument Statut_Document { get; set; }
         public virtual ICollection<Version> Version { get; set; }
