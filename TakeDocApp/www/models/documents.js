@@ -6,7 +6,7 @@
     this.DocumentCurrentVersion = null;
     this.DocumentLabel = null;
     this.Pages = null;
-    this.Extension = "jpeg";
+    this.Extension = "png";
 }
 
 function documentService() {

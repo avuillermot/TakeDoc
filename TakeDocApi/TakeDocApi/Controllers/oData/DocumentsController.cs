@@ -20,8 +20,8 @@ namespace TakeDocApi.Controllers.oData
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
         
         // GET: odata/Documents
-        [Queryable]
-        public async Task<IHttpActionResult> GetDocuments(ODataQueryOptions<Document> queryOptions)
+        [EnableQuery]
+        public IHttpActionResult GetDocuments(ODataQueryOptions<Document> queryOptions)
         {
             // validate the query.
             ICollection<TakeDocModel.Document> documents;
@@ -37,18 +37,17 @@ namespace TakeDocApi.Controllers.oData
                 return BadRequest(ex.Message);
             }
 
-            return Ok<IEnumerable<Document>>(documents);
-            //return StatusCode(HttpStatusCode.NotImplemented);
+            return Ok(documents);
         }
 
         // PUT: odata/Documents(5)
-        [Queryable]
-        public async Task<IHttpActionResult> Put([FromODataUri] string key, Document document)
+        [EnableQuery]
+        public IHttpActionResult Put([FromODataUri] string key, Document document)
         {
            if (!ModelState.IsValid) return BadRequest(ModelState);
 
            try
-           {
+           {          
                TakeDocService.Document.Interface.IDocumentService servDoc = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.IDocumentService>();
                document = servDoc.Create(document.UserCreateData, document.EntityId, document.DocumentTypeId, document.DocumentLabel);
            }

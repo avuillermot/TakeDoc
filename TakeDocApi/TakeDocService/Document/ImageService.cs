@@ -6,6 +6,8 @@ using its = iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 
 namespace TakeDocService.Document
 {
@@ -18,7 +20,44 @@ namespace TakeDocService.Document
             this.PdfPath = TakeDocModel.Environnement.TempDirectory;
         }
 
-        public byte[] GetPdfFromJpeg(ICollection<byte[]> pages)
+        public void DetectColorWithMarshal(Bitmap image, byte searchedR, byte searchedG, int searchedB, int tolerance)
+        {
+            BitmapData imageData = image.LockBits(new Rectangle(0, 0, image.Width,
+              image.Height), ImageLockMode.ReadWrite, PixelFormat.Format24bppRgb);
+
+            byte[] imageBytes = new byte[Math.Abs(imageData.Stride) * image.Height];
+            IntPtr scan0 = imageData.Scan0;
+
+            Marshal.Copy(scan0, imageBytes, 0, imageBytes.Length);
+
+            byte unmatchingValue = 0;
+            byte matchingValue = 255;
+            int toleranceSquared = tolerance * tolerance;
+
+            for (int i = 0; i < imageBytes.Length; i += 3)
+            {
+                byte pixelB = imageBytes[i];
+                byte pixelR = imageBytes[i + 2];
+                byte pixelG = imageBytes[i + 1];
+
+                int diffR = pixelR - searchedR;
+                int diffG = pixelG - searchedG;
+                int diffB = pixelB - searchedB;
+
+                int distance = diffR * diffR + diffG * diffG + diffB * diffB;
+
+                imageBytes[i] = imageBytes[i + 1] = imageBytes[i + 2] = distance >
+                  toleranceSquared ? unmatchingValue : matchingValue;
+            }
+
+            Marshal.Copy(imageBytes, 0, scan0, imageBytes.Length);
+
+            image.UnlockBits(imageData);
+            if (System.IO.File.Exists(@"d:\temp\test.png")) System.IO.File.Delete(@"d:\temp\test.png");
+            image.Save(@"d:\temp\test.png");
+        }
+
+        public byte[] GetPdf(ICollection<byte[]> pages)
         {
             string newFileName = System.Guid.NewGuid().ToString();
             string fileName = string.Concat(this.PdfPath, newFileName);

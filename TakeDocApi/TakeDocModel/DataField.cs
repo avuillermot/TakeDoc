@@ -23,7 +23,6 @@ namespace TakeDocModel
         public string DataFieldReference { get; set; }
         public System.Guid TypeDocumentId { get; set; }
         public bool DataFieldMandatory { get; set; }
-        public string DataFieldType { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -32,8 +31,10 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
+        public string DataFieldTypeId { get; set; }
     
         public virtual TypeDocument Type_Document { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; }
+        public virtual DataFieldType DataFieldType { get; set; }
     }
 }

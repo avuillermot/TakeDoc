@@ -12,16 +12,16 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class UserTk
+    public partial class DataFieldType
     {
-        public System.Guid UserTkId { get; set; }
-        public string UserTkReference { get; set; }
-        public string UserTkLastName { get; set; }
-        public string UserTkFirstName { get; set; }
-        public string UserTkLogin { get; set; }
-        public string UserTkPassword { get; set; }
-        public bool UserTkExternalAccount { get; set; }
-        public string UserTkEmail { get; set; }
-        public string UserTkExterneId { get; set; }
+        public DataFieldType()
+        {
+            this.DataField = new HashSet<DataField>();
+        }
+    
+        public string DataFieldTypeId { get; set; }
+        public string DataFieldInputType { get; set; }
+    
+        public virtual ICollection<DataField> DataField { get; set; }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3fe3ef94d1244635a36d73c688384101" Name="Diagram1" ZoomLevel="67">
+      <Diagram DiagramId="3fe3ef94d1244635a36d73c688384101" Name="Diagram1" ZoomLevel="88">
         <EntityTypeShape EntityType="TakeDocModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TakeDocModel.Counter" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="6" PointY="1" />
@@ -26,10 +26,12 @@
         <EntityTypeShape EntityType="TakeDocModel.MetaData" Width="1.5" PointX="16.375" PointY="6" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_Type_Document" />
         <AssociationConnector Association="TakeDocModel.FK_MetaData_DataField" />
-        <AssociationConnector Association="TakeDocModel.FK_MetaData_Document" />
         <EntityTypeShape EntityType="TakeDocModel.UserTk" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.View_UserEntity" Width="1.5" PointX="2.75" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.Entity" Width="1.5" PointX="8.375" PointY="9.75" />
+        <AssociationConnector Association="TakeDocModel.FK_MetaData_Version" />
+        <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="5.375" PointY="10.875" />
+        <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

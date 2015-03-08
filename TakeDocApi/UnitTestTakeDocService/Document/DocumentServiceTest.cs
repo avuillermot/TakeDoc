@@ -37,6 +37,8 @@ namespace UnitTestTakeDocService.Document
 
         [TestMethod]
         public void TestOrdered() {
+            this.IsValidMetaData();
+
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
@@ -47,15 +49,13 @@ namespace UnitTestTakeDocService.Document
             this.AddVersionMinor();
             this.AddPage2();
             this.SetReceive();
-            /*this.SetMetaDataOk();
-            this.SetMetaDataError();*/
         }
         
         [TestMethod]
         public void CreateDocument()
         {
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
-            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "EMPTY").First();
+            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "NOTE_FRAIS").First();
             MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test creation document");
 
             Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Create), "Statut du document CREATE");
@@ -68,9 +68,9 @@ namespace UnitTestTakeDocService.Document
             Assert.AreNotEqual(MyDocument.DateCreateData, System.DateTimeOffset.MinValue);
             Assert.IsFalse(MyDocument.EtatDeleteData);
             Assert.IsFalse(MyDocument.LastVersion.EtatDeleteData);
-            Assert.IsTrue(MyDocument.Type_Document.TypeDocumentReference == "EMPTY");
+            Assert.IsTrue(MyDocument.Type_Document.TypeDocumentReference == "NOTE_FRAIS");
             Assert.IsTrue(MyDocument.DocumentLabel == "Test creation document");
-            Assert.IsTrue(MyDocument.MetaData.Count() > 0);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
         }
 
         [TestMethod]
@@ -112,25 +112,7 @@ namespace UnitTestTakeDocService.Document
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Statut_Document);
             Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Complete), "Statut du document COMPLETE");
         }
-
-        [TestMethod]
-        public void SetMetaDataOk()
-        {
-            IDictionary<string, string> metadatas = new Dictionary<string, string>();
-            metadatas.Add("YEAR", System.DateTimeOffset.UtcNow.ToString());
-            metadatas.Add("COMMENT", "ceci est un test");
-            servMetaData.SetMetaData(userId, MyDocument.EntityId, MyDocument.DocumentId, metadatas);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(Exception), "La valeur spécifiée n'est pas compatible avec le type de données du champ.")]
-        public void SetMetaDataError()
-        {
-            IDictionary<string, string> metadatas = new Dictionary<string, string>();
-            metadatas.Add("YEAR", "error");
-            servMetaData.SetMetaData(userId, MyDocument.EntityId, MyDocument.DocumentId, metadatas);
-        }
-
+        
         [TestMethod]
         public void AddVersionMajor()
         {
@@ -138,6 +120,7 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(MyDocument.Version.Count() == 2);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 1);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
         }
 
         [TestMethod]
@@ -147,6 +130,7 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(MyDocument.Version.Count() == 3);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor == false);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 1.01M);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
         }
 
         [TestMethod]
@@ -163,20 +147,9 @@ namespace UnitTestTakeDocService.Document
 
         public void test()
         {
-            byte[] img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
+            byte[] img = System.IO.File.ReadAllBytes(@"d:\temp\page1.png");
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-            img = servImage.Rotate(bitmap, 90);
-            System.IO.File.WriteAllBytes(@"c:\temp\r1.jpeg",img);
-
-            img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
-            bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-            img = servImage.Rotate(bitmap, 180);
-            System.IO.File.WriteAllBytes(@"c:\temp\r2.jpeg", img);
-
-            img = System.IO.File.ReadAllBytes(@"c:\temp\page1.jpeg");
-            bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-            img = servImage.Rotate(bitmap, 270);
-            System.IO.File.WriteAllBytes(@"c:\temp\r3.jpeg", img);
+            servImage.DetectColorWithMarshal(bitmap, 0, 0, 0, 0);
         }
     }
 }

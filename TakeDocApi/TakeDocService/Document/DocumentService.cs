@@ -17,16 +17,14 @@ namespace TakeDocService.Document
 
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
-        Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
-
+        
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
             Guid documentId = System.Guid.NewGuid();
             Guid versionId = documentId;
             TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel);
 
-            servMetaData.CreateMetaData(userId, entityId, document.DocumentId, typeDocumentId);
-            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, versionId, documentId);
+            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, versionId, documentId, typeDocumentId);
 
             return document;
         }
@@ -54,7 +52,7 @@ namespace TakeDocService.Document
         public void AddVersionMajor(Guid userId, Guid entityId, Guid documentId)
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId);
+            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
             document.DocumentCurrentVersion = version.VersionId;
             daoDocument.Update(document);
         }
@@ -62,7 +60,7 @@ namespace TakeDocService.Document
         public void AddVersionMinor(Guid userId, Guid entityId, Guid documentId)
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId);
+            TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
             document.DocumentCurrentVersion = version.VersionId;
             daoDocument.Update(document);
         }

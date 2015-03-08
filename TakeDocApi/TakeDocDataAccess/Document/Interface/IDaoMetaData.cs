@@ -9,6 +9,6 @@ namespace TakeDocDataAccess.Document.Interface
     public interface IDaoMetaData
     {
         TakeDocModel.MetaData Add(TakeDocModel.MetaData meta);
-        void SetMetaData(Guid userId, Guid entityId, Guid documentId, IDictionary<string, string> values);
+        void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> values);
     }
 }

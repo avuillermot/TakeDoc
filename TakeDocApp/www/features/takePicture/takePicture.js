@@ -132,7 +132,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
                     quality: 100,
                     destinationType : Camera.DestinationType.DATA_URL,
                     sourceType : Camera.PictureSourceType.CAMERA,
-                    encodingType: Camera.EncodingType.JPEG,
+                    encodingType: Camera.EncodingType.PNG,
                     targetHeight: 1000,
                     targetWidth: 750,
                     correctOrientation: true

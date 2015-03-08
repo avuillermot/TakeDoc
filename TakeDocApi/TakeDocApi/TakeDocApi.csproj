@@ -199,6 +199,7 @@
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\oData\TypeDocumentsController.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

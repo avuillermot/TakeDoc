@@ -17,7 +17,6 @@ namespace TakeDocModel
         public Document()
         {
             this.Version = new HashSet<Version>();
-            this.MetaData = new HashSet<MetaData>();
         }
     
         public System.Guid DocumentId { get; set; }
@@ -39,6 +38,5 @@ namespace TakeDocModel
         public virtual StatutDocument Statut_Document { get; set; }
         public virtual ICollection<Version> Version { get; set; }
         public virtual TypeDocument Type_Document { get; set; }
-        public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }

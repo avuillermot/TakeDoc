@@ -14,6 +14,7 @@ namespace TakeDocService.Document
         TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
 
+        Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
         Interface.IImageService servImage = UnityHelper.Resolve<Interface.IImageService>();
 
@@ -22,7 +23,7 @@ namespace TakeDocService.Document
             return daoVersion.Create(userId, entityId, versionId, documentId, versionNumber);
         }
 
-        public TakeDocModel.Version CreateMajor(Guid userId, Guid entityId, Guid versionId, Guid documentId)
+        public TakeDocModel.Version CreateMajor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId)
         {
             ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.VersionDocumentId == documentId);
             decimal nVersion = 0;
@@ -33,17 +34,21 @@ namespace TakeDocService.Document
                 }
             }
 
-            return this.Create(userId, entityId, versionId, documentId, nVersion);
+            TakeDocModel.Version version = this.Create(userId, entityId, versionId, documentId, nVersion);
+            servMetaData.CreateMetaData(userId, entityId, versionId, typeDocumentId);
+            return version;
         }
 
-        public TakeDocModel.Version CreateMinor(Guid userId, Guid entityId, Guid versionId, Guid documentId)
+        public TakeDocModel.Version CreateMinor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId)
         {
             ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.VersionDocumentId == documentId);
             decimal nVersion = 0;
             if (versions.Count() > 0)
                 nVersion = versions.OrderByDescending(x => x.VersionNumber).First().VersionNumber + 0.01M;
 
-            return this.Create(userId, entityId, versionId, documentId, nVersion);
+            TakeDocModel.Version version = this.Create(userId, entityId, versionId, documentId, nVersion);
+            servMetaData.CreateMetaData(userId, entityId, versionId, typeDocumentId);
+            return version;
         }
 
         public void SetReceive(Guid versionId)
@@ -71,7 +76,7 @@ namespace TakeDocService.Document
                 if (ok) img = servImage.Rotate(bitmap, angle);
                 data.Add(img);
             }
-            byte[] fullDoc = servImage.GetPdfFromJpeg(data);
+            byte[] fullDoc = servImage.GetPdf(data);
             System.IO.FileInfo file = this.GenerateUNC("MASTER", version.VersionReference, "pdf");
             System.IO.File.WriteAllBytes(file.FullName, fullDoc);
 

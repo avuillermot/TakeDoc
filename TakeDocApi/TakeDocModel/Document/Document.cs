@@ -16,5 +16,13 @@ namespace TakeDocModel
                 return this.Version.Where(x => x.EtatDeleteData == false).OrderByDescending(x => x.VersionNumber).First();
             }
         }
+
+        public ICollection<TakeDocModel.MetaData> LastVersionMetadata
+        {
+            get
+            {
+                return this.LastVersion.MetaData.Where(x => x.EtatDeleteData == false).ToList();
+            }
+        }
     }
 }

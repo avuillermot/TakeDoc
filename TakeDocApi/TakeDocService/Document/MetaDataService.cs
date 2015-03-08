@@ -14,7 +14,7 @@ namespace TakeDocService.Document
 
         Interface.IDataFieldService servDataField = UnityHelper.Resolve<Interface.IDataFieldService>();
 
-        public void CreateMetaData(Guid userId, Guid entityId, Guid documentId, Guid typeDocumentId)
+        public void CreateMetaData(Guid userId, Guid entityId, Guid versionId, Guid typeDocumentId)
         {
             ICollection<TakeDocModel.DataField> fields = servDataField.GetDataField(typeDocumentId, entityId);
             foreach (TakeDocModel.DataField field in fields)
@@ -24,7 +24,7 @@ namespace TakeDocService.Document
                 meta.DateCreateData = System.DateTime.UtcNow;
                 meta.EntityId = entityId;
                 meta.EtatDeleteData = false;
-                meta.MetaDataDocumentId = documentId;
+                meta.MetaDataVersionId = versionId;
                 meta.MetaDataId = System.Guid.NewGuid();
                 meta.MetaDataName = field.DataFieldReference;
                 meta.UserCreateData = userId;
@@ -33,7 +33,7 @@ namespace TakeDocService.Document
             } 
         }
 
-        public void SetMetaData(Guid userId, Guid entityId, Guid documentId, IDictionary<string, string> metadatas)
+        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
         {
             ICollection<TakeDocModel.DataField> fields = servDataField.GetDataField(metadatas.Keys, entityId);
             foreach (KeyValuePair<string,string> metadata in metadatas)
@@ -41,11 +41,11 @@ namespace TakeDocService.Document
                 ICollection<TakeDocModel.DataField> field = fields.Where(x => x.DataFieldReference == metadata.Key).ToList();
                 if (field.Count() > 0)
                 {
-                    bool ok = this.IsValid(field.First().DataFieldType, metadata.Value, field.First().DataFieldMandatory);
+                    bool ok = this.IsValid(field.First().DataFieldTypeId, metadata.Value, field.First().DataFieldMandatory);
                     if (ok == false) throw new Exception("MetaData non valide.");
                 }
             }
-            dao.SetMetaData(userId, entityId, documentId, metadatas);
+            dao.SetMetaData(userId, entityId, versionId, metadatas);
         }
 
         public bool IsValid(string typeName, string value, bool required)

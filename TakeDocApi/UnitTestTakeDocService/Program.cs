@@ -14,6 +14,7 @@ namespace UnitTestTakeDocService
 
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
             Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
+            //documentTest.test();
             documentTest.TestOrdered();
             userTest.TestOrdered();
             Console.WriteLine("fin");

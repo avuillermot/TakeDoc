@@ -17,6 +17,7 @@ namespace TakeDocModel
         public Version()
         {
             this.Page = new HashSet<Page>();
+            this.MetaData = new HashSet<MetaData>();
         }
     
         public System.Guid VersionId { get; set; }
@@ -38,5 +39,6 @@ namespace TakeDocModel
         public virtual Document Document { get; set; }
         public virtual ICollection<Page> Page { get; set; }
         public virtual StatutVersion Statut_Version { get; set; }
+        public virtual ICollection<MetaData> MetaData { get; set; }
     }
 }

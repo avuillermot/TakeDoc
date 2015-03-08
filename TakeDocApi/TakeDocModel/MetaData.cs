@@ -17,7 +17,6 @@ namespace TakeDocModel
         public System.Guid MetaDataId { get; set; }
         public string MetaDataName { get; set; }
         public string MetaDataValue { get; set; }
-        public System.Guid MetaDataDocumentId { get; set; }
         public System.Guid DataFieldId { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
@@ -27,8 +26,9 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
+        public System.Guid MetaDataVersionId { get; set; }
     
         public virtual DataField DataField { get; set; }
-        public virtual Document Document { get; set; }
+        public virtual Version Version { get; set; }
     }
 }
