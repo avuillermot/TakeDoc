@@ -11,5 +11,6 @@ namespace TakeDocService.Document.Interface
         void CreateMetaData(Guid userId, Guid entityId, Guid versionId, Guid typeDocumentId);
         bool IsValid(string typeName, string value, bool required);
         void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas);
+        ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId);
     }
 }

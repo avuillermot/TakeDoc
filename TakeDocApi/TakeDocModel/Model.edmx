@@ -84,6 +84,7 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="MetaDataDisplayIndex" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -710,6 +711,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_MetaData_DataField" FromRole="MetaData" ToRole="DataField" />
           <Property Name="MetaDataVersionId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_MetaData_Version" FromRole="MetaData" ToRole="Version" />
+          <Property Name="MetaDataDisplayIndex" Type="Int32" Nullable="false" />
           </EntityType>
         <Association Name="FK_DataField_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -982,6 +984,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="MetaData">
             <EntityTypeMapping TypeName="TakeDocModel.MetaData">
               <MappingFragment StoreEntitySet="MetaData">
+                <ScalarProperty Name="MetaDataDisplayIndex" ColumnName="MetaDataDisplayIndex" />
                 <ScalarProperty Name="MetaDataVersionId" ColumnName="MetaDataVersionId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />

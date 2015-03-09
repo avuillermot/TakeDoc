@@ -27,6 +27,7 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
         public System.Guid MetaDataVersionId { get; set; }
+        public int MetaDataDisplayIndex { get; set; }
     
         public virtual DataField DataField { get; set; }
         public virtual Version Version { get; set; }

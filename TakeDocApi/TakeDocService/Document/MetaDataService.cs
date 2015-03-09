@@ -73,5 +73,10 @@ namespace TakeDocService.Document
                 return false;
             }
         }
+
+        public ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId)
+        {
+            return dao.GetBy(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
+        }
     }
 }
