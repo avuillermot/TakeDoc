@@ -5,7 +5,8 @@ var Picture = Backbone.Model.extend({
         id: null,
         imageURI: null,
 		state: null,
-		pageNumber: null
+		pageNumber: null,
+        rotation: 0
     }
 });
 
@@ -81,7 +82,38 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 		}
     }
     $scope.rotate = function (id) {
-        alert(id);
+        var elem = angular.element("#img-page-" + id);
+        var prefix = "take-picture-rotate";
+        var r000 = elem.hasClass(prefix + "000");
+        var r090 = elem.hasClass(prefix + "090");
+        var r180 = elem.hasClass(prefix + "180");
+        var r270 = elem.hasClass(prefix + "270");
+
+        elem.removeClass(prefix + "000");
+        elem.removeClass(prefix + "090");
+        elem.removeClass(prefix + "180");
+        elem.removeClass(prefix + "270");
+
+        var rotation = 0;
+        if (r000) {
+            elem.addClass(prefix + "090");
+            rotation = 90;
+        }
+        else if (r090) {
+            elem.addClass(prefix + "180");
+            rotation = 180;
+        }
+        else if (r180) {
+            elem.addClass(prefix + "270");
+            rotation = 270;
+        }
+        else if (r270) {
+            elem.addClass(prefix + "000");
+            rotation = 0;
+        }
+
+        var page = $rootScope.documentToAdd.Pages.where({ id: id });
+        page[0].set('rotation',rotation);
     }
     $scope.delete = function (id) {
 		var size = $rootScope.documentToAdd.Pages.length;

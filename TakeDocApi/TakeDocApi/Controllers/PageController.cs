@@ -15,10 +15,10 @@ namespace TakeDocApi.Controllers
     {
         [HttpPost]
         [Route("Add")]
-        public void Post(Guid userId, Guid entityId, Guid versionId, string extension, [FromBody]string value)
+        public void Post(Guid userId, Guid entityId, Guid versionId, string extension, int rotation, [FromBody]string value)
         {
             IPageService servPage = Utility.MyUnityHelper.UnityHelper.Resolve<IPageService>();
-            servPage.Add(userId, entityId, versionId, value, extension, 0);
+            servPage.Add(userId, entityId, versionId, value, extension, rotation);
         }
     }
 }

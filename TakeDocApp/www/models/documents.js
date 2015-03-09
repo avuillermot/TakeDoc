@@ -40,16 +40,15 @@ documentService.create = function (document, onSuccess, onError) {
 
 documentService.addPage = function (document, index, onSuccess, onError) {
     console.log("documents.prototype.addPage:start");
-    var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>";
+    var currentPage = document.Pages.where({ pageNumber: index })[0];
+    var nextPages = document.Pages.where({ pageNumber: index + 1 });
+
+    var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>&rotation=<rotation/>";
     urlAddPage = urlAddPage.replace("<userId/>", document.UserCreateData);
     urlAddPage = urlAddPage.replace("<entityId/>", document.EntityId);
     urlAddPage = urlAddPage.replace("<versionId/>", document.DocumentCurrentVersion);
     urlAddPage = urlAddPage.replace("<extension/>", document.Extension);
-    /*console.log("documents.prototype.addPage:url -> " + urlAddPage);
-    alert("add page " + index + "url:" + urlAddPage + " nb page:" + document.Pages.length);*/
-
-    var currentPage = document.Pages.where({ pageNumber: index })[0];
-    var nextPages = document.Pages.where({ pageNumber: index+1 });
+    urlAddPage = urlAddPage.replace("<rotation/>", currentPage.rotation);
     $.ajax({
         type: 'POST',
         url: urlAddPage,
