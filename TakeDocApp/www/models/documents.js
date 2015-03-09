@@ -3,10 +3,11 @@
     this.EntityId = null;
     this.UserCreateData = null;
     this.DocumentTypeId = null;
-    this.DocumentCurrentVersion = null;
+    this.DocumentCurrentVersionId = null;
     this.DocumentLabel = null;
     this.Pages = null;
     this.Extension = "png";
+    this.CurrentVersionId = null;
 }
 
 function documentService() {
@@ -25,8 +26,7 @@ documentService.create = function (document, onSuccess, onError) {
         success: function () {
             //console.log("documents.prototype.create:success");
             document.DocumentId = arguments[0].DocumentId;
-            document.DocumentCurrentVersion = arguments[0].DocumentCurrentVersion;
-
+            document.DocumentCurrentVersionId = arguments[0].DocumentCurrentVersionId;
             var current = arguments[0];
             documentService.addPage(document, 1, onSuccess, onError);
         },
@@ -46,19 +46,16 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>&rotation=<rotation/>";
     urlAddPage = urlAddPage.replace("<userId/>", document.UserCreateData);
     urlAddPage = urlAddPage.replace("<entityId/>", document.EntityId);
-    urlAddPage = urlAddPage.replace("<versionId/>", document.DocumentCurrentVersion);
+    urlAddPage = urlAddPage.replace("<versionId/>", document.DocumentCurrentVersionId);
     urlAddPage = urlAddPage.replace("<extension/>", document.Extension);
-    urlAddPage = urlAddPage.replace("<rotation/>", currentPage.rotation);
+    urlAddPage = urlAddPage.replace("<rotation/>", currentPage.get("rotation"));
     $.ajax({
         type: 'POST',
         url: urlAddPage,
         data: { '': currentPage.get("imageURI") },
         success: function () {
-            /*alert("add page ok" + index);
-            console.log("documents.prototype.addPage:success");*/
             if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
             else {
-                //alert("set receive1");
                 documentService.setReceive(document, onSuccess, onError);
 			}
 
@@ -91,6 +88,22 @@ documentService.setReceive = function (document, onSuccess, onError) {
             //alert("nok");
             //console.log("documents.prototype.setReceive:error");
 			onError();
+        }
+    });
+}
+
+documentService.getMetaData = function (document, onSuccess, onError) {
+    var myUrl = environnement.UrlBase + "MetaData/Version/{versionId}/{entityId}";
+    myUrl = urlSetReceive.replace("<versionId/>", document.DocumentCurrentVersionId);
+    myUrl = urlSetReceive.replace("<entityId/>", document.EntityId);
+    $.ajax({
+        type: 'GET',
+        url: myUrl,
+        success: function () {
+            onSuccess();
+        },
+        error: function () {
+            onError();
         }
     });
 }

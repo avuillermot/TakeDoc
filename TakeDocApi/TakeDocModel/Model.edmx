@@ -45,7 +45,7 @@
           <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentSatutId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DocumentCurrentVersion" Type="uniqueidentifier" />
+          <Property Name="DocumentCurrentVersionId" Type="uniqueidentifier" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DocumentTypeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentOwner" Type="uniqueidentifier" Nullable="false" />
@@ -488,7 +488,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DocumentSatutId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Statut_Document" Relationship="TakeDocModel.FK_Document_Statut_Document" FromRole="Document" ToRole="Statut_Document" />
           <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Version_Document" FromRole="Document" ToRole="Version" />
-          <Property Name="DocumentCurrentVersion" Type="Guid" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Precision="7" Nullable="false" />
@@ -501,6 +500,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DocumentTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Document" ToRole="Type_Document" />
           <Property Name="DocumentOwner" Type="Guid" Nullable="false" />
+          <Property Name="DocumentCurrentVersionId" Type="Guid" />
           </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -835,6 +835,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Document">
             <EntityTypeMapping TypeName="TakeDocModel.Document">
               <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DocumentCurrentVersionId" ColumnName="DocumentCurrentVersionId" />
                 <ScalarProperty Name="DocumentOwner" ColumnName="DocumentOwner" />
                 <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
@@ -846,7 +847,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="DocumentCurrentVersion" ColumnName="DocumentCurrentVersion" />
                 <ScalarProperty Name="DocumentSatutId" ColumnName="DocumentSatutId" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />

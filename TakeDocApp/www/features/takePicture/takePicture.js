@@ -18,12 +18,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $rootScope.documentToAdd.Pages = new Pictures();
-		/*var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
+		var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
 		var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
 		var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
 		$rootScope.documentToAdd.Pages.push(p1);
 		$rootScope.documentToAdd.Pages.push(p2);
-		$rootScope.documentToAdd.Pages.push(p3);*/
+		$rootScope.documentToAdd.Pages.push(p3);
 		
 		$scope.Pages = $rootScope.documentToAdd.Pages.models;
 		
@@ -37,8 +37,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
     };
 
     $scope.doSave = function () {
+
         var success = function () {
-			$location.path("menu");
+            $location.path($scope.nextUrl);
 			$scope.$apply();
 		};
         var error = function (success, error) {

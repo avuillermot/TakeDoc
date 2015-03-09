@@ -14,7 +14,7 @@ namespace TakeDocDataAccess.Document
  
             TakeDocModel.Document retour = new TakeDocModel.Document();
             retour.DocumentId = documentId;
-            retour.DocumentCurrentVersion = versionId;
+            retour.DocumentCurrentVersionId = versionId;
             retour.DocumentReference = base.Context.GenerateReference("Document");
             retour.DateCreateData = System.DateTimeOffset.UtcNow;
             retour.Statut_Document = statut;

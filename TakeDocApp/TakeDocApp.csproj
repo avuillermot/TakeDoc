@@ -36,6 +36,8 @@
     <Content Include="www\features\formElement\formElement.js" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
+    <Content Include="www\features\metadata\metadata.html" />
+    <Content Include="www\features\metadata\metadata.js" />
     <Content Include="www\features\profil\profil.html" />
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />

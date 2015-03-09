@@ -9,7 +9,7 @@ namespace TakeDocDataAccess.Document.Interface
 {
     public interface IDaoPage
     {
-        TakeDocModel.Page Add(Guid userId, Guid entityId, Guid versionId);
+        TakeDocModel.Page Add(Guid userId, Guid entityId, Guid versionId, int rotation);
         void Update(TakeDocModel.Page item);
         ICollection<TakeDocModel.Page> GetBy(Expression<Func<TakeDocModel.Page, bool>> where, params Expression<Func<TakeDocModel.Page, object>>[] properties);
     }

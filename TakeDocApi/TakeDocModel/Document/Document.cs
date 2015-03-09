@@ -21,6 +21,7 @@ namespace TakeDocModel
         {
             get
             {
+                if (this.LastVersion == null) return null;
                 return this.LastVersion.MetaData.Where(x => x.EtatDeleteData == false).ToList();
             }
         }

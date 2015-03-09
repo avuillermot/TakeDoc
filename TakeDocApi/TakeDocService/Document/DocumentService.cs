@@ -32,7 +32,7 @@ namespace TakeDocService.Document
         public void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation)
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            servPage.Add(userId, entityId, document.DocumentCurrentVersion.Value, imageString, extension, rotation);
+            servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
         }
 
         public void SetReceive(Guid documentId)
@@ -41,8 +41,8 @@ namespace TakeDocService.Document
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
 
             // mise à jour du statut de la version à recu
-            if (document.DocumentCurrentVersion.HasValue)
-                servVersion.SetReceive(document.DocumentCurrentVersion.Value);
+            if (document.DocumentCurrentVersionId.HasValue)
+                servVersion.SetReceive(document.DocumentCurrentVersionId.Value);
 
             // mise à jour du statut du document à recu
             document.DocumentSatutId = stDocument.StatutDocumentId;
@@ -53,7 +53,7 @@ namespace TakeDocService.Document
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
             TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-            document.DocumentCurrentVersion = version.VersionId;
+            document.DocumentCurrentVersionId = version.VersionId;
             daoDocument.Update(document);
         }
 
@@ -61,7 +61,7 @@ namespace TakeDocService.Document
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
             TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-            document.DocumentCurrentVersion = version.VersionId;
+            document.DocumentCurrentVersionId = version.VersionId;
             daoDocument.Update(document);
         }
 

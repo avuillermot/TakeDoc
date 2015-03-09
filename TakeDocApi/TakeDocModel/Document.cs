@@ -22,7 +22,6 @@ namespace TakeDocModel
         public System.Guid DocumentId { get; set; }
         public string DocumentReference { get; set; }
         public System.Guid DocumentSatutId { get; set; }
-        public Nullable<System.Guid> DocumentCurrentVersion { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -34,6 +33,7 @@ namespace TakeDocModel
         public string DocumentLabel { get; set; }
         public System.Guid DocumentTypeId { get; set; }
         public System.Guid DocumentOwner { get; set; }
+        public Nullable<System.Guid> DocumentCurrentVersionId { get; set; }
     
         public virtual StatutDocument Statut_Document { get; set; }
         public virtual ICollection<Version> Version { get; set; }

@@ -18,7 +18,7 @@ namespace TakeDocService.Document
         
         private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
-            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId);
+            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, rotation);
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
 
