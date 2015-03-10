@@ -61,11 +61,23 @@
 <script id="error-modal" type="text/ng-template">
     <ion-modal-view>
         <ion-header-bar class="bar-assertive">
-            <h1 id="errorTitle" class="title"></h1>
+            <h1 id="modalTitle" class="title"></h1>
             <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
         </ion-header-bar>
         <ion-content>
-            <div class="errorMessage" id="errorMessage"></div>
+            <div class="errorMessage" id="modalMessage"></div>
+        </ion-content>
+    </ion-modal-view>
+</script>
+
+<script id="enlarge-page-modal" type="text/ng-template">
+    <ion-modal-view>
+        <ion-header-bar class="bar-assertive">
+            <h1 id="modalTitle" class="title"></h1>
+            <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+        </ion-header-bar>
+        <ion-content>
+            <div id="modalMessage"></div>
         </ion-content>
     </ion-modal-view>
 </script>

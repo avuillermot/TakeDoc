@@ -14,7 +14,8 @@ var Picture = Backbone.Model.extend({
     model: Picture
  });
 
-takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', function ($scope, $rootScope, takePictureService, $location) {
+ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', function ($scope, $rootScope, takePictureService, $location, $ionicModal) {
+    var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $rootScope.documentToAdd.Pages = new Pictures();
@@ -127,6 +128,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         var page = $rootScope.documentToAdd.Pages.where({ id: id });
         page[0].set('rotation',rotation);
     }
+
     $scope.delete = function (id) {
 		var size = $rootScope.documentToAdd.Pages.length;
         $rootScope.documentToAdd.Pages.remove({ id: id });
@@ -144,6 +146,20 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 			}
 			index++;
 		}
+	};
+
+	$scope.enlarge = function (id) {
+	    var page = $rootScope.documentToAdd.Pages.where({ id: id })[0];
+
+	    var elem = angular.element("#img-page-" + id);
+	    var prefix = "take-picture-rotate";
+	    var cssRotation = prefix + "000";
+	    if (elem.hasClass(prefix + "090")) cssRotation = prefix + "090";
+	    if (elem.hasClass(prefix + "180")) cssRotation = prefix + "180";
+	    if (elem.hasClass(prefix + "270")) cssRotation = prefix + "270";
+
+	    var img = "<img style='width:100%;height:100%' class='"+cssRotation+"' src='" + page.get("imageURI") + "' />";
+	    enlargePage.show("Page " + page.get("pageNumber") + " - Zoom", img);
 	};
 
 }]);

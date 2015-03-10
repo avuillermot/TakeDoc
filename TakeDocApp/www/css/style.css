@@ -29,16 +29,16 @@ div.button-bar {
 /* MENU GENERAL */
 @media screen and (max-width: 320px) {
 	.td-menuItem {
-		margin-left: 5px;
-		margin-top: 10px;
-		width: 90%;
+		margin-left: 2%;
+        margin-top: 10px;
+		width: 96%;
 	}
 }
 @media screen and (min-width: 320px) {
 	.td-menuItem {
-		margin-left: 5px;
-		margin-top: 10px;
-		width: 45%;
+		margin-left: 2%;
+        margin-top: 10px;
+		width: 46%;
 	}
 }
 /* PRISE PHOTO */

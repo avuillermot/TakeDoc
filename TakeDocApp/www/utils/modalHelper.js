@@ -16,8 +16,8 @@ function modalHelper(ionicModal, scope, template) {
 modalHelper.prototype.show = function (title, message) {
     this.scope.modal.show();
 
-    $("#errorTitle").html(title);
-    $("#errorMessage").html(message);
+    $("#modalTitle").html(title);
+    $("#modalMessage").html(message);
 }
 
 modalHelper.prototype.hide = function () {
