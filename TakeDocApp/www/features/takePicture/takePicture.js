@@ -26,7 +26,7 @@ var Picture = Backbone.Model.extend({
                 var canvas = document.createElement('CANVAS');
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage(this, 0, 0);
-                var data = canvas.toDataURL("image/jpeg");
+                var data = canvas.toDataURL("image/" + $rootScope.documentToAdd.Extension);
                 var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
                 $rootScope.documentToAdd.Pages.push(p);
                 $scope.Pages = $rootScope.documentToAdd.Pages.models;
@@ -38,9 +38,10 @@ var Picture = Backbone.Model.extend({
         imageToBase64("img/page1.jpeg",0);
         imageToBase64("img/page2.jpeg",1);
         imageToBase64("img/r1.jpeg",2);
-		
-		var step = $rootScope.Scenario.next();
-		$scope.nextUrl = step.to;
+
+        $scope.Pages = $rootScope.documentToAdd.Pages.models;
+        var step = $rootScope.Scenario.next();
+        $scope.nextUrl = step.to;
     });
 
 
@@ -51,7 +52,7 @@ var Picture = Backbone.Model.extend({
     $scope.doSave = function () {
 
         var success = function () {
-            $location.path($scope.nextUrl);
+            $location.path($scope.nextUrl.replace("#/",""));
 			$scope.$apply();
 		};
         var error = function (success, error) {
@@ -151,6 +152,7 @@ var Picture = Backbone.Model.extend({
 	$scope.enlarge = function (id) {
 	    var page = $rootScope.documentToAdd.Pages.where({ id: id })[0];
 
+
 	    var elem = angular.element("#img-page-" + id);
 	    var prefix = "take-picture-rotate";
 	    var cssRotation = prefix + "000";
@@ -158,7 +160,7 @@ var Picture = Backbone.Model.extend({
 	    if (elem.hasClass(prefix + "180")) cssRotation = prefix + "180";
 	    if (elem.hasClass(prefix + "270")) cssRotation = prefix + "270";
 
-	    var img = "<img style='width:100%;height:100%' class='"+cssRotation+"' src='" + page.get("imageURI") + "' />";
+	    var img = "<img style='width:100%;height:100%' class='" + cssRotation + "' src='" + page.get("imageURI") + "' />";
 	    enlargePage.show("Page " + page.get("pageNumber") + " - Zoom", img);
 	};
 
@@ -170,7 +172,8 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     this.onSuccess = function (imageURI) {
         try {
             var myPageNumber = $rootScope.documentToAdd.Pages.length + 1;
-            var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: imageURI, state: "toAdd", pageNumber: myPageNumber });
+            var data = "data:image/" + $rootScope.documentToAdd.Extension + ";base64," + imageURI;
+            var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: data, state: "toAdd", pageNumber: myPageNumber });
             $rootScope.documentToAdd.Pages.push(p1);
         }
         catch (ex) {

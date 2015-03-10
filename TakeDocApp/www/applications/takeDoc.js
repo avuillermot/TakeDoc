@@ -18,8 +18,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
-        { from: "#/takePicture", to: "#/formElement/page1" },
-        { from: "#/formElement", to: "#/menu" }
+        { from: "#/takePicture", to: "#/metadata" },
+        { from: "#/metadata", to: "#/menu" }
     ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
@@ -47,6 +47,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
         .state('formElement', _routeHelper.get("formElement", false, "/:page"))
+        .state('metadata', _routeHelper.get("metadata", false))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false));
 

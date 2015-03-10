@@ -24,7 +24,7 @@ namespace TakeDocService.Document
         {
             string newFileName = System.Guid.NewGuid().ToString();
             string fileName = string.Concat(this.PdfPath, newFileName);
-            using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, 0, 0, 0, 0))
+            using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0))
             {
                 PdfWriter.GetInstance(doc, new FileStream(fileName, FileMode.Create));
                 doc.Open();

@@ -30,6 +30,7 @@ documentService.create = function (document, onSuccess, onError) {
             documentService.addPage(document, 1, onSuccess, onError);
         },
         error: function () {
+            debugger;
 			onError();
          }
     });
@@ -64,7 +65,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
 }
 
 documentService.setReceive = function (document, onSuccess, onError) {
-    console.log("documents.prototype.addPage:setReceive");
+    console.log("documents.prototype.setReceive:start");
     var urlSetReceive = environnement.UrlBase + "Document/SetReceive/<documentId/>";
     urlSetReceive = urlSetReceive.replace("<documentId/>", document.DocumentId);
 
