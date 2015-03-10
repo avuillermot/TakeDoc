@@ -12,6 +12,5 @@ namespace TakeDocService.Document.Interface
         byte[] GetPdf(ICollection<byte[]> pages);
         string ToBase64String(string pathFile);
         byte[] Rotate(System.Drawing.Bitmap bitmap, float angle);
-        void DetectColorWithMarshal(Bitmap image, byte searchedR, byte searchedG, int searchedB, int tolerance);
     }
 }

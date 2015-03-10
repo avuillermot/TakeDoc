@@ -36,6 +36,7 @@ namespace TakeDocService.Document
 
         public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)
         {
+            imageString = imageString.Replace("data:image/jpeg;base64,", string.Empty);
             byte[] bytes = Convert.FromBase64String(imageString);
             this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
         }

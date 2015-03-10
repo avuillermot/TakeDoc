@@ -149,7 +149,7 @@ namespace UnitTestTakeDocService.Document
         {
             byte[] img = System.IO.File.ReadAllBytes(@"d:\temp\page1.png");
             System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-            servImage.DetectColorWithMarshal(bitmap, 0, 0, 0, 0);
+            //servImage.DetectColorWithMarshal(bitmap, 0, 0, 0, 0);
         }
     }
 }

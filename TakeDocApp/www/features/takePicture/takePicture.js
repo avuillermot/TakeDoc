@@ -18,14 +18,25 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $rootScope.documentToAdd.Pages = new Pictures();
-		var p1 = new Picture({ id: "P0" ,imageURI: "img/page1.jpeg", state: "toAdd", pageNumber: 1 })
-		var p2 = new Picture({ id: "P1", imageURI: "img/page2.jpeg", state: "toAdd", pageNumber: 2 })
-		var p3 = new Picture({ id: "P2", imageURI: "img/r1.jpeg", state: "toAdd", pageNumber: 3 })
-		$rootScope.documentToAdd.Pages.push(p1);
-		$rootScope.documentToAdd.Pages.push(p2);
-		$rootScope.documentToAdd.Pages.push(p3);
-		
-		$scope.Pages = $rootScope.documentToAdd.Pages.models;
+
+        var imageToBase64 = function (url, number) {
+            var img = new Image();
+            img.onload = function () {
+                var canvas = document.createElement('CANVAS');
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(this, 0, 0);
+                var data = canvas.toDataURL("image/jpeg");
+                var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
+                $rootScope.documentToAdd.Pages.push(p);
+                $scope.Pages = $rootScope.documentToAdd.Pages.models;
+                $scope.$apply();
+            };
+            img.src = url;
+        }
+        
+        imageToBase64("img/page1.jpeg",0);
+        imageToBase64("img/page2.jpeg",1);
+        imageToBase64("img/r1.jpeg",2);
 		
 		var step = $rootScope.Scenario.next();
 		$scope.nextUrl = step.to;

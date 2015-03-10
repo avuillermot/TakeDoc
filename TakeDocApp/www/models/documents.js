@@ -6,7 +6,7 @@
     this.DocumentCurrentVersionId = null;
     this.DocumentLabel = null;
     this.Pages = null;
-    this.Extension = "png";
+    this.Extension = "jpeg";
     this.CurrentVersionId = null;
 }
 
@@ -24,16 +24,13 @@ documentService.create = function (document, onSuccess, onError) {
             EntityId: document.EntityId, UserCreateData: document.UserCreateData, DocumentTypeId: document.DocumentTypeId, DocumentLabel: document.DocumentLabel
         },
         success: function () {
-            //console.log("documents.prototype.create:success");
             document.DocumentId = arguments[0].DocumentId;
             document.DocumentCurrentVersionId = arguments[0].DocumentCurrentVersionId;
             var current = arguments[0];
             documentService.addPage(document, 1, onSuccess, onError);
         },
         error: function () {
-            //alert("create error");
 			onError();
-            //console.log("documents.prototype.create:error");
          }
     });
 }
@@ -61,32 +58,23 @@ documentService.addPage = function (document, index, onSuccess, onError) {
 
         },
         error: function () {
-            /*alert("add page error" + index);
-            console.log("documents.prototype.addPage:error");*/
 			onError();
         }
     });
 }
 
 documentService.setReceive = function (document, onSuccess, onError) {
-    /*console.log("documents.prototype.setReceivd:e:start");
-    alert("set receive2");*/
+    console.log("documents.prototype.addPage:setReceive");
     var urlSetReceive = environnement.UrlBase + "Document/SetReceive/<documentId/>";
     urlSetReceive = urlSetReceive.replace("<documentId/>", document.DocumentId);
-
-    //console.log("documents.prototype.setReceive:url -> " + urlSetReceive);
 
     $.ajax({
         type: 'GET',
         url: urlSetReceive,
         success: function () {
-            //alert("ok");
-            //console.log("documents.prototype.setReceive:success");
 			onSuccess();
         },
         error: function () {
-            //alert("nok");
-            //console.log("documents.prototype.setReceive:error");
 			onError();
         }
     });
