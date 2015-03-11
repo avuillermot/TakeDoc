@@ -52,6 +52,7 @@
     <Content Include="www\img\save.png" />
     <Content Include="www\img\windows8-icons - Copie.png" />
     <Content Include="www\img\windows8-icons.png" />
+    <Content Include="www\models\metadata.js" />
     <Content Include="www\models\question.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />

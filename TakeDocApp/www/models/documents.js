@@ -1,11 +1,25 @@
-﻿function documents() {
+﻿var Picture = Backbone.Model.extend({
+    defaults: {
+        id: null,
+        imageURI: null,
+        state: null,
+        pageNumber: null,
+        rotation: 0
+    }
+});
+
+var Pictures = Backbone.Collection.extend({
+    model: Picture
+});
+
+function documents() {
     this.DocumentId = null;
     this.EntityId = null;
     this.UserCreateData = null;
     this.DocumentTypeId = null;
     this.DocumentCurrentVersionId = null;
     this.DocumentLabel = null;
-    this.Pages = null;
+    this.Pages = new Pictures();
     this.Extension = "jpeg";
     this.CurrentVersionId = null;
 }

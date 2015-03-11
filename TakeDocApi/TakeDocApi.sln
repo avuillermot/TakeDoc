@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Express 2013 for Web
+# Visual Studio 2013
 VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TakeDocApi", "TakeDocApi\TakeDocApi.csproj", "{98BDAD01-493E-42F9-9FF6-A906F73877D9}"
@@ -23,6 +23,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{6B9CD5
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utility", "..\Utility\Utility.csproj", "{F7AEFBB3-E18C-455A-91AF-CF5A4899A2D5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F8A5F39-D0D8-4756-B1C9-1E470923FA8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AEFBB3-E18C-455A-91AF-CF5A4899A2D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AEFBB3-E18C-455A-91AF-CF5A4899A2D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AEFBB3-E18C-455A-91AF-CF5A4899A2D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AEFBB3-E18C-455A-91AF-CF5A4899A2D5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

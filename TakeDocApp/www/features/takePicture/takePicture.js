@@ -1,19 +1,4 @@
 ﻿'use strict';
-
-var Picture = Backbone.Model.extend({
-	defaults: {
-        id: null,
-        imageURI: null,
-		state: null,
-		pageNumber: null,
-        rotation: 0
-    }
-});
-
- var Pictures = Backbone.Collection.extend({
-    model: Picture
- });
-
  takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', function ($scope, $rootScope, takePictureService, $location, $ionicModal) {
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
