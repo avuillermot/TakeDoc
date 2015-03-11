@@ -1,8 +1,12 @@
 ﻿<ion-view view-title="{{title}}">
    <ion-content>
-        <section>
-            metadata
-        </section>
+       <section>
+           <ion-list>
+               <ion-item ng-repeat="Metadata in Metadatas | orderBy:['attributes.index']">
+                   {{Metadata.attributes.name}}
+                </ion-item>
+           </ion-list>
+       </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">

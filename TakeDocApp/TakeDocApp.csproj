@@ -52,11 +52,19 @@
     <Content Include="www\img\save.png" />
     <Content Include="www\img\windows8-icons - Copie.png" />
     <Content Include="www\img\windows8-icons.png" />
+    <Content Include="www\lib\angular-animate\angular-animate.js" />
+    <Content Include="www\lib\angular-animate\angular-animate.min.js" />
+    <Content Include="www\lib\angular-route\angular-route.js" />
+    <Content Include="www\lib\angular-route\angular-route.min.js" />
+    <Content Include="www\lib\angular-sanitize\angular-sanitize.js" />
+    <Content Include="www\lib\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="www\lib\angular\angular-csp.css" />
+    <Content Include="www\lib\angular\angular.js" />
+    <Content Include="www\lib\backbone-min.js" />
+    <Content Include="www\lib\underscore-min.js" />
     <Content Include="www\models\metadata.js" />
-    <Content Include="www\models\question.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />
-    <Content Include="www\models\questionChain.js" />
     <Content Include="www\models\typeDocument.js" />
     <Content Include="www\utils\environnement.js" />
     <Content Include="www\utils\fileHelper.js" />
@@ -222,6 +230,30 @@
     <None Include="plugins\org.apache.cordova.device\RELEASENOTES.md" />
     <None Include="plugins\org.apache.cordova.device\src\ios\CDVDevice.m" />
     <None Include="scss\ionic.app.scss" />
+    <None Include="www\lib\angular-animate\.bower.json" />
+    <None Include="www\lib\angular-animate\angular-animate.min.js.map" />
+    <None Include="www\lib\angular-animate\bower.json" />
+    <None Include="www\lib\angular-animate\package.json" />
+    <None Include="www\lib\angular-animate\README.md" />
+    <None Include="www\lib\angular-route\.bower.json" />
+    <None Include="www\lib\angular-route\angular-route.min.js.map" />
+    <None Include="www\lib\angular-route\bower.json" />
+    <None Include="www\lib\angular-route\package.json" />
+    <None Include="www\lib\angular-route\README.md" />
+    <None Include="www\lib\angular-sanitize\.bower.json" />
+    <None Include="www\lib\angular-sanitize\angular-sanitize.min.js.map" />
+    <None Include="www\lib\angular-sanitize\bower.json" />
+    <None Include="www\lib\angular-sanitize\package.json" />
+    <None Include="www\lib\angular-sanitize\README.md" />
+    <None Include="www\lib\angular-ui-router\.bower.json" />
+    <None Include="www\lib\angular-ui-router\bower.json" />
+    <None Include="www\lib\angular-ui-router\CHANGELOG.md" />
+    <None Include="www\lib\angular-ui-router\CONTRIBUTING.md" />
+    <None Include="www\lib\angular-ui-router\LICENSE" />
+    <None Include="www\lib\angular-ui-router\README.md" />
+    <None Include="www\lib\angular\.bower.json" />
+    <None Include="www\lib\angular\README.md" />
+    <None Include="www\lib\backbone-min.map" />
     <None Include="www\lib\ionic\fonts\ionicons.eot" />
     <None Include="www\lib\ionic\fonts\ionicons.svg" />
     <None Include="www\lib\ionic\fonts\ionicons.ttf" />
@@ -330,7 +362,7 @@
     <Content Include="www\lib\jquery-2.1.1.min.js" />
     <Content Include="www\models\userTk.js" />
     <Content Include="www\utils\routeHelper.js" />
-    <Content Include="www\models\questionChainItem.js" />
+    <None Include="www\lib\underscore-min.map" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml" />
@@ -562,6 +594,9 @@
     <Compile Include="plugins\org.apache.cordova.camera\src\wp\Camera.cs" />
     <Compile Include="plugins\org.apache.cordova.console\src\wp\DebugConsole.cs" />
     <Compile Include="plugins\org.apache.cordova.device\src\wp\Device.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Include="www\lib\angular-ui-router\api\angular-ui-router.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
