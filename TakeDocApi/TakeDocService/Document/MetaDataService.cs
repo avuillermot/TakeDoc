@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -60,7 +61,8 @@ namespace TakeDocService.Document
                 }
                 else if (myType == typeof(System.DateTimeOffset))
                 {
-                   DateTimeOffset.Parse(value);
+                   var ci = new CultureInfo("fr-FR");
+                   DateTimeOffset.Parse(value, ci.DateTimeFormat);
                 }
                 else if (myType == typeof(System.Boolean))
                 {

@@ -26,5 +26,19 @@ namespace TakeDocApi.Controllers
             };
             return req.ToList<object>();
         }
+
+        [HttpPut]
+        [Route("{versionId}/{userId}/{entityId}")]
+        public void SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
+        {
+            IMetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<IMetaDataService>();
+            Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(value);
+            IDictionary<string,string> metadatas = new Dictionary<string,string>();
+            foreach (Newtonsoft.Json.Linq.JObject obj in data)
+            {
+                metadatas.Add(obj.Value<string>("name"), obj.Value<string>("value"));
+            }
+            servMetaData.SetMetaData(userId, entityId, versionId, metadatas);
+        }
     }
 }

@@ -44,7 +44,6 @@ documentService.create = function (document, onSuccess, onError) {
             documentService.addPage(document, 1, onSuccess, onError);
         },
         error: function () {
-            debugger;
 			onError();
          }
     });

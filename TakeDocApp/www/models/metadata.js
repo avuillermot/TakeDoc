@@ -34,22 +34,53 @@ var Metadatas = Backbone.Collection.extend({
             this.models.push(meta);
         }
     },
-    save: function () {
-        var retour = { message: "Les champs [<field/>] sont obligatoires.", valid: true };
+    check: function () {
+        var retour = { message: "", valid: true };
 
         var msg = "";
+        var nbError = 0;
         for (var i = 0; i < this.models.length; i++) {
             var current = this.models[i];
             var mandatory = current.get("mandatory");
             if (mandatory == true) {
                 var myValue = current.get("value");
                 if (myValue == null || myValue == "") {
+                    nbError++;
                     retour.valid = false;
                     msg = msg + " " + current.get("label");
                 }
             }
         }
-        retour.message = retour.message.replace("<field/>", msg);
+        if (retour.valid == false) {
+            if (nbError > 1) retour.message = "Les champs [<field/>] sont obligatoires.".replace("<field/>", msg);
+            else retour.message = "Le champ [<field/>] est obligatoire.".replace("<field/>", msg);
+        }
         return retour;
+    },
+
+    save: function (user) {
+        var retour = this.check();
+        if (retour.valid) {
+            this.update(user);
+        }
+        return retour;
+    },
+
+    update: function (user) {
+        var data = JSON.stringify(this.models);
+        var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", user.userId)
+            .replace("<entityId/>", user.entityId)
+            .replace("<versionId/>",user.versionId);
+        $.ajax({
+            type: 'PUT',
+            url: myUrl,
+            data: { '': data },
+            success: function () {
+                alert("ok");
+            },
+            error: function () {
+                alert("error");
+            }
+        });
     }
 });
