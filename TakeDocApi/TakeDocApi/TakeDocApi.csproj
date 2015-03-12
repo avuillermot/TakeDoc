@@ -179,6 +179,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />
+    <Compile Include="Controllers\oData\MetaDatasController.cs" />
     <Compile Include="Controllers\oData\oDataBase.cs" />
     <Compile Include="Controllers\oData\DocumentsController.cs" />
     <Compile Include="Controllers\EntityController.cs" />

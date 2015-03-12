@@ -5,7 +5,8 @@
         name: null,
         value: null,
         mandatoty: null,
-        input: null
+        type: null,
+        label: null
     }
 });
 
@@ -24,16 +25,31 @@ var Metadatas = Backbone.Collection.extend({
         for (var i = 0; i < data.length; i++) {
             var meta = new Metadata();
             meta.set("id", data[i].MetaDataId);
-            meta.set("name", data[i].MetaDataName);
             meta.set("index", data[i].MetaDataDisplayIndex);
+            meta.set("name", data[i].MetaDataName);
+            meta.set("value", data[i].MetaDataValue);
+            meta.set("mandatory", data[i].DataFieldMandatory);
+            meta.set("type", data[i].DataFieldInputType);
+            meta.set("label", data[i].DataFieldLabel);
             this.models.push(meta);
         }
+    },
+    save: function () {
+        var retour = { message: "Les champs [<field/>] sont obligatoires.", valid: true };
 
-        /*"MetaDataId": "6c400d60-16c5-432b-9349-1a8259184a55",
-        "MetaDataDisplayIndex": 0,
-        "MetaDataName": "COMMENT",
-        "MetaDataValue": null,
-        "DataFieldMandatory": false,
-        "DataFieldInputType": null*/
+        var msg = "";
+        for (var i = 0; i < this.models.length; i++) {
+            var current = this.models[i];
+            var mandatory = current.get("mandatory");
+            if (mandatory == true) {
+                var myValue = current.get("value");
+                if (myValue == null || myValue == "") {
+                    retour.valid = false;
+                    msg = msg + " " + current.get("label");
+                }
+            }
+        }
+        retour.message = retour.message.replace("<field/>", msg);
+        return retour;
     }
 });

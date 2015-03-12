@@ -3,14 +3,19 @@
        <section>
            <ion-list>
                <ion-item ng-repeat="Metadata in Metadatas | orderBy:['attributes.index']">
-                   {{Metadata.attributes.name}}
+                   <label class="item item-input metadata-mandatory-{{Metadata.attributes.mandatory}}">
+                       <span class=" input-label">
+                       {{Metadata.attributes.label}}</span>
+                       <input class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value">
+                   </label>
+                   
                 </ion-item>
            </ion-list>
        </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <button go-click="{{nextUrl}}"></button>
+            <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>
 </ion-view>

@@ -18,7 +18,12 @@ namespace TakeDocApi.Controllers
             IMetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<IMetaDataService>();
             
             ICollection<TakeDocModel.MetaData> metadatas = servMetaData.GetByVersion(versionId, entityId);
-            var req = from metadata in metadatas select new { metadata.MetaDataId, metadata.MetaDataDisplayIndex, metadata.MetaDataName, metadata.MetaDataValue, metadata.DataField.DataFieldMandatory, metadata.DataField.DataFieldType.DataFieldInputType };
+            var req = from metadata in metadatas select new {
+                metadata.MetaDataId, metadata.MetaDataDisplayIndex, metadata.MetaDataName, 
+                metadata.MetaDataValue, metadata.DataField.DataFieldMandatory, 
+                metadata.DataField.DataFieldType.DataFieldInputType,
+                metadata.DataField.DataFieldLabel
+            };
             return req.ToList<object>();
         }
     }

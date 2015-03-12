@@ -22,6 +22,7 @@
           <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DataFieldMandatory" Type="bit" Nullable="false" />
           <Property Name="DataFieldTypeId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataFieldLabel" Type="nvarchar(max)" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -36,7 +37,7 @@
             <PropertyRef Name="DataFieldTypeId" />
           </Key>
           <Property Name="DataFieldTypeId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DataFieldInputType" Type="nvarchar" MaxLength="50" />
+          <Property Name="DataFieldInputType" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Document">
           <Key>
@@ -279,6 +280,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Erreurs détectées durant la génération :
+avertissement 6035: La relation 'FK_MetaData_DataField1' a des colonnes qui ne font pas partie de la clé de la table du côté primaire de la relation. La relation a été exclue.
+        <Association Name="FK_MetaData_DataField1" />-->
         <Association Name="FK_MetaData_Version">
           <End Role="Version" Type="Self.Version" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -691,6 +695,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaData_DataField" FromRole="DataField" ToRole="MetaData" />
           <Property Name="DataFieldTypeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DataFieldType" Relationship="TakeDocModel.FK_DataField_DataFieldType" FromRole="DataField" ToRole="DataFieldType" />
+          <Property Name="DataFieldLabel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="MetaData">
           <Key>
@@ -791,7 +796,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <PropertyRef Name="DataFieldTypeId" />
           </Key>
           <Property Name="DataFieldTypeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DataFieldInputType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DataFieldInputType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_DataField_DataFieldType" FromRole="DataFieldType" ToRole="DataField" />
         </EntityType>
         <Association Name="FK_DataField_DataFieldType">
@@ -965,6 +970,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="DataField">
             <EntityTypeMapping TypeName="TakeDocModel.DataField">
               <MappingFragment StoreEntitySet="DataField">
+                <ScalarProperty Name="DataFieldLabel" ColumnName="DataFieldLabel" />
                 <ScalarProperty Name="DataFieldTypeId" ColumnName="DataFieldTypeId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />

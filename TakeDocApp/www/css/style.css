@@ -11,6 +11,11 @@ div.button-bar {
     padding-top:50px;
 }
 
+.metadata-mandatory-true {
+    background-image: url("../img/mandatory.gif");
+    background-repeat: no-repeat;
+}
+
 /* LOGIN - page de login */
 .login {
     background-image: url("../img/login-small.jpg");
