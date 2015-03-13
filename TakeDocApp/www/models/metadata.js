@@ -24,13 +24,13 @@ var Metadatas = Backbone.Collection.extend({
         var data = arguments[0];
         for (var i = 0; i < data.length; i++) {
             var meta = new Metadata();
-            meta.set("id", data[i].MetaDataId);
-            meta.set("index", data[i].MetaDataDisplayIndex);
+            meta.set("id", data[i].id);
+            meta.set("index", data[i].index);
             meta.set("name", data[i].MetaDataName);
-            meta.set("value", data[i].MetaDataValue);
-            meta.set("mandatory", data[i].DataFieldMandatory);
-            meta.set("type", data[i].DataFieldInputType);
-            meta.set("label", data[i].DataFieldLabel);
+            meta.set("value", data[i].value);
+            meta.set("mandatory", data[i].mandatory);
+            meta.set("type", data[i].type);
+            meta.set("label", data[i].label);
             this.models.push(meta);
         }
     },

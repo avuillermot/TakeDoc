@@ -22,16 +22,16 @@
         <EntityTypeShape EntityType="TakeDocModel.View_VersionStoreLocator" Width="1.5" PointX="3" PointY="5.125" />
         <EntityTypeShape EntityType="TakeDocModel.TypeDocument" Width="1.5" PointX="10.875" PointY="0.5" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Type_Document" />
-        <EntityTypeShape EntityType="TakeDocModel.DataField" Width="1.5" PointX="16.5" PointY="0.5" />
+        <EntityTypeShape EntityType="TakeDocModel.DataField" Width="2.625" PointX="17" PointY="0.5" />
         <EntityTypeShape EntityType="TakeDocModel.MetaData" Width="1.5" PointX="16.375" PointY="6" />
-        <AssociationConnector Association="TakeDocModel.FK_DataField_Type_Document" />
         <AssociationConnector Association="TakeDocModel.FK_MetaData_DataField" />
         <EntityTypeShape EntityType="TakeDocModel.UserTk" Width="1.5" PointX="0.75" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.View_UserEntity" Width="1.5" PointX="2.75" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.Entity" Width="1.5" PointX="8.375" PointY="9.75" />
         <AssociationConnector Association="TakeDocModel.FK_MetaData_Version" />
-        <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="5.375" PointY="10.875" />
+        <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="18.5" PointY="6.625" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldType" />
+        <EntityTypeShape EntityType="TakeDocModel.View_TypeDocumentDataField" Width="1.5" PointX="15.125" PointY="0.5" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

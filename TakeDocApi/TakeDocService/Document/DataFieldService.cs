@@ -8,19 +8,19 @@ namespace TakeDocService.Document
 {
     public class DataFieldService : TakeDocService.BaseService, Interface.IDataFieldService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.DataField> daoDataField = new TakeDocDataAccess.DaoBase<TakeDocModel.DataField>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.View_TypeDocumentDataField> daoDataField = new TakeDocDataAccess.DaoBase<TakeDocModel.View_TypeDocumentDataField>();
 
-        public ICollection<TakeDocModel.DataField> GetDataField(Guid typeDocumentId, Guid entityId)
+        public ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(Guid typeDocumentId, Guid entityId)
         {
-            ICollection<TakeDocModel.DataField> dataFields = daoDataField.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId && x.EtatDeleteData == false);
+            ICollection<TakeDocModel.View_TypeDocumentDataField> dataFields = daoDataField.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId && x.EtatDeleteData == false);
             return dataFields;
         }
 
 
-        public ICollection<TakeDocModel.DataField> GetDataField(ICollection<string> fields, Guid entityId)
+        public ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(ICollection<string> fields, Guid entityId)
         {
-            ICollection<TakeDocModel.DataField> dataFields = 
-                daoDataField.GetBy(x => fields.Contains(x.DataFieldReference) && x.EntityId == entityId && x.EtatDeleteData == false);
+            ICollection<TakeDocModel.View_TypeDocumentDataField> dataFields = 
+                daoDataField.GetBy(x => fields.Contains(x.Reference) && x.EntityId == entityId && x.EtatDeleteData == false);
             return dataFields;
         }
     }

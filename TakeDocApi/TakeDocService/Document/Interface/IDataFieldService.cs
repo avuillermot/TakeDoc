@@ -8,7 +8,7 @@ namespace TakeDocService.Document.Interface
 {
     public interface IDataFieldService
     {
-        ICollection<TakeDocModel.DataField> GetDataField(Guid typeDocumentId, Guid entityId);
-        ICollection<TakeDocModel.DataField> GetDataField(ICollection<string> fields, Guid entityId);
+        ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(Guid typeDocumentId, Guid entityId);
+        ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(ICollection<string> fields, Guid entityId);
     }
 }

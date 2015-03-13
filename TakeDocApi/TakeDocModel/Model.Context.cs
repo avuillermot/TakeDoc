@@ -43,6 +43,7 @@ namespace TakeDocModel
         public virtual DbSet<View_UserEntity> View_UserEntity { get; set; }
         public virtual DbSet<Entity> Entity { get; set; }
         public virtual DbSet<DataFieldType> DataFieldType { get; set; }
+        public virtual DbSet<View_TypeDocumentDataField> View_TypeDocumentDataField { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

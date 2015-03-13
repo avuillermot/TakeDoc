@@ -17,17 +17,19 @@ namespace TakeDocService.Document
 
         public void CreateMetaData(Guid userId, Guid entityId, Guid versionId, Guid typeDocumentId)
         {
-            ICollection<TakeDocModel.DataField> fields = servDataField.GetDataField(typeDocumentId, entityId);
-            foreach (TakeDocModel.DataField field in fields)
+            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(typeDocumentId, entityId);
+            foreach (TakeDocModel.View_TypeDocumentDataField field in fields)
             {
                 TakeDocModel.MetaData meta = new TakeDocModel.MetaData();
-                meta.DataFieldId = field.DataFieldId;
+                meta.DataFieldId = field.FieldId;
                 meta.DateCreateData = System.DateTime.UtcNow;
                 meta.EntityId = entityId;
                 meta.EtatDeleteData = false;
+                meta.MetaDataDisplayIndex = field.DisplayIndex;
+                meta.MetaDataMandatory = field.Mandatory;
                 meta.MetaDataVersionId = versionId;
                 meta.MetaDataId = System.Guid.NewGuid();
-                meta.MetaDataName = field.DataFieldReference;
+                meta.MetaDataName = field.Reference;
                 meta.UserCreateData = userId;
 
                 dao.Add(meta);
@@ -36,13 +38,13 @@ namespace TakeDocService.Document
 
         public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
         {
-            ICollection<TakeDocModel.DataField> fields = servDataField.GetDataField(metadatas.Keys, entityId);
+            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(metadatas.Keys, entityId);
             foreach (KeyValuePair<string,string> metadata in metadatas)
             {
-                ICollection<TakeDocModel.DataField> field = fields.Where(x => x.DataFieldReference == metadata.Key).ToList();
+                ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == metadata.Key).ToList();
                 if (field.Count() > 0)
                 {
-                    bool ok = this.IsValid(field.First().DataFieldTypeId, metadata.Value, field.First().DataFieldMandatory);
+                    bool ok = this.IsValid(field.First().TypeId, metadata.Value, field.First().Mandatory);
                     if (ok == false) throw new Exception("MetaData non valide.");
                 }
             }

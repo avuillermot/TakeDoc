@@ -12,25 +12,17 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class TypeDocument
+    public partial class View_TypeDocumentDataField
     {
-        public TypeDocument()
-        {
-            this.Document = new HashSet<Document>();
-        }
-    
         public System.Guid TypeDocumentId { get; set; }
-        public string TypeDocumentReference { get; set; }
-        public string TypeDocumentLabel { get; set; }
+        public System.Guid FieldId { get; set; }
+        public int DisplayIndex { get; set; }
+        public bool Mandatory { get; set; }
         public System.Guid EntityId { get; set; }
-        public System.Guid UserCreateData { get; set; }
-        public System.DateTimeOffset DateCreateData { get; set; }
-        public Nullable<System.Guid> UserUpdateData { get; set; }
-        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
-        public Nullable<System.Guid> UserDeleteData { get; set; }
-        public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
+        public string Label { get; set; }
+        public string Reference { get; set; }
+        public string TypeId { get; set; }
+        public string InputType { get; set; }
         public bool EtatDeleteData { get; set; }
-    
-        public virtual ICollection<Document> Document { get; set; }
     }
 }

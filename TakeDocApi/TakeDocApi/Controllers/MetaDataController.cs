@@ -19,10 +19,13 @@ namespace TakeDocApi.Controllers
             
             ICollection<TakeDocModel.MetaData> metadatas = servMetaData.GetByVersion(versionId, entityId);
             var req = from metadata in metadatas select new {
-                metadata.MetaDataId, metadata.MetaDataDisplayIndex, metadata.MetaDataName, 
-                metadata.MetaDataValue, metadata.DataField.DataFieldMandatory, 
-                metadata.DataField.DataFieldType.DataFieldInputType,
-                metadata.DataField.DataFieldLabel
+                id =  metadata.MetaDataId,
+                displayIndex = metadata.MetaDataDisplayIndex, 
+                name = metadata.MetaDataName, 
+                value = metadata.MetaDataValue, 
+                mandatory = metadata.MetaDataMandatory,
+                type = metadata.DataField.DataFieldType.DataFieldInputType,
+                label = metadata.DataField.DataFieldLabel
             };
             return req.ToList<object>();
         }

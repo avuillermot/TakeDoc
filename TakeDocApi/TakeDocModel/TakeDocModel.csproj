@@ -67,6 +67,7 @@
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\StatutDocument.cs" />
     <Compile Include="Document\StatutVersion.cs" />
+    <Compile Include="Document\TypeDocument.cs" />
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Entity.cs">
@@ -116,6 +117,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_PageStoreLocator.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="View_TypeDocumentDataField.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_UserEntity.cs">
