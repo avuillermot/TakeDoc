@@ -42,13 +42,13 @@ namespace UnitTestTakeDocService.Document
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
-            this.SetReceive();
+            this.SetNoMeta();
             this.AddVersionMajor();
             this.AddPage1();
-            this.SetReceive();
+            this.SetNoMeta();
             this.AddVersionMinor();
             this.AddPage2();
-            this.SetReceive();
+            this.SetNoMeta();
         }
         
         [TestMethod]
@@ -106,11 +106,11 @@ namespace UnitTestTakeDocService.Document
         }
 
         [TestMethod]
-        public void SetReceive()
+        public void SetNoMeta()
         {
-            servDocument.SetReceive(MyDocument.DocumentId);
+            servDocument.SetNoMeta(MyDocument.DocumentId);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Statut_Document);
-            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Complete), "Statut du document COMPLETE");
+            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.NoMeta), "Statut du document NoMeta");
         }
         
         [TestMethod]

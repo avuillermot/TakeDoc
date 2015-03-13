@@ -67,7 +67,6 @@
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\StatutDocument.cs" />
     <Compile Include="Document\StatutVersion.cs" />
-    <Compile Include="Document\TypeDocument.cs" />
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Entity.cs">

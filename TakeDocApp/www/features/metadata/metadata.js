@@ -1,7 +1,6 @@
 ﻿'use strict';
 takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', function ($scope, $rootScope, $stateParams, $route, $location) {
     var metas = null;
-
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
         var fn = function (collection) {
@@ -24,7 +23,6 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         };
 
         var element = angular.element(".metadata-field");
-        debugger;
         var retour = metas.save({
             userId: $rootScope.documentToAdd.UserCreateData,
             entityId: $rootScope.documentToAdd.EntityId,

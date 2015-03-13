@@ -67,7 +67,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
         success: function () {
             if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
             else {
-                documentService.setReceive(document, onSuccess, onError);
+                documentService.SetNoMeta(document, onSuccess, onError);
 			}
 
         },
@@ -77,14 +77,14 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     });
 }
 
-documentService.setReceive = function (document, onSuccess, onError) {
-    console.log("documents.prototype.setReceive:start");
-    var urlSetReceive = environnement.UrlBase + "Document/SetReceive/<documentId/>";
-    urlSetReceive = urlSetReceive.replace("<documentId/>", document.DocumentId);
+documentService.SetNoMeta = function (document, onSuccess, onError) {
+    console.log("documents.prototype.SetNoMeta:start");
+    var url = environnement.UrlBase + "Document/SetNoMeta/<documentId/>";
+    url = url.replace("<documentId/>", document.DocumentId);
 
     $.ajax({
         type: 'GET',
-        url: urlSetReceive,
+        url: url,
         success: function () {
 			onSuccess();
         },
@@ -95,9 +95,9 @@ documentService.setReceive = function (document, onSuccess, onError) {
 }
 
 documentService.getMetaData = function (document, onSuccess, onError) {
-    var myUrl = environnement.UrlBase + "MetaData/Version/{versionId}/{entityId}";
-    myUrl = urlSetReceive.replace("<versionId/>", document.DocumentCurrentVersionId);
-    myUrl = urlSetReceive.replace("<entityId/>", document.EntityId);
+    var url = environnement.UrlBase + "MetaData/Version/{versionId}/{entityId}";
+    url = url.replace("<versionId/>", document.DocumentCurrentVersionId);
+    url = url.replace("<entityId/>", document.EntityId);
     $.ajax({
         type: 'GET',
         url: myUrl,

@@ -20,6 +20,7 @@ namespace TakeDocService.Document
         
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
+            this.Logger.Info(string.Format("Create document by {0}", userId));
             Guid documentId = System.Guid.NewGuid();
             Guid versionId = documentId;
             TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel);
@@ -35,14 +36,14 @@ namespace TakeDocService.Document
             servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
         }
 
-        public void SetReceive(Guid documentId)
+        public void SetNoMeta(Guid documentId)
         {
-            TakeDocModel.StatutDocument stDocument = daoStDocument.GetBy(x => x.StatutDocumentLibelle == TakeDocModel.StatutVersion.Complete).First();
+            TakeDocModel.StatutDocument stDocument = daoStDocument.GetBy(x => x.StatutDocumentReference == TakeDocModel.StatutVersion.NoMeta).First();
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
 
             // mise à jour du statut de la version à recu
             if (document.DocumentCurrentVersionId.HasValue)
-                servVersion.SetReceive(document.DocumentCurrentVersionId.Value);
+                servVersion.SetNoMeta(document.DocumentCurrentVersionId.Value);
 
             // mise à jour du statut du document à recu
             document.DocumentSatutId = stDocument.StatutDocumentId;

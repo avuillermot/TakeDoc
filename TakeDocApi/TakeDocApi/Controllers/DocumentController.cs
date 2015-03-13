@@ -12,11 +12,11 @@ namespace TakeDocApi.Controllers
     public class DocumentController : ApiController
     {
         [HttpGet]
-        [Route("SetReceive/{documentId}")]
-        public void SetReceive(Guid documentId)
+        [Route("SetNoMeta/{documentId}")]
+        public void SetNoMeta(Guid documentId)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
-            servDocument.SetReceive(documentId);
+            servDocument.SetNoMeta(documentId);
         }
     }
 }

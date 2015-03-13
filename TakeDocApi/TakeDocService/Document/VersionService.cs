@@ -51,16 +51,10 @@ namespace TakeDocService.Document
             return version;
         }
 
-        public void SetReceive(Guid versionId)
+        public void SetNoMeta(Guid versionId)
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.Complete).First();
-            this.SetStatut(version, stVersion);
-        }
-
-        public void SetReceive(TakeDocModel.Version version)
-        {
-            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.Complete).First();
+            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.NoMeta).First();
             this.SetStatut(version, stVersion);
         }
 

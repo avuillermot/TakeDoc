@@ -48,6 +48,7 @@ namespace TakeDocService.Security
 
         public TakeDocModel.UserTk Logon(string login, string password)
         {
+            this.Logger.Error(string.Format("Log on {0}", login));
             TakeDocModel.UserTk user = this.GetByLogin(login);
             if (user != null && user.UserTkPassword != password) user = null;
             if (user == null) {
