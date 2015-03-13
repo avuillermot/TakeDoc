@@ -4,7 +4,7 @@
         index: null,
         name: null,
         value: null,
-        mandatoty: null,
+        mandatory: null,
         type: null,
         label: null
     }
@@ -26,7 +26,7 @@ var Metadatas = Backbone.Collection.extend({
             var meta = new Metadata();
             meta.set("id", data[i].id);
             meta.set("index", data[i].index);
-            meta.set("name", data[i].MetaDataName);
+            meta.set("name", data[i].name);
             meta.set("value", data[i].value);
             meta.set("mandatory", data[i].mandatory);
             meta.set("type", data[i].type);
@@ -47,7 +47,7 @@ var Metadatas = Backbone.Collection.extend({
                 if (myValue == null || myValue == "") {
                     nbError++;
                     retour.valid = false;
-                    msg = msg + " " + current.get("label");
+                    msg = msg + current.get("label");
                 }
             }
         }
@@ -68,6 +68,12 @@ var Metadatas = Backbone.Collection.extend({
 
     update: function (user) {
         var data = JSON.stringify(this.models);
+        this.each(function (model, index) {
+            if (model.get("type") == "date") {
+                var d = model.get("value");
+                model.set("value", d.toLocaleDateString());
+            };
+        });
         var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", user.userId)
             .replace("<entityId/>", user.entityId)
             .replace("<versionId/>",user.versionId);

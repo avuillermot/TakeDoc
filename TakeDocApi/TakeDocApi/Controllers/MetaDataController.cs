@@ -39,7 +39,16 @@ namespace TakeDocApi.Controllers
             IDictionary<string,string> metadatas = new Dictionary<string,string>();
             foreach (Newtonsoft.Json.Linq.JObject obj in data)
             {
-                metadatas.Add(obj.Value<string>("name"), obj.Value<string>("value"));
+                string name = obj.Value<string>("name");
+                string input = obj.Value<string>("type").ToUpper();
+
+                if (input.Equals("DATE"))
+                {
+                    DateTimeOffset date = DateTime.SpecifyKind(obj.Value<DateTime>("value"), DateTimeKind.Utc);
+
+                    metadatas.Add(name, date.ToString());
+                }
+                else metadatas.Add(name, obj.Value<string>("value"));
             }
             servMetaData.SetMetaData(userId, entityId, versionId, metadatas);
         }

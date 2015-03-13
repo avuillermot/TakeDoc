@@ -6,13 +6,13 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', function (
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $scope.Entitys = $rootScope.User.Entitys;
         $rootScope.documentToAdd = new documents();
         $rootScope.documentToAdd.Pages = new Pictures();
 		
 		var step = $rootScope.Scenario.next();
 
 		$scope.nextUrl = step.to;
-		$scope.Entitys = $rootScope.User.Entitys;
     });
     
 }]);
