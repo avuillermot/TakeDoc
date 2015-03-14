@@ -31,6 +31,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.TypeDocument>("TypeDocuments");
             builder.EntitySet<TakeDocModel.MetaData>("MetaDatas");
             builder.EntitySet<TakeDocModel.DataField>("DataFields");
+            builder.EntitySet<TakeDocModel.DataFieldValue>("DataFieldValues");
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }
     }

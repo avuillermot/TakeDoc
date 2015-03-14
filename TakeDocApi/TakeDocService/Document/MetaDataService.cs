@@ -61,6 +61,11 @@ namespace TakeDocService.Document
                 {
                     object o1 = Activator.CreateInstance(myType, new object[] { value.ToArray() });
                 }
+                if (myType == typeof(System.Int32))
+                {
+                    int inInt = int.MinValue;
+                    int.TryParse(value, out inInt);
+                }
                 else if (myType == typeof(System.DateTimeOffset))
                 {
                    var ci = new CultureInfo("fr-FR");

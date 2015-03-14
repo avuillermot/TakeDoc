@@ -32,6 +32,8 @@
         <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="18.5" PointY="6.625" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldType" />
         <EntityTypeShape EntityType="TakeDocModel.View_TypeDocumentDataField" Width="1.5" PointX="15.125" PointY="0.5" />
+        <EntityTypeShape EntityType="TakeDocModel.DataFieldValue" Width="1.5" PointX="20.375" PointY="9.5" />
+        <AssociationConnector Association="TakeDocModel.FK_DataFieldValue_DataField" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -47,7 +47,7 @@ var Metadatas = Backbone.Collection.extend({
                 if (myValue == null || myValue == "") {
                     nbError++;
                     retour.valid = false;
-                    msg = msg + current.get("label");
+                    msg = msg + " " + current.get("label");
                 }
             }
         }

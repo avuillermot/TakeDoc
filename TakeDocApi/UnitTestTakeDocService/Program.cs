@@ -10,7 +10,8 @@ namespace UnitTestTakeDocService
     {
         public static void Main()
         {
-            Utility.Logger.myLogger.Init();
+            Type myType = Type.GetType("int");
+            /*Utility.Logger.myLogger.Init();
 
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
             Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
@@ -20,7 +21,7 @@ namespace UnitTestTakeDocService
                 Console.WriteLine(i);
                 documentTest.TestOrdered();
             }
-            userTest.TestOrdered();
+            userTest.TestOrdered();*/
             Console.WriteLine("fin");
             Console.Read();
         }

@@ -23,6 +23,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         };
 
         var element = angular.element(".metadata-field");
+        debugger;
         var retour = metas.save({
             userId: $rootScope.documentToAdd.UserCreateData,
             entityId: $rootScope.documentToAdd.EntityId,
