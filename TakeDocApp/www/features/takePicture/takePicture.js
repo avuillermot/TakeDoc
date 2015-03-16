@@ -20,7 +20,7 @@
             img.src = url;
         }
         
-        imageToBase64("img/page1.jpeg",0);
+        //imageToBase64("img/page1.jpeg",0);
         /*imageToBase64("img/page2.jpeg",1);
         imageToBase64("img/r1.jpeg",2);*/
 

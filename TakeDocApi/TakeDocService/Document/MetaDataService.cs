@@ -54,7 +54,7 @@ namespace TakeDocService.Document
 
         public bool IsValid(string typeName, string value, bool required)
         {
-            if (string.IsNullOrEmpty(value) == true && required == true) return false;
+            //if (string.IsNullOrEmpty(value) == true && required == false) return false;
             Type myType = Type.GetType(typeName);
             try
             {

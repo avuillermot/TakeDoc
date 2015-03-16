@@ -4,9 +4,11 @@
            <ion-list>
                <ion-item ng-repeat="Metadata in Metadatas | orderBy:['attributes.index']">
                    <label class="item item-input metadata-mandatory-{{Metadata.attributes.mandatory}}" ng-switch="{{Metadata.attributes.isList}}">
-                       <span class=" input-label">{{Metadata.attributes.label}}-{{Metadata.attributes.isList}}</span>
-                       
-                       <select td-select="{{Metadata.attributes.id}}" ng-switch-when="true"></select>
+                       <span class=" input-label">{{Metadata.attributes.label}}</span>
+
+                       <select ng-switch-when="true" ng-model="Metadata.attributes.value">
+                           <option ng-repeat="item in Metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>
+                       </select>
 
                        <input class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value" ng-switch-default="" />
                    </label>

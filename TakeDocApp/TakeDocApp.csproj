@@ -61,8 +61,8 @@
     <Content Include="www\lib\angular\angular-csp.css" />
     <Content Include="www\lib\angular\angular.js" />
     <Content Include="www\lib\backbone-min.js" />
+    <Content Include="www\lib\ui-bootstrap-0.9.0.min.js" />
     <Content Include="www\lib\underscore-min.js" />
-    <Content Include="www\utils\dictionary.js" />
     <Content Include="www\models\metadata.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />

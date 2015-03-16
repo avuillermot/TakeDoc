@@ -1,5 +1,5 @@
 ﻿'use strict';
-var takeDoc = angular.module("takeDoc", ['ionic','ngRoute']);
+var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute']);
 
 takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location) {
     
