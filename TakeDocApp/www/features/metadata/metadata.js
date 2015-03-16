@@ -4,7 +4,17 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
         var fn = function (collection) {
+            var dico = new Dictionary();
             $scope.Metadatas = collection.models;
+            debugger;
+            // initialise dans les scopes les données pour les dropdownlist
+            /*var metaWithList = collection.where({ isList: true });
+            for (var i = 0; i < metaWithList.length; i++) {
+                var data = metaWithList[i].get("valueList").models;
+                dico.addKeyValue(metaWithList[i].get("id"), metaWithList[i].get("valueList"));
+            }
+            debugger;
+            $scope.listValue = dico;*/
         };
         metas.fetch({ success: fn } );
 
@@ -23,7 +33,6 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         };
 
         var element = angular.element(".metadata-field");
-        debugger;
         var retour = metas.save({
             userId: $rootScope.documentToAdd.UserCreateData,
             entityId: $rootScope.documentToAdd.EntityId,

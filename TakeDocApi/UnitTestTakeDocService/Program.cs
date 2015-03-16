@@ -10,11 +10,13 @@ namespace UnitTestTakeDocService
     {
         public static void Main()
         {
-            Type myType = Type.GetType("int");
-            /*Utility.Logger.myLogger.Init();
+           Utility.Logger.myLogger.Init();
 
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
-            Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
+            Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
+
+            metaDataTest.TestOrdered();
+            /*Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
             //documentTest.test();
             for (int i = 0; i < 1; i++)
             {

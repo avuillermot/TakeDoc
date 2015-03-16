@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TakeDocDataAccess.Document
+namespace TakeDocModel
 {
-    public class DaoTypeDocument : DaoBase<TakeDocModel.TypeDocument>, Interface.IDaoTypeDocument
+    public partial class MetaData
     {
-
+        public ICollection<DataFieldValue> DataFieldValue { get; set; }
     }
 }

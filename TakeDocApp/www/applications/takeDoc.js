@@ -56,7 +56,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 takeDoc.directive( 'goClick', function ( $location, $route ) {
-    return function ($scope, element, attrs) {
+    return function (scope, element, attrs) {
         var path;
         element.addClass("button button-stable ion-checkmark-round");
         attrs.$observe( 'goClick', function (val) {
@@ -67,10 +67,10 @@ takeDoc.directive( 'goClick', function ( $location, $route ) {
             var isValid = true;
             if (this.attributes["valid-input"] != null) {
                 var fn = this.attributes["valid-input"].value;
-                isValid = $scope.$apply(fn);
+                isValid = scope.$apply(fn);
             }
             if (isValid) {
-                $scope.$apply(function () {
+                scope.$apply(function () {
                     if (path.substring(0, 2) == "#/") path = path.substring(2);
                     $location.path(path);
                 });
@@ -98,6 +98,15 @@ takeDoc.directive('tdLogout', function ($rootScope, $location) {
                 $location.path("login");
             });
         });
+    };
+});
+
+takeDoc.directive('tdSelect', function ($rootScope, $location) {
+    return function (scope, element, attrs) {
+        var data = scope.$parent.listValue;
+        /*$.each(data.models, function (index, value) {
+            element.append($('<option></option>').val(value.attributes.key).html(value.attributes.text));
+        });*/
     };
 });
 

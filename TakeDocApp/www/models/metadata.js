@@ -1,4 +1,19 @@
-﻿var Metadata = Backbone.Model.extend({
+﻿var MetaDataValue = Backbone.Model.extend({
+    defaults: {
+        id: null,
+        index: null,
+        key: null,
+        value: null,
+        reference: null,
+        etatDelete: null,
+    }
+});
+
+var MetaDataValues = Backbone.Collection.extend({
+    model: MetaDataValue
+});
+
+var Metadata = Backbone.Model.extend({
     defaults: {
         id: null,
         index: null,
@@ -6,7 +21,9 @@
         value: null,
         mandatory: null,
         type: null,
-        label: null
+        label: null,
+        isList: false,
+        valueList: new MetaDataValues()
     }
 });
 
@@ -20,20 +37,6 @@ var Metadatas = Backbone.Collection.extend({
         }
     },
     model: Metadata,
-    parse: function () {
-        var data = arguments[0];
-        for (var i = 0; i < data.length; i++) {
-            var meta = new Metadata();
-            meta.set("id", data[i].id);
-            meta.set("index", data[i].index);
-            meta.set("name", data[i].name);
-            meta.set("value", data[i].value);
-            meta.set("mandatory", data[i].mandatory);
-            meta.set("type", data[i].type);
-            meta.set("label", data[i].label);
-            this.models.push(meta);
-        }
-    },
     check: function () {
         var retour = { message: "", valid: true };
 

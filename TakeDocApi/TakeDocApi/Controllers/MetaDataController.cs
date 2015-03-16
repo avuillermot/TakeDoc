@@ -25,8 +25,16 @@ namespace TakeDocApi.Controllers
                 value = metadata.MetaDataValue, 
                 mandatory = metadata.MetaDataMandatory,
                 type = metadata.DataField.DataFieldType.DataFieldInputType,
-                label = metadata.DataField.DataFieldLabel
+                label = metadata.DataField.DataFieldLabel,
+                isList = metadata.DataFieldValue.Count() > 0,
+                valueList = from value in metadata.DataFieldValue 
+                            select new {
+                                id = value.DataFieldId, index = value.DataFieldValueIndex, key = value.DataFieldValueKey,
+                                text = value.DataFieldValueText, reference = value.DataFieldValueReference, etatDelete = value.EtatDeleteData,
+                                entity = value.EntityId
+                            }
             };
+
             return req.ToList<object>();
         }
 

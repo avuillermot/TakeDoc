@@ -13,7 +13,7 @@
                 ctx.drawImage(this, 0, 0);
                 var data = canvas.toDataURL("image/" + $rootScope.documentToAdd.Extension);
                 var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
-                $rootScope.documentToAdd.Pages.push(p);
+                $rootScope.documentToAdd.Pages.add(p);
                 $scope.Pages = $rootScope.documentToAdd.Pages.models;
                 $scope.$apply();
             };
@@ -159,7 +159,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
             var myPageNumber = $rootScope.documentToAdd.Pages.length + 1;
             var data = "data:image/" + $rootScope.documentToAdd.Extension + ";base64," + imageURI;
             var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: data, state: "toAdd", pageNumber: myPageNumber });
-            $rootScope.documentToAdd.Pages.push(p1);
+            $rootScope.documentToAdd.Pages.add(p1);
         }
         catch (ex) {
             $rootScope.ErrorHelper.show("Camera", ex.message);

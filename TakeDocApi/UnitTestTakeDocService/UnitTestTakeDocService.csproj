@@ -86,6 +86,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="BaseServiceTest.cs" />
+    <Compile Include="Document\MetaDataServiceTest.cs" />
     <Compile Include="Document\TypeDocumentServiceTest.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

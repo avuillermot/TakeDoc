@@ -14,7 +14,7 @@ namespace UnitTestTakeDocService.Document
         IDocumentService servDocument = UnityHelper.Resolve<IDocumentService>();
         IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
         IMetaDataService servMetaData = UnityHelper.Resolve<IMetaDataService>();
-        IImageService servImage = new ImageService();
+        IImageService servImage = UnityHelper.Resolve<IImageService>();
         TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
 
         TakeDocModel.Document MyDocument

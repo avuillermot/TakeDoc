@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="DaoBase.cs" />
     <Compile Include="DaoGeneric.cs" />
+    <Compile Include="Document\DaoDataFieldValue.cs" />
     <Compile Include="Document\DaoDocument.cs" />
     <Compile Include="Document\DaoMetaData.cs" />
     <Compile Include="Document\DaoPage.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Document\DaoTypeDocument.cs" />
     <Compile Include="Document\DaoVersion.cs" />
     <Compile Include="Document\DaoVersionStoreLocator.cs" />
+    <Compile Include="Document\Interface\IDaoDataFieldValue.cs" />
     <Compile Include="Document\Interface\IDaoDocument.cs" />
     <Compile Include="Document\Interface\IDaoMetaData.cs" />
     <Compile Include="Document\Interface\IDaoPage.cs" />

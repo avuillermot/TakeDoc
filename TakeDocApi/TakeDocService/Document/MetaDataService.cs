@@ -11,7 +11,8 @@ namespace TakeDocService.Document
 {
     public class MetaDataService : TakeDocService.BaseService, Interface.IMetaDataService
     {
-        DAO.Interface.IDaoMetaData dao = UnityHelper.Resolve<DAO.Interface.IDaoMetaData>();
+        DAO.Interface.IDaoMetaData daoMetaData = UnityHelper.Resolve<DAO.Interface.IDaoMetaData>();
+        DAO.Interface.IDaoDataFieldValue daoDataFieldValue = UnityHelper.Resolve<DAO.Interface.IDaoDataFieldValue>();
 
         Interface.IDataFieldService servDataField = UnityHelper.Resolve<Interface.IDataFieldService>();
 
@@ -32,7 +33,7 @@ namespace TakeDocService.Document
                 meta.MetaDataName = field.Reference;
                 meta.UserCreateData = userId;
 
-                dao.Add(meta);
+                daoMetaData.Add(meta);
             } 
         }
 
@@ -48,7 +49,7 @@ namespace TakeDocService.Document
                     if (ok == false) throw new Exception("MetaData non valide.");
                 }
             }
-            dao.SetMetaData(userId, entityId, versionId, metadatas);
+            daoMetaData.SetMetaData(userId, entityId, versionId, metadatas);
         }
 
         public bool IsValid(string typeName, string value, bool required)
@@ -85,7 +86,14 @@ namespace TakeDocService.Document
 
         public ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId)
         {
-            return dao.GetBy(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
+            ICollection<TakeDocModel.MetaData> metas = daoMetaData.GetBy(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
+            foreach (TakeDocModel.MetaData meta in metas)
+            {
+                ICollection<TakeDocModel.DataFieldValue> values = daoDataFieldValue.GetBy(x => x.DataFieldId == meta.DataFieldId && x.EntityId == meta.EntityId && (x.EtatDeleteData == false || x.DataFieldValueKey == meta.MetaDataValue));
+                if (values != null && values.Count() > 0) meta.DataFieldValue = values;
+                else meta.DataFieldValue = new List<TakeDocModel.DataFieldValue>();
+            }
+            return metas;
         }
     }
 }

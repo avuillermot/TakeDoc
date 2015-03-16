@@ -68,6 +68,7 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Document\Document.cs" />
+    <Compile Include="Document\MetaData.cs" />
     <Compile Include="Document\StatutDocument.cs" />
     <Compile Include="Document\StatutVersion.cs" />
     <Compile Include="Document\Version.cs" />
