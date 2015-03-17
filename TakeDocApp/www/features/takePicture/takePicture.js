@@ -1,5 +1,5 @@
 ﻿'use strict';
- takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', function ($scope, $rootScope, takePictureService, $location, $ionicModal) {
+takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', '$ionicLoading', function ($scope, $rootScope, takePictureService, $location, $ionicModal, $ionicLoading) {
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -35,6 +35,9 @@
     };
 
     $scope.doSave = function () {
+        $ionicLoading.show({
+            template: 'Saving...'
+        });
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/",""));
