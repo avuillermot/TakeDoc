@@ -47,10 +47,9 @@ var Metadatas = Backbone.Collection.extend({
             var mandatory = current.get("mandatory");
 
             if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
-            if (current.get("type") == "date" && current.get("value") != "" && current.get("value") != null) current.set("value", "false");
-
+            
             if (mandatory == true) {
-                var myValue = current.get("value");
+                var myValue = (current.get("type") != "date") ? current.get("value") : current.get("dateValue");
 
                 if (myValue == null || myValue == "") {
                     nbError++;
@@ -76,13 +75,12 @@ var Metadatas = Backbone.Collection.extend({
     },
 
     update: function (user, onSucces, onError) {
-        var data = JSON.stringify(this.models);
         this.each(function (model, index) {
-            if (model.get("type") == "date") {
-                var d = model.get("value");
-                model.set("value", d.toLocaleDateString());
-            };
+            if (model.get("type") == "date" && model.get("dateValue") != "" && model.get("dateValue") != null) {
+                model.set("value", moment(model.get("dateValue")).format("YYYY-MM-DD"));
+            }
         });
+        var data = JSON.stringify(this.models);
         var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", user.userId)
             .replace("<entityId/>", user.entityId)
             .replace("<versionId/>",user.versionId);

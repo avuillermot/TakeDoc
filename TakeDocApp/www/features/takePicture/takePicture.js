@@ -15,12 +15,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
                 var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
                 $rootScope.documentToAdd.Pages.add(p);
                 $scope.Pages = $rootScope.documentToAdd.Pages.models;
-                $scope.$apply();
+                //try { $scope.$apply(); } catch (ex) { }
             };
             img.src = url;
         }
         
-        imageToBase64("img/page1.jpeg",0);
+        //imageToBase64("img/page1.jpeg",0);
         /*imageToBase64("img/page2.jpeg",1);
         imageToBase64("img/r1.jpeg",2);*/
 
@@ -41,7 +41,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/",""));
-			$scope.$apply();
+            //try { $scope.$apply(); } catch (ex) { }
 		};
         var error = function (success, error) {
             $ionicLoading.hide();
@@ -59,7 +59,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     var fRefresh = function () {
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        try {$scope.$apply();} catch(ex){}
+        //try {$scope.$apply();} catch(ex){}
     };
     $scope.$on("takePicture$refreshPage", fRefresh);
 

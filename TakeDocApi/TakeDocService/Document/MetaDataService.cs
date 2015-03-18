@@ -69,7 +69,7 @@ namespace TakeDocService.Document
                 }
                 else if (myType == typeof(System.DateTimeOffset))
                 {
-                   var ci = new CultureInfo("fr-FR");
+                   var ci = new CultureInfo("en-GB");
                    DateTimeOffset.Parse(value, ci.DateTimeFormat);
                 }
                 else if (myType == typeof(System.Boolean))

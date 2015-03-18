@@ -26,7 +26,8 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         if (nb == 0) {
             $rootScope.ErrorHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
-		}
+        }
+        //try { $scope.$apply(); } catch (ex) { }
     };
 
     var error = function () {

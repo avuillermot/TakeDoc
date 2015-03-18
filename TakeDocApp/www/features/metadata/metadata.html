@@ -14,7 +14,8 @@
                            <ion-toggle ng-model="Metadata.attributes.value" toggle-class="toggle-calm">{{Metadata.attributes.label}}</ion-toggle>
                        </span>
 
-                       <input class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value" ng-switch-default="" />
+                       <input ng-switch-when="date" class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.dateValue" />
+                       <input ng-switch-default="" class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value" />
                    </label>
                </ion-item>
            </ion-list>
