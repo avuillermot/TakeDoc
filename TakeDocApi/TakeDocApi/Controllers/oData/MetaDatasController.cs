@@ -14,16 +14,6 @@ using Microsoft.Data.OData;
 
 namespace TakeDocApi.Controllers.oData
 {
-    /*
-    La classe WebApiConfig peut exiger d'autres modifications pour ajouter un itinéraire à ce contrôleur. Fusionnez ces instructions dans la méthode Register de la classe WebApiConfig, le cas échéant. Les URL OData sont sensibles à la casse.
-
-    using System.Web.Http.OData.Builder;
-    using System.Web.Http.OData.Extensions;
-    using TakeDocModel;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<MetaData>("MetaDatas");
-    config.Routes.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-    */
     public class MetaDatasController : ODataController
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();

@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', function ($scope, $rootScope, $stateParams, $route, $location) {
+takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
     var metas = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
@@ -13,23 +13,27 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
     });
 
     $scope.doSave = function () {
+        $ionicLoading.show({
+            template: 'Enregistrement...'
+        });
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/", ""));
+            $scope.$apply();
         };
 
         var error = function () {
-            $rootScope.ErrorHelper.show("Saisies", arguments[0]);
+            $ionicLoading.hide();
+            var msg = (arguments[0].message != null) ? arguments[0].message : arguments[0].responseJSON.Message;
+            $rootScope.ErrorHelper.show("Saisies", msg);
         };
 
         var element = angular.element(".metadata-field");
-        var retour = metas.save({
+        metas.save({
             userId: $rootScope.documentToAdd.UserCreateData,
             entityId: $rootScope.documentToAdd.EntityId,
             versionId: $rootScope.documentToAdd.DocumentCurrentVersionId
-        });
-        if (retour.valid) success();
-        else error(retour.message);
+        }, success, error);
         return false;
     };
 

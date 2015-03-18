@@ -63,15 +63,15 @@ var Metadatas = Backbone.Collection.extend({
         return retour;
     },
 
-    save: function (user) {
+    save: function (user, onSucces, onError) {
         var retour = this.check();
         if (retour.valid) {
-            this.update(user);
+            this.update(user, onSucces, onError);
         }
-        return retour;
+        else onError(retour);
     },
 
-    update: function (user) {
+    update: function (user, onSucces, onError) {
         var data = JSON.stringify(this.models);
         this.each(function (model, index) {
             if (model.get("type") == "date") {
@@ -87,10 +87,10 @@ var Metadatas = Backbone.Collection.extend({
             url: myUrl,
             data: { '': data },
             success: function () {
-                alert("ok");
+                onSucces();
             },
             error: function () {
-                alert("error");
+                onError();
             }
         });
     }
