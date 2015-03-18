@@ -1,5 +1,12 @@
 ﻿'use strict';
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', '$ionicLoading', '$timeout', function ($scope, $rootScope, takePictureService, $location, $ionicModal, $ionicLoading, $timeout) {
+
+    var fRefresh = function () {
+        $scope.Pages = $rootScope.documentToAdd.Pages.models;
+        try { $scope.$apply(); } catch (ex) { }
+    };
+    $scope.$on("takePicture$refreshPage", fRefresh);
+
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -14,8 +21,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
                 var data = canvas.toDataURL("image/" + $rootScope.documentToAdd.Extension);
                 var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
                 $rootScope.documentToAdd.Pages.add(p);
-                $scope.Pages = $rootScope.documentToAdd.Pages.models;
-                //try { $scope.$apply(); } catch (ex) { }
+
+                $scope.$broadcast('takePicture$refreshPage');
             };
             img.src = url;
         }
@@ -41,7 +48,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/",""));
-            //try { $scope.$apply(); } catch (ex) { }
+            $scope.$broadcast('takePicture$refreshPage');
 		};
         var error = function (success, error) {
             $ionicLoading.hide();
@@ -56,12 +63,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 		};
 		return false;
     };
-
-    var fRefresh = function () {
-        $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        //try {$scope.$apply();} catch(ex){}
-    };
-    $scope.$on("takePicture$refreshPage", fRefresh);
 
     $scope.mooveUp = function (id) {
 		var size = $rootScope.documentToAdd.Pages.length;

@@ -1,6 +1,12 @@
 ﻿'use strict';
 takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
+    var fRefresh = function () {
+        $scope.Pages = $rootScope.documentToAdd.Pages.models;
+        try { $scope.$apply(); } catch (ex) { }
+    };
+    $scope.$on("typeDocument$refreshPage", fRefresh);
+    
 	$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
 		typeDocumentService.get($rootScope.User.CurrentEntity, success, error);
         $rootScope.documentToAdd = new documents();
@@ -10,6 +16,8 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 		
 		var step = $rootScope.Scenario.next();
 		$scope.nextUrl = step.to;
+
+		$scope.$broadcast('typeDocument$refreshPage');
     });
 
     $scope.searchTypeDocument = function () {
@@ -27,7 +35,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             $rootScope.ErrorHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
-        //try { $scope.$apply(); } catch (ex) { }
+        $scope.$on("takePicture$refreshPage", fRefresh);
     };
 
     var error = function () {

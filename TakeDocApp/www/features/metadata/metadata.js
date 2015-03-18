@@ -1,5 +1,12 @@
 ﻿'use strict';
 takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
+
+    var fRefresh = function () {
+        $scope.Pages = $rootScope.documentToAdd.Pages.models;
+        try { $scope.$apply(); } catch (ex) { }
+    };
+    $scope.$on("metadata$refreshPage", fRefresh);
+    
     var metas = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
@@ -11,6 +18,8 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
+
+        $scope.$broadcast('metadata$refreshPage');
     });
 
     $scope.doSave = function () {
