@@ -55,43 +55,11 @@ div.button-bar {
 		display:block;
 	}
 }
-.take-picture-moove-up {
-    background-color: transparent;
-    background-image: url("../img/up.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-    background-position-y:center;
-    height: 16px;
-    width: 16px;
-}
-.take-picture-moove-down {
-    background-color: transparent;
-    background-image: url("../img/down.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-    background-position-y:center;
-    height: 16px;
-    width: 16px;
-}
 
 .take-picture-rotate {
-    background-color: transparent;
-    background-image: url("../img/rotate.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-    background-position-y:center;
-    height: 16px;
-    width: 16px;
+
 }
-.take-picture-delete {
-    background-color: transparent;
-    background-image: url("../img/Delete.png");
-    background-repeat: no-repeat;
-    background-position-x:center;
-    background-position-y:center;
-    height: 10px;
-    width: 10px;
-}
+
 .take-picture-page-number {
     font-size: 8px;
 }

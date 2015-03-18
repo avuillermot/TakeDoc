@@ -21,8 +21,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         }
         
         imageToBase64("img/page1.jpeg",0);
-        /*imageToBase64("img/page2.jpeg",1);
-        imageToBase64("img/r1.jpeg",2);*/
+        imageToBase64("img/page2.jpeg",1);
+        imageToBase64("img/r1.jpeg",2);
 
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
         var step = $rootScope.Scenario.next();
@@ -59,7 +59,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     var fRefresh = function () {
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        $scope.$apply();
+        //$scope.$apply();
     };
     $scope.$on("takePicture$refreshPage", fRefresh);
 
