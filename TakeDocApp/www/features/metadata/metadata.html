@@ -3,12 +3,16 @@
        <section>
            <ion-list>
                <ion-item ng-repeat="Metadata in Metadatas | orderBy:['attributes.index']">
-                   <label class="item item-input metadata-mandatory-{{Metadata.attributes.mandatory}}" ng-switch="{{Metadata.attributes.isList}}">
-                       <span class=" input-label">{{Metadata.attributes.label}}</span>
+                   <label class="item item-input metadata-mandatory-{{Metadata.attributes.mandatory}}" ng-switch on="Metadata.attributes.htmlType">
+                       <span class=" input-label" ng-hide="Metadata.attributes.htmlType == 'ion-toggle'">{{Metadata.attributes.label}}</span>
 
-                       <select ng-switch-when="true" ng-model="Metadata.attributes.value">
+                       <select ng-switch-when="list" ng-model="Metadata.attributes.value">
                            <option ng-repeat="item in Metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>
                        </select>
+                       
+                       <span ng-switch-when="ion-toggle">
+                           <ion-toggle ng-model="Metadata.attributes.value" toggle-class="toggle-calm">{{Metadata.attributes.label}}</ion-toggle>
+                       </span>
 
                        <input class="metadata-field" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value" ng-switch-default="" />
                    </label>
@@ -18,6 +22,7 @@
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
+            <div go-back=""></div>
             <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>

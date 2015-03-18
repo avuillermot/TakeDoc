@@ -22,7 +22,7 @@ var Metadata = Backbone.Model.extend({
         mandatory: null,
         type: null,
         label: null,
-        isList: false,
+        htmlType: null,
         valueList: new MetaDataValues()
     }
 });

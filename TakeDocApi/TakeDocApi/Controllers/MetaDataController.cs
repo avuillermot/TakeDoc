@@ -31,7 +31,7 @@ namespace TakeDocApi.Controllers
                               mandatory = metadata.MetaDataMandatory,
                               type = metadata.DataField.DataFieldType.DataFieldInputType,
                               label = metadata.DataField.DataFieldLabel,
-                              isList = metadata.DataFieldValue.Count() > 0,
+                              htmlType = ((metadata.DataFieldValue.Count() > 0) ? "list" : metadata.DataField.DataFieldType.DataFieldInputType),
                               valueList = from value in metadata.DataFieldValue
                                           select new
                                           {
