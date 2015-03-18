@@ -76,11 +76,15 @@ namespace TakeDocService.Document
                 {
                     Boolean.Parse(value);
                 }
+                else if (myType == typeof(System.Decimal))
+                {
+                    Decimal.Parse(value.Replace(".",","));
+                }
                 return true;
             }
             catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
         }
 

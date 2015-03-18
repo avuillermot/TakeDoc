@@ -45,15 +45,17 @@ var Metadatas = Backbone.Collection.extend({
         for (var i = 0; i < this.models.length; i++) {
             var current = this.models[i];
             var mandatory = current.get("mandatory");
+            if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
             if (mandatory == true) {
                 var myValue = current.get("value");
                 if (myValue == null || myValue == "") {
                     nbError++;
                     retour.valid = false;
-                    msg = msg + " " + current.get("label");
+                    msg = msg + " - " + current.get("label");
                 }
             }
         }
+        if (msg.length > 3 && msg.substr(0, 3) == " - ") msg = msg.substring(3, msg.length);
         if (retour.valid == false) {
             if (nbError > 1) retour.message = "Les champs [<field/>] sont obligatoires.".replace("<field/>", msg);
             else retour.message = "Le champ [<field/>] est obligatoire.".replace("<field/>", msg);

@@ -13,6 +13,7 @@ namespace TakeDocService.Document
         TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
+        TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
@@ -60,6 +61,8 @@ namespace TakeDocService.Document
 
         private void SetStatut(TakeDocModel.Version version, TakeDocModel.StatutVersion statut)
         {
+            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
+
             ICollection<byte[]> data = new List<byte[]>();
             foreach (TakeDocModel.Page page in version.Page)
             {
@@ -71,7 +74,7 @@ namespace TakeDocService.Document
                 data.Add(img);
             }
             byte[] fullDoc = servImage.GetPdf(data);
-            System.IO.FileInfo file = this.GenerateUNC("MASTER", version.VersionReference, "pdf");
+            System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, version.VersionReference, "pdf");
             System.IO.File.WriteAllBytes(file.FullName, fullDoc);
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();

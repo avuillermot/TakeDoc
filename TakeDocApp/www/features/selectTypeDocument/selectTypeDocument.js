@@ -18,8 +18,13 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 
     var success = function () {
         $scope.TypeDocuments = arguments[0].value;
-        if ($scope.TypeDocuments.length == 0) {
-            $rootScope.ErrorHelper.show("Type de documents", arguments[0].responseJSON.Message);
+        var nb = 0;
+        $.each($scope.TypeDocuments, function(index, value) {
+            if (value.EtatDeleteData == false)nb++;
+        });
+
+        if (nb == 0) {
+            $rootScope.ErrorHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
 		}
     };
