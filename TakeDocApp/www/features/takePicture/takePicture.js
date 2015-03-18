@@ -20,7 +20,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
             img.src = url;
         }
         
-        //imageToBase64("img/page1.jpeg",0);
+        imageToBase64("img/page1.jpeg",0);
         /*imageToBase64("img/page2.jpeg",1);
         imageToBase64("img/r1.jpeg",2);*/
 
@@ -36,7 +36,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     $scope.doSave = function () {
         $ionicLoading.show({
-            template: 'Saving...'
+            template: 'Enregistrement...'
         });
 
         var success = function () {
@@ -44,12 +44,14 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 			$scope.$apply();
 		};
         var error = function (success, error) {
-			$rootScope.ErrorHelper.show("Création", "Une erreur est survenue lors de la de la création du document.");
+            $ionicLoading.hide();
+            $rootScope.ErrorHelper.show("Création", arguments[0].responseJSON.Message);
 		};
 		try {
 			documentService.create($rootScope.documentToAdd, success, error);
 		}
-		catch(ex) {
+        catch (ex) {
+            $ionicLoading.hide();
 			$rootScope.ErrorHelper.show("Création", ex);
 		};
 		return false;

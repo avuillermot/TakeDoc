@@ -19,7 +19,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     var success = function () {
         $scope.TypeDocuments = arguments[0].value;
         if ($scope.TypeDocuments.length == 0) {
-            $rootScope.ErrorHelper.show("Type de documents", "Aucun type disponible.");
+            $rootScope.ErrorHelper.show("Type de documents", arguments[0].responseJSON.Message);
             $location.path("menu");
 		}
     };

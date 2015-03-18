@@ -13,10 +13,18 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("SetNoMeta/{documentId}")]
-        public void SetNoMeta(Guid documentId)
+        public HttpResponseMessage SetNoMeta(Guid documentId)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
-            servDocument.SetNoMeta(documentId);
+            try
+            {
+                servDocument.SetNoMeta(documentId);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
     }
 }

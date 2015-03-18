@@ -22,7 +22,16 @@ namespace TakeDocApi.Controllers.oData
         //[Authorize]
         public IHttpActionResult GetTypeDocuments(ODataQueryOptions<TypeDocument> queryOptions)
         {
-            ICollection<TypeDocument> items = this.Get(queryOptions, _validationSettings);
+            ICollection<TypeDocument> items = null;
+            try
+            {
+                items = this.Get(queryOptions, _validationSettings);
+                
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
             return Ok<IEnumerable<TypeDocument>>(items);
         }
 

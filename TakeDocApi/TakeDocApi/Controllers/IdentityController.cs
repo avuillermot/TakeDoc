@@ -19,15 +19,23 @@ namespace TakeDocApi.Controllers
         [HttpPost]
         [Route("logon")]
         [AllowAnonymous]
-        public TakeDocModel.UserTk Post([FromBody]string value)
+        public HttpResponseMessage Post([FromBody]string value)
         {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
             Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
-            TakeDocModel.UserTk user = servUser.Logon(data.Value<string>("login"), data.Value<string>("password"));
-            ClaimsPrincipal cp = servUser.GetClaimsPrincipal(user);
+            try
+            {
+                TakeDocModel.UserTk user = servUser.Logon(data.Value<string>("login"), data.Value<string>("password"));
 
-            SetPrincipal(cp);
-            return user;
+                ClaimsPrincipal cp = servUser.GetClaimsPrincipal(user);
+
+                SetPrincipal(cp);
+                return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
         private void SetPrincipal(IPrincipal principal)

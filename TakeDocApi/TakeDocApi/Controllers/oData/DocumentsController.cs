@@ -53,11 +53,11 @@ namespace TakeDocApi.Controllers.oData
            }
            catch (System.Data.Entity.Validation.DbEntityValidationException ex1)
            {
-               return null;
+               return BadRequest(ex1.Message);
            }
            catch (Exception ex)
            {
-               return null;
+               return BadRequest(ex.Message);
            }
 
            return Ok(document);
