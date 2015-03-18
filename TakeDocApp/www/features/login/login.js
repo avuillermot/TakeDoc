@@ -8,7 +8,7 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$io
     $scope.doCheck = function () {
 
         $ionicLoading.show({
-            template: 'Connection...'
+            template: 'Connexion...'
         });
 
         var error = function () {

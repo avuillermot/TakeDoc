@@ -38,6 +38,11 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location, $ionic
             StatusBar.styleDefault();
         }
     });
+
+    $ionicPlatform.registerBackButtonAction(function () {
+        // button back désactiver
+        //navigator.app.exitApp();
+    }, 100);
 });
 
 takeDoc.config(function ($stateProvider, $urlRouterProvider) {
@@ -101,15 +106,6 @@ takeDoc.directive('tdLogout', function ($rootScope, $location) {
                 $location.path("login");
             });
         });
-    };
-});
-
-takeDoc.directive('tdSelect', function ($rootScope, $location) {
-    return function (scope, element, attrs) {
-        var data = scope.$parent.listValue;
-        /*$.each(data.models, function (index, value) {
-            element.append($('<option></option>').val(value.attributes.key).html(value.attributes.text));
-        });*/
     };
 });
 

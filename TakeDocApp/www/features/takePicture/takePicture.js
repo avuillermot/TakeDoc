@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', '$ionicLoading', function ($scope, $rootScope, takePictureService, $location, $ionicModal, $ionicLoading) {
+takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictureService', '$location', '$ionicModal', '$ionicLoading', '$timeout', function ($scope, $rootScope, takePictureService, $location, $ionicModal, $ionicLoading, $timeout) {
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -21,8 +21,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         }
         
         imageToBase64("img/page1.jpeg",0);
-        imageToBase64("img/page2.jpeg",1);
-        imageToBase64("img/r1.jpeg",2);
+        /*imageToBase64("img/page2.jpeg",1);
+        imageToBase64("img/r1.jpeg",2);*/
 
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
         var step = $rootScope.Scenario.next();
@@ -59,7 +59,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     var fRefresh = function () {
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        //$scope.$apply();
+        try {$scope.$apply();} catch(ex){}
     };
     $scope.$on("takePicture$refreshPage", fRefresh);
 
@@ -173,7 +173,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     };
 
     this.onFail = function () {
-        $rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
+        //$rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
         $rootScope.$broadcast('takePicture$refreshPage');
     };
 

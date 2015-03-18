@@ -5,6 +5,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
         var fn = function (collection) {
             $scope.Metadatas = collection.models;
+            try { $scope.$apply(); } catch (ex) { }
         };
         metas.fetch({ success: fn } );
 

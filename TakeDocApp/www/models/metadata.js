@@ -45,9 +45,13 @@ var Metadatas = Backbone.Collection.extend({
         for (var i = 0; i < this.models.length; i++) {
             var current = this.models[i];
             var mandatory = current.get("mandatory");
+
             if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
+            if (current.get("type") == "date" && current.get("value") != "" && current.get("value") != null) current.set("value", "false");
+
             if (mandatory == true) {
                 var myValue = current.get("value");
+
                 if (myValue == null || myValue == "") {
                     nbError++;
                     retour.valid = false;
