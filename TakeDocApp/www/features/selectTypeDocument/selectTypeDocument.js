@@ -2,17 +2,14 @@
 takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     var fRefresh = function () {
-        $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        try { $scope.$apply(); } catch (ex) { }
+        if (!$scope.$$phase) {
+            try { $scope.$apply(); } catch (ex) { }
+        }
     };
     $scope.$on("typeDocument$refreshPage", fRefresh);
     
 	$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-		typeDocumentService.get($rootScope.User.CurrentEntity, success, error);
-        $rootScope.documentToAdd = new documents();
-        $rootScope.documentToAdd.DocumentLabel = "";
-        $rootScope.documentToAdd.EntityId = $rootScope.User.CurrentEntity;
-		$rootScope.documentToAdd.UserCreateData = $rootScope.User.Id;
+	    typeDocumentService.get($rootScope.User.CurrentEntityId, success, error);
 		
 		var step = $rootScope.Scenario.next();
 		$scope.nextUrl = step.to;
@@ -35,7 +32,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             $rootScope.ErrorHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
-        $scope.$on("takePicture$refreshPage", fRefresh);
+        $scope.$broadcast('typeDocument$refreshPage');
     };
 
     var error = function () {
@@ -43,8 +40,10 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         $rootScope.ErrorHelper.show("Type de documents", "La liste des types de document n'est pas disponibles.");
     };
 	
-	$scope.onChoose = function (typeDocumentId) {
-        $rootScope.documentToAdd.DocumentTypeId = typeDocumentId;
+    $scope.onChoose = function (typeDocumentId) {
+        $.each($scope.TypeDocuments, function (index, value) {
+            if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
+        });
     };
 }]);
 

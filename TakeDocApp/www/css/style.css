@@ -11,8 +11,64 @@ div.button-bar {
     padding-top:50px;
 }
 
+.moove-down {
+    margin-top: 30px;
+}
+/* spécifique select */
+.ion-input-select--large,
+.ion-input-select,
+select {
+  -webkit-appearance:none;
+  background-repeat: no-repeat;
+  background-color: rgba(0,0,0,0);  
+  border:thin solid #dddddd;
+  font-weight:300;
+  display:inline;
+  vertical-align:middle;
+  color:#333;
+  padding: auto 0;
+  overflow:hidden;
+  box-sizing:border-box;
+
+}
+
+.ion-input-select {
+  width:270px;
+  font-size:1rem;
+  background-image: url("../img/select.png");
+  text-indent:20px;
+  padding:.5rem 0;
+}
+
+@media screen and (max-width: 330px) {
+	.ion-input-select {
+      width:130px;
+      font-size:1rem;
+      background-image: url("../img/select.png");
+      text-indent:20px;
+      padding:.5rem 0;
+    }
+}
+
+option {
+  background:#444;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+:focus {
+  outline:none;
+}
+/* fin spécifique select */
+/* formulaire METADATA */
+.metadata {
+    border:none;
+}
+
 .metadata-mandatory-true {
-    background-image: url("../img/mandatory.gif");
+    background-image: url("../img/mandatory.png");
     background-repeat: no-repeat;
 }
 
@@ -50,7 +106,7 @@ div.button-bar {
 .container-takePicture {
 	display:inline-block;
 }
-@media screen and (max-width: 280px) {
+@media screen and (max-width: 330px) {
 	.container-takePicture {
 		display:block;
 	}

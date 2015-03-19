@@ -1,10 +1,12 @@
 ﻿<ion-view view-title="Société">
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}" ng-click="onChoose('{{Entity.Id}}')">
-                {{Entity.Label}}
-            </ion-item>
-        </ion-list>
+        <section>
+            <ion-list>
+                <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}" ng-click="onChoose('{{Entity.Id}}')">
+                    {{Entity.Label}}
+                </ion-item>
+            </ion-list>
+        </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">

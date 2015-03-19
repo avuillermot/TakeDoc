@@ -1,7 +1,7 @@
 ﻿function typeDocument() {
     this.TypeDocumentId = null;
     this.EntityId = null;
-    this.TypeDocumentLibelle = null;
+    this.TypeDocumentLabel = null;
 }
 
 function typeDocumentService() {

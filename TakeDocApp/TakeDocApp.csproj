@@ -32,8 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Content Include="www\features\formElement\formElement.html" />
-    <Content Include="www\features\formElement\formElement.js" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
     <Content Include="www\features\metadata\metadata.html" />
@@ -772,6 +770,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="platforms\android\libs\" />
+    <Folder Include="www\templates\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="plugins\org.apache.cordova.camera\src\wp\Camera.cs" />

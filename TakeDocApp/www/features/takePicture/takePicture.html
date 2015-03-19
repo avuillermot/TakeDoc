@@ -1,22 +1,23 @@
 ﻿<ion-view view-title="Photographier">
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="Page in Pages | orderBy:['attributes.pageNumber']">
-                <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate000" data-ng-src="{{Page.attributes.imageURI}}" />
-                <span class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</span>
-				<div style="display:inline-block">
-					<div class="container-takePicture">
-                        <div class="button button-light ion-arrow-up-a" ng-click="mooveUp('{{Page.attributes.id}}')"></div>
-                        <div class="button button-light ion-arrow-down-a" ng-click="mooveDown('{{Page.attributes.id}}')"></div>
-					</div>
-					<div class="container-takePicture">
-                        <div class="button button-light ion-android-sync take-picture-rotate" ng-click="rotate('{{Page.attributes.id}}')"></div>
-                        <div class="button button-light ion-trash-a" ng-click="delete('{{Page.attributes.id}}')"></div>
-					</div>
-				</div>
-            </ion-item>
-        </ion-list>
-
+        <section>
+            <ion-list>
+                <ion-item ng-repeat="Page in Pages | orderBy:['attributes.pageNumber']">
+                    <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate000" data-ng-src="{{Page.attributes.imageURI}}" />
+                    <span class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</span>
+				    <div style="display:inline-block">
+					    <div class="container-takePicture">
+                            <div class="button button-light ion-arrow-up-a" ng-click="mooveUp('{{Page.attributes.id}}')"></div>
+                            <div class="button button-light ion-arrow-down-a" ng-click="mooveDown('{{Page.attributes.id}}')"></div>
+					    </div>
+					    <div class="container-takePicture">
+                            <div class="button button-light ion-android-sync take-picture-rotate" ng-click="rotate('{{Page.attributes.id}}')"></div>
+                            <div class="button button-light ion-trash-a" ng-click="delete('{{Page.attributes.id}}')"></div>
+					    </div>
+				    </div>
+                </ion-item>
+            </ion-list>
+        </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">

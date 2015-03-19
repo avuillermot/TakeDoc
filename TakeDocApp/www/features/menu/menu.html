@@ -1,7 +1,9 @@
 ﻿<ion-view view-title="Menu">
     <ion-content>
-		<div ng-repeat="item in items" ng-click="show('{{item.scenario}}','{{item.url}}')" class="button button-light td-menuItem {{item.cssClassName}}" >
-			&#160;{{item.title}}
-        </div>
+        <section>
+            <div ng-repeat="item in items" ng-click="show('{{item.scenario}}','{{item.url}}')" class="button button-light td-menuItem {{item.cssClassName}}">
+                &#160;{{item.title}}
+            </div>
+        </section>
 	</ion-content>
 </ion-view>

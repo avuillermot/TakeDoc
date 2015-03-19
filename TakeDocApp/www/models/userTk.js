@@ -6,6 +6,8 @@
         this.Telephone = "";
         this.Id = user.UserTkId;
         this.Entitys = new Array();
+        this.CurrentEntityId = null;
+        this.CurrentTypeDocument = null;
         that = this;
         $.each(user.Entitys, function(index, value) {
             if (value.EtatDeleteData == false){

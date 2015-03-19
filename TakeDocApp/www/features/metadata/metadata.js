@@ -2,8 +2,9 @@
 takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
 
     var fRefresh = function () {
-        $scope.Pages = $rootScope.documentToAdd.Pages.models;
-        try { $scope.$apply(); } catch (ex) { }
+        if (!$scope.$$phase) {
+            try { $scope.$apply(); } catch (ex) { }
+        }
     };
     $scope.$on("metadata$refreshPage", fRefresh);
     
@@ -38,7 +39,6 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
             $rootScope.ErrorHelper.show("Saisies", msg);
         };
 
-        var element = angular.element(".metadata-field");
         metas.save({
             userId: $rootScope.documentToAdd.UserCreateData,
             entityId: $rootScope.documentToAdd.EntityId,

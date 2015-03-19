@@ -1,10 +1,12 @@
 ﻿<ion-view view-title="Type de documents">
     <ion-content>
-        <ion-list>
-            <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" href="{{nextUrl}}" ng-click="onChoose('{{TypeDocument.TypeDocumentId}}')">
-                {{TypeDocument.TypeDocumentLabel}}
-            </ion-item>
-        </ion-list>
+        <section>
+            <ion-list>
+                <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" href="{{nextUrl}}" ng-click="onChoose('{{TypeDocument.TypeDocumentId}}')">
+                    {{TypeDocument.TypeDocumentLabel}}
+                </ion-item>
+            </ion-list>
+        </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
