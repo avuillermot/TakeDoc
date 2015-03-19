@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using daDoc = TakeDocDataAccess.Document;
@@ -52,26 +53,23 @@ namespace TakeDocService.Document
             return version;
         }
 
+        private void SetStatus(TakeDocModel.Version version, string statusRef)
+        {
+            TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == statusRef && x.EntityId == version.EntityId).First();
+            version.VersionStatusId = stVersion.StatusVersionId;
+            daoVersion.Update(version);
+        }
+
         public void SetStatus(Guid versionId, Guid entityId, string status)
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == status && x.EntityId == entityId).First();
-
-            if (version.Page.Count() == 0) version = daoVersion.GetBy(x => x.VersionId == version.VersionId, x => x.Page).First();
-            version.VersionStatusId = stVersion.StatusVersionId;
-            daoVersion.Update(version);
+            this.SetStatus(version, status);
         }
 
         public ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
         {
             ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.MetaSend) && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
             return versions;
-        }
-
-        public void GeneratePdf(Guid entityId)
-        {
-            ICollection<TakeDocModel.Version> versions = this.PdfToGenerate(entityId);
-            foreach (TakeDocModel.Version version in versions) this.GeneratePdf(version.VersionId, version.EntityId);
         }
 
         public void GeneratePdf()
@@ -84,13 +82,17 @@ namespace TakeDocService.Document
             }
         }
 
-        public void GeneratePdf(Guid versionId, Guid entityId)
-        {
+        public void GeneratePdf(Guid versionId, Guid entityId) {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
+            this.GeneratePdf(version);
+        }
+
+        public void GeneratePdf(TakeDocModel.Version version)
+        {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
             ICollection<byte[]> data = new List<byte[]>();
-            foreach (TakeDocModel.Page page in version.Page)
+            foreach (TakeDocModel.Page page in version.Page.OrderBy(x => x.PageNumber))
             {
                 byte[] img = servPage.GetBinary(page.PageId);
                 System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
@@ -106,6 +108,7 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
+            this.SetStatus(version, TakeDocModel.Status_Version.Complete);
         }
 
         private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)
@@ -130,6 +133,11 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.VersionId == versionId, properties);
             if (versions.Count() == 0) return null;
             return versions.First();
+        }
+
+        public ICollection<TakeDocModel.Version> GetBy(Expression<Func<TakeDocModel.Version, bool>> where, params Expression<Func<TakeDocModel.Version, object>>[] properties)
+        {
+            return daoVersion.GetBy(where, properties);
         }
     }
 }

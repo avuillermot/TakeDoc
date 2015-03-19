@@ -58,7 +58,7 @@ namespace TakeDocApi.Controllers
         [Route("{versionId}/{userId}/{entityId}")]
         public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
         {
-            IMetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<IMetaDataService>();
+            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
             {
                 Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(value);
@@ -70,7 +70,7 @@ namespace TakeDocApi.Controllers
 
                     metadatas.Add(name, obj.Value<string>("value"));
                 }
-                servMetaData.SetMetaData(userId, entityId, versionId, metadatas);
+                servDocument.SetMetaData(userId, entityId, versionId, metadatas);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

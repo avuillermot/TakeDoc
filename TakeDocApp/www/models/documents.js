@@ -79,7 +79,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
 
 documentService.SetSend = function (document, onSuccess, onError) {
     console.log("documents.prototype.SetSend:start");
-    var url = environnement.UrlBase + "Document/SetSend/<documentId/>";
+    var url = environnement.UrlBase + "Document/SetDataSend/<documentId/>";
     url = url.replace("<documentId/>", document.DocumentId);
 
     $.ajax({

@@ -113,7 +113,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void SetStatusDataSend()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.DataSend);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.DataSend, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.DataSend), "Statut du document DataSend");
         }
@@ -121,7 +121,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void SetStatusMetaSend()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.MetaSend);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.MetaSend, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.MetaSend), "Statut du document MetaSend");
         }
@@ -161,7 +161,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void GeneratePdfTest()
         {
-            servVersion.GeneratePdf();
+            servDocument.GeneratePdf();
         }
 
         public void test()
