@@ -11,7 +11,7 @@ namespace TakeDocService.Document
     public class VersionService : BaseService, Interface.IVersionService
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutVersion>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
@@ -52,14 +52,14 @@ namespace TakeDocService.Document
             return version;
         }
 
-        public void SetNoMeta(Guid versionId)
+        public void SetStatusSend(Guid versionId, Guid entityId)
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            TakeDocModel.StatutVersion stVersion = daoStVersion.GetBy(x => x.StatutVersionReference.Trim() == TakeDocModel.StatutVersion.NoMeta).First();
-            this.SetStatut(version, stVersion);
+            TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == TakeDocModel.Status_Version.Send && x.EntityId == entityId).First();
+            this.SetStatus(version, stVersion);
         }
 
-        private void SetStatut(TakeDocModel.Version version, TakeDocModel.StatutVersion statut)
+        private void SetStatus(TakeDocModel.Version version, TakeDocModel.Status_Version status)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
@@ -82,7 +82,7 @@ namespace TakeDocService.Document
             version.VersionStreamId = locators.First().StreamId;
 
             if (version.Page.Count() == 0) version = daoVersion.GetBy(x => x.VersionId == version.VersionId, x => x.Page).First();
-            version.VersionStatutId = statut.StatutVersionId;
+            version.VersionStatusId = status.StatusVersionId;
             daoVersion.Update(version);
         }
 

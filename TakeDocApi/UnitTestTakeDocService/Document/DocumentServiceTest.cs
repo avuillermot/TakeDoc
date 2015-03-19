@@ -42,13 +42,13 @@ namespace UnitTestTakeDocService.Document
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
-            this.SetNoMeta();
+            this.SetStatusSend();
             this.AddVersionMajor();
             this.AddPage1();
-            this.SetNoMeta();
+            this.SetStatusSend();
             this.AddVersionMinor();
             this.AddPage2();
-            this.SetNoMeta();
+            this.SetStatusSend();
         }
         
         [TestMethod]
@@ -58,7 +58,7 @@ namespace UnitTestTakeDocService.Document
             TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "NOTE_FRAIS").First();
             MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test creation document");
 
-            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.Create), "Statut du document CREATE");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Create), "Statut du document CREATE");
             Assert.IsTrue(MyDocument.Version.Count() == 1);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 0);
@@ -70,7 +70,7 @@ namespace UnitTestTakeDocService.Document
             Assert.IsFalse(MyDocument.LastVersion.EtatDeleteData);
             Assert.IsTrue(MyDocument.Type_Document.TypeDocumentReference == "NOTE_FRAIS");
             Assert.IsTrue(MyDocument.DocumentLabel == "Test creation document");
-            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() > 2);
         }
 
         [TestMethod]
@@ -106,11 +106,11 @@ namespace UnitTestTakeDocService.Document
         }
 
         [TestMethod]
-        public void SetNoMeta()
+        public void SetStatusSend()
         {
-            servDocument.SetNoMeta(MyDocument.DocumentId);
-            MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Statut_Document);
-            Assert.IsTrue(MyDocument.Statut_Document.StatutDocumentReference.Equals(TakeDocModel.StatutDocument.NoMeta), "Statut du document NoMeta");
+            servDocument.SetStatusSend(MyDocument.DocumentId);
+            MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Send), "Statut du document Send");
         }
         
         [TestMethod]
@@ -120,7 +120,7 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(MyDocument.Version.Count() == 2);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 1);
-            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() > 2);
         }
 
         [TestMethod]
@@ -130,7 +130,7 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(MyDocument.Version.Count() == 3);
             Assert.IsTrue(MyDocument.LastVersion.VersionMajor == false);
             Assert.IsTrue(MyDocument.LastVersion.VersionNumber == 1.01M);
-            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
+            Assert.IsTrue(MyDocument.LastVersionMetadata.Count() > 2);
         }
 
         [TestMethod]

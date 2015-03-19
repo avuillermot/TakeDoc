@@ -31,8 +31,6 @@ namespace TakeDocModel
         public virtual DbSet<Counter> Counter { get; set; }
         public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<Page> Page { get; set; }
-        public virtual DbSet<StatutDocument> Statut_Document { get; set; }
-        public virtual DbSet<StatutVersion> Statut_Version { get; set; }
         public virtual DbSet<Version> Version { get; set; }
         public virtual DbSet<View_PageStoreLocator> View_PageStoreLocator { get; set; }
         public virtual DbSet<View_VersionStoreLocator> View_VersionStoreLocator { get; set; }
@@ -45,6 +43,8 @@ namespace TakeDocModel
         public virtual DbSet<DataFieldType> DataFieldType { get; set; }
         public virtual DbSet<View_TypeDocumentDataField> View_TypeDocumentDataField { get; set; }
         public virtual DbSet<DataFieldValue> DataFieldValue { get; set; }
+        public virtual DbSet<Status_Document> Status_Document { get; set; }
+        public virtual DbSet<Status_Version> Status_Version { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

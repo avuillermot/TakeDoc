@@ -9,14 +9,10 @@
         <EntityTypeShape EntityType="TakeDocModel.Counter" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="6" PointY="1" />
         <EntityTypeShape EntityType="TakeDocModel.Page" Width="1.5" PointX="12.875" PointY="2.875" />
-        <EntityTypeShape EntityType="TakeDocModel.StatutDocument" Width="1.5" PointX="3.75" PointY="1.25" />
-        <AssociationConnector Association="TakeDocModel.FK_Document_Statut_Document" />
         <AssociationConnector Association="TakeDocModel.FK_PAGE_DOCUMENT" />
-        <EntityTypeShape EntityType="TakeDocModel.StatutVersion" Width="1.5" PointX="5.5" PointY="6.375" />
         <EntityTypeShape EntityType="TakeDocModel.Version" Width="1.5" PointX="9" PointY="3.75" />
         <AssociationConnector Association="TakeDocModel.FK_Version_Document" />
         <AssociationConnector Association="TakeDocModel.FK_Page_Version" />
-        <AssociationConnector Association="TakeDocModel.FK_Version_Statut_Version" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Version" />
         <EntityTypeShape EntityType="TakeDocModel.View_PageStoreLocator" Width="1.5" PointX="0.75" PointY="6.75" />
         <EntityTypeShape EntityType="TakeDocModel.View_VersionStoreLocator" Width="1.5" PointX="3" PointY="5.125" />
@@ -34,6 +30,10 @@
         <EntityTypeShape EntityType="TakeDocModel.View_TypeDocumentDataField" Width="1.5" PointX="15.125" PointY="0.5" />
         <EntityTypeShape EntityType="TakeDocModel.DataFieldValue" Width="1.5" PointX="20.375" PointY="9.5" />
         <AssociationConnector Association="TakeDocModel.FK_DataFieldValue_DataField" />
+        <EntityTypeShape EntityType="TakeDocModel.Status_Document" Width="1.5" PointX="5.375" PointY="7" />
+        <AssociationConnector Association="TakeDocModel.FK_Document_Status_Document" />
+        <EntityTypeShape EntityType="TakeDocModel.Status_Version" Width="1.5" PointX="10.375" PointY="9.75" />
+        <AssociationConnector Association="TakeDocModel.FK_Version_Status_Version" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

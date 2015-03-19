@@ -15,6 +15,7 @@ namespace UnitTestTakeDocService
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
             Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
 
+            documentTest.TestOrdered();
             metaDataTest.TestOrdered();
             /*Secutity.UserTkServiceTest userTest = new Secutity.UserTkServiceTest();
             //documentTest.test();

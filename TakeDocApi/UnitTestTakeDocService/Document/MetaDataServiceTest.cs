@@ -61,7 +61,7 @@ namespace UnitTestTakeDocService.Document
         public void GetMetadDataTest()
         {
             ICollection<TakeDocModel.MetaData> metas = servMeta.GetByVersion(MyDocument.DocumentCurrentVersionId.Value, MyDocument.EntityId);
-            Assert.IsTrue(metas.Count() == 4);
+            Assert.IsTrue(metas.Count() > 0);
             TakeDocModel.MetaData mois = metas.Where(x => x.MetaDataName == "MONTH").First();
             Assert.IsTrue(mois.DataFieldValue.ToList().Count()  == 12);
         }

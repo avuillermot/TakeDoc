@@ -11,6 +11,6 @@ namespace TakeDocService.Document.Interface
         TakeDocModel.Version CreateMajor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId);
         TakeDocModel.Version CreateMinor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId);
         TakeDocModel.Version GetById(Guid versionId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Version, object>>[] properties);
-        void SetNoMeta(Guid versionId);
+        void SetStatusSend(Guid versionId, Guid entityId);
     }
 }

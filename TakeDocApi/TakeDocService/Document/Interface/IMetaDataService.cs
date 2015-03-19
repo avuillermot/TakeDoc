@@ -9,6 +9,7 @@ namespace TakeDocService.Document.Interface
     public interface IMetaDataService
     {
         void CreateMetaData(Guid userId, Guid entityId, Guid versionId, Guid typeDocumentId);
+        void Valid(string typeName, string value, bool required);
         bool IsValid(string typeName, string value, bool required);
         /// <summary>
         /// Update metadata

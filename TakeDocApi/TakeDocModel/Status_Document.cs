@@ -12,16 +12,16 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class StatutVersion
+    public partial class Status_Document
     {
-        public StatutVersion()
+        public Status_Document()
         {
-            this.Version = new HashSet<Version>();
+            this.Document = new HashSet<Document>();
         }
     
-        public System.Guid StatutVersionId { get; set; }
-        public string StatutVersionReference { get; set; }
-        public string StatutVersionLibelle { get; set; }
+        public System.Guid StatusDocumentId { get; set; }
+        public string StatusDocumentReference { get; set; }
+        public string StatusDocumentLibelle { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -31,6 +31,6 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
     
-        public virtual ICollection<Version> Version { get; set; }
+        public virtual ICollection<Document> Document { get; set; }
     }
 }

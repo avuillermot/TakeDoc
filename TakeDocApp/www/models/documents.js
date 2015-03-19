@@ -67,7 +67,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
         success: function () {
             if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
             else {
-                documentService.SetNoMeta(document, onSuccess, onError);
+                documentService.SetSend(document, onSuccess, onError);
 			}
 
         },
@@ -77,9 +77,9 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     });
 }
 
-documentService.SetNoMeta = function (document, onSuccess, onError) {
-    console.log("documents.prototype.SetNoMeta:start");
-    var url = environnement.UrlBase + "Document/SetNoMeta/<documentId/>";
+documentService.SetSend = function (document, onSuccess, onError) {
+    console.log("documents.prototype.SetSend:start");
+    var url = environnement.UrlBase + "Document/SetSend/<documentId/>";
     url = url.replace("<documentId/>", document.DocumentId);
 
     $.ajax({

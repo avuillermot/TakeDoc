@@ -10,15 +10,15 @@ namespace TakeDocDataAccess.Document
     {
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel)
         {
-            TakeDocModel.StatutDocument statut = base.Context.Statut_Document.Where(x => x.StatutDocumentReference == TakeDocModel.StatutDocument.Create).ToList().First();
+            TakeDocModel.Status_Document status = base.Context.Status_Document.Where(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Create && x.EntityId == entityId).ToList().First();
  
             TakeDocModel.Document retour = new TakeDocModel.Document();
             retour.DocumentId = documentId;
             retour.DocumentCurrentVersionId = versionId;
             retour.DocumentReference = base.Context.GenerateReference("Document");
             retour.DateCreateData = System.DateTimeOffset.UtcNow;
-            retour.Statut_Document = statut;
-            retour.DocumentSatutId = statut.StatutDocumentId;
+            retour.Status_Document = status;
+            retour.DocumentStatusId = status.StatusDocumentId;
 
             retour.DocumentLabel = documentLabel;
             retour.DocumentTypeId = typeDocumentId;

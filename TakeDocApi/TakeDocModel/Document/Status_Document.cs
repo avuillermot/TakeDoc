@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace TakeDocModel
 {
-    public partial class StatutDocument
+    public partial class Status_Document
     {
         public static string Create { get { return "CREATE"; } }
-        public static string NoMeta { get { return "NO_META"; } }
+        public static string Send { get { return "SEND"; } }
         public static string Complete { get { return "COMPLETE"; } }
     }
 }

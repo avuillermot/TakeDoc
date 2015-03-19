@@ -12,7 +12,7 @@ namespace TakeDocService.Document.Interface
         void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation);
         void AddVersionMajor(Guid userId, Guid entityId, Guid documentId);
         void AddVersionMinor(Guid userId, Guid entityId, Guid documentId);
-        void SetNoMeta(Guid userId);
+        void SetStatusSend(Guid userId);
         TakeDocModel.Document GetById(Guid documentId, params Expression<Func<TakeDocModel.Document, object>>[] properties);
     }
 }

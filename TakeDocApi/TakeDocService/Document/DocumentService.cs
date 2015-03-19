@@ -11,7 +11,7 @@ namespace TakeDocService.Document
 {
     public class DocumentService : BaseService, Interface.IDocumentService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.StatutDocument> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.StatutDocument>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
 
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
 
@@ -36,17 +36,17 @@ namespace TakeDocService.Document
             servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
         }
 
-        public void SetNoMeta(Guid documentId)
+        public void SetStatusSend(Guid documentId)
         {
-            TakeDocModel.StatutDocument stDocument = daoStDocument.GetBy(x => x.StatutDocumentReference == TakeDocModel.StatutVersion.NoMeta).First();
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-
+            TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Send && x.EntityId == x.EntityId).First();
+            
             // mise à jour du statut de la version à recu
             if (document.DocumentCurrentVersionId.HasValue)
-                servVersion.SetNoMeta(document.DocumentCurrentVersionId.Value);
+                servVersion.SetStatusSend(document.DocumentCurrentVersionId.Value, document.EntityId);
 
             // mise à jour du statut du document à recu
-            document.DocumentSatutId = stDocument.StatutDocumentId;
+            document.DocumentStatusId = stDocument.StatusDocumentId;
             daoDocument.Update(document);
         }
 
