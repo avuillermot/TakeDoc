@@ -13,7 +13,7 @@
                        <select ng-switch-when="list" ng-model="Metadata.attributes.value" class="ion-input-select">
                             <option ng-repeat="item in Metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>
                        </select>
-
+                        
                        <input ng-switch-when="date" id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.dateValue" />
                        <input ng-switch-default=""  id="input-{{Metadata.attributes.id}}-{{Metadata.attributes.name}}" type="{{Metadata.attributes.type}}" ng-model="Metadata.attributes.value" />
                    </label>

@@ -33,7 +33,7 @@ select {
 }
 
 .ion-input-select {
-  width:70%;
+  width:200px;
   font-size:1rem;
   background-image: url("../img/select.png");
   text-indent:20px;
@@ -42,7 +42,7 @@ select {
 
 @media screen and (max-width: 330px) {
 	.ion-input-select {
-      width:50%;
+      width:140px;
       font-size:1rem;
       background-image: url("../img/select.png");
       text-indent:20px;
