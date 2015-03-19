@@ -40,6 +40,12 @@
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
+    <Content Include="www\img\add.png" />
+    <Content Include="www\img\administration.png" />
+    <Content Include="www\img\analyze.png" />
+    <Content Include="www\img\Delete.png" />
+    <Content Include="www\img\down.png" />
+    <Content Include="www\img\find.png" />
     <Content Include="www\img\home.png" />
     <Content Include="www\img\login-small.jpg" />
     <Content Include="www\img\login.jpg" />
@@ -47,8 +53,14 @@
     <Content Include="www\img\logout.png" />
     <Content Include="www\img\mandatory.gif" />
     <Content Include="www\img\next.png" />
+    <Content Include="www\img\page1.jpeg" />
+    <Content Include="www\img\page2.jpeg" />
     <Content Include="www\img\photo.png" />
+    <Content Include="www\img\r1.jpeg" />
+    <Content Include="www\img\r3.jpeg" />
+    <Content Include="www\img\rotate.png" />
     <Content Include="www\img\save.png" />
+    <Content Include="www\img\up.png" />
     <Content Include="www\img\windows8-icons - Copie.png" />
     <Content Include="www\img\windows8-icons.png" />
     <Content Include="www\js\app.js" />
