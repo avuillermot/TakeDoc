@@ -45,6 +45,7 @@
     <Content Include="www\img\login.jpg" />
     <Content Include="www\img\logout-small.png" />
     <Content Include="www\img\logout.png" />
+    <Content Include="www\img\mandatory.gif" />
     <Content Include="www\img\next.png" />
     <Content Include="www\img\photo.png" />
     <Content Include="www\img\save.png" />
