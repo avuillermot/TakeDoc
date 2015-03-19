@@ -36,14 +36,14 @@ namespace TakeDocService.Document
             servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
         }
 
-        public void SetStatusSend(Guid documentId)
+        public void SetStatus(Guid documentId, string status)
         {
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Send && x.EntityId == x.EntityId).First();
+            TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == x.EntityId).First();
             
             // mise à jour du statut de la version à recu
             if (document.DocumentCurrentVersionId.HasValue)
-                servVersion.SetStatusSend(document.DocumentCurrentVersionId.Value, document.EntityId);
+                servVersion.SetStatus(document.DocumentCurrentVersionId.Value, document.EntityId, status);
 
             // mise à jour du statut du document à recu
             document.DocumentStatusId = stDocument.StatusDocumentId;

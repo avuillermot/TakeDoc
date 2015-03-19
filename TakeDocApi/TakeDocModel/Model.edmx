@@ -208,8 +208,8 @@
           <Property Name="VersionDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="VersionMajor" Type="bit" Nullable="false" />
           <Property Name="VersionNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="EntityId" Type="uniqueidentifier" />
-          <Property Name="UserCreateData" Type="uniqueidentifier" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserUpdateData" Type="uniqueidentifier" />
           <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
@@ -612,8 +612,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="VersionMajor" Type="Boolean" Nullable="false" />
           <Property Name="VersionNumber" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="EntityId" Type="Guid" />
-          <Property Name="UserCreateData" Type="Guid" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
           <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
           <Property Name="UserDeleteData" Type="Guid" />
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />

@@ -24,8 +24,8 @@ namespace TakeDocApi
             
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<TakeDocModel.Document>("Documents");
-            builder.EntitySet<TakeDocModel.StatutDocument>("Statut_Documents");
-            builder.EntitySet<TakeDocModel.StatutVersion>("StatutVersions");
+            builder.EntitySet<TakeDocModel.Status_Document>("Status_Documents");
+            builder.EntitySet<TakeDocModel.Status_Version>("Status_Versions");
             builder.EntitySet<TakeDocModel.Version>("Versions");
             builder.EntitySet<TakeDocModel.Page>("Pages");
             builder.EntitySet<TakeDocModel.TypeDocument>("TypeDocuments");

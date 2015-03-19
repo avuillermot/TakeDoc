@@ -42,13 +42,18 @@ namespace UnitTestTakeDocService.Document
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
-            this.SetStatusSend();
+            this.SetStatusDataSend();
+            this.SetStatusMetaSend();
             this.AddVersionMajor();
             this.AddPage1();
-            this.SetStatusSend();
+            this.SetStatusDataSend();
+            this.SetStatusMetaSend();
             this.AddVersionMinor();
             this.AddPage2();
-            this.SetStatusSend();
+            this.SetStatusDataSend();
+            this.SetStatusMetaSend();
+
+            this.GeneratePdfTest();
         }
         
         [TestMethod]
@@ -77,7 +82,7 @@ namespace UnitTestTakeDocService.Document
         public void AddPage1()
         {
             string base64image = servImage.ToBase64String(TakeDocModel.Environnement.JpegTestFile1);
-            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",90);
+            servDocument.AddPage(userId, entityId, MyDocument.DocumentId, base64image, "jpeg",0);
 
             TakeDocModel.Version version = servVersion.GetById(MyDocument.LastVersion.VersionId, x => x.Page);
 
@@ -106,11 +111,19 @@ namespace UnitTestTakeDocService.Document
         }
 
         [TestMethod]
-        public void SetStatusSend()
+        public void SetStatusDataSend()
         {
-            servDocument.SetStatusSend(MyDocument.DocumentId);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.DataSend);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
-            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Send), "Statut du document Send");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.DataSend), "Statut du document DataSend");
+        }
+
+        [TestMethod]
+        public void SetStatusMetaSend()
+        {
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.MetaSend);
+            MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.MetaSend), "Statut du document MetaSend");
         }
         
         [TestMethod]
@@ -143,6 +156,12 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true",true));
             Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
             Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
+        }
+
+        [TestMethod]
+        public void GeneratePdfTest()
+        {
+            servVersion.GeneratePdf();
         }
 
         public void test()

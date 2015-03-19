@@ -10,7 +10,7 @@ namespace TakeDocService.Document
 {
     public class VersionService : BaseService, Interface.IVersionService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> daoVersionLocator = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
@@ -52,15 +52,41 @@ namespace TakeDocService.Document
             return version;
         }
 
-        public void SetStatusSend(Guid versionId, Guid entityId)
+        public void SetStatus(Guid versionId, Guid entityId, string status)
         {
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == TakeDocModel.Status_Version.Send && x.EntityId == entityId).First();
-            this.SetStatus(version, stVersion);
+            TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == status && x.EntityId == entityId).First();
+
+            if (version.Page.Count() == 0) version = daoVersion.GetBy(x => x.VersionId == version.VersionId, x => x.Page).First();
+            version.VersionStatusId = stVersion.StatusVersionId;
+            daoVersion.Update(version);
         }
 
-        private void SetStatus(TakeDocModel.Version version, TakeDocModel.Status_Version status)
+        public ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
         {
+            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.MetaSend) && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
+            return versions;
+        }
+
+        public void GeneratePdf(Guid entityId)
+        {
+            ICollection<TakeDocModel.Version> versions = this.PdfToGenerate(entityId);
+            foreach (TakeDocModel.Version version in versions) this.GeneratePdf(version.VersionId, version.EntityId);
+        }
+
+        public void GeneratePdf()
+        {
+            ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EtatDeleteData == false).ToList();
+            foreach (TakeDocModel.Entity entity in entitys)
+            {
+                ICollection<TakeDocModel.Version> versions = this.PdfToGenerate(entity.EntityId);
+                foreach (TakeDocModel.Version version in versions) this.GeneratePdf(version.VersionId, version.EntityId);
+            }
+        }
+
+        public void GeneratePdf(Guid versionId, Guid entityId)
+        {
+            TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
             ICollection<byte[]> data = new List<byte[]>();
@@ -78,12 +104,8 @@ namespace TakeDocService.Document
             System.IO.File.WriteAllBytes(file.FullName, fullDoc);
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
-            locators = dao.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
+            locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
-
-            if (version.Page.Count() == 0) version = daoVersion.GetBy(x => x.VersionId == version.VersionId, x => x.Page).First();
-            version.VersionStatusId = status.StatusVersionId;
-            daoVersion.Update(version);
         }
 
         private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)

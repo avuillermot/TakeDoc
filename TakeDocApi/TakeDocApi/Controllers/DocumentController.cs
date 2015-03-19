@@ -12,13 +12,13 @@ namespace TakeDocApi.Controllers
     public class DocumentController : ApiController
     {
         [HttpGet]
-        [Route("SetSend/{documentId}")]
+        [Route("SetDataSend/{documentId}")]
         public HttpResponseMessage SetSend(Guid documentId)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
             {
-                servDocument.SetStatusSend(documentId);
+                servDocument.SetStatus(documentId, TakeDocModel.Status_Document.DataSend);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

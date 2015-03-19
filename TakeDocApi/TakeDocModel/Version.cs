@@ -27,8 +27,8 @@ namespace TakeDocModel
         public bool VersionMajor { get; set; }
         public decimal VersionNumber { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
-        public Nullable<System.Guid> EntityId { get; set; }
-        public Nullable<System.Guid> UserCreateData { get; set; }
+        public System.Guid EntityId { get; set; }
+        public System.Guid UserCreateData { get; set; }
         public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
