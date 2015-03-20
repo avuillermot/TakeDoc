@@ -119,6 +119,9 @@
     <Compile Include="Version.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="View_DocumentExtended.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="View_PageStoreLocator.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

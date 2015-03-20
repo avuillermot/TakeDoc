@@ -32,6 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="www\applications\autocomplete.js" />
+    <Content Include="www\applications\autocompleteRequest.js" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
     <Content Include="www\features\metadata\metadata.html" />

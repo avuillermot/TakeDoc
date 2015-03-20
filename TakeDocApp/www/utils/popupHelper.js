@@ -21,7 +21,7 @@ popupHelper.prototype.getButtonType = function (type, onTap) {
               text: 'Cancel',
               onTap: function () {
                   this.close();
-                  onTap('Cancel');
+                  if (onTap != null) onTap('Cancel');
               }
           },
           {
@@ -29,7 +29,7 @@ popupHelper.prototype.getButtonType = function (type, onTap) {
               type: 'button-positive',
               onTap: function (e) {
                   this.close();
-                  onTap('Ok');
+                  if (onTap != null) onTap('Ok');
               }
           }
         ];
@@ -40,7 +40,7 @@ popupHelper.prototype.getButtonType = function (type, onTap) {
               text: 'Ok',
               onTap: function () {
                   this.close();
-                  onTap('Ok');
+                  if (onTap != null) onTap('Ok');
               }
           }
         ];
