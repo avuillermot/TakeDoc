@@ -34,6 +34,8 @@
   <ItemGroup>
     <Content Include="www\applications\autocomplete.js" />
     <Content Include="www\applications\autocompleteRequest.js" />
+    <Content Include="www\features\autocomplete\autocomplete.html" />
+    <Content Include="www\features\autocomplete\autocomplete.js" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
     <Content Include="www\features\metadata\metadata.html" />
@@ -265,6 +267,7 @@
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />
     <Content Include="www\models\typeDocument.js" />
+    <Content Include="www\utils\autocomplete.js" />
     <Content Include="www\utils\environnement.js" />
     <Content Include="www\utils\fileHelper.js" />
     <Content Include="www\utils\modalHelper.js" />

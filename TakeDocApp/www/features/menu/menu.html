@@ -1,8 +1,7 @@
 ﻿<ion-view view-title="Menu">
     <ion-content>
         <section>
-            <autocomplete ng-model="result" attr-placeholder="type to search movies..." attr-url-data="odata/TypeDocum1ents?$filter=EntityId%20eq%20guid%2755c72e33-8864-4e0e-9bc8-c82378b2bf8c%27" click-activation="true" data="movies" on-type="doSomething" on-select="doSomethingElse"></autocomplete>
-            <div style="position:fixed;top:50px;">
+            <div>
                 <div ng-repeat="item in items" ng-click="show('{{item.scenario}}','{{item.url}}')" class="button button-light td-menuItem {{item.cssClassName}}">
                     &#160;{{item.title}}
                 </div>

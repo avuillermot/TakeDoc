@@ -8,7 +8,7 @@
                    </span>
 
                    <label ng-hide="Metadata.attributes.htmlType == 'ion-toggle'" class="item item-input metadata metadata-mandatory-{{Metadata.attributes.mandatory}}" ng-switch on="Metadata.attributes.htmlType">
-                       <span class=" input-label">{{Metadata.attributes.label}}</span>
+                       <span class="input-label">{{Metadata.attributes.label}}</span>
 
                        <select ng-switch-when="list" ng-model="Metadata.attributes.value" class="ion-input-select" tabindex="{{Metadata.attributes.index}}">
                            <option ng-repeat="item in Metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>

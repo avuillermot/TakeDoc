@@ -18,7 +18,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario = new scenario();
 
     var scenarioAddDocument = [
-        { from: "#/menu", to: "#/selectEntity" },
+        { from: "#/menu", to: "#/autocomplete" },
+        { from: "#/autocomplete", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
@@ -57,7 +58,8 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         //.state('formElement', _routeHelper.get("formElement", false, "/:page"))
         .state('metadata', _routeHelper.get("metadata", false))
         .state('takePicture', _routeHelper.get("takePicture", false))
-        .state('menu', _routeHelper.get("menu", false));
+        .state('menu', _routeHelper.get("menu", false))
+        .state('autocomplete', _routeHelper.get("autocomplete", false));
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
