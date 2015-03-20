@@ -29,7 +29,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         });
 
         if (nb == 0) {
-            $rootScope.ErrorHelper.show("Type de documents", "Aucun type de document disponible");
+            $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
         $scope.$broadcast('typeDocument$refreshPage');
@@ -37,7 +37,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 
     var error = function () {
         $scope.TypeDocuments = null;
-        $rootScope.ErrorHelper.show("Type de documents", "La liste des types de document n'est pas disponibles.");
+        $rootScope.PopupHelper.show("Type de documents", "La liste des types de document n'est pas disponibles.");
     };
 	
     $scope.onChoose = function (typeDocumentId) {

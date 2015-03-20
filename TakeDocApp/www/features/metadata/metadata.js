@@ -36,7 +36,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         var error = function () {
             $ionicLoading.hide();
             var msg = (arguments[0].message != null) ? arguments[0].message : arguments[0].responseJSON.Message;
-            $rootScope.ErrorHelper.show("Saisies", msg);
+            $rootScope.PopupHelper.show("Saisies", msg);
         };
 
         metas.save({

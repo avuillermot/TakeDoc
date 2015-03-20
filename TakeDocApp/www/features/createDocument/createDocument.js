@@ -16,7 +16,7 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function
     $scope.doCheck = function () {
         var ok = !($rootScope.documentToAdd.DocumentLabel == "");
         if (ok == false) {
-            $rootScope.ErrorHelper.show("Document", "Veuillez saisir un nom de document.");
+            $rootScope.PopupHelper.show("Document", "Veuillez saisir un nom de document.");
         }
         return ok;
     }

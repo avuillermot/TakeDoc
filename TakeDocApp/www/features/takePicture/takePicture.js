@@ -29,9 +29,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
             img.src = url;
         }
         
-        /*imageToBase64("img/page1.jpeg",0);
-        imageToBase64("img/page2.jpeg",1);
-        imageToBase64("img/r1.jpeg",2);*/
+        if ($rootScope.isApp == false) {
+            imageToBase64("img/page1.jpeg", 0);
+            imageToBase64("img/page2.jpeg", 1);
+            imageToBase64("img/r1.jpeg", 2);
+        }
 
         $scope.Pages = $rootScope.documentToAdd.Pages.models;
         var step = $rootScope.Scenario.next();
@@ -55,14 +57,14 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         var error = function (success, error) {
             $ionicLoading.hide();
             var msg = (arguments[0].message != null) ? arguments[0].message : arguments[0].responseJSON.Message;
-            $rootScope.ErrorHelper.show("Création", msg);
+            $rootScope.PopupHelper.show("Création", msg);
 		};
 		try {
 			documentService.create($rootScope.documentToAdd, success, error);
 		}
         catch (ex) {
             $ionicLoading.hide();
-			$rootScope.ErrorHelper.show("Création", ex);
+			$rootScope.PopupHelper.show("Création", ex);
 		};
 		return false;
     };
@@ -171,13 +173,13 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
             $rootScope.documentToAdd.Pages.add(p1);
         }
         catch (ex) {
-            $rootScope.ErrorHelper.show("Camera", ex.message);
+            $rootScope.PopupHelper.show("Camera", ex.message);
         }
         $rootScope.$broadcast('takePicture$refreshPage');
     };
 
     this.onFail = function () {
-        //$rootScope.ErrorHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
+        //$rootScope.PopupHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
         $rootScope.$broadcast('takePicture$refreshPage');
     };
 
@@ -196,7 +198,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
                 });
         }
         catch (ex) {
-            $rootScope.ErrorHelper.show("Camera", ex.message);
+            $rootScope.PopupHelper.show("Camera", ex.message);
         }
     }
 }]);

@@ -1,7 +1,7 @@
 ﻿'use strict';
 var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute']);
 
-takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location, $ionicLoading) {
+takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading) {
     
     $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
 
@@ -13,7 +13,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location, $ionic
         }
     });
 
-    $rootScope.ErrorHelper = new modalHelper($ionicModal, $rootScope, 'error-modal');
+    $rootScope.isApp = false;
+    $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
 
     var scenarioAddDocument = [
@@ -40,8 +41,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicModal, $location, $ionic
     });
 
     $ionicPlatform.registerBackButtonAction(function () {
-        // button back désactiver
-        //navigator.app.exitApp();
+        navigator.app.exitApp();
     }, 100);
 });
 
@@ -54,7 +54,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
-        .state('formElement', _routeHelper.get("formElement", false, "/:page"))
+        //.state('formElement', _routeHelper.get("formElement", false, "/:page"))
         .state('metadata', _routeHelper.get("metadata", false))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false));
@@ -87,12 +87,26 @@ takeDoc.directive( 'goClick', function ( $location, $route ) {
     };
 });
 
-takeDoc.directive('goBack', function ($location) {
+takeDoc.directive('goBack', function ($location, $rootScope) {
     return function (scope, element, attrs) {
         element.addClass("button button-stable ion-home");
+        var force = false;
+        attrs.$observe('goBack', function (val) {
+            force = (val === "true")? true : false;
+        });
+
         element.bind('click', function () {
             scope.$apply(function () {
-                $location.path("menu");
+                if (force) $location.path("menu");
+                else {
+                    var onTap = function () {
+                        if (arguments[0] === "Ok") {
+                            $rootScope.User = null;
+                            $location.path("menu");
+                        }
+                    };
+                    $rootScope.PopupHelper.show("Annulation", "Vos données en cours de modification seront perdues.", "OkCancel", onTap);
+                }
             });
         });
     };
@@ -102,8 +116,13 @@ takeDoc.directive('tdLogout', function ($rootScope, $location) {
     return function (scope, element, attrs) {
         element.bind('click', function () {
             scope.$apply(function () {
-                $rootScope.User = null;
-                $location.path("login");
+                var onTap = function () {
+                    if (arguments[0] === "Ok") {
+                        $rootScope.User = null;
+                        $location.path("login");
+                    }
+                };
+                $rootScope.PopupHelper.show("Déconnexion", "Vos données en cours de modification seront perdues.", "OkCancel", onTap);
             });
         });
     };
