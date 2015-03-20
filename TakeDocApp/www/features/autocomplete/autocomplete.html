@@ -1,0 +1,21 @@
+﻿<ion-view view-title="Référence client">
+   <ion-content>
+       <section>
+           <label class="item item-input ion-man metadata-mandatory-true">
+               &#160;
+               <input type="text" placeholder="Nom ou référence client" ng-model="value" ng-change="onType()" />
+           </label>
+           <ion-list>
+               <ion-item ng-repeat="item in items">
+                   <div ng-click="doSelect('{{item.key}}')">{{item.text}}</div>
+               </ion-item>
+           </ion-list>
+       </section>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <div go-back="false"></div>
+            <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
+        </div>
+    </ion-footer-bar>
+</ion-view>
