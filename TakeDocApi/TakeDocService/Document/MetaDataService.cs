@@ -13,6 +13,7 @@ namespace TakeDocService.Document
     {
         DAO.Interface.IDaoMetaData daoMetaData = UnityHelper.Resolve<DAO.Interface.IDaoMetaData>();
         DAO.Interface.IDaoDataFieldValue daoDataFieldValue = UnityHelper.Resolve<DAO.Interface.IDaoDataFieldValue>();
+        DAO.Interface.IDaoDataFieldAutoComplete daoAutoComplete = UnityHelper.Resolve<DAO.Interface.IDaoDataFieldAutoComplete>();
 
         Interface.IDataFieldService servDataField = UnityHelper.Resolve<Interface.IDataFieldService>();
 
@@ -109,6 +110,11 @@ namespace TakeDocService.Document
                 ICollection<TakeDocModel.DataFieldValue> values = daoDataFieldValue.GetBy(x => x.DataFieldId == meta.DataFieldId && x.EntityId == meta.EntityId && (x.EtatDeleteData == false || x.DataFieldValueKey == meta.MetaDataValue));
                 if (values != null && values.Count() > 0) meta.DataFieldValues = values;
                 else meta.DataFieldValues = new List<TakeDocModel.DataFieldValue>();
+
+                ICollection<TakeDocModel.DataFieldAutoComplete> autoCompletes = daoAutoComplete.GetBy(x => x.DataFieldAutoCompleteId == meta.DataField.DataFieldAutoCompleteId && x.EntityId == meta.EntityId && x.EtatDeleteData == false);
+                if (autoCompletes != null && autoCompletes.Count() > 0) meta.AutoComplete = autoCompletes.First();
+                else meta.AutoComplete = null;
+
             }
             return metas;
         }

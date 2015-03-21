@@ -1,26 +1,20 @@
 ﻿'use strict';
 takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
 
-    var fRefresh = function () {
-        if (!$scope.$$phase) {
-            try { $scope.$apply(); } catch (ex) { }
-        }
+    $scope.filterType = function () {
+        return (arguments[0].attributes.htmlType !== "autocomplete");
     };
-    $scope.$on("metadata$refreshPage", fRefresh);
     
-    var metas = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        metas = new Metadatas("byVersion", $rootScope.myTakeDoc.DocumentCurrentVersionId, $rootScope.myTakeDoc.EntityId);
-        var fn = function (collection) {
-            $scope.Metadatas = collection.models;
-            try { $scope.$apply(); } catch (ex) { }
-        };
-        metas.fetch({ success: fn } );
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
 
-        $scope.$broadcast('metadata$refreshPage');
+        // if no metadata go to next
+        var metas = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
+            return item.get("htmlType") !== "autocomplete";
+        });
+        if (metas.length == 0) $location.path($scope.nextUrl.replace("#/", ""));
     });
 
     $scope.doSave = function () {
@@ -30,16 +24,15 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/", ""));
-            $scope.$broadcast('metadata$refreshPage');
         };
 
         var error = function () {
             $ionicLoading.hide();
             var msg = (arguments[0].message != null) ? arguments[0].message : arguments[0].responseJSON.Message;
-            $rootScope.PopupHelper.show("Saisies", msg);
+            $rootScope.PopupHelper.show("Informations", msg);
         };
 
-        metas.save({
+        $rootScope.myTakeDoc.Metadatas.save({
             userId: $rootScope.myTakeDoc.UserCreateData,
             entityId: $rootScope.myTakeDoc.EntityId,
             versionId: $rootScope.myTakeDoc.DocumentCurrentVersionId

@@ -73,6 +73,8 @@
     <Compile Include="Document\DaoTypeDocument.cs" />
     <Compile Include="Document\DaoVersion.cs" />
     <Compile Include="Document\DaoVersionStoreLocator.cs" />
+    <Compile Include="Document\DaoDataFieldAutoComplete.cs" />
+    <Compile Include="Document\Interface\IDaoDataFieldAutoComplete.cs" />
     <Compile Include="Document\Interface\IDaoDataFieldValue.cs" />
     <Compile Include="Document\Interface\IDaoDocument.cs" />
     <Compile Include="Document\Interface\IDaoMetaData.cs" />

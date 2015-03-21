@@ -14,8 +14,6 @@ namespace TakeDocModel
     
     public partial class DataFieldAutoComplete
     {
-        public System.Guid DataFieldId { get; set; }
-        public int DataFieldAutoCompleteIndex { get; set; }
         public string DataFieldAutoCompleteReference { get; set; }
         public string DataFieldAutoCompleteUrl { get; set; }
         public string DataFieldAutoCompletePlaceHolder { get; set; }
@@ -28,7 +26,6 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
-    
-        public virtual DataField DataField { get; set; }
+        public System.Guid DataFieldAutoCompleteId { get; set; }
     }
 }

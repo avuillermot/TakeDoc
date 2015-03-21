@@ -23,7 +23,12 @@ var Metadata = Backbone.Model.extend({
         type: null,
         label: null,
         htmlType: null,
-        valueList: new MetaDataValues()
+        valueList: new MetaDataValues(),
+        autoCompleteId: null,
+        autoCompleteTitle: null,
+        autoCompletePlaceHolder: null,
+        autoCompleteUrl: null,
+        autoCompleteReference: null
     }
 });
 

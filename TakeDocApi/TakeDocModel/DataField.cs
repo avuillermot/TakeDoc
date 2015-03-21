@@ -18,7 +18,6 @@ namespace TakeDocModel
         {
             this.MetaData = new HashSet<MetaData>();
             this.DataFieldValue = new HashSet<DataFieldValue>();
-            this.DataFieldAutoComplete = new HashSet<DataFieldAutoComplete>();
         }
     
         public System.Guid DataFieldId { get; set; }
@@ -33,10 +32,11 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public string DataFieldTypeId { get; set; }
         public string DataFieldLabel { get; set; }
+        public Nullable<System.Guid> DataFieldAutoCompleteId { get; set; }
     
         public virtual ICollection<MetaData> MetaData { get; set; }
         public virtual DataFieldType DataFieldType { get; set; }
         public virtual ICollection<DataFieldValue> DataFieldValue { get; set; }
-        public virtual ICollection<DataFieldAutoComplete> DataFieldAutoComplete { get; set; }
+        public virtual DataFieldAutoComplete DataFieldAutoComplete { get; set; }
     }
 }

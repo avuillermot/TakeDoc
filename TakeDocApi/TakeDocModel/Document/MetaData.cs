@@ -16,7 +16,7 @@ namespace TakeDocModel
             get
             {
                 if (this.DataField.DataFieldValue.Count() > 0) return "list";
-                else if (this.DataField.DataFieldAutoComplete.Count() > 0) return "autocomplete";
+                else if (this.DataField.DataFieldAutoComplete != null) return "autocomplete";
                 return this.DataField.DataFieldType.DataFieldInputType;
             }
         }

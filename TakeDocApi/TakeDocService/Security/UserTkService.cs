@@ -50,8 +50,8 @@ namespace TakeDocService.Security
         {
             this.Logger.Error(string.Format("Log on {0}", login));
             TakeDocModel.UserTk user = this.GetByLogin(login);
-            if (user != null && user.UserTkPassword != password) user = null;
-            if (user == null) {
+            if (user != null && (user.UserTkPassword != password || user.UserTkEnable == false)) user = null;
+             if (user == null) {
                 string msg = "Utilisateur inconnu ou non authentifié.";
                 base.Logger.Info(msg);
                 throw new Exception(msg);

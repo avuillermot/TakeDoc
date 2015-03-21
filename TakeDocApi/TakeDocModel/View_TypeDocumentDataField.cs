@@ -24,5 +24,8 @@ namespace TakeDocModel
         public string TypeId { get; set; }
         public string InputType { get; set; }
         public bool EtatDeleteData { get; set; }
+        public string TypeDocumentLabel { get; set; }
+        public string EntityReference { get; set; }
+        public string EntityLibelle { get; set; }
     }
 }

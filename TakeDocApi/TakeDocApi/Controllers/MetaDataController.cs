@@ -43,7 +43,12 @@ namespace TakeDocApi.Controllers
                                               reference = value.DataFieldValueReference,
                                               etatDelete = value.EtatDeleteData,
                                               entity = value.EntityId
-                                          }
+                                          },
+                              autoCompleteId = (metadata.AutoComplete == null) ? Guid.Empty : metadata.AutoComplete.DataFieldAutoCompleteId,
+                              autoCompleteTitle = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteTitle,
+                              autoCompletePlaceHolder = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompletePlaceHolder,
+                              autoCompleteUrl = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteUrl,
+                              autoCompleteReference = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteReference
                           };
 
                 return Request.CreateResponse(req.ToList<object>());

@@ -21,6 +21,7 @@
           <Property Name="DataFieldReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataFieldTypeId" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="DataFieldLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteId" Type="uniqueidentifier" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -32,11 +33,9 @@
         </EntityType>
         <EntityType Name="DataFieldAutoComplete">
           <Key>
-            <PropertyRef Name="DataFieldId" />
-            <PropertyRef Name="DataFieldAutoCompleteIndex" />
+            <PropertyRef Name="DataFieldAutoCompleteId" />
           </Key>
-          <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DataFieldAutoCompleteIndex" Type="int" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DataFieldAutoCompleteReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DataFieldAutoCompleteUrl" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DataFieldAutoCompletePlaceHolder" Type="nvarchar(max)" Nullable="false" />
@@ -215,6 +214,7 @@
           <Property Name="UserTkExternalAccount" Type="bit" Nullable="false" />
           <Property Name="UserTkEmail" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserTkExterneId" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserTkEnable" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -296,27 +296,33 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de 
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_TypeDocumentDataField' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="View_TypeDocumentDataField">
           <Key>
-            <PropertyRef Name="TypeDocumentId" />
-            <PropertyRef Name="FieldId" />
-            <PropertyRef Name="DisplayIndex" />
-            <PropertyRef Name="Mandatory" />
-            <PropertyRef Name="EntityId" />
-            <PropertyRef Name="EtatDeleteData" />
-            <PropertyRef Name="Label" />
+            <PropertyRef Name="TypeDocumentLabel" />
+            <PropertyRef Name="EntityReference" />
+            <PropertyRef Name="EntityLibelle" />
             <PropertyRef Name="Reference" />
+            <PropertyRef Name="Label" />
             <PropertyRef Name="TypeId" />
             <PropertyRef Name="InputType" />
+            <PropertyRef Name="DisplayIndex" />
+            <PropertyRef Name="Mandatory" />
+            <PropertyRef Name="TypeDocumentId" />
+            <PropertyRef Name="FieldId" />
+            <PropertyRef Name="EntityId" />
+            <PropertyRef Name="EtatDeleteData" />
           </Key>
-          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="FieldId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TypeDocumentLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EntityReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EntityLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Reference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TypeId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="InputType" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DisplayIndex" Type="int" Nullable="false" />
           <Property Name="Mandatory" Type="bit" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FieldId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
-          <Property Name="Label" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="Reference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TypeId" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="InputType" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -343,6 +349,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_DataField_DataFieldAutoComplete">
+          <End Role="DataFieldAutoComplete" Type="Self.DataFieldAutoComplete" Multiplicity="0..1" />
+          <End Role="DataField" Type="Self.DataField" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataFieldAutoComplete">
+              <PropertyRef Name="DataFieldAutoCompleteId" />
+            </Principal>
+            <Dependent Role="DataField">
+              <PropertyRef Name="DataFieldAutoCompleteId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DataField_DataFieldType">
           <End Role="DataFieldType" Type="Self.DataFieldType" Multiplicity="1" />
           <End Role="DataField" Type="Self.DataField" Multiplicity="*" />
@@ -352,18 +370,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Principal>
             <Dependent Role="DataField">
               <PropertyRef Name="DataFieldTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DataFieldAutoComplete_DataField">
-          <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
-          <End Role="DataFieldAutoComplete" Type="Self.DataFieldAutoComplete" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="DataField">
-              <PropertyRef Name="DataFieldId" />
-            </Principal>
-            <Dependent Role="DataFieldAutoComplete">
-              <PropertyRef Name="DataFieldId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -516,16 +522,19 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </EntitySet>
           <EntitySet Name="View_TypeDocumentDataField" EntityType="Self.View_TypeDocumentDataField" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [View_TypeDocumentDataField].[TypeDocumentId] AS [TypeDocumentId], 
-    [View_TypeDocumentDataField].[FieldId] AS [FieldId], 
+    [View_TypeDocumentDataField].[TypeDocumentLabel] AS [TypeDocumentLabel], 
+    [View_TypeDocumentDataField].[EntityReference] AS [EntityReference], 
+    [View_TypeDocumentDataField].[EntityLibelle] AS [EntityLibelle], 
+    [View_TypeDocumentDataField].[Reference] AS [Reference], 
+    [View_TypeDocumentDataField].[Label] AS [Label], 
+    [View_TypeDocumentDataField].[TypeId] AS [TypeId], 
+    [View_TypeDocumentDataField].[InputType] AS [InputType], 
     [View_TypeDocumentDataField].[DisplayIndex] AS [DisplayIndex], 
     [View_TypeDocumentDataField].[Mandatory] AS [Mandatory], 
+    [View_TypeDocumentDataField].[TypeDocumentId] AS [TypeDocumentId], 
+    [View_TypeDocumentDataField].[FieldId] AS [FieldId], 
     [View_TypeDocumentDataField].[EntityId] AS [EntityId], 
-    [View_TypeDocumentDataField].[EtatDeleteData] AS [EtatDeleteData], 
-    [View_TypeDocumentDataField].[Label] AS [Label], 
-    [View_TypeDocumentDataField].[Reference] AS [Reference], 
-    [View_TypeDocumentDataField].[TypeId] AS [TypeId], 
-    [View_TypeDocumentDataField].[InputType] AS [InputType]
+    [View_TypeDocumentDataField].[EtatDeleteData] AS [EtatDeleteData]
     FROM [dbo].[View_TypeDocumentDataField] AS [View_TypeDocumentDataField]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="View_UserEntity" EntityType="Self.View_UserEntity" store:Type="Views" store:Schema="dbo">
@@ -543,13 +552,13 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
     [View_VersionStoreLocator].[StreamLocator] AS [StreamLocator]
     FROM [dbo].[View_VersionStoreLocator] AS [View_VersionStoreLocator]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_DataField_DataFieldAutoComplete" Association="Self.FK_DataField_DataFieldAutoComplete">
+            <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
+            <End Role="DataField" EntitySet="DataField" />
+          </AssociationSet>
           <AssociationSet Name="FK_DataField_DataFieldType" Association="Self.FK_DataField_DataFieldType">
             <End Role="DataFieldType" EntitySet="DataFieldType" />
             <End Role="DataField" EntitySet="DataField" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DataFieldAutoComplete_DataField" Association="Self.FK_DataFieldAutoComplete_DataField">
-            <End Role="DataField" EntitySet="DataField" />
-            <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
           </AssociationSet>
           <AssociationSet Name="FK_DataFieldValue_DataField" Association="Self.FK_DataFieldValue_DataField">
             <End Role="DataField" EntitySet="DataField" />
@@ -659,9 +668,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </AssociationSet>
           <EntitySet Name="View_DocumentExtended" EntityType="TakeDocModel.View_DocumentExtended" />
           <EntitySet Name="DataFieldAutoComplete" EntityType="TakeDocModel.DataFieldAutoComplete" />
-          <AssociationSet Name="FK_DataFieldAutoComplete_DataField" Association="TakeDocModel.FK_DataFieldAutoComplete_DataField">
-            <End Role="DataField" EntitySet="DataField" />
+          <AssociationSet Name="FK_DataField_DataFieldAutoComplete" Association="TakeDocModel.FK_DataField_DataFieldAutoComplete">
             <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
+            <End Role="DataField" EntitySet="DataField" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -824,7 +833,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="DataFieldType" Relationship="TakeDocModel.FK_DataField_DataFieldType" FromRole="DataField" ToRole="DataFieldType" />
           <Property Name="DataFieldLabel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DataFieldValue" Relationship="TakeDocModel.FK_DataFieldValue_DataField" FromRole="DataField" ToRole="DataFieldValue" />
-          <NavigationProperty Name="DataFieldAutoComplete" Relationship="TakeDocModel.FK_DataFieldAutoComplete_DataField" FromRole="DataField" ToRole="DataFieldAutoComplete" />
+          <Property Name="DataFieldAutoCompleteId" Type="Guid" />
+          <NavigationProperty Name="DataFieldAutoComplete" Relationship="TakeDocModel.FK_DataField_DataFieldAutoComplete" FromRole="DataField" ToRole="DataFieldAutoComplete" />
           </EntityType>
         <EntityType Name="MetaData">
           <Key>
@@ -873,6 +883,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserTkExternalAccount" Type="Boolean" Nullable="false" />
           <Property Name="UserTkEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkExterneId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkEnable" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -941,6 +952,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <PropertyRef Name="TypeId" />
             <PropertyRef Name="InputType" />
             <PropertyRef Name="EtatDeleteData" />
+            <PropertyRef Name="TypeDocumentLabel" />
+            <PropertyRef Name="EntityReference" />
+            <PropertyRef Name="EntityLibelle" />
           </Key>
           <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
           <Property Name="FieldId" Type="Guid" Nullable="false" />
@@ -949,16 +963,19 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="Label" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Reference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TypeId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="InputType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="TypeDocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntityReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EntityLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DataFieldValue">
           <Key>
             <PropertyRef Name="DataFieldId" />
             <PropertyRef Name="DataFieldValueIndex" />
           </Key>
-          <Property Name="DataFieldId" Type="Guid" Nullable="false" />
+          <Property Name="DataFieldId" Nullable="false" Type="Guid" />
           <Property Name="DataFieldValueIndex" Type="Int32" Nullable="false" />
           <Property Name="DataFieldValueReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DataFieldValueKey" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1090,11 +1107,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
         </EntityType>
         <EntityType Name="DataFieldAutoComplete">
           <Key>
-            <PropertyRef Name="DataFieldId" />
-            <PropertyRef Name="DataFieldAutoCompleteIndex" />
+            <PropertyRef Name="DataFieldAutoCompleteId" />
           </Key>
-          <Property Name="DataFieldId" Type="Guid" Nullable="false" />
-          <Property Name="DataFieldAutoCompleteIndex" Type="Int32" Nullable="false" />
           <Property Name="DataFieldAutoCompleteReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DataFieldAutoCompleteUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DataFieldAutoCompletePlaceHolder" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
@@ -1107,17 +1121,17 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserDeleteData" Type="Guid" />
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_DataFieldAutoComplete_DataField" FromRole="DataFieldAutoComplete" ToRole="DataField" />
+          <Property Name="DataFieldAutoCompleteId" Type="Guid" Nullable="false" />
         </EntityType>
-        <Association Name="FK_DataFieldAutoComplete_DataField">
-          <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
-          <End Type="TakeDocModel.DataFieldAutoComplete" Role="DataFieldAutoComplete" Multiplicity="*" />
+        <Association Name="FK_DataField_DataFieldAutoComplete">
+          <End Type="TakeDocModel.DataFieldAutoComplete" Role="DataFieldAutoComplete" Multiplicity="0..1" />
+          <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="DataField">
-              <PropertyRef Name="DataFieldId" />
+            <Principal Role="DataFieldAutoComplete">
+              <PropertyRef Name="DataFieldAutoCompleteId" />
             </Principal>
-            <Dependent Role="DataFieldAutoComplete">
-              <PropertyRef Name="DataFieldId" />
+            <Dependent Role="DataField">
+              <PropertyRef Name="DataFieldAutoCompleteId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1246,6 +1260,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="DataField">
             <EntityTypeMapping TypeName="TakeDocModel.DataField">
               <MappingFragment StoreEntitySet="DataField">
+                <ScalarProperty Name="DataFieldAutoCompleteId" ColumnName="DataFieldAutoCompleteId" />
                 <ScalarProperty Name="DataFieldLabel" ColumnName="DataFieldLabel" />
                 <ScalarProperty Name="DataFieldTypeId" ColumnName="DataFieldTypeId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
@@ -1285,6 +1300,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkEnable" ColumnName="UserTkEnable" />
                 <ScalarProperty Name="UserTkExterneId" ColumnName="UserTkExterneId" />
                 <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
                 <ScalarProperty Name="UserTkExternalAccount" ColumnName="UserTkExternalAccount" />
@@ -1329,6 +1345,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="View_TypeDocumentDataField">
             <EntityTypeMapping TypeName="TakeDocModel.View_TypeDocumentDataField">
               <MappingFragment StoreEntitySet="View_TypeDocumentDataField">
+                <ScalarProperty Name="EntityLibelle" ColumnName="EntityLibelle" />
+                <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
+                <ScalarProperty Name="TypeDocumentLabel" ColumnName="TypeDocumentLabel" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="InputType" ColumnName="InputType" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
@@ -1425,6 +1444,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="DataFieldAutoComplete">
             <EntityTypeMapping TypeName="TakeDocModel.DataFieldAutoComplete">
               <MappingFragment StoreEntitySet="DataFieldAutoComplete">
+                <ScalarProperty Name="DataFieldAutoCompleteId" ColumnName="DataFieldAutoCompleteId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
                 <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
@@ -1437,9 +1457,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DataFieldAutoCompletePlaceHolder" ColumnName="DataFieldAutoCompletePlaceHolder" />
                 <ScalarProperty Name="DataFieldAutoCompleteUrl" ColumnName="DataFieldAutoCompleteUrl" />
                 <ScalarProperty Name="DataFieldAutoCompleteReference" ColumnName="DataFieldAutoCompleteReference" />
-                <ScalarProperty Name="DataFieldAutoCompleteIndex" ColumnName="DataFieldAutoCompleteIndex" />
-                <ScalarProperty Name="DataFieldId" ColumnName="DataFieldId" />
-              </MappingFragment>
+                </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
         </EntityContainerMapping>

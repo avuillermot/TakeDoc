@@ -23,5 +23,6 @@ namespace TakeDocModel
         public bool UserTkExternalAccount { get; set; }
         public string UserTkEmail { get; set; }
         public string UserTkExterneId { get; set; }
+        public bool UserTkEnable { get; set; }
     }
 }
