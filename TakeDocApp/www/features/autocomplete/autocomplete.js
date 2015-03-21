@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
+takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
     
     var fRefresh = function () {
         if (!$scope.$$phase) {
@@ -13,14 +13,14 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
+        debugger;
+        var toAutocomplete = $rootScope.myTakeDoc.Metadatas.where({ type: "0" });
+        if (toAutocomplete.length == 0) $scope.doSelect();
     });
 
-    $scope.doSave = function () {
-        return false;
-    };
-
     $scope.doSelect = function () {
-        $rootScope.PopupHelper.show(arguments[0]);
+        $location.path($scope.nextUrl.replace("#/", ""));
+        $scope.$broadcast('autocomplete$refreshPage');
     };
 
     $scope.onType = function () {

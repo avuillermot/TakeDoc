@@ -35,6 +35,8 @@
         <EntityTypeShape EntityType="TakeDocModel.Status_Version" Width="1.5" PointX="10.375" PointY="9.75" />
         <AssociationConnector Association="TakeDocModel.FK_Version_Status_Version" />
         <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="TakeDocModel.DataFieldAutoComplete" Width="1.5" PointX="20.375" PointY="14.625" />
+        <AssociationConnector Association="TakeDocModel.FK_DataFieldAutoComplete_DataField" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -58,6 +58,9 @@
     <Compile Include="DataField.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DataFieldAutoComplete.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="DataFieldType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

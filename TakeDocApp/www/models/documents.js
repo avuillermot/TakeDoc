@@ -22,6 +22,7 @@ function documents() {
     this.Pages = new Pictures();
     this.Extension = "jpeg";
     this.CurrentVersionId = null;
+    this.Metadatas = null;
 }
 
 function documentService() {
@@ -86,7 +87,7 @@ documentService.SetSend = function (document, onSuccess, onError) {
         type: 'GET',
         url: url,
         success: function () {
-			onSuccess();
+            documentService.getMetaData(document, onSuccess, onError);
         },
         error: function () {
 			onError();
@@ -95,17 +96,10 @@ documentService.SetSend = function (document, onSuccess, onError) {
 }
 
 documentService.getMetaData = function (document, onSuccess, onError) {
-    var url = environnement.UrlBase + "MetaData/Version/{versionId}/{entityId}";
-    url = url.replace("<versionId/>", document.DocumentCurrentVersionId);
-    url = url.replace("<entityId/>", document.EntityId);
-    $.ajax({
-        type: 'GET',
-        url: myUrl,
-        success: function () {
+    metas = new Metadatas("byVersion", document.DocumentCurrentVersionId, document.EntityId);
+        var fn = function (collection) {
+            document.Metadatas = collection;
             onSuccess();
-        },
-        error: function () {
-            onError();
-        }
-    });
+        };
+    metas.fetch({ success: fn, error: onError } );
 }

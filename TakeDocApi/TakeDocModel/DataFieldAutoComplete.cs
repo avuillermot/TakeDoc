@@ -12,17 +12,14 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class DataField
+    public partial class DataFieldAutoComplete
     {
-        public DataField()
-        {
-            this.MetaData = new HashSet<MetaData>();
-            this.DataFieldValue = new HashSet<DataFieldValue>();
-            this.DataFieldAutoComplete = new HashSet<DataFieldAutoComplete>();
-        }
-    
         public System.Guid DataFieldId { get; set; }
-        public string DataFieldReference { get; set; }
+        public int DataFieldAutoCompleteIndex { get; set; }
+        public string DataFieldAutoCompleteReference { get; set; }
+        public string DataFieldAutoCompleteUrl { get; set; }
+        public string DataFieldAutoCompletePlaceHolder { get; set; }
+        public string DataFieldAutoCompleteTitle { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -31,12 +28,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
-        public string DataFieldTypeId { get; set; }
-        public string DataFieldLabel { get; set; }
     
-        public virtual ICollection<MetaData> MetaData { get; set; }
-        public virtual DataFieldType DataFieldType { get; set; }
-        public virtual ICollection<DataFieldValue> DataFieldValue { get; set; }
-        public virtual ICollection<DataFieldAutoComplete> DataFieldAutoComplete { get; set; }
+        public virtual DataField DataField { get; set; }
     }
 }

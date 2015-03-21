@@ -30,6 +30,26 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="DataFieldAutoComplete">
+          <Key>
+            <PropertyRef Name="DataFieldId" />
+            <PropertyRef Name="DataFieldAutoCompleteIndex" />
+          </Key>
+          <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteIndex" Type="int" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteUrl" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DataFieldAutoCompletePlaceHolder" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteTitle" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="DataFieldType">
           <Key>
             <PropertyRef Name="DataFieldTypeId" />
@@ -335,6 +355,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DataFieldAutoComplete_DataField">
+          <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
+          <End Role="DataFieldAutoComplete" Type="Self.DataFieldAutoComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataField">
+              <PropertyRef Name="DataFieldId" />
+            </Principal>
+            <Dependent Role="DataFieldAutoComplete">
+              <PropertyRef Name="DataFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DataFieldValue_DataField">
           <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
           <End Role="DataFieldValue" Type="Self.DataFieldValue" Multiplicity="*" />
@@ -438,6 +470,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
         <EntityContainer Name="TakeDocModelStoreContainer">
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataField" EntityType="Self.DataField" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DataFieldAutoComplete" EntityType="Self.DataFieldAutoComplete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataFieldType" EntityType="Self.DataFieldType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataFieldValue" EntityType="Self.DataFieldValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
@@ -513,6 +546,10 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <AssociationSet Name="FK_DataField_DataFieldType" Association="Self.FK_DataField_DataFieldType">
             <End Role="DataFieldType" EntitySet="DataFieldType" />
             <End Role="DataField" EntitySet="DataField" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DataFieldAutoComplete_DataField" Association="Self.FK_DataFieldAutoComplete_DataField">
+            <End Role="DataField" EntitySet="DataField" />
+            <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
           </AssociationSet>
           <AssociationSet Name="FK_DataFieldValue_DataField" Association="Self.FK_DataFieldValue_DataField">
             <End Role="DataField" EntitySet="DataField" />
@@ -621,6 +658,11 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <End Role="Version" EntitySet="Version" />
           </AssociationSet>
           <EntitySet Name="View_DocumentExtended" EntityType="TakeDocModel.View_DocumentExtended" />
+          <EntitySet Name="DataFieldAutoComplete" EntityType="TakeDocModel.DataFieldAutoComplete" />
+          <AssociationSet Name="FK_DataFieldAutoComplete_DataField" Association="TakeDocModel.FK_DataFieldAutoComplete_DataField">
+            <End Role="DataField" EntitySet="DataField" />
+            <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -782,6 +824,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <NavigationProperty Name="DataFieldType" Relationship="TakeDocModel.FK_DataField_DataFieldType" FromRole="DataField" ToRole="DataFieldType" />
           <Property Name="DataFieldLabel" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="DataFieldValue" Relationship="TakeDocModel.FK_DataFieldValue_DataField" FromRole="DataField" ToRole="DataFieldValue" />
+          <NavigationProperty Name="DataFieldAutoComplete" Relationship="TakeDocModel.FK_DataFieldAutoComplete_DataField" FromRole="DataField" ToRole="DataFieldAutoComplete" />
           </EntityType>
         <EntityType Name="MetaData">
           <Key>
@@ -1045,6 +1088,39 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="VersionStatusId" Type="Guid" Nullable="false" />
           <Property Name="VersionStatusLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="DataFieldAutoComplete">
+          <Key>
+            <PropertyRef Name="DataFieldId" />
+            <PropertyRef Name="DataFieldAutoCompleteIndex" />
+          </Key>
+          <Property Name="DataFieldId" Type="Guid" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteIndex" Type="Int32" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DataFieldAutoCompleteUrl" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataFieldAutoCompletePlaceHolder" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DataFieldAutoCompleteTitle" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="DataField" Relationship="TakeDocModel.FK_DataFieldAutoComplete_DataField" FromRole="DataFieldAutoComplete" ToRole="DataField" />
+        </EntityType>
+        <Association Name="FK_DataFieldAutoComplete_DataField">
+          <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
+          <End Type="TakeDocModel.DataFieldAutoComplete" Role="DataFieldAutoComplete" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="DataField">
+              <PropertyRef Name="DataFieldId" />
+            </Principal>
+            <Dependent Role="DataFieldAutoComplete">
+              <PropertyRef Name="DataFieldId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1343,6 +1419,26 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DataFieldAutoComplete">
+            <EntityTypeMapping TypeName="TakeDocModel.DataFieldAutoComplete">
+              <MappingFragment StoreEntitySet="DataFieldAutoComplete">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DataFieldAutoCompleteTitle" ColumnName="DataFieldAutoCompleteTitle" />
+                <ScalarProperty Name="DataFieldAutoCompletePlaceHolder" ColumnName="DataFieldAutoCompletePlaceHolder" />
+                <ScalarProperty Name="DataFieldAutoCompleteUrl" ColumnName="DataFieldAutoCompleteUrl" />
+                <ScalarProperty Name="DataFieldAutoCompleteReference" ColumnName="DataFieldAutoCompleteReference" />
+                <ScalarProperty Name="DataFieldAutoCompleteIndex" ColumnName="DataFieldAutoCompleteIndex" />
+                <ScalarProperty Name="DataFieldId" ColumnName="DataFieldId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

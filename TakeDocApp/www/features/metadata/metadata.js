@@ -10,7 +10,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
     
     var metas = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        metas = new Metadatas("byVersion", $rootScope.documentToAdd.DocumentCurrentVersionId, $rootScope.documentToAdd.EntityId);
+        metas = new Metadatas("byVersion", $rootScope.myTakeDoc.DocumentCurrentVersionId, $rootScope.myTakeDoc.EntityId);
         var fn = function (collection) {
             $scope.Metadatas = collection.models;
             try { $scope.$apply(); } catch (ex) { }
@@ -30,7 +30,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
 
         var success = function () {
             $location.path($scope.nextUrl.replace("#/", ""));
-            $scope.$apply();
+            $scope.$broadcast('metadata$refreshPage');
         };
 
         var error = function () {
@@ -40,9 +40,9 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         };
 
         metas.save({
-            userId: $rootScope.documentToAdd.UserCreateData,
-            entityId: $rootScope.documentToAdd.EntityId,
-            versionId: $rootScope.documentToAdd.DocumentCurrentVersionId
+            userId: $rootScope.myTakeDoc.UserCreateData,
+            entityId: $rootScope.myTakeDoc.EntityId,
+            versionId: $rootScope.myTakeDoc.DocumentCurrentVersionId
         }, success, error);
         return false;
     };

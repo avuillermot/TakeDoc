@@ -107,8 +107,8 @@ namespace TakeDocService.Document
             foreach (TakeDocModel.MetaData meta in metas)
             {
                 ICollection<TakeDocModel.DataFieldValue> values = daoDataFieldValue.GetBy(x => x.DataFieldId == meta.DataFieldId && x.EntityId == meta.EntityId && (x.EtatDeleteData == false || x.DataFieldValueKey == meta.MetaDataValue));
-                if (values != null && values.Count() > 0) meta.DataFieldValue = values;
-                else meta.DataFieldValue = new List<TakeDocModel.DataFieldValue>();
+                if (values != null && values.Count() > 0) meta.DataFieldValues = values;
+                else meta.DataFieldValues = new List<TakeDocModel.DataFieldValue>();
             }
             return metas;
         }

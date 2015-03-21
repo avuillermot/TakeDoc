@@ -18,12 +18,12 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario = new scenario();
 
     var scenarioAddDocument = [
-        { from: "#/menu", to: "#/autocomplete" },
-        { from: "#/autocomplete", to: "#/selectEntity" },
+        { from: "#/menu", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
-        { from: "#/takePicture", to: "#/metadata" },
+        { from: "#/takePicture", to: "#/autocomplete" },
+        { from: "#/autocomplete", to: "#/metadata" },
         { from: "#/metadata", to: "#/menu" }
     ];
 
