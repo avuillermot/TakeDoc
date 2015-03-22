@@ -12,8 +12,8 @@ namespace TakeDocApi.Controllers.AutoComplete
     public class ClientController : ApiController
     {
         [HttpGet]
-        [Route("Cegid/{entityId}/{value}")]
-        public HttpResponseMessage SetSend(Guid entityId, string value)
+        [Route("Cegid/{entityId}/{userId}/{value}")]
+        public HttpResponseMessage SetSend(Guid entityId, Guid userId, string value)
         {
             ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<ITypeDocumentService>();
             try
@@ -22,7 +22,7 @@ namespace TakeDocApi.Controllers.AutoComplete
                 var req = from type in types
                           select new
                           {
-                              key = type.TypeDocumentId,
+                              key = type.TypeDocumentReference,
                               text = type.TypeDocumentLabel
                           };
                 return Request.CreateResponse(req.ToList());

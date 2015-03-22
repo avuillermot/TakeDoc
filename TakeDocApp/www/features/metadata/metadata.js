@@ -1,15 +1,21 @@
 ﻿'use strict';
-takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $stateParams, $route, $location, $ionicLoading) {
+takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatform', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $ionicPlatform, $route, $location, $ionicLoading) {
 
     $scope.filterType = function () {
         return (arguments[0].attributes.htmlType !== "autocomplete");
     };
+
+    var fRefresh = function () {
+        if (!$scope.$$phase) {
+            try { $scope.$apply(); } catch (ex) { }
+        }
+    };
+    $scope.$on("metadata$refreshPage", fRefresh);
     
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
-
         // if no metadata go to next
         var metas = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
             return item.get("htmlType") !== "autocomplete";
@@ -23,6 +29,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$stateParams'
         });
 
         var success = function () {
+            $scope.$broadcast("metadata$refreshPage");
             $location.path($scope.nextUrl.replace("#/", ""));
         };
 

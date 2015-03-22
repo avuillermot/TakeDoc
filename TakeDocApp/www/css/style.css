@@ -15,7 +15,7 @@ div.button-bar {
     margin-top: 30px;
 }
 /* spécifique select */
-.ion-input-select--large,
+/*.ion-input-select--large,
 .ion-input-select,
 select {
   -webkit-appearance:none;
@@ -29,7 +29,6 @@ select {
   padding: auto 0;
   overflow:hidden;
   box-sizing:border-box;
-
 }
 
 .ion-input-select {
@@ -48,12 +47,21 @@ select {
       text-indent:20px;
       padding:.5rem 0;
     }
-}
+}*/
 /* fin spécifique select */
 /* formulaire METADATA */
 .metadata {
     border:none;
 }
+label.metadata .input-label, div.metadata div span  {
+    font-size:12px;
+    border:none;
+}
+/*.toggle.toggle-calm.disable-user-behavior {
+    height:15px;
+}*/
+
+/*item item-input metadata metadata-mandatory-true*/
 
 .metadata-mandatory-true {
     background-image: url("../img/mandatory.png");

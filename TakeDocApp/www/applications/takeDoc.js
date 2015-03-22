@@ -13,7 +13,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = false;
+    $rootScope.isApp = true;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
 
@@ -42,7 +42,11 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     });
 
     $ionicPlatform.registerBackButtonAction(function () {
-        navigator.app.exitApp();
+        alert("test");
+        var fn = function () {
+            if (arguments[0] == "Ok") navigator.app.exitApp();
+        };
+        $rootScope.PopupHelper.show("Quitter", "Voulez-vous quitter l'application ?", "OkCancel", fn)
     }, 100);
 });
 
