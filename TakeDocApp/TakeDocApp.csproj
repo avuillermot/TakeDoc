@@ -68,14 +68,8 @@
     <Content Include="www\js\app.js" />
     <Content Include="www\js\controllers.js" />
     <Content Include="www\js\services.js" />
-    <Content Include="www\lib\angular-animate\angular-animate.js" />
-    <Content Include="www\lib\angular-animate\angular-animate.min.js" />
     <Content Include="www\lib\angular-route\angular-route.js" />
     <Content Include="www\lib\angular-route\angular-route.min.js" />
-    <Content Include="www\lib\angular-sanitize\angular-sanitize.js" />
-    <Content Include="www\lib\angular-sanitize\angular-sanitize.min.js" />
-    <Content Include="www\lib\angular\angular-csp.css" />
-    <Content Include="www\lib\angular\angular.js" />
     <Content Include="www\lib\backbone-min.js" />
     <Content Include="www\lib\ionic\css\ionic.css" />
     <Content Include="www\lib\ionic\css\ionic.min.css" />
@@ -164,6 +158,12 @@
     <Content Include="www\lib\ionic\js\angular\service\templateLoader.js" />
     <Content Include="www\lib\ionic\js\angular\service\viewService.js" />
     <Content Include="www\lib\ionic\js\angular\service\viewSwitcher.js" />
+    <Content Include="www\lib\ionic\js\ionic-angular.js" />
+    <Content Include="www\lib\ionic\js\ionic-angular.min.js" />
+    <Content Include="www\lib\ionic\js\ionic.bundle.js" />
+    <Content Include="www\lib\ionic\js\ionic.bundle.min.js" />
+    <Content Include="www\lib\ionic\js\ionic.js" />
+    <Content Include="www\lib\ionic\js\ionic.min.js" />
     <Content Include="www\lib\ionic\release\css\ionic.css" />
     <Content Include="www\lib\ionic\release\css\ionic.min.css" />
     <Content Include="www\lib\ionic\release\js\ionic-angular.js" />
@@ -431,29 +431,11 @@
     <None Include="plugins\org.apache.cordova.device\RELEASENOTES.md" />
     <None Include="plugins\org.apache.cordova.device\src\ios\CDVDevice.m" />
     <None Include="scss\ionic.app.scss" />
-    <None Include="www\lib\angular-animate\.bower.json" />
-    <None Include="www\lib\angular-animate\angular-animate.min.js.map" />
-    <None Include="www\lib\angular-animate\bower.json" />
-    <None Include="www\lib\angular-animate\package.json" />
-    <None Include="www\lib\angular-animate\README.md" />
     <None Include="www\lib\angular-route\.bower.json" />
     <None Include="www\lib\angular-route\angular-route.min.js.map" />
     <None Include="www\lib\angular-route\bower.json" />
     <None Include="www\lib\angular-route\package.json" />
     <None Include="www\lib\angular-route\README.md" />
-    <None Include="www\lib\angular-sanitize\.bower.json" />
-    <None Include="www\lib\angular-sanitize\angular-sanitize.min.js.map" />
-    <None Include="www\lib\angular-sanitize\bower.json" />
-    <None Include="www\lib\angular-sanitize\package.json" />
-    <None Include="www\lib\angular-sanitize\README.md" />
-    <None Include="www\lib\angular-ui-router\.bower.json" />
-    <None Include="www\lib\angular-ui-router\bower.json" />
-    <None Include="www\lib\angular-ui-router\CHANGELOG.md" />
-    <None Include="www\lib\angular-ui-router\CONTRIBUTING.md" />
-    <None Include="www\lib\angular-ui-router\LICENSE" />
-    <None Include="www\lib\angular-ui-router\README.md" />
-    <None Include="www\lib\angular\.bower.json" />
-    <None Include="www\lib\angular\README.md" />
     <None Include="www\lib\backbone-min.map" />
     <Content Include="platforms\android\build.xml" />
     <Content Include="plugins\com.ionic.keyboard\plugin.xml" />
@@ -793,9 +775,6 @@
     <Compile Include="plugins\org.apache.cordova.camera\src\wp\Camera.cs" />
     <Compile Include="plugins\org.apache.cordova.console\src\wp\DebugConsole.cs" />
     <Compile Include="plugins\org.apache.cordova.device\src\wp\Device.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Include="www\lib\angular-ui-router\api\angular-ui-router.d.ts" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

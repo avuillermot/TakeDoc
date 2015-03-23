@@ -29,8 +29,8 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         });
 
         var success = function () {
-            $scope.$broadcast("metadata$refreshPage");
             $location.path($scope.nextUrl.replace("#/", ""));
+            $scope.$broadcast("metadata$refreshPage");
         };
 
         var error = function () {
