@@ -7,7 +7,7 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
 
     var fRefresh = function () {
         if (!$scope.$$phase) {
-            try { $scope.$apply(); } catch (ex) { }
+            try { $rootScope.$apply(); } catch (ex) { }
         }
     };
     $scope.$on("autocomplete$refreshPage", fRefresh);
@@ -20,12 +20,12 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         autocompletes = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
             return item.get("htmlType") === "autocomplete";
         });
-        if (autocompletes.length == 0) $scope.doSelect();
-        $scope.current = autocompletes[currentIndex].attributes;
+        if (autocompletes.length == 0) $scope.doSelect(null);
+        else $scope.current = autocompletes[currentIndex].attributes;
     });
 
     $scope.doSelect = function (key) {
-        $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
+        if (key !=  null) $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
         $location.path($scope.nextUrl.replace("#/", ""));
     };
 

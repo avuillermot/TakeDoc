@@ -18,27 +18,6 @@ namespace TakeDocApi.Controllers.oData
     public class DocumentsController : oDataBase<Document>
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
-        
-        // GET: odata/Documents
-        [EnableQuery]
-        public IHttpActionResult GetDocuments(ODataQueryOptions<Document> queryOptions)
-        {
-            // validate the query.
-            ICollection<TakeDocModel.Document> documents;
-            try
-            {
-                queryOptions.Validate(_validationSettings);
-                IQueryable query = queryOptions.ApplyTo(_db.Document.AsQueryable());
-                IQueryable<TakeDocModel.Document> data = query as IQueryable<TakeDocModel.Document>;
-                documents = data.ToList();
-            }
-            catch (ODataException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok(documents);
-        }
 
         // PUT: odata/Documents(5)
         [EnableQuery]
