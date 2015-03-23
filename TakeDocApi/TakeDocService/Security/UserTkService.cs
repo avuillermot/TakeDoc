@@ -72,8 +72,8 @@ namespace TakeDocService.Security
 
             foreach (TakeDocModel.View_UserEntity ue in user.Entitys)
             {
-                claims.Add(new Claim(ue.EntityId.ToString(),ue.EntityLibelle,"entityId"));
-                claims.Add(new Claim(ue.EntityReference, ue.EntityLibelle, "entityReference"));
+                claims.Add(new Claim(ue.EntityId.ToString(),ue.EntityLabel,"entityId"));
+                claims.Add(new Claim(ue.EntityReference, ue.EntityLabel, "entityReference"));
             }
 
             ClaimsIdentity ci = new ClaimsIdentity(claims);

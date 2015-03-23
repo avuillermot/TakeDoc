@@ -97,9 +97,9 @@ documentService.SetSend = function (document, onSuccess, onError) {
 
 documentService.getMetaData = function (document, onSuccess, onError) {
     metas = new Metadatas("byVersion", document.DocumentCurrentVersionId, document.EntityId);
-        var fn = function (collection) {
-            document.Metadatas = collection;
-            onSuccess();
-        };
+    var fn = function (collection) {
+       document.Metadatas = collection;
+       onSuccess();
+    };
     metas.fetch({ success: fn, error: onError } );
 }

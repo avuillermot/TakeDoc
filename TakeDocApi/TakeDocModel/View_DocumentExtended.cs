@@ -14,26 +14,19 @@ namespace TakeDocModel
     
     public partial class View_DocumentExtended
     {
-        public System.Guid EntityId { get; set; }
-        public System.Guid DocumentId { get; set; }
+        public string EntityReference { get; set; }
+        public string EntityLabel { get; set; }
         public string DocumentReference { get; set; }
         public string DocumentLabel { get; set; }
-        public Nullable<System.Guid> DocumentCurrentVersionId { get; set; }
-        public System.Guid DocumentUserCreateData { get; set; }
-        public System.DateTimeOffset DocumentDateCreateData { get; set; }
-        public bool DocumentEtatDeleteData { get; set; }
-        public System.Guid DocumentOwner { get; set; }
-        public System.Guid DocumentStatusId { get; set; }
+        public string DocumentOwner { get; set; }
+        public string StatusDocumentReference { get; set; }
         public string DocumentStatutLabel { get; set; }
-        public System.Guid DocumentTypeId { get; set; }
+        public string TypeDocumentReference { get; set; }
         public string DocumentTypeLabel { get; set; }
-        public System.Guid VersionUserCreateData { get; set; }
-        public System.DateTimeOffset VersionDateCreateData { get; set; }
-        public bool VersionEtatDeleteData { get; set; }
         public bool VersionMajor { get; set; }
         public decimal VersionNumber { get; set; }
         public string VersionReference { get; set; }
-        public System.Guid VersionStatusId { get; set; }
+        public string StatusVersionReference { get; set; }
         public string VersionStatusLibelle { get; set; }
     }
 }

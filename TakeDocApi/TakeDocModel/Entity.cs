@@ -16,7 +16,7 @@ namespace TakeDocModel
     {
         public System.Guid EntityId { get; set; }
         public string EntityReference { get; set; }
-        public string EntityLibelle { get; set; }
         public bool EtatDeleteData { get; set; }
+        public string EntityLabel { get; set; }
     }
 }

@@ -2,7 +2,7 @@
     if (data != null) {
         this.Id = data.EntityId;
         this.Reference = data.EntityReference
-        this.Label = data.EntityLibelle;
+        this.Label = data.EntityLabel;
     }
 }
 

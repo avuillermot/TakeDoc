@@ -26,8 +26,15 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/autocomplete", to: "#/metadata" },
         { from: "#/metadata", to: "#/menu" }
     ];
+    var scenarioFindDocument = [
+        { from: "#/menu", to: "#/selectEntity" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectTypeDocument", to: "#/findDocument" },
+        { from: "#/findDocument", to: "#/menu" }
+    ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
+    $rootScope.Scenario.init("findDocument", scenarioFindDocument);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -59,11 +66,12 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
-        //.state('formElement', _routeHelper.get("formElement", false, "/:page"))
         .state('metadata', _routeHelper.get("metadata", false))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false))
-        .state('autocomplete', _routeHelper.get("autocomplete", false));
+        .state('autocomplete', _routeHelper.get("autocomplete", false))
+
+        .state('findDocument', _routeHelper.get("findDocument", false));
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

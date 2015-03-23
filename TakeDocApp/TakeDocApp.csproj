@@ -34,6 +34,8 @@
   <ItemGroup>
     <Content Include="www\features\autocomplete\autocomplete.html" />
     <Content Include="www\features\autocomplete\autocomplete.js" />
+    <Content Include="www\features\findDocument\findDocument.js" />
+    <Content Include="www\features\findDocument\findDocument.html" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
     <Content Include="www\features\metadata\metadata.html" />
@@ -561,6 +563,7 @@
     <None Include="www\lib\moment\README.md" />
     <None Include="www\lib\moment\scripts\npm_prepublish.sh" />
     <None Include="www\lib\underscore-min.map" />
+    <Content Include="www\models\documentExtended.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="config.xml" />

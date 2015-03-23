@@ -33,7 +33,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.DataField>("DataFields");
             builder.EntitySet<TakeDocModel.DataFieldValue>("DataFieldValues");
             builder.EntitySet<TakeDocModel.DataFieldAutoComplete>("DataFieldAutoCompletes");
-            builder.EntitySet<TakeDocModel.View_DocumentExtended>("DocumentsExtended");
+            builder.EntitySet<TakeDocModel.View_DocumentExtended>("DocumentExtendeds");
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }
     }

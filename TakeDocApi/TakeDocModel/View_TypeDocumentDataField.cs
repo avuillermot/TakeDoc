@@ -26,6 +26,6 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public string TypeDocumentLabel { get; set; }
         public string EntityReference { get; set; }
-        public string EntityLibelle { get; set; }
+        public string EntityLabel { get; set; }
     }
 }
