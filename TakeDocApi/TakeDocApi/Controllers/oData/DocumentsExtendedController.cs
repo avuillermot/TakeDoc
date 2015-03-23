@@ -14,13 +14,12 @@ using Microsoft.Data.OData;
 
 namespace TakeDocApi.Controllers.oData
 {
-    public class View_DocumentExtendedController : oDataBase<TakeDocModel.View_DocumentExtended>
+    public class DocumentsExtendedController : oDataBase<View_DocumentExtended>
     {
         private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        // GET: odata/View_DocumentExtended
-        [EnableQuery]
-        public IHttpActionResult GetView_DocumentExtended(ODataQueryOptions<View_DocumentExtended> queryOptions)
+        // GET: odata/DocumentExtended
+        public IHttpActionResult GetDocumentsExtended(ODataQueryOptions<View_DocumentExtended> queryOptions)
         {
             ICollection<View_DocumentExtended> items = null;
             try

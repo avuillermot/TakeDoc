@@ -174,7 +174,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\StartUp.cs" />
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -182,10 +181,10 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />
+    <Compile Include="Controllers\oData\DocumentsExtendedController.cs" />
     <Compile Include="Controllers\oData\oDataBase.cs" />
     <Compile Include="Controllers\oData\DocumentsController.cs" />
     <Compile Include="Controllers\oData\TypeDocumentsController.cs" />
-    <Compile Include="Controllers\oData\View_DocumentExtendedController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

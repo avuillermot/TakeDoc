@@ -24,7 +24,7 @@ namespace TakeDocApi.Controllers.oData
             ICollection<T> retour;
             try
             {
-                queryOptions.Validate(validationSettings);
+                if (validationSettings !=  null) queryOptions.Validate(validationSettings);
                 IQueryable query = queryOptions.ApplyTo(_db.Set<T>().AsQueryable());
                 IQueryable<T> data = query as IQueryable<T>;
                 retour = data.ToList();

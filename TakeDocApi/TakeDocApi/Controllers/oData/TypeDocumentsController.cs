@@ -36,7 +36,7 @@ namespace TakeDocApi.Controllers.oData
         }
 
         // GET: odata/TypeDocuments(5)
-        public IHttpActionResult GetTypeDocument([FromODataUri] System.Guid key, ODataQueryOptions<TypeDocument> queryOptions)
+        /*public IHttpActionResult GetTypeDocument([FromODataUri] System.Guid key, ODataQueryOptions<TypeDocument> queryOptions)
         {
             // validate the query.
             try
@@ -50,10 +50,10 @@ namespace TakeDocApi.Controllers.oData
 
             // return Ok<TypeDocument>(typeDocument);
             return StatusCode(HttpStatusCode.NotImplemented);
-        }
+        }*/
 
         // PUT: odata/TypeDocuments(5)
-        public IHttpActionResult Put([FromODataUri] System.Guid key, Delta<TypeDocument> delta)
+        /*public IHttpActionResult Put([FromODataUri] System.Guid key, Delta<TypeDocument> delta)
         {
             Validate(delta.GetEntity());
 
@@ -70,10 +70,10 @@ namespace TakeDocApi.Controllers.oData
 
             // return Updated(typeDocument);
             return StatusCode(HttpStatusCode.NotImplemented);
-        }
+        }*/
 
         // POST: odata/TypeDocuments
-        public IHttpActionResult Post(TypeDocument typeDocument)
+        /*public IHttpActionResult Post(TypeDocument typeDocument)
         {
             if (!ModelState.IsValid)
             {
@@ -84,10 +84,10 @@ namespace TakeDocApi.Controllers.oData
 
             // return Created(typeDocument);
             return StatusCode(HttpStatusCode.NotImplemented);
-        }
+        }*/
 
         // PATCH: odata/TypeDocuments(5)
-        [AcceptVerbs("PATCH", "MERGE")]
+        /*[AcceptVerbs("PATCH", "MERGE")]
         public IHttpActionResult Patch([FromODataUri] System.Guid key, Delta<TypeDocument> delta)
         {
             Validate(delta.GetEntity());
@@ -105,15 +105,15 @@ namespace TakeDocApi.Controllers.oData
 
             // return Updated(typeDocument);
             return StatusCode(HttpStatusCode.NotImplemented);
-        }
+        }*/
 
         // DELETE: odata/TypeDocuments(5)
-        public IHttpActionResult Delete([FromODataUri] System.Guid key)
+       /* public IHttpActionResult Delete([FromODataUri] System.Guid key)
         {
             // TODO: Add delete logic here.
 
             // return StatusCode(HttpStatusCode.NoContent);
             return StatusCode(HttpStatusCode.NotImplemented);
-        }
+        }*/
     }
 }
