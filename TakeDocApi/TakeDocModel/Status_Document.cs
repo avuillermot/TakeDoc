@@ -21,7 +21,6 @@ namespace TakeDocModel
     
         public System.Guid StatusDocumentId { get; set; }
         public string StatusDocumentReference { get; set; }
-        public string StatusDocumentLibelle { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -30,6 +29,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
+        public string StatusDocumentLabel { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
     }

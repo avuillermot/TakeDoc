@@ -5,7 +5,7 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function
         $rootScope.myTakeDoc = new documents();
         $rootScope.myTakeDoc.Pages = new Pictures();
         $rootScope.myTakeDoc.DocumentLabel = ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.TypeDocumentLabel : "";
-        $rootScope.myTakeDoc.EntityId = $rootScope.User.CurrentEntityId;
+        $rootScope.myTakeDoc.EntityId = $rootScope.User.CurrentEntity.Id;
         $rootScope.myTakeDoc.UserCreateData = $rootScope.User.Id;
         $rootScope.myTakeDoc.DocumentTypeId = $rootScope.User.CurrentTypeDocument.TypeDocumentId;
 

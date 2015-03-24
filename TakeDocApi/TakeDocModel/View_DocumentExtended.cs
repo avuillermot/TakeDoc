@@ -19,14 +19,14 @@ namespace TakeDocModel
         public string DocumentReference { get; set; }
         public string DocumentLabel { get; set; }
         public string DocumentOwner { get; set; }
-        public string StatusDocumentReference { get; set; }
-        public string DocumentStatutLabel { get; set; }
         public string TypeDocumentReference { get; set; }
         public string DocumentTypeLabel { get; set; }
         public bool VersionMajor { get; set; }
         public decimal VersionNumber { get; set; }
         public string VersionReference { get; set; }
         public string StatusVersionReference { get; set; }
-        public string VersionStatusLibelle { get; set; }
+        public string VersionStatusLabel { get; set; }
+        public string DocumentStatusReference { get; set; }
+        public string DocumentStatusLabel { get; set; }
     }
 }

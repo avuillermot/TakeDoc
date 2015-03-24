@@ -21,7 +21,6 @@ namespace TakeDocModel
     
         public System.Guid StatusVersionId { get; set; }
         public string StatusVersionReference { get; set; }
-        public string StatusVersionLibelle { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -30,6 +29,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
+        public string StatusVersionLabel { get; set; }
     
         public virtual ICollection<Version> Version { get; set; }
     }

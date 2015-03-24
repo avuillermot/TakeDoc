@@ -115,7 +115,6 @@ takeDoc.directive('goBack', function ($location, $rootScope) {
                 else {
                     var onTap = function () {
                         if (arguments[0] === "Ok") {
-                            $rootScope.User = null;
                             $location.path("menu");
                         }
                     };

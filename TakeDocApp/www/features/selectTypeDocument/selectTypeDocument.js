@@ -11,7 +11,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         }); 
 
         $scope.TypeDocuments = null;
-        typeDocumentService.get($rootScope.User.CurrentEntityId, success, error);
+        typeDocumentService.get($rootScope.User.CurrentEntity.Id, success, error);
     });
 
     $scope.searchTypeDocument = function () {

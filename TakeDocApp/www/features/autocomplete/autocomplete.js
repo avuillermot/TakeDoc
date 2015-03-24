@@ -30,7 +30,8 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        $(".title.title-center.header-item").html($scope.current.autoCompleteTitle);
+        if ($scope.current != null && $scope.current.autoCompleteTitle != null)
+            $(".title.title-center.header-item").html($scope.current.autoCompleteTitle);
     });
 
     $scope.doSelect = function (key) {
@@ -51,7 +52,7 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         var that = this;
         var oldValue = this.value;
         var fnSearch = function () {
-            if (oldValue === that.value) autocomplete.get($rootScope.User.CurrentEntityId, $rootScope.User.Id, that.value, $scope.current.autoCompleteUrl, success, error);
+            if (oldValue === that.value) autocomplete.get($rootScope.User.CurrentEntity.Id, $rootScope.User.Id, that.value, $scope.current.autoCompleteUrl, success, error);
         };
         if (this.value.length >= 3) $timeout(fnSearch, delay);
         else success(null);

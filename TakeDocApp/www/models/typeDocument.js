@@ -2,6 +2,7 @@
     this.TypeDocumentId = null;
     this.EntityId = null;
     this.TypeDocumentLabel = null;
+    this.TypeDocumentReference = null;
 }
 
 function typeDocumentService() {

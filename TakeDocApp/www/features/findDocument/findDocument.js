@@ -18,11 +18,18 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     });
     
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        $(".title.title-center.header-item").html($rootScope.User.CurrentEntity.Label + "/" + $rootScope.User.CurrentTypeDocument.TypeDocumentLabel);
 
         $ionicLoading.show({
             template: 'Recherche...'
         });
-        documents.fetch({ success: onSuccess, error: onError });
+        var params = {
+            entityReference: $rootScope.User.CurrentEntity.Reference,
+            typeDocumentReference: $rootScope.User.CurrentTypeDocument.TypeDocumentReference,
+            success: onSuccess,
+            error: onError
+        }
+        documents.loadComplete(params);
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;

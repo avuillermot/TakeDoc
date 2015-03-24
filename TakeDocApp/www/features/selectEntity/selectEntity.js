@@ -2,7 +2,9 @@
 takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.onChoose = function (entityId) {
-        $rootScope.User.CurrentEntityId = entityId;
+        $.each($rootScope.User.Entitys, function (index, value) {
+            if (value.Id == entityId) $rootScope.User.CurrentEntity = value;
+        });
         $location.path($scope.nextUrl.replace("#/", ""));
     };
 
@@ -13,7 +15,7 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location
 		$scope.nextUrl = step.to;
 
 		if ($scope.Entitys.length == 1) {
-		    $rootScope.User.CurrentEntityId = $scope.Entitys[0].Id;
+		    $rootScope.User.CurrentEntity = $scope.Entitys[0];
 		    $location.path($scope.nextUrl.replace("#/", ""));
 		}
     });

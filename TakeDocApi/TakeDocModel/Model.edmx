@@ -159,7 +159,7 @@
           </Key>
           <Property Name="StatusDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StatusDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="StatusDocumentLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="StatusDocumentLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -175,7 +175,7 @@
           </Key>
           <Property Name="StatusVersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StatusVersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="StatusVersionLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="StatusVersionLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -252,30 +252,30 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Key>
             <PropertyRef Name="DocumentReference" />
             <PropertyRef Name="DocumentLabel" />
-            <PropertyRef Name="StatusDocumentReference" />
-            <PropertyRef Name="DocumentStatutLabel" />
+            <PropertyRef Name="DocumentStatusReference" />
+            <PropertyRef Name="DocumentStatusLabel" />
             <PropertyRef Name="TypeDocumentReference" />
             <PropertyRef Name="DocumentTypeLabel" />
             <PropertyRef Name="VersionMajor" />
             <PropertyRef Name="VersionNumber" />
             <PropertyRef Name="VersionReference" />
             <PropertyRef Name="StatusVersionReference" />
-            <PropertyRef Name="VersionStatusLibelle" />
+            <PropertyRef Name="VersionStatusLabel" />
           </Key>
           <Property Name="EntityReference" Type="nvarchar" MaxLength="50" />
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" />
           <Property Name="DocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DocumentOwner" Type="nvarchar" MaxLength="50" />
-          <Property Name="StatusDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="DocumentStatutLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentTypeLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="VersionMajor" Type="bit" Nullable="false" />
           <Property Name="VersionNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="StatusVersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="VersionStatusLibelle" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="VersionStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -503,15 +503,15 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
     [View_DocumentExtended].[DocumentReference] AS [DocumentReference], 
     [View_DocumentExtended].[DocumentLabel] AS [DocumentLabel], 
     [View_DocumentExtended].[DocumentOwner] AS [DocumentOwner], 
-    [View_DocumentExtended].[StatusDocumentReference] AS [StatusDocumentReference], 
-    [View_DocumentExtended].[DocumentStatutLabel] AS [DocumentStatutLabel], 
+    [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
+    [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
     [View_DocumentExtended].[TypeDocumentReference] AS [TypeDocumentReference], 
     [View_DocumentExtended].[DocumentTypeLabel] AS [DocumentTypeLabel], 
     [View_DocumentExtended].[VersionMajor] AS [VersionMajor], 
     [View_DocumentExtended].[VersionNumber] AS [VersionNumber], 
     [View_DocumentExtended].[VersionReference] AS [VersionReference], 
     [View_DocumentExtended].[StatusVersionReference] AS [StatusVersionReference], 
-    [View_DocumentExtended].[VersionStatusLibelle] AS [VersionStatusLibelle]
+    [View_DocumentExtended].[VersionStatusLabel] AS [VersionStatusLabel]
     FROM [dbo].[View_DocumentExtended] AS [View_DocumentExtended]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="View_PageStoreLocator" EntityType="Self.View_PageStoreLocator" store:Type="Views" store:Schema="dbo">
@@ -1018,7 +1018,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </Key>
           <Property Name="StatusDocumentId" Type="Guid" Nullable="false" />
           <Property Name="StatusDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusDocumentLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
@@ -1028,6 +1027,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Status_Document" FromRole="Status_Document" ToRole="Document" />
+          <Property Name="StatusDocumentLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Document_Status_Document">
           <End Type="TakeDocModel.Status_Document" Role="Status_Document" Multiplicity="1" />
@@ -1047,7 +1047,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           </Key>
           <Property Name="StatusVersionId" Type="Guid" Nullable="false" />
           <Property Name="StatusVersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusVersionLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
@@ -1057,6 +1056,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Version_Status_Version" FromRole="Status_Version" ToRole="Version" />
+          <Property Name="StatusVersionLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Version_Status_Version">
           <End Type="TakeDocModel.Status_Version" Role="Status_Version" Multiplicity="1" />
@@ -1104,30 +1104,30 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Key>
             <PropertyRef Name="DocumentReference" />
             <PropertyRef Name="DocumentLabel" />
-            <PropertyRef Name="StatusDocumentReference" />
-            <PropertyRef Name="DocumentStatutLabel" />
             <PropertyRef Name="TypeDocumentReference" />
             <PropertyRef Name="DocumentTypeLabel" />
             <PropertyRef Name="VersionMajor" />
             <PropertyRef Name="VersionNumber" />
             <PropertyRef Name="VersionReference" />
             <PropertyRef Name="StatusVersionReference" />
-            <PropertyRef Name="VersionStatusLibelle" />
+            <PropertyRef Name="VersionStatusLabel" />
+            <PropertyRef Name="DocumentStatusReference" />
+            <PropertyRef Name="DocumentStatusLabel" />
           </Key>
           <Property Name="EntityReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLabel" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DocumentOwner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="StatusDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DocumentStatutLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="TypeDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentTypeLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VersionMajor" Type="Boolean" Nullable="false" />
           <Property Name="VersionNumber" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
           <Property Name="VersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="StatusVersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VersionStatusLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="VersionStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentStatusReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1400,6 +1400,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Status_Document">
             <EntityTypeMapping TypeName="TakeDocModel.Status_Document">
               <MappingFragment StoreEntitySet="Status_Document">
+                <ScalarProperty Name="StatusDocumentLabel" ColumnName="StatusDocumentLabel" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
                 <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
@@ -1408,7 +1409,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="StatusDocumentLibelle" ColumnName="StatusDocumentLibelle" />
                 <ScalarProperty Name="StatusDocumentReference" ColumnName="StatusDocumentReference" />
                 <ScalarProperty Name="StatusDocumentId" ColumnName="StatusDocumentId" />
               </MappingFragment>
@@ -1417,6 +1417,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Status_Version">
             <EntityTypeMapping TypeName="TakeDocModel.Status_Version">
               <MappingFragment StoreEntitySet="Status_Version">
+                <ScalarProperty Name="StatusVersionLabel" ColumnName="StatusVersionLabel" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
                 <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
@@ -1425,7 +1426,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="StatusVersionLibelle" ColumnName="StatusVersionLibelle" />
                 <ScalarProperty Name="StatusVersionReference" ColumnName="StatusVersionReference" />
                 <ScalarProperty Name="StatusVersionId" ColumnName="StatusVersionId" />
               </MappingFragment>
@@ -1453,15 +1453,15 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="TakeDocModel.View_DocumentExtended">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
-                <ScalarProperty Name="VersionStatusLibelle" ColumnName="VersionStatusLibelle" />
+                <ScalarProperty Name="DocumentStatusLabel" ColumnName="DocumentStatusLabel" />
+                <ScalarProperty Name="DocumentStatusReference" ColumnName="DocumentStatusReference" />
+                <ScalarProperty Name="VersionStatusLabel" ColumnName="VersionStatusLabel" />
                 <ScalarProperty Name="StatusVersionReference" ColumnName="StatusVersionReference" />
                 <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
                 <ScalarProperty Name="DocumentTypeLabel" ColumnName="DocumentTypeLabel" />
                 <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
-                <ScalarProperty Name="DocumentStatutLabel" ColumnName="DocumentStatutLabel" />
-                <ScalarProperty Name="StatusDocumentReference" ColumnName="StatusDocumentReference" />
                 <ScalarProperty Name="DocumentOwner" ColumnName="DocumentOwner" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />

@@ -57,9 +57,14 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         var error = function () {
             $ionicLoading.hide();
 
-            var msg = "Une erreur est survenue";
-            if (arguments[0].message != null) msg = arguments[0].message;
-            else if (arguments[0].responseJSON != null && arguments[0].responseJSON.Message != null) msg = arguments[0].responseJSON.Message;
+            var msg = "";
+            try {
+                if (arguments[0].message != null) msg = arguments[0].message;
+                else if (arguments[0].responseJSON != null && arguments[0].responseJSON.Message != null) msg = arguments[0].responseJSON.Message;
+            }
+            catch (ex) {
+                msg = "Une erreur est survenue lors de la création du document";
+            };
 
             $rootScope.PopupHelper.show("Création", msg);
 		};
