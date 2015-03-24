@@ -1,13 +1,14 @@
-﻿<ion-view view-title="{{current.autoCompleteTitle}}">
+﻿<ion-view view-title="Complément">
     <ion-content>
         <section>
-            <label class="item item-input ion-man metadata-mandatory-true">
+            <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{current.autoCompleteTitle}}</h5>
+            <label class="item item-input ion-man metadata-mandatory-true" style="border-top:none">
                 &#160;
                 <input type="text" placeholder="{{current.autoCompletePlaceHolder}}" ng-model="value" ng-change="onType()" />
             </label>
             <ion-list>
                 <ion-item ng-repeat="item in items | orderBy:['text']" class="row-result ion-android-arrow-dropright">
-                    <span ng-click="doSelect('{{item.key}}')">{{item.text}}</span>
+                    <span ng-click='doSelect("{{item.key}}","{{item.text}}")'>{{item.text}}</span>
                 </ion-item>
             </ion-list>
         </section>

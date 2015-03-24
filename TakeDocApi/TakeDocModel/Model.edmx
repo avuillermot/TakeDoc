@@ -256,6 +256,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
             <PropertyRef Name="DocumentStatusLabel" />
             <PropertyRef Name="TypeDocumentReference" />
             <PropertyRef Name="DocumentTypeLabel" />
+            <PropertyRef Name="VersionDateCreateData" />
             <PropertyRef Name="VersionMajor" />
             <PropertyRef Name="VersionNumber" />
             <PropertyRef Name="VersionReference" />
@@ -266,11 +267,13 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" />
           <Property Name="DocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DocumentOwner" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentOwnerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentOwnerFullName" Type="nvarchar" MaxLength="401" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentTypeLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="VersionDateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="VersionMajor" Type="bit" Nullable="false" />
           <Property Name="VersionNumber" Type="decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="VersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -502,11 +505,13 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
     [View_DocumentExtended].[EntityLabel] AS [EntityLabel], 
     [View_DocumentExtended].[DocumentReference] AS [DocumentReference], 
     [View_DocumentExtended].[DocumentLabel] AS [DocumentLabel], 
-    [View_DocumentExtended].[DocumentOwner] AS [DocumentOwner], 
+    [View_DocumentExtended].[DocumentOwnerId] AS [DocumentOwnerId], 
+    [View_DocumentExtended].[DocumentOwnerFullName] AS [DocumentOwnerFullName], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
     [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
     [View_DocumentExtended].[TypeDocumentReference] AS [TypeDocumentReference], 
     [View_DocumentExtended].[DocumentTypeLabel] AS [DocumentTypeLabel], 
+    [View_DocumentExtended].[VersionDateCreateData] AS [VersionDateCreateData], 
     [View_DocumentExtended].[VersionMajor] AS [VersionMajor], 
     [View_DocumentExtended].[VersionNumber] AS [VersionNumber], 
     [View_DocumentExtended].[VersionReference] AS [VersionReference], 
@@ -1113,12 +1118,12 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <PropertyRef Name="VersionStatusLabel" />
             <PropertyRef Name="DocumentStatusReference" />
             <PropertyRef Name="DocumentStatusLabel" />
+            <PropertyRef Name="VersionDateCreateData" />
           </Key>
           <Property Name="EntityReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLabel" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="DocumentOwner" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="TypeDocumentReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentTypeLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="VersionMajor" Type="Boolean" Nullable="false" />
@@ -1128,6 +1133,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="VersionStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DocumentStatusReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentOwnerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentOwnerFullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="VersionDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1453,6 +1461,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="TakeDocModel.View_DocumentExtended">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="VersionDateCreateData" ColumnName="VersionDateCreateData" />
+                <ScalarProperty Name="DocumentOwnerFullName" ColumnName="DocumentOwnerFullName" />
+                <ScalarProperty Name="DocumentOwnerId" ColumnName="DocumentOwnerId" />
                 <ScalarProperty Name="DocumentStatusLabel" ColumnName="DocumentStatusLabel" />
                 <ScalarProperty Name="DocumentStatusReference" ColumnName="DocumentStatusReference" />
                 <ScalarProperty Name="VersionStatusLabel" ColumnName="VersionStatusLabel" />
@@ -1462,7 +1473,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
                 <ScalarProperty Name="DocumentTypeLabel" ColumnName="DocumentTypeLabel" />
                 <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
-                <ScalarProperty Name="DocumentOwner" ColumnName="DocumentOwner" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />

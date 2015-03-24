@@ -13,7 +13,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = false;
+    $rootScope.isApp = true;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
 
@@ -32,9 +32,16 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectTypeDocument", to: "#/findDocument" },
         { from: "#/findDocument", to: "#/menu" }
     ];
+    var scenarioFindIncomplet = [
+        { from: "#/menu", to: "#/selectEntity" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectTypeDocument", to: "#/findDocument" },
+        { from: "#/findDocument", to: "#/menu" }
+    ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     $rootScope.Scenario.init("findDocument", scenarioFindDocument);
+    $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -49,7 +56,6 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     });
 
     $ionicPlatform.registerBackButtonAction(function () {
-        alert("test");
         var fn = function () {
             if (arguments[0] == "Ok") navigator.app.exitApp();
         };

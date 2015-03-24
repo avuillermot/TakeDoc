@@ -7,9 +7,13 @@ var DocumentExtended = Backbone.Model.extend({
         entityLabel : null,
         label: null,
         typeLabel: null,
-        statusLabel: null
+        statusLabel: null,
+        ownerFullName: null,
+        versionDateCreate: null,
+        formatDate: null
     },
     parse: function () {
+        moment.locale('fr');
         var current = arguments[0];
         this.set("id", current.DocumentReference);
         this.set("reference", current.DocumentReference);
@@ -17,6 +21,9 @@ var DocumentExtended = Backbone.Model.extend({
         this.set("entityLabel", current.EntityLabel);
         this.set("typeLabel", current.DocumentTypeLabel);
         this.set("statusLabel", current.DocumentStatusLabel);
+        this.set("ownerFullName", current.DocumentOwnerFullName);
+        this.set("versionDateCreate", current.VersionDateCreateData);
+        this.set("formatDate", moment(current.VersionDateCreateData).format("LLL"));
         return this;
     }
 });

@@ -1,10 +1,12 @@
-﻿<ion-view view-title="Documents">
+﻿<ion-view view-title="Résulats">
     <ion-content>
+        <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{User.CurrentEntity.Label}}&#160;/&#160;{{User.CurrentTypeDocument.TypeDocumentLabel}}</h5>
         <section>
             <ion-list>
                 <ion-item ng-repeat="document in documents" class="fd-row-result">
-                    <div class="ion-android-arrow-dropright">{{document.attributes.label}}&#160;<span class="fd-typeDocument">({{document.attributes.typeLabel}})</span></div>
-                    <div>Status&#160;:&#160;<span>{{document.attributes.statusLabel}}</span></div>
+                    <div class="ion-android-arrow-dropright">&#160;{{document.attributes.label}}&#160;</div>
+                    <div class="fd-col0-result">Status&#160;:&#160;<span>{{document.attributes.statusLabel}}</span></div>
+                    <div class="fd-col1-result">Créé le&#160;:&#160;<span>{{document.attributes.formatDate}}</span></div>
                 </ion-item>
             </ion-list>
             <div class="no-row-result" ng-show="documents.length == 0">Aucun document disponible</div>

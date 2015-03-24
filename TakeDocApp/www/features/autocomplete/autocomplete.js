@@ -29,14 +29,14 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         else $scope.current = autocompletes[currentIndex].attributes;
     });
 
-    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        if ($scope.current != null && $scope.current.autoCompleteTitle != null)
-            $(".title.title-center.header-item").html($scope.current.autoCompleteTitle);
-    });
-
-    $scope.doSelect = function (key) {
-        if (key !=  null) $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
-        $location.path($scope.nextUrl.replace("#/", ""));
+    $scope.doSelect = function (key, value) {
+        if (key != null) {
+            $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
+            var fn = function () {
+                if (arguments[0] == "Ok") $location.path($scope.nextUrl.replace("#/", ""));
+            };
+            $rootScope.PopupHelper.show("Client", "Référence : " + value, "OkCancel", fn);
+        }
     };
 
     $scope.onType = function () {

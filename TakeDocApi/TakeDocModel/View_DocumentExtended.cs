@@ -18,7 +18,6 @@ namespace TakeDocModel
         public string EntityLabel { get; set; }
         public string DocumentReference { get; set; }
         public string DocumentLabel { get; set; }
-        public string DocumentOwner { get; set; }
         public string TypeDocumentReference { get; set; }
         public string DocumentTypeLabel { get; set; }
         public bool VersionMajor { get; set; }
@@ -28,5 +27,8 @@ namespace TakeDocModel
         public string VersionStatusLabel { get; set; }
         public string DocumentStatusReference { get; set; }
         public string DocumentStatusLabel { get; set; }
+        public string DocumentOwnerId { get; set; }
+        public string DocumentOwnerFullName { get; set; }
+        public System.DateTimeOffset VersionDateCreateData { get; set; }
     }
 }

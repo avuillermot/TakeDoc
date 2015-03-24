@@ -18,8 +18,6 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     });
     
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        $(".title.title-center.header-item").html($rootScope.User.CurrentEntity.Label + "/" + $rootScope.User.CurrentTypeDocument.TypeDocumentLabel);
-
         $ionicLoading.show({
             template: 'Recherche...'
         });
