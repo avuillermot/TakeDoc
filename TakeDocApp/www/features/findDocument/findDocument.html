@@ -2,15 +2,14 @@
     <ion-content>
         <section>
             <ion-list>
-                <ion-item ng-repeat="document in documents">
-                    <span style="font-size:10px">{{document.attributes.label}}-({{document.attributes.typeLabel}}/{{document.attributes.entityLabel}})</span>
+                <ion-item ng-repeat="document in documents" class="row-result ion-android-arrow-dropright">
+                    {{document.attributes.label}}-({{document.attributes.typeLabel}}/{{document.attributes.entityLabel}})
                 </ion-item>
             </ion-list>
         </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <div go-back="true"></div>
             <div go-click="{{nextUrl}}"></div>
         </div>
     </ion-footer-bar>

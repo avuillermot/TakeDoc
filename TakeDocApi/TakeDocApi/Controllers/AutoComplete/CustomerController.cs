@@ -4,26 +4,26 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TakeDocService.Document.Interface;
+using TakeDocService.External.Interface;
 
 namespace TakeDocApi.Controllers.AutoComplete
 {
-    [RoutePrefix("Client")]
-    public class ClientController : ApiController
+    [RoutePrefix("Customer")]
+    public class CustomerController : ApiController
     {
         [HttpGet]
-        [Route("Cegid/{entityId}/{userId}/{value}")]
+        [Route("{entityId}/{userId}/{value}")]
         public HttpResponseMessage SetSend(Guid entityId, Guid userId, string value)
         {
-            ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<ITypeDocumentService>();
+            ICustomerService servCustomer = Utility.MyUnityHelper.UnityHelper.Resolve<ICustomerService>();
             try
             {
-                ICollection<TakeDocModel.TypeDocument> types = servTypeDocument.GetBy(x => (x.TypeDocumentLabel.Contains(value) || x.TypeDocumentReference.Contains(value)) && x.EntityId == entityId);
-                var req = from type in types
+                ICollection<TakeDocModel.Customer> customers = servCustomer.NameContains(value, entityId);
+                var req = from customer in customers
                           select new
                           {
-                              key = type.TypeDocumentReference,
-                              text = type.TypeDocumentLabel
+                              key = customer.CustomerId,
+                              text = customer.CustomerName
                           };
                 return Request.CreateResponse(req.ToList());
             }

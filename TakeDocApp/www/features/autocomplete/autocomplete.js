@@ -1,12 +1,17 @@
 ﻿'use strict';
-takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location', '$ionicPlatform', function ($scope, $rootScope, $location, $ionicPlatform) {
+takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location', '$ionicPlatform', '$timeout', function ($scope, $rootScope, $location, $ionicPlatform, $timeout) {
+
+    // delay before search
+    var delay = 2000;
+    var timeLastKeyPress = null;
+
 
     // if there are some autocomplete datafield, index of the current
     var currentIndex = 0;
     var autocompletes = null;
 
     var fRefresh = function () {
-        if (!$scope.$$phase) {
+        if (!$rootScope.$$phase) {
             try { $rootScope.$apply(); } catch (ex) { }
         }
     };
@@ -24,6 +29,10 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         else $scope.current = autocompletes[currentIndex].attributes;
     });
 
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        $(".title.title-center.header-item").html($scope.current.autoCompleteTitle);
+    });
+
     $scope.doSelect = function (key) {
         if (key !=  null) $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
         $location.path($scope.nextUrl.replace("#/", ""));
@@ -38,8 +47,16 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         var error = function () {
             $rootScope.PopupHelper.show(arguments[0]);
         };
-        autocomplete.get($rootScope.User.CurrentEntityId, $rootScope.User.Id, this.value, $scope.current.autoCompleteUrl, success, error);
+
+        var that = this;
+        var oldValue = this.value;
+        var fnSearch = function () {
+            if (oldValue === that.value) autocomplete.get($rootScope.User.CurrentEntityId, $rootScope.User.Id, that.value, $scope.current.autoCompleteUrl, success, error);
+        };
+        if (this.value.length >= 3) $timeout(fnSearch, delay);
+        else success(null);
     };
+
 
 }]);
 

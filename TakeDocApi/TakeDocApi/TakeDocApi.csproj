@@ -177,7 +177,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Controllers\AutoComplete\ClientController.cs" />
+    <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />

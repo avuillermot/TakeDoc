@@ -13,6 +13,16 @@
           <Property Name="counterPrefix" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="counterValue" Type="bigint" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+            <PropertyRef Name="EntityId" />
+          </Key>
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="DataField">
           <Key>
             <PropertyRef Name="DataFieldId" />
@@ -333,6 +343,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_Client_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="EntityId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="EntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_DataField_DataFieldAutoComplete">
           <End Role="DataFieldAutoComplete" Type="Self.DataFieldAutoComplete" Multiplicity="0..1" />
           <End Role="DataField" Type="Self.DataField" Multiplicity="*" />
@@ -459,6 +481,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
         </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataField" EntityType="Self.DataField" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataFieldAutoComplete" EntityType="Self.DataFieldAutoComplete" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataFieldType" EntityType="Self.DataFieldType" Schema="dbo" store:Type="Tables" />
@@ -529,6 +552,10 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
     [View_VersionStoreLocator].[StreamLocator] AS [StreamLocator]
     FROM [dbo].[View_VersionStoreLocator] AS [View_VersionStoreLocator]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_Client_Entity" Association="Self.FK_Client_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
           <AssociationSet Name="FK_DataField_DataFieldAutoComplete" Association="Self.FK_DataField_DataFieldAutoComplete">
             <End Role="DataFieldAutoComplete" EntitySet="DataFieldAutoComplete" />
             <End Role="DataField" EntitySet="DataField" />
@@ -649,6 +676,11 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <End Role="DataField" EntitySet="DataField" />
           </AssociationSet>
           <EntitySet Name="View_DocumentExtended" EntityType="TakeDocModel.View_DocumentExtended" />
+          <EntitySet Name="Customer" EntityType="TakeDocModel.Customer" />
+          <AssociationSet Name="FK_Client_Entity" Association="TakeDocModel.FK_Client_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="Customer" EntitySet="Customer" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -884,6 +916,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="EntityReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <Property Name="EntityLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Customer" Relationship="TakeDocModel.FK_Client_Entity" FromRole="Entity" ToRole="Customer" />
         </EntityType>
         <Association Name="FK_MetaData_Version">
           <End Type="TakeDocModel.Version" Role="Version" Multiplicity="1" />
@@ -1096,6 +1129,29 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="StatusVersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="VersionStatusLibelle" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="EntityId" />
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Entity" Relationship="TakeDocModel.FK_Client_Entity" FromRole="Customer" ToRole="Entity" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Client_Entity">
+          <End Type="TakeDocModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="TakeDocModel.Customer" Role="Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="EntityId" />
+            </Principal>
+            <Dependent Role="Customer">
+              <PropertyRef Name="EntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1411,6 +1467,16 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />
                 <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customer">
+            <EntityTypeMapping TypeName="TakeDocModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -47,6 +47,7 @@ namespace TakeDocModel
         public virtual DbSet<Status_Version> Status_Version { get; set; }
         public virtual DbSet<DataFieldAutoComplete> DataFieldAutoComplete { get; set; }
         public virtual DbSet<View_DocumentExtended> View_DocumentExtended { get; set; }
+        public virtual DbSet<Customer> Customer { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

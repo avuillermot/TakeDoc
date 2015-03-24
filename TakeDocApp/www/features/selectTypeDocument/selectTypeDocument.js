@@ -1,20 +1,17 @@
 ﻿'use strict';
-takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
+takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
 
-    var fRefresh = function () {
-        if (!$scope.$$phase) {
-            try { $scope.$apply(); } catch (ex) { }
-        }
-    };
-    $scope.$on("typeDocument$refreshPage", fRefresh);
-    
-	$scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-	    typeDocumentService.get($rootScope.User.CurrentEntityId, success, error);
-		
-		var step = $rootScope.Scenario.next();
-		$scope.nextUrl = step.to;
+    $scope.$on("$ionicView.beforeEnter", function (scopes, states)  {
+        $scope.nextUrl = $rootScope.Scenario.next().to;
+    });
 
-		$scope.$broadcast('typeDocument$refreshPage');
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        $ionicLoading.show({
+            template: 'Chargement...'
+        }); 
+
+        $scope.TypeDocuments = null;
+        typeDocumentService.get($rootScope.User.CurrentEntityId, success, error);
     });
 
     $scope.searchTypeDocument = function () {
@@ -32,11 +29,12 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
-        $scope.$broadcast('typeDocument$refreshPage');
+        $ionicLoading.hide();
     };
 
     var error = function () {
         $scope.TypeDocuments = null;
+        $ionicLoading.hide();
         $rootScope.PopupHelper.show("Type de documents", "La liste des types de document n'est pas disponibles.");
     };
 	
@@ -44,6 +42,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         $.each($scope.TypeDocuments, function (index, value) {
             if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
         });
+        $location.path($scope.nextUrl.replace("#/", ""));
     };
 }]);
 

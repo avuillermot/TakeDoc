@@ -2,8 +2,8 @@
     <ion-content>
         <section>
             <ion-list>
-                <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" href="{{nextUrl}}" ng-click="onChoose('{{TypeDocument.TypeDocumentId}}')">
-                    {{TypeDocument.TypeDocumentLabel}}
+                <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" ng-click="onChoose('{{TypeDocument.TypeDocumentId}}')" class="row-result ion-android-arrow-dropright">
+                    <span>{{TypeDocument.TypeDocumentLabel}}</span>
                 </ion-item>
             </ion-list>
         </section>

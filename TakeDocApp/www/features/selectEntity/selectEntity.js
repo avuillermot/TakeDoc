@@ -3,6 +3,7 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location
 
     $scope.onChoose = function (entityId) {
         $rootScope.User.CurrentEntityId = entityId;
+        $location.path($scope.nextUrl.replace("#/", ""));
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {

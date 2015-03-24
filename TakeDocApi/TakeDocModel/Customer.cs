@@ -12,18 +12,13 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Entity
+    public partial class Customer
     {
-        public Entity()
-        {
-            this.Customer = new HashSet<Customer>();
-        }
-    
         public System.Guid EntityId { get; set; }
-        public string EntityReference { get; set; }
         public bool EtatDeleteData { get; set; }
-        public string EntityLabel { get; set; }
+        public string CustomerName { get; set; }
+        public string CustomerId { get; set; }
     
-        public virtual ICollection<Customer> Customer { get; set; }
+        public virtual Entity Entity { get; set; }
     }
 }

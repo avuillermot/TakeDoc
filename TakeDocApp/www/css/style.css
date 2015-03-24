@@ -14,41 +14,18 @@ div.button-bar {
 .moove-down {
     margin-top: 30px;
 }
-/* spécifique select */
-/*.ion-input-select--large,
-.ion-input-select,
-select {
-  -webkit-appearance:none;
-  background-repeat: no-repeat;
-  background-color: rgba(0,0,0,0);  
-  border:thin solid #dddddd;
-  font-weight:300;
-  display:inline;
-  vertical-align:middle;
-  color:#333;
-  padding: auto 0;
-  overflow:hidden;
-  box-sizing:border-box;
+
+.row-result {
+    border-top: none;
+    height:35px;
+    font-size:14px;
+    padding: 5px 0px 0px 5px; 
+    margin: 0px 0px 0px 0px; 
+}
+.row-result .ion-android-arrow-dropright {
+    margin-right:10px;
 }
 
-.ion-input-select {
-  width:200px;
-  font-size:1rem;
-  background-image: url("../img/select.png");
-  text-indent:20px;
-  padding:.5rem 0;
-}
-
-@media screen and (max-width: 330px) {
-	.ion-input-select {
-      width:140px;
-      font-size:1rem;
-      background-image: url("../img/select.png");
-      text-indent:20px;
-      padding:.5rem 0;
-    }
-}*/
-/* fin spécifique select */
 /* formulaire METADATA */
 .metadata {
     border:none;
@@ -57,11 +34,6 @@ label.metadata .input-label, div.metadata div span  {
     font-size:12px;
     border:none;
 }
-/*.toggle.toggle-calm.disable-user-behavior {
-    height:15px;
-}*/
-
-/*item item-input metadata metadata-mandatory-true*/
 
 .metadata-mandatory-true {
     background-image: url("../img/mandatory.png");

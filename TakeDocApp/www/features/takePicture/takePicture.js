@@ -47,7 +47,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     $scope.doSave = function () {
         $ionicLoading.show({
-            template: 'Enregistrement...'
+            template: 'Envoi des pages...'
         });
 
         var success = function () {

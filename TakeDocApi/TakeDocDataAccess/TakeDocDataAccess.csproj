@@ -86,6 +86,8 @@
     <Compile Include="IDaoGeneric.cs" />
     <Compile Include="Parameter\DaoEntity.cs" />
     <Compile Include="Parameter\Interface\IDaoEntity.cs" />
+    <Compile Include="External\DaoCustomer.cs" />
+    <Compile Include="External\Interface\IDaoCustomer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

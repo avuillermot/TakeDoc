@@ -1,4 +1,4 @@
-﻿<ion-view view-title="{{current.autoCompleteTitle}}">
+﻿<ion-view view-title="">
     <ion-content>
         <section>
             <label class="item item-input ion-man metadata-mandatory-true">
@@ -6,8 +6,8 @@
                 <input type="text" placeholder="{{current.autoCompletePlaceHolder}}" ng-model="value" ng-change="onType()" />
             </label>
             <ion-list>
-                <ion-item ng-repeat="item in items">
-                    <div ng-click="doSelect('{{item.key}}')">{{item.text}}</div>
+                <ion-item ng-repeat="item in items | orderBy:['text']" class="row-result ion-android-arrow-dropright">
+                    <span ng-click="doSelect('{{item.key}}')">{{item.text}}</span>
                 </ion-item>
             </ion-list>
         </section>

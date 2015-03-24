@@ -2,8 +2,8 @@
     <ion-content>
         <section>
             <ion-list>
-                <ion-item ng-repeat="Entity in Entitys" href="{{nextUrl}}" ng-click="onChoose('{{Entity.Id}}')">
-                    {{Entity.Label}}
+                <ion-item ng-repeat="Entity in Entitys | orderBy:['Label']" class="row-result ion-android-arrow-dropright" ng-click="onChoose('{{Entity.Id}}')">
+                    <span>{{Entity.Label}}</span>
                 </ion-item>
             </ion-list>
         </section>
@@ -12,5 +12,5 @@
         <div class="button-bar">
             <div go-back="true"></div>
         </div>
-   </ion-footer-bar>
+    </ion-footer-bar>
 </ion-view>

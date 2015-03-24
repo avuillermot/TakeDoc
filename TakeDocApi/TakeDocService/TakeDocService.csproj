@@ -94,6 +94,8 @@
     <Compile Include="Document\PageStoreLocator.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
+    <Compile Include="External\CustomerService.cs" />
+    <Compile Include="External\Interface\ICustomerService.cs" />
     <Compile Include="Security\Interface\IUserTkService.cs" />
     <Compile Include="Security\UserTkService.cs" />
   </ItemGroup>
