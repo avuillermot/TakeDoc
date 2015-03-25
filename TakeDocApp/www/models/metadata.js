@@ -71,25 +71,24 @@ var Metadatas = Backbone.Collection.extend({
         return retour;
     },
 
-    save: function (user, onSucces, onError) {
-        debugger;
+    save: function (ctx, onSucces, onError) {
         var retour = this.check();
         if (retour.valid) {
-            this.update(user, onSucces, onError);
+            this.update(ctx, onSucces, onError);
         }
         else onError(retour);
     },
 
-    update: function (user, onSucces, onError) {
+    update: function (ctx, onSucces, onError) {
         this.each(function (model, index) {
             if (model.get("type") == "date" && model.get("dateValue") != "" && model.get("dateValue") != null) {
                 model.set("value", moment(model.get("dateValue")).format("YYYY-MM-DD"));
             }
         });
         var data = JSON.stringify(this.models);
-        var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", user.userId)
-            .replace("<entityId/>", user.entityId)
-            .replace("<versionId/>",user.versionId);
+        var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", ctx.userId)
+            .replace("<entityId/>", ctx.entityId)
+            .replace("<versionId/>", ctx.versionId);
         $.ajax({
             type: 'PUT',
             url: myUrl,

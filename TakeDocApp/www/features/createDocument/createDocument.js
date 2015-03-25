@@ -2,7 +2,6 @@
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        debugger;
         $rootScope.myTakeDoc = new TkDocument();
         $rootScope.myTakeDoc.set("DocumentLabel", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.TypeDocumentLabel : "");
         $rootScope.myTakeDoc.set("EntityId", $rootScope.User.CurrentEntity.Id);
