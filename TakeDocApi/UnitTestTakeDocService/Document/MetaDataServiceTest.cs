@@ -42,7 +42,7 @@ namespace UnitTestTakeDocService.Document
         public void TestOrdered()
         {
             this.CreateDocumentTest();
-            this.GetMetadDataTest();
+            //this.GetMetadDataTest();
 
         }
 
