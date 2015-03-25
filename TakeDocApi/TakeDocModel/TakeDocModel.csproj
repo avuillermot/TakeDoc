@@ -79,6 +79,7 @@
     <Compile Include="Document\Status_Version.cs" />
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
+    <Compile Include="Dto\Document\ReadOnlyMetadata.cs" />
     <Compile Include="Entity.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

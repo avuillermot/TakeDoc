@@ -12,6 +12,23 @@ namespace TakeDocApi.Controllers
     public class MetaDataController : ApiController
     {
         [HttpGet]
+        [Route("Version/ReadOnly/{versionId}/{entityId}")]
+        public HttpResponseMessage GetReadOnlyMetaData(Guid versionId, Guid entityId)
+        {
+            try
+            {
+                IMetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<IMetaDataService>();
+                ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> metas = servMetaData.GetReadOnlyMetaData(versionId, entityId);
+
+                return Request.CreateResponse(metas);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("Version/{versionId}/{entityId}")]
         public HttpResponseMessage GetMetaData(Guid versionId, Guid entityId)
         {
@@ -19,7 +36,6 @@ namespace TakeDocApi.Controllers
 
             try
             {
-
                 ICollection<TakeDocModel.MetaData> metadatas = servMetaData.GetByVersion(versionId, entityId);
                 var req = from metadata in metadatas
                           select new
@@ -60,7 +76,7 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPut]
-        [Route("{versionId}/{userId}/{entityId}")]
+        [Route("Version/{versionId}/{userId}/{entityId}")]
         public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();

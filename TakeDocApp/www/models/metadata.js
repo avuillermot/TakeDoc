@@ -86,7 +86,7 @@ var Metadatas = Backbone.Collection.extend({
             }
         });
         var data = JSON.stringify(this.models);
-        var myUrl = environnement.UrlBase + "MetaData/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", ctx.userId)
+        var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", ctx.userId)
             .replace("<entityId/>", ctx.entityId)
             .replace("<versionId/>", ctx.versionId);
         $.ajax({

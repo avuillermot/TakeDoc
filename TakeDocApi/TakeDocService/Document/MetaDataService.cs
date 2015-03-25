@@ -118,5 +118,24 @@ namespace TakeDocService.Document
             }
             return metas;
         }
+
+        public ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(Guid versionId, Guid entityId)
+        {
+            ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> roMetas = new List<TakeDocModel.Dto.Document.ReadOnlyMetadata>();
+
+            foreach (TakeDocModel.MetaData metadata in this.GetByVersion(versionId, entityId))
+            {
+                TakeDocModel.Dto.Document.ReadOnlyMetadata ro = new TakeDocModel.Dto.Document.ReadOnlyMetadata();
+                ro.Name = metadata.MetaDataName;
+                ro.EntityId = metadata.EntityId;
+                ro.Label = metadata.DataField.DataFieldLabel;
+                ro.Value = metadata.MetaDataValue;
+                ro.Text = metadata.MetaDataValue;
+                if (metadata.HtmlType.Equals("list")) ro.Text = metadata.DataFieldValues.First(x => x.DataFieldValueKey == metadata.MetaDataValue).DataFieldValueText;
+                roMetas.Add(ro);
+            }
+
+            return roMetas;
+        }
     }
 }

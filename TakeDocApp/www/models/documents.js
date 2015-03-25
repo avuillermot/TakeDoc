@@ -27,19 +27,6 @@ var TkDocument = Backbone.Model.extend({
         }
 });
 
-/*function documents() {
-    this.DocumentId = null;
-    this.EntityId = null;
-    this.UserCreateData = null;
-    this.DocumentTypeId = null;
-    this.DocumentCurrentVersionId = null;
-    this.DocumentLabel = null;
-    this.Pages = new Pictures();
-    this.Extension = "jpeg";
-    this.CurrentVersionId = null;
-    this.Metadatas = null;
-    }*/
-
 function documentService() {
 
 }
