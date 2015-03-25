@@ -48,12 +48,12 @@ namespace TakeDocService.Security
 
         public TakeDocModel.UserTk Logon(string login, string password)
         {
-            this.Logger.Error(string.Format("Log on {0}", login));
+            this.Logger.InfoFormat("Log on {0}", login);
             TakeDocModel.UserTk user = this.GetByLogin(login);
             if (user != null && (user.UserTkPassword != password || user.UserTkEnable == false)) user = null;
              if (user == null) {
-                string msg = "Utilisateur inconnu ou non authentifié.";
-                base.Logger.Info(msg);
+                string msg = string.Format("Utilisateur inconnu ou non identifié : {0}", login);
+                this.Logger.Info(msg);
                 throw new Exception(msg);
             }
             return user;

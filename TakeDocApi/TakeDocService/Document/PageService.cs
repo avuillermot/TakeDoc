@@ -18,6 +18,7 @@ namespace TakeDocService.Document
         
         private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
+            base.Logger.InfoFormat("AddPage: add page to version [{0}], extension : [{1}], rotation [{2}]", versionId, extension, rotation);
             TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, rotation);
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
@@ -25,8 +26,10 @@ namespace TakeDocService.Document
             // generate full path filename
             System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, page.PageReference, extension);
             // write full path file name
+            base.Logger.InfoFormat("AddPage:  write byte in file [{0}]", file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
 
+            base.Logger.InfoFormat("AddPage: update version with file locator");
             ICollection<TakeDocModel.View_PageStoreLocator> locators = new List<TakeDocModel.View_PageStoreLocator>();
             locators = dao.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             page.PageStreamId = locators.First().StreamId;
@@ -46,6 +49,7 @@ namespace TakeDocService.Document
         private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)
         {
             string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
+            base.Logger.InfoFormat("GenerateUNC path in [{0}]", storeLocalPath);
             string[] arr = storeLocalPath.Split('\\');
             string deep = string.Empty;
             foreach (string s in arr)

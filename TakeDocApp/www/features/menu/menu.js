@@ -3,7 +3,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
 
     $scope.items = [
         { title: 'Nouveau', id: 1, scenario: "addDocument", url: null, cssClassName: "ion-plus-circled" },
-        { title: 'Incomplet', id: 2, scenario: "", url: null, cssClassName: "ion-heart-broken" },
+        { title: 'Incomplet', id: 2, scenario: "findIncomplet", url: null, cssClassName: "ion-heart-broken" },
         { title: 'Recherche', id: 3, scenario: "findDocument", url: null, cssClassName: "ion-android-search" },
         { title: 'Derniers', id: 4, scenario: null, url: null, cssClassName: "ion-clock" },
         { title: 'Profil', id: 5, scenario: null, url: "#/profil", cssClassName: "ion-person" },

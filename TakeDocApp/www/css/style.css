@@ -102,10 +102,14 @@ label.metadata .input-label, div.metadata div span  {
 .container-takePicture {
 	display:inline-block;
 }
-@media screen and (max-width: 330px) {
+@media screen and (max-width: 250px) {
 	.container-takePicture {
 		display:block;
 	}
+}
+
+.container-takePicture .button-small {
+    margin-left: 5px;
 }
 
 .take-picture-rotate {

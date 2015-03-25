@@ -13,7 +13,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = true;
+    $rootScope.isApp = false;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
 
@@ -29,19 +29,31 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     var scenarioFindDocument = [
         { from: "#/menu", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
-        { from: "#/selectTypeDocument", to: "#/findDocument" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/complete" },
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioFindIncomplet = [
         { from: "#/menu", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
-        { from: "#/selectTypeDocument", to: "#/findDocument" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/incomplete" },
         { from: "#/findDocument", to: "#/menu" }
     ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     $rootScope.Scenario.init("findDocument", scenarioFindDocument);
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
+
+
+    $rootScope.urlParam = function (name) {
+        var url = window.location.href;
+        var results = new RegExp('[\/' + name + '\/].*\/').exec(url);
+        if (results != null) {
+            url = url.replace(results[0], "");
+            if (url.indexOf('/') > -1) return url.split('/')[0];
+            else return url;
+        }
+        return "";
+    };
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -77,7 +89,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false))
 
-        .state('findDocument', _routeHelper.get("findDocument", false));
+        .state('findDocument', _routeHelper.get("findDocument", false, "/search/:mode"));
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

@@ -1,7 +1,7 @@
 ﻿'use strict';
 takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
 
-    $scope.$on("$ionicView.beforeEnter", function (scopes, states)  {
+    $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.nextUrl = $rootScope.Scenario.next().to;
     });
 

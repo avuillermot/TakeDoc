@@ -14,7 +14,12 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$io
         var error = function () {
             $ionicLoading.hide();
             $rootScope.User = null;
-            $rootScope.PopupHelper.show("Authentification", arguments[0].responseJSON.Message);
+            try {
+                $rootScope.PopupHelper.show("Authentification", arguments[0].responseJSON.Message);
+            }
+            catch (ex) {
+                $rootScope.PopupHelper.show("Authentification", "Une erreur est survenue lors de l'authentification.");
+            }
         };
         var success = function () {
             $rootScope.User = new userTk(arguments[0]);

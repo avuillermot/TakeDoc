@@ -27,10 +27,15 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
             success: onSuccess,
             error: onError
         }
-        documents.loadComplete(params);
+
+        var mode = $rootScope.urlParam("search");
+        if (mode === "complete") documents.loadComplete(params);
+        else if (mode === "incomplete") documents.loadIncomplete(params);
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
+
+
     });
 
 }]);
