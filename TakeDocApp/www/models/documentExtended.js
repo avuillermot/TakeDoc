@@ -55,21 +55,24 @@ var DocumentsExtended = Backbone.Collection.extend({
     loadComplete: function (param) {
         this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and (DocumentStatusReference eq 'META_SEND' or DocumentStatusReference eq 'COMPLETE')"+this.loadOptions;
         this.url = this.url.replace("<entityReference/>", param.entityReference);
-        this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
+        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     },
     loadIncomplete: function (param) {
         this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and (DocumentStatusReference eq 'DATA_SEND' or DocumentStatusReference eq 'CREATE')"+this.loadOptions;
         this.url = this.url.replace("<entityReference/>", param.entityReference);
-        this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
+        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     },
     loadLast: function (param) {
         this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>'"+this.loadOptions;
         this.url = this.url.replace("<entityReference/>", param.entityReference);
-        this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
+        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     }

@@ -1,11 +1,13 @@
 ﻿'use strict';
 takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
 
+    var mode = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.nextUrl = $rootScope.Scenario.next().to;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        mode = $rootScope.urlParam("mode");
         $ionicLoading.show({
             template: 'Chargement...'
         }); 
@@ -19,9 +21,9 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     };
 
     var success = function () {
-        $scope.TypeDocuments = arguments[0].value;
+        var types = arguments[0].value;
         var nb = 0;
-        $.each($scope.TypeDocuments, function(index, value) {
+        $.each(types, function(index, value) {
             if (value.EtatDeleteData == false)nb++;
         });
 
@@ -29,6 +31,20 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
+
+        if (mode == "search") {
+            var all = {
+                TypeDocumentId: "",
+                EntityId: $rootScope.User.CurrentEntity.Id,
+                TypeDocumentLabel: "(Tous)",
+                TypeDocumentReference: "",
+                EtatDeleteData: false
+            };
+            arguments[0].value.push(all);
+        }
+
+        $scope.TypeDocuments = types;
+
         $ionicLoading.hide();
     };
 
@@ -40,6 +56,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 	
     $scope.onChoose = function (typeDocumentId) {
         $.each($scope.TypeDocuments, function (index, value) {
+            debugger;
             if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
         });
         $location.path($scope.nextUrl.replace("#/", ""));

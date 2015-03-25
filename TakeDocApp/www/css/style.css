@@ -1,4 +1,7 @@
 /* Empty. Add your own CSS if you like */
+.menu-empty {
+    background-color:#D8D8D8 !important;
+}
 div.button-bar {
     position:relative;
     right:0px;

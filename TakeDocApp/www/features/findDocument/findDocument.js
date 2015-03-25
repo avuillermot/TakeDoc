@@ -32,12 +32,12 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         });
         var params = {
             entityReference: $rootScope.User.CurrentEntity.Reference,
-            typeDocumentReference: $rootScope.User.CurrentTypeDocument.TypeDocumentReference,
+            typeDocumentReference: (($rootScope.User.CurrentTypeDocument.TypeDocumentReference == "") ? null : $rootScope.User.CurrentTypeDocument.TypeDocumentReference),
             success: onSuccess,
             error: onError
         }
-
-        var mode = $rootScope.urlParam("search");
+        debugger;
+        mode = $rootScope.urlParam("search");
         if (mode === "complete") extDocuments.loadComplete(params);
         else if (mode === "incomplete") extDocuments.loadIncomplete(params);
         else if (mode === "last") extDocuments.loadLast(params);

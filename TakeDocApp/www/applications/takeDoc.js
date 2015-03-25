@@ -19,7 +19,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
 
     var scenarioAddDocument = [
         { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/create" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
         { from: "#/takePicture", to: "#/autocomplete" },
@@ -28,19 +28,19 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     ];
     var scenarioFindComplet = [
         { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/complete" },
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioFindIncomplet = [
         { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/incomplete" },
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioFindLast = [
         { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/last" },
         { from: "#/findDocument", to: "#/menu" }
     ];
@@ -61,8 +61,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         var results = new RegExp('[\/' + name + '\/].*\/').exec(url);
         if (results != null) {
             url = url.replace(results[0], "");
-            if (url.indexOf('/') > -1) return url.split('/')[0];
-            else return url;
+            if (url.indexOf('/') > -1) return url.split('/')[0].replace("https:","").replace("http:","");
+            else return url.replace("https:", "").replace("http:", "");
         }
         return "";
     };
@@ -93,7 +93,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('login', _routeHelper.get("login", false))
         .state('createDocument', _routeHelper.get("createDocument", false))
         .state('selectEntity', _routeHelper.get("selectEntity", false))
-        .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
+        .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false, "/mode/:mode"))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
         .state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))
@@ -101,7 +101,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false))
 
-        .state('findDocument', _routeHelper.get("findDocument", false, "/search/:mode"));
+        .state('findDocument', _routeHelper.get("findDocument", false, "/search/:search"));
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

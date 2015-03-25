@@ -4,7 +4,7 @@
         <section>
             <ion-list>
                 <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="fd-row-result" ng-click='openDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")'>
-                    <div class="ion-android-arrow-dropright">&#160;{{document.attributes.label}}&#160;</div>
+                    <div class="ion-android-arrow-dropright">&#160;{{document.attributes.label}}&#160;<span class="fd-typeDocument">({{document.attributes.typeLabel}})</span></div>
                     <div class="fd-col0-result">Status&#160;:&#160;<span>{{document.attributes.statusLabel}}</span></div>
                     <div class="fd-col1-result">Création&#160;:&#160;<span>{{document.attributes.formatDate}}</span></div>
                 </ion-item>
