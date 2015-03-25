@@ -4,8 +4,7 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
     // delay before search
     var delay = 2000;
     var timeLastKeyPress = null;
-
-
+    
     // if there are some autocomplete datafield, index of the current
     var currentIndex = 0;
     var autocompletes = null;
@@ -25,7 +24,8 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         autocompletes = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
             return item.get("htmlType") === "autocomplete";
         });
-        if (autocompletes.length == 0) $scope.doSelect(null);
+
+        if (autocompletes.length == 0) $location.path($scope.nextUrl.replace("#/", ""));
         else $scope.current = autocompletes[currentIndex].attributes;
     });
 

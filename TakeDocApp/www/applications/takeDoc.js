@@ -23,10 +23,10 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
         { from: "#/takePicture", to: "#/autocomplete" },
-        { from: "#/autocomplete", to: "#/metadata" },
+        { from: "#/autocomplete", to: "#/metadata/mode/add" },
         { from: "#/metadata", to: "#/menu" }
     ];
-    var scenarioFindDocument = [
+    var scenarioFindComplet = [
         { from: "#/menu", to: "#/selectEntity" },
         { from: "#/selectEntity", to: "#/selectTypeDocument" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/complete" },
@@ -38,11 +38,23 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectTypeDocument", to: "#/findDocument/search/incomplete" },
         { from: "#/findDocument", to: "#/menu" }
     ];
+    var scenarioFindLast = [
+        { from: "#/menu", to: "#/selectEntity" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/last" },
+        { from: "#/findDocument", to: "#/menu" }
+    ];
+    var scenarioDetailIncomplet = [
+        { from: "#/findDocument", to: "#/autocomplete" },
+        { from: "#/autocomplete", to: "#/metadata/mode/update" },
+        { from: "#/metadata", to: "#/menu" }
+    ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
-    $rootScope.Scenario.init("findDocument", scenarioFindDocument);
+    $rootScope.Scenario.init("findDocument", scenarioFindComplet);
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
-
+    $rootScope.Scenario.init("findLast", scenarioFindLast);
+    $rootScope.Scenario.init("detailIncomplet", scenarioDetailIncomplet);
 
     $rootScope.urlParam = function (name) {
         var url = window.location.href;
@@ -84,7 +96,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
-        .state('metadata', _routeHelper.get("metadata", false))
+        .state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false))

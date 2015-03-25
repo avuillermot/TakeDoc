@@ -20,7 +20,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
                 var canvas = document.createElement('CANVAS');
                 var ctx = canvas.getContext('2d');
                 ctx.drawImage(this, 0, 0);
-                var data = canvas.toDataURL("image/" + $rootScope.myTakeDoc.Extension);
+                var data = canvas.toDataURL("image/" + $rootScope.myTakeDoc.get("Extension"));
                 var p = new Picture({ id: "P" + number, imageURI: data, state: "toAdd", pageNumber: number + 1 });
                 $rootScope.myTakeDoc.Pages.add(p);
 
@@ -177,7 +177,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
     this.onSuccess = function (imageURI) {
         try {
             var myPageNumber = $rootScope.myTakeDoc.Pages.length + 1;
-            var data = "data:image/" + $rootScope.myTakeDoc.Extension + ";base64," + imageURI;
+            var data = "data:image/" + $rootScope.myTakeDoc.get("Extension") + ";base64," + imageURI;
             var p1 = new Picture({ id: 'P' + myPageNumber, imageURI: data, state: "toAdd", pageNumber: myPageNumber });
             $rootScope.myTakeDoc.Pages.add(p1);
         }

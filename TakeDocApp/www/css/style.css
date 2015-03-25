@@ -17,9 +17,8 @@ div.button-bar {
 
 .row-result {
     border-top: none;
-    height:50px;
-    font-size:16px;
-    padding: 15px 0px 0px 5px; 
+    font-size:14px;
+    padding: 10px 0px 10px 5px; 
     margin: 0px 0px 0px 0px; 
 }
 
@@ -39,7 +38,7 @@ div.button-bar {
 
 .fd-row-result {
     border-top: none;
-    font-size:16px;
+    font-size:14px;
     padding: 5px 0px 10px 5px; 
     margin: 0px 0px 0px 0px; 
 }

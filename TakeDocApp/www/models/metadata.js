@@ -72,6 +72,7 @@ var Metadatas = Backbone.Collection.extend({
     },
 
     save: function (user, onSucces, onError) {
+        debugger;
         var retour = this.check();
         if (retour.valid) {
             this.update(user, onSucces, onError);

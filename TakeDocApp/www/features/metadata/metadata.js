@@ -40,9 +40,9 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         };
 
         $rootScope.myTakeDoc.Metadatas.save({
-            userId: $rootScope.myTakeDoc.UserCreateData,
-            entityId: $rootScope.myTakeDoc.EntityId,
-            versionId: $rootScope.myTakeDoc.DocumentCurrentVersionId
+            userId: $rootScope.myTakeDoc.get("UserUpdateData"),
+            entityId: $rootScope.myTakeDoc.get("EntityId"),
+            versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId")
         }, success, error);
         return false;
     };

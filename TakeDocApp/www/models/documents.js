@@ -12,7 +12,22 @@ var Pictures = Backbone.Collection.extend({
     model: Picture
 });
 
-function documents() {
+var TkDocument = Backbone.Model.extend({
+    defaults: {
+            DocumentId: null,
+            EntityId: null,
+            UserCreateData: null,
+            DocumentTypeId: null,
+            DocumentCurrentVersionId: null,
+            DocumentLabel: null,
+            Pages: new Pictures(),
+            Extension: "jpeg",
+            CurrentVersionId: null,
+            Metadatas: null
+        }
+});
+
+/*function documents() {
     this.DocumentId = null;
     this.EntityId = null;
     this.UserCreateData = null;
@@ -23,7 +38,7 @@ function documents() {
     this.Extension = "jpeg";
     this.CurrentVersionId = null;
     this.Metadatas = null;
-}
+    }*/
 
 function documentService() {
 
@@ -33,14 +48,14 @@ documentService.create = function (document, onSuccess, onError) {
 	if (document.Pages == null || document.Pages.length == 0) throw new Error("Aucune page n'est disponible.");
     console.log("documents.prototype.create:start");
     $.ajax({
-        type: 'PUT',
-        url: environnement.UrlBase+"odata/Documents(0)",
-        data: {
-            EntityId: document.EntityId, UserCreateData: document.UserCreateData, DocumentTypeId: document.DocumentTypeId, DocumentLabel: document.DocumentLabel
+	        type: 'PUT',
+	        url: environnement.UrlBase+"odata/Documents(0)",
+	    data: {
+	        EntityId: document.get("EntityId"), UserCreateData: document.get("UserCreateData"), DocumentTypeId: document.get("DocumentTypeId"), DocumentLabel: document.get("DocumentLabel")
         },
         success: function () {
-            document.DocumentId = arguments[0].DocumentId;
-            document.DocumentCurrentVersionId = arguments[0].DocumentCurrentVersionId;
+            document.set("DocumentId", arguments[0].DocumentId);
+            document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
             var current = arguments[0];
             documentService.addPage(document, 1, onSuccess, onError);
         },
@@ -56,10 +71,10 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     var nextPages = document.Pages.where({ pageNumber: index + 1 });
 
     var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>&rotation=<rotation/>";
-    urlAddPage = urlAddPage.replace("<userId/>", document.UserCreateData);
-    urlAddPage = urlAddPage.replace("<entityId/>", document.EntityId);
-    urlAddPage = urlAddPage.replace("<versionId/>", document.DocumentCurrentVersionId);
-    urlAddPage = urlAddPage.replace("<extension/>", document.Extension);
+    urlAddPage = urlAddPage.replace("<userId/>", document.get("UserCreateData"));
+    urlAddPage = urlAddPage.replace("<entityId/>", document.get("EntityId"));
+    urlAddPage = urlAddPage.replace("<versionId/>", document.get("DocumentCurrentVersionId"));
+    urlAddPage = urlAddPage.replace("<extension/>", document.get("Extension"));
     urlAddPage = urlAddPage.replace("<rotation/>", currentPage.get("rotation"));
     $.ajax({
         type: 'POST',
@@ -81,7 +96,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
 documentService.SetSend = function (document, onSuccess, onError) {
     console.log("documents.prototype.SetSend:start");
     var url = environnement.UrlBase + "Document/SetDataSend/<documentId/>";
-    url = url.replace("<documentId/>", document.DocumentId);
+    url = url.replace("<documentId/>", document.get("DocumentId"));
 
     $.ajax({
         type: 'GET',
@@ -96,10 +111,28 @@ documentService.SetSend = function (document, onSuccess, onError) {
 }
 
 documentService.getMetaData = function (document, onSuccess, onError) {
-    metas = new Metadatas("byVersion", document.DocumentCurrentVersionId, document.EntityId);
+    metas = new Metadatas("byVersion", document.get("DocumentCurrentVersionId"), document.get("EntityId"));
     var fn = function (collection) {
        document.Metadatas = collection;
        onSuccess();
     };
     metas.fetch({ success: fn, error: onError } );
 }
+
+/*documentService.loadByRef = function (reference, onSuccess, onError) {
+    var url = environnement.UrlBase + "odata/Documents?$filter=DocumentReference eq '<reference/>'";
+    url = url.replace("<reference/>", reference);
+
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function () {
+            if (arguments[0] == null || arguments[0].value == null) onSuccess(null);
+            var current = arguments[0].value[0];
+            documentService.getMetaData(current);
+        },
+        error: function () {
+            onError();
+        }
+    });
+}*/
