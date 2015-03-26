@@ -122,12 +122,13 @@ namespace TakeDocService.Document
         public ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(Guid versionId, Guid entityId)
         {
             ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> roMetas = new List<TakeDocModel.Dto.Document.ReadOnlyMetadata>();
-
-            foreach (TakeDocModel.MetaData metadata in this.GetByVersion(versionId, entityId))
+            ICollection<TakeDocModel.MetaData> metadatas = this.GetByVersion(versionId, entityId);
+            foreach (TakeDocModel.MetaData metadata in metadatas)
             {
                 TakeDocModel.Dto.Document.ReadOnlyMetadata ro = new TakeDocModel.Dto.Document.ReadOnlyMetadata();
                 ro.Name = metadata.MetaDataName;
                 ro.EntityId = metadata.EntityId;
+                ro.DisplayIndex = metadata.MetaDataDisplayIndex;
                 ro.Label = metadata.DataField.DataFieldLabel;
                 ro.Value = metadata.MetaDataValue;
                 ro.Text = metadata.MetaDataValue;

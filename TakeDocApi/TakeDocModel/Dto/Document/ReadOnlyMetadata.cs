@@ -13,5 +13,6 @@ namespace TakeDocModel.Dto.Document
         public string Label { get; set; }
         public string Value { get; set; }
         public string Text { get; set; }
+        public int DisplayIndex { get; set; }
     }
 }

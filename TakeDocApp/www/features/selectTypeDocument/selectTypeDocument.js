@@ -56,7 +56,6 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 	
     $scope.onChoose = function (typeDocumentId) {
         $.each($scope.TypeDocuments, function (index, value) {
-            debugger;
             if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
         });
         $location.path($scope.nextUrl.replace("#/", ""));

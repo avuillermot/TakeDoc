@@ -266,6 +266,7 @@
     <Content Include="www\models\metadata.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />
+    <Content Include="www\models\readOnlyMetadata.js" />
     <Content Include="www\models\typeDocument.js" />
     <Content Include="www\utils\autocomplete.js" />
     <Content Include="www\utils\environnement.js" />

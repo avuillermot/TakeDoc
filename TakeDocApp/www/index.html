@@ -38,6 +38,7 @@
     <script src="models/typeDocument.js"></script>
     <script src="models/metadata.js"></script>
     <script src="models/documentExtended.js"></script>
+    <script src="models/readOnlyMetadata.js"></script>
     <script src="applications/takeDoc.js"></script>
     <script src="features/login/login.js"></script>
     <script src="features/about/about.js"></script>
@@ -65,26 +66,32 @@
     </ion-nav-view>
   </body>
 
-    <script id="error-modal" type="text/ng-template">
-        <ion-modal-view>
-            <ion-header-bar class="bar-assertive">
-                <h1 id="modalTitle" class="title"></h1>
-                <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
-            </ion-header-bar>
-            <ion-content>
-                <div class="errorMessage" id="modalMessage"></div>
-            </ion-content>
-        </ion-modal-view>
-    </script>
-
     <script id="enlarge-page-modal" type="text/ng-template">
         <ion-modal-view>
-            <ion-header-bar class="bar-assertive">
+            <ion-header-bar class="bar-calm">
                 <h1 id="modalTitle" class="title"></h1>
                 <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
             </ion-header-bar>
             <ion-content>
                 <div id="modalMessage"></div>
+            </ion-content>
+        </ion-modal-view>
+    </script>
+
+    <script id="read-only-metadata" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar-calm">
+                <h1 id="modalTitle" class="title"></h1>
+                <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
+            </ion-header-bar>
+            <ion-content>
+                <div id="modalMessage"></div>
+                <ion-list>
+                    <ion-item ng-repeat="ro in readOnlyMetadatas | orderBy:['attributes.DisplayIndex']">
+                        <div class="fd-col0-result">{{ro.attributes.Label}}</div>
+                        <div class="fd-col1-result">{{ro.attributes.Text}}</div>
+                    </ion-item>
+                </ion-list>
             </ion-content>
         </ion-modal-view>
     </script>

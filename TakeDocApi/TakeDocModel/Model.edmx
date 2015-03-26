@@ -272,7 +272,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="DocumentOwnerId" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentOwnerReference" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentOwnerId" Type="uniqueidentifier" />
           <Property Name="DocumentOwnerFullName" Type="nvarchar" MaxLength="401" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -513,6 +514,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
     [View_DocumentExtended].[DocumentId] AS [DocumentId], 
     [View_DocumentExtended].[DocumentReference] AS [DocumentReference], 
     [View_DocumentExtended].[DocumentLabel] AS [DocumentLabel], 
+    [View_DocumentExtended].[DocumentOwnerReference] AS [DocumentOwnerReference], 
     [View_DocumentExtended].[DocumentOwnerId] AS [DocumentOwnerId], 
     [View_DocumentExtended].[DocumentOwnerFullName] AS [DocumentOwnerFullName], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
@@ -1145,12 +1147,13 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="VersionStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="DocumentStatusReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentStatusLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="DocumentOwnerId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentOwnerId" Type="Guid" />
           <Property Name="DocumentOwnerFullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
           <Property Name="VersionDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="DocumentId" Type="Guid" Nullable="false" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="VersionId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentOwnerReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1476,6 +1479,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="TakeDocModel.View_DocumentExtended">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="DocumentOwnerReference" ColumnName="DocumentOwnerReference" />
                 <ScalarProperty Name="VersionId" ColumnName="VersionId" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />

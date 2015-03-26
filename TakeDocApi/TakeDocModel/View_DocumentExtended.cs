@@ -27,11 +27,12 @@ namespace TakeDocModel
         public string VersionStatusLabel { get; set; }
         public string DocumentStatusReference { get; set; }
         public string DocumentStatusLabel { get; set; }
-        public string DocumentOwnerId { get; set; }
+        public Nullable<System.Guid> DocumentOwnerId { get; set; }
         public string DocumentOwnerFullName { get; set; }
         public System.DateTimeOffset VersionDateCreateData { get; set; }
         public System.Guid DocumentId { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid VersionId { get; set; }
+        public string DocumentOwnerReference { get; set; }
     }
 }

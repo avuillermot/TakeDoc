@@ -1,8 +1,10 @@
 ﻿'use strict';
-takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
+takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', '$ionicModal', function ($scope, $rootScope, $location, $ionicLoading, $ionicModal) {
 
     var mode = null;
     var extDocuments = null
+    var detailModal = new modalHelper($ionicModal, $scope, 'read-only-metadata');
+    var readOnlyMetadata = new ReadOnlyMetadatas();
 
     var fRefresh = function () {
         if (!$scope.$$phase) {
@@ -32,11 +34,11 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         });
         var params = {
             entityReference: $rootScope.User.CurrentEntity.Reference,
+            ownerId: $rootScope.User.Id,
             typeDocumentReference: (($rootScope.User.CurrentTypeDocument.TypeDocumentReference == "") ? null : $rootScope.User.CurrentTypeDocument.TypeDocumentReference),
             success: onSuccess,
             error: onError
         }
-        debugger;
         mode = $rootScope.urlParam("search");
         if (mode === "complete") extDocuments.loadComplete(params);
         else if (mode === "incomplete") extDocuments.loadIncomplete(params);
@@ -65,7 +67,14 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 documentService.getMetaData($rootScope.myTakeDoc, onSuccess, onError);
             }
             else {
-                alert("lock");
+                var success = function () {
+                    $scope.readOnlyMetadatas = arguments[0].models;
+                    detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
+                };
+                var error = function() {
+                    $rootScope.PopupHelper.show("Détail", "Le détail n'est pas disponible.");
+                };
+                readOnlyMetadata.loadBy({ success: success, error: error, versionId: current[0].get("versionId"), entityId: current[0].get("entityId") })
             }
         }
     };

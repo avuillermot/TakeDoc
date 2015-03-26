@@ -10,6 +10,8 @@ var DocumentExtended = Backbone.Model.extend({
         label: null,
         typeLabel: null,
         statusLabel: null,
+        ownerId: null,
+        ownerReference: null,
         ownerFullName: null,
         versionId: null,
         versionReference: null,
@@ -27,6 +29,8 @@ var DocumentExtended = Backbone.Model.extend({
         this.set("typeLabel", current.DocumentTypeLabel);
         this.set("statusReference", current.DocumentStatusReference);
         this.set("statusLabel", current.DocumentStatusLabel);
+        this.set("ownerId", current.DocumentOwnerId);
+        this.set("ownerReference", current.DocumentOwnerReference);
         this.set("ownerFullName", current.DocumentOwnerFullName);
         this.set("versionId", current.VersionId);
         this.set("versionReference", current.VersionReference);
@@ -52,27 +56,36 @@ var DocumentsExtended = Backbone.Collection.extend({
         return arr;
     },
     loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
+    loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",
+    replaceParameter: function(clause, field, value) {
+        if (value == null) this.url = this.url.replace(clause, "");
+        else this.url = this.url.replace("<" + field + "/>", value);
+    },
+    clauses: {
+        complete: " and (DocumentStatusReference eq 'META_SEND' or DocumentStatusReference eq 'COMPLETE')",
+        incomplete: " and (DocumentStatusReference eq 'DATA_SEND' or DocumentStatusReference eq 'CREATE')"
+    },
     loadComplete: function (param) {
-        this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and (DocumentStatusReference eq 'META_SEND' or DocumentStatusReference eq 'COMPLETE')"+this.loadOptions;
-        this.url = this.url.replace("<entityReference/>", param.entityReference);
-        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
-        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
+        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
+        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     },
     loadIncomplete: function (param) {
-        this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and (DocumentStatusReference eq 'DATA_SEND' or DocumentStatusReference eq 'CREATE')"+this.loadOptions;
-        this.url = this.url.replace("<entityReference/>", param.entityReference);
-        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
-        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        this.url = this.urlBase + this.loadBase + this.clauses.incomplete + this.loadOptions;
+        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
+        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     },
     loadLast: function (param) {
-        this.url = this.urlBase + "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>'"+this.loadOptions;
-        this.url = this.url.replace("<entityReference/>", param.entityReference);
-        if (param.typeDocumentReference == null) this.url = this.url.replace("and TypeDocumentReference eq '<typeDocumentReference/>'", "");
-        else this.url = this.url.replace("<typeDocumentReference/>", param.typeDocumentReference);
+        this.url = this.urlBase + this.loadBase + this.loadOptions;
+        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
+        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
     }
