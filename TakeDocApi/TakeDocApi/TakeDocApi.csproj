@@ -186,6 +186,7 @@
     <Compile Include="Controllers\oData\DocumentsController.cs" />
     <Compile Include="Controllers\oData\TypeDocumentsController.cs" />
     <Compile Include="Controllers\PageController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -404,6 +405,7 @@
     <Content Include="Scripts\lib\respond.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
     <Content Include="Scripts\utils\routeHelper.js" />
+    <Content Include="Temp\Pdf\info.txt" />
     <Content Include="test.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">

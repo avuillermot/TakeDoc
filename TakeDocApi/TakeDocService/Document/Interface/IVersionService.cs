@@ -17,5 +17,7 @@ namespace TakeDocService.Document.Interface
         void GeneratePdf(Guid versionId, Guid entityId);
         void GeneratePdf();
         ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId);
+        byte[] GetBinaryFile(Guid versionId, Guid entityId);
+        string GetUrlFile(Guid versionId, Guid entityId);
     }
 }

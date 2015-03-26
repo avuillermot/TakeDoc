@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
+takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', '$stateParams', function ($scope, $rootScope, $location, $ionicLoading, $stateParams) {
 
     var mode = null;
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -7,7 +7,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        mode = $rootScope.urlParam("mode");
+        mode = states.stateParams.mode;
         $ionicLoading.show({
             template: 'Chargement...'
         }); 
@@ -31,7 +31,6 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
-
         if (mode == "search") {
             var all = {
                 TypeDocumentId: "",

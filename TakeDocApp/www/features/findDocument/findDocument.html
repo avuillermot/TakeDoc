@@ -3,12 +3,16 @@
         <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{User.CurrentEntity.Label}}&#160;/&#160;{{User.CurrentTypeDocument.TypeDocumentLabel}}</h5>
         <section>
             <ion-list>
-                <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="fd-row-result" ng-click='openDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")'>
+                <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="fd-row-result">
                     <div class="ion-android-arrow-dropright">&#160;{{document.attributes.label}}&#160;<span class="fd-typeDocument">({{document.attributes.typeLabel}})</span></div>
                     <div class="fd-col0-result">Status&#160;:&#160;<span>{{document.attributes.statusLabel}}</span></div>
                     <div class="fd-col1-result">Création&#160;:&#160;<span>{{document.attributes.formatDate}}</span></div><br />
                     <div class="fd-col0-result"></div>
                     <div class="fd-col1-result">Prop.&#160;:&#160;<span>{{document.attributes.ownerFullName}}</span></div><br />
+                    <div>
+                        <div ng-click='viewDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-eye"></div>
+                        <div ng-click='openDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-edit"></div>
+                    </div>
                 </ion-item>
             </ion-list>
             <div class="no-row-result" ng-show="documents.length == 0">Aucun document disponible</div>

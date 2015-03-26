@@ -14,12 +14,13 @@ namespace TakeDocModel
             PageStoreUNC = settings["PageStoreUNC"].ToString();
             TempDirectory = settings["TempDirectory"].ToString();
             JpegTestFile1 = settings["JpegTestFile1"].ToString();
-            JpegTestFile2 = settings["JpegTestFile2"].ToString();
+            PdfTemp = settings["PdfTemp"].ToString();
         }
         public static string PageStoreUNC { get; set; }
         public static string VersionStoreUNC { get; set; }
         public static string TempDirectory { get; set; }
         public static string JpegTestFile1 { get; set; }
         public static string JpegTestFile2 { get; set; }
+        public static string PdfTemp { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 ﻿'use strict';
-var takeDoc = angular.module("takeDoc", ['ionic']);
+var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute']);
 
 takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading) {
     
@@ -55,17 +55,6 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
     $rootScope.Scenario.init("findLast", scenarioFindLast);
     $rootScope.Scenario.init("detailIncomplet", scenarioDetailIncomplet);
-
-    $rootScope.urlParam = function (name) {
-        var url = window.location.href;
-        var results = new RegExp('[\/' + name + '\/].*\/').exec(url);
-        if (results != null) {
-            url = url.replace(results[0], "");
-            if (url.indexOf('/') > -1) return url.split('/')[0].replace("https:","").replace("http:","");
-            else return url.replace("https:", "").replace("http:", "");
-        }
-        return "";
-    };
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

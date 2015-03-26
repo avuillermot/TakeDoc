@@ -39,7 +39,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
             success: onSuccess,
             error: onError
         }
-        mode = $rootScope.urlParam("search");
+        mode = states.stateParams.search;
         if (mode === "complete") extDocuments.loadComplete(params);
         else if (mode === "incomplete") extDocuments.loadIncomplete(params);
         else if (mode === "last") extDocuments.loadLast(params);
@@ -70,6 +70,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 var success = function () {
                     $ionicLoading.hide();
                     $scope.readOnlyMetadatas = arguments[0].models;
+                    $scope.isViewable = (current[0].get("statusReference") === "COMPLETE");
                     if ($scope.readOnlyMetadatas.length > 0) detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
                     else {
                         $ionicLoading.show({
@@ -88,6 +89,13 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 });
                 readOnlyMetadata.loadBy({ success: success, error: error, versionId: current[0].get("versionId"), entityId: current[0].get("entityId") })
             }
+        }
+    };
+
+    $scope.viewDocument = function (docRef, entityRef) {
+        var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
+        if (current.length > 0) {
+            fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"));
         }
     };
 }]);

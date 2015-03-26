@@ -11,7 +11,7 @@ namespace TakeDocService.Document
 {
     public class VersionService : BaseService, Interface.IVersionService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator> daoVersionLocator = new TakeDocDataAccess.DaoBase<TakeDocModel.View_VersionStoreLocator>();
+        TakeDocDataAccess.Document.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoVersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
@@ -138,6 +138,41 @@ namespace TakeDocService.Document
         public ICollection<TakeDocModel.Version> GetBy(Expression<Func<TakeDocModel.Version, bool>> where, params Expression<Func<TakeDocModel.Version, object>>[] properties)
         {
             return daoVersion.GetBy(where, properties);
+        }
+
+        /// <summary>
+        /// Return file in byte array
+        /// </summary>
+        /// <param name="versionId"></param>
+        /// <param name="entityId"></param>
+        /// <returns></returns>
+        public byte[] GetBinaryFile(Guid versionId, Guid entityId)
+        {
+            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId);
+            if (versions.Count() == 0)
+            {
+                string msg = string.Format("Unknow version {0} for entity {1}", versionId, entityId);
+                base.Logger.Error(msg);
+                throw new Exception(msg);
+            }
+            Guid? streamId = versions.First().VersionStreamId;
+            ICollection<TakeDocModel.View_VersionStoreLocator> locators = daoVersionLocator.GetBy(x => x.StreamId == streamId);
+            if (locators.Count() == 0)
+            {
+                string msg = string.Format("Unknow locator for version {0} for entity {1}", versionId, entityId);
+                base.Logger.Error(msg);
+                throw new Exception(msg);
+            }
+            return System.IO.File.ReadAllBytes(locators.First().StreamLocator);
+        }
+
+        public string GetUrlFile(Guid versionId, Guid entityId)
+        {
+            byte[] data = this.GetBinaryFile(versionId, entityId);
+            System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.PdfTemp,versionId,".pdf"));
+            if (System.IO.File.Exists(file.FullName)) System.IO.File.Delete(file.FullName);
+            System.IO.File.WriteAllBytes(file.FullName, data);
+            return file.Name;
         }
     }
 }

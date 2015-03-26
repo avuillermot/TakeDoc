@@ -10,6 +10,7 @@ var DocumentExtended = Backbone.Model.extend({
         label: null,
         typeLabel: null,
         statusLabel: null,
+        statusRefernce: null,
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,
