@@ -87,7 +87,7 @@
             <ion-content>
                 <div id="modalMessage"></div>
                 <ion-list>
-                    <ion-item ng-repeat="ro in readOnlyMetadatas | orderBy:['attributes.DisplayIndex']">
+                    <ion-item ng-repeat="ro in readOnlyMetadatas | orderBy:['attributes.DisplayIndex']" class="row-result">
                         <div class="fd-col0-result">{{ro.attributes.Label}}</div>
                         <div class="fd-col1-result">{{ro.attributes.Text}}</div>
                     </ion-item>

@@ -68,12 +68,24 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
             }
             else {
                 var success = function () {
+                    $ionicLoading.hide();
                     $scope.readOnlyMetadatas = arguments[0].models;
-                    detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
+                    if ($scope.readOnlyMetadatas.length > 0) detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
+                    else {
+                        $ionicLoading.show({
+                            template: 'Aucune information disponible...'
+                        });
+                        var fn = function () { $ionicLoading.hide(); }
+                        window.setTimeout(fn, 2000);
+                    }
                 };
-                var error = function() {
+                var error = function () {
+                    $ionicLoading.hide();
                     $rootScope.PopupHelper.show("Détail", "Le détail n'est pas disponible.");
                 };
+                $ionicLoading.show({
+                    template: 'Chargement...'
+                });
                 readOnlyMetadata.loadBy({ success: success, error: error, versionId: current[0].get("versionId"), entityId: current[0].get("entityId") })
             }
         }
