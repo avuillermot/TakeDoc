@@ -13,13 +13,13 @@ namespace UnitTestTakeDocService
         {
             Utility.Logger.myLogger.Init();
 
-            /*Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
+            Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
             Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
 
             documentTest.TestOrdered();
-            metaDataTest.TestOrdered();*/
+            metaDataTest.TestOrdered();
 
-            ULibre.Drivers.Interface.IDriver driver = new ULibre.Drivers.Implementation.OdtDriver();
+            /*ULibre.Drivers.Interface.IDriver driver = new ULibre.Drivers.Implementation.OdtDriver();
             System.IO.File.Copy(@"D:\Projets\TakeDoc\Library\MASTER\Model\NOTE_DE_FRAIS_entete.odt", @"D:\Projets\TakeDoc\Library\test.odt",true);
 
             driver.Open(@"D:\Projets\TakeDoc\Library\test.odt");
@@ -36,7 +36,7 @@ namespace UnitTestTakeDocService
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(@"D:\Projets\TakeDoc\Library\convert.bat");
             info.WorkingDirectory = @"D:\Projets\TakeDoc\Library\";
             info.Arguments = "test.odt";
-            System.Diagnostics.Process.Start(info);
+            System.Diagnostics.Process.Start(info);*/
 
             Console.WriteLine("End");
 

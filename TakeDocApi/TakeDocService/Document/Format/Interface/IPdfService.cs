@@ -9,6 +9,6 @@ namespace TakeDocService.Document.Format.Interface
 {
     public interface IPdfService
     {
-        byte[] GeneratePdf(TakeDocModel.Version version);
+        byte[] GeneratePdf(TakeDocModel.Version version, TakeDocModel.Entity entity);
     }
 }

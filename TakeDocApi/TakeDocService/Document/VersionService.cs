@@ -101,7 +101,7 @@ namespace TakeDocService.Document
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
             System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, version.VersionReference, "pdf");
-            byte[] data = servPdf.GeneratePdf(version);
+            byte[] data = servPdf.GeneratePdf(version, entity);
             System.IO.File.WriteAllBytes(file.FullName, data);
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
@@ -168,7 +168,7 @@ namespace TakeDocService.Document
         public string GetUrlFile(Guid versionId, Guid entityId)
         {
             byte[] data = this.GetBinaryFile(versionId, entityId);
-            System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.PdfTemp,versionId,".pdf"));
+            System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory,versionId,".pdf"));
             if (System.IO.File.Exists(file.FullName)) System.IO.File.Delete(file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
             return file.Name;

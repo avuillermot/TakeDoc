@@ -13,17 +13,9 @@ namespace TakeDocService.Document
 {
     public class ImageService : BaseService, Interface.IImageService
     {
-        public string PdfPath { get; set; }
-
-        public ImageService()
+        /*public byte[] GetPdf(ICollection<byte[]> pages)
         {
-            this.PdfPath = TakeDocModel.Environnement.TempDirectory;
-        }
-        
-        public byte[] GetPdf(ICollection<byte[]> pages)
-        {
-            string newFileName = System.Guid.NewGuid().ToString();
-            string fileName = string.Concat(this.PdfPath, newFileName);
+            string fileName = string.Concat(TakeDocModel.Environnement.TempDirectory, System.Guid.NewGuid().ToString());
             using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0))
             {
                 PdfWriter.GetInstance(doc, new FileStream(fileName, FileMode.Create));
@@ -43,7 +35,7 @@ namespace TakeDocService.Document
             byte[] retour = System.IO.File.ReadAllBytes(fileName);
             if (System.IO.File.Exists(fileName)) System.IO.File.Delete(fileName);
             return retour;
-        }
+        }*/
 
         public string ToBase64String(string pathFile)
         {
