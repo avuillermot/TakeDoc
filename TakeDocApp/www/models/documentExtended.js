@@ -63,8 +63,8 @@ var DocumentsExtended = Backbone.Collection.extend({
         else this.url = this.url.replace("<" + field + "/>", value);
     },
     clauses: {
-        complete: " and (DocumentStatusReference eq 'META_SEND' or DocumentStatusReference eq 'COMPLETE')",
-        incomplete: " and (DocumentStatusReference eq 'DATA_SEND' or DocumentStatusReference eq 'CREATE')"
+        complete: " and (DocumentStatusReference eq 'COMPLETE' or DocumentStatusReference eq 'SEND')",
+        incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')"
     },
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;

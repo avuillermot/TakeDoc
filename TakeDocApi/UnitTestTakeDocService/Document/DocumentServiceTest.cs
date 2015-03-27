@@ -113,17 +113,17 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void SetStatusDataSend()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.DataSend, true);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Incomplete, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
-            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.DataSend), "Statut du document DataSend");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Incomplete), "Statut du document DataSend");
         }
 
         [TestMethod]
         public void SetStatusMetaSend()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.MetaSend, true);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Complete, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
-            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.MetaSend), "Statut du document MetaSend");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Complete), "Statut du document MetaSend");
         }
         
         [TestMethod]

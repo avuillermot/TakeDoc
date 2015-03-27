@@ -3,9 +3,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>TakeDoc Backoffice</title>
-    <script src="../Scripts/lib/jquery-2.1.1.min.js"></script>
+    <link href="../Scripts/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="../Scripts/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../Scripts/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+
     <script src="../Scripts/utils/routeHelper.js"></script>
-    <script src="../Scripts/lib/bootstrap.min.js"></script>
+
     <script src="../Scripts/bower_components/angular/angular.min.js"></script>
     <script src="../Scripts/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script src="../Scripts/applications/backOffice.js"></script>
@@ -14,18 +18,8 @@
 </head>
 <body ng-app="backOffice">
 
-    <div class="navbar">
-        <div class="navbar-inner">
-            <a class="brand" ui-sref="index">Quick Start</a>
-            <ul class="nav">
-                <li><a ui-sref="index">Home</a></li>
-                <li><a ui-sref="route1">Route 1</a></li>
-                <li><a ui-sref="route2">Route 2</a></li>
-            </ul>
-        </div>
-    </div>
-
-    <div ui-view="viewA"></div>
-    <div ui-view="viewB"></div>
+    <div ui-view="viewMenu" style="background-color:blue"></div>
+    <div ui-view="viewGrid" style="background-color:red; display:inline-block; width:29%"></div>
+    <div ui-view="viewDetail" style="background-color:yellow; display:inline-block; width:69%"></div>
 </body>
 </html>

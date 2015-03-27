@@ -11,11 +11,15 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider.state('index', {
         url: "",
         views: {
-            "viewA": {
+            "viewMenu": {
                 templateUrl: "features/login/login.html",
                 controller: 'loginController'
             },
-            "viewB": {
+            "viewGrid": {
+                templateUrl: "features/login/login.html",
+                controller: 'loginController'
+            },
+            "viewDetail": {
                 templateUrl: "features/login/login.html",
                 controller: 'loginController'
             }

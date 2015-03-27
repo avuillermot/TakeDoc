@@ -79,8 +79,8 @@ namespace TakeDocService.Document
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
 
             servMeta.SetMetaData(userId, entityId, versionId, metadatas);
-            servVersion.SetStatus(versionId, entityId, TakeDocModel.Status_Version.MetaSend);
-            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.MetaSend, true);
+            servVersion.SetStatus(versionId, entityId, TakeDocModel.Status_Version.Complete);
+            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, true);
         }
 
         public void GeneratePdf()
@@ -88,7 +88,7 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.Version> versions = servVersion.GeneratePdf();
             foreach (TakeDocModel.Version version in versions)
             {
-                this.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Complete, false);
+                this.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Send, false);
             }
         }
    }

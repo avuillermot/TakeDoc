@@ -18,7 +18,7 @@ namespace TakeDocApi.Controllers
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
             {
-                servDocument.SetStatus(documentId, TakeDocModel.Status_Document.DataSend, true);
+                servDocument.SetStatus(documentId, TakeDocModel.Status_Document.Incomplete, true);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

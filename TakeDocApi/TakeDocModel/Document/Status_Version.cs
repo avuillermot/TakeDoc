@@ -9,8 +9,8 @@ namespace TakeDocModel
     public partial class Status_Version
     {
         public static string Create { get { return "CREATE"; } }
-        public static string DataSend { get { return "DATA_SEND"; } }
-        public static string MetaSend { get { return "META_SEND"; } }
+        public static string Incomplete { get { return "INCOMPLETE"; } }
         public static string Complete { get { return "COMPLETE"; } }
+        public static string Send { get { return "SEND"; } }
     }
 }

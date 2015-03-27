@@ -68,11 +68,11 @@ namespace TakeDocService.Document
 
         public ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
         {
-            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.MetaSend) 
+            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.Complete) 
                 && x.EntityId == entityId 
                 && x.EtatDeleteData == false
                 && x.Document.DocumentCurrentVersionId == x.VersionId && x.Document.EtatDeleteData == false
-                && x.Document.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.MetaSend)).ToList();
+                && x.Document.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Complete)).ToList();
             return versions;
         }
 
@@ -123,7 +123,7 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
-            this.SetStatus(version, TakeDocModel.Status_Version.Complete);
+            this.SetStatus(version, TakeDocModel.Status_Version.Send);
         }
 
         private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)

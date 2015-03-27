@@ -51,7 +51,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     $scope.openDocument = function (docRef, entityRef) {
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            if (current[0].get("statusReference") == "DATA_SEND") {
+            if (current[0].get("statusReference") == "INCOMPLETE") {
                 var onSuccess = function () {
                     var step = $rootScope.Scenario.start("detailIncomplet");
                     $location.path(step.to.substr(2));
@@ -70,7 +70,6 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 var success = function () {
                     $ionicLoading.hide();
                     $scope.readOnlyMetadatas = arguments[0].models;
-                    $scope.isViewable = (current[0].get("statusReference") === "COMPLETE");
                     if ($scope.readOnlyMetadatas.length > 0) detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
                     else {
                         $ionicLoading.show({
