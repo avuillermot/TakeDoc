@@ -85,11 +85,10 @@ namespace TakeDocService.Document
 
         public void GeneratePdf()
         {
-            servVersion.GeneratePdf();
-            ICollection<TakeDocModel.Version> versions = servVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.Complete) && x.EtatDeleteData == false).ToList();
+            ICollection<TakeDocModel.Version> versions = servVersion.GeneratePdf();
             foreach (TakeDocModel.Version version in versions)
             {
-                this.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Version.Complete, false);
+                this.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Complete, false);
             }
         }
    }
