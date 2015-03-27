@@ -17,8 +17,7 @@ namespace TakeDocService.Document
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
-        Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
-        Interface.IImageService servImage = UnityHelper.Resolve<Interface.IImageService>();
+        Format.Interface.IPdfService servPdf = UnityHelper.Resolve<Format.Interface.IPdfService>();
 
         private TakeDocModel.Version Create(Guid userId, Guid entityId, Guid versionId, Guid documentId, decimal versionNumber)
         {
@@ -66,7 +65,7 @@ namespace TakeDocService.Document
             this.SetStatus(version, status);
         }
 
-        public ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
+        private ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
         {
             ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.Complete) 
                 && x.EntityId == entityId 
@@ -91,34 +90,19 @@ namespace TakeDocService.Document
                 foreach (TakeDocModel.Version version in versions)
                 {
                     back.Add(version);
-                    this.GeneratePdf(version.VersionId, version.EntityId);
+                    this.GeneratePdf(version);
                 }
             }
             return back;
         }
 
-        public void GeneratePdf(Guid versionId, Guid entityId) {
-            TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            this.GeneratePdf(version);
-        }
-
-        public void GeneratePdf(TakeDocModel.Version version)
+        private void GeneratePdf(TakeDocModel.Version version)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
-            ICollection<byte[]> data = new List<byte[]>();
-            foreach (TakeDocModel.Page page in version.Page.OrderBy(x => x.PageNumber))
-            {
-                byte[] img = servPage.GetBinary(page.PageId);
-                System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-                float angle = 0;
-                bool ok = float.TryParse(page.PageRotation.ToString(), out angle);
-                if (ok) img = servImage.Rotate(bitmap, angle);
-                data.Add(img);
-            }
-            byte[] fullDoc = servImage.GetPdf(data);
             System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, version.VersionReference, "pdf");
-            System.IO.File.WriteAllBytes(file.FullName, fullDoc);
+            byte[] data = servPdf.GeneratePdf(version);
+            System.IO.File.WriteAllBytes(file.FullName, data);
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());

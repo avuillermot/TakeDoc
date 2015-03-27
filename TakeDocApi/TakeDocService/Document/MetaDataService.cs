@@ -67,7 +67,7 @@ namespace TakeDocService.Document
             return result;
         }
 
-        public void Valid(string typeName, string value, bool required)
+        private void Valid(string typeName, string value, bool required)
         {
             if (string.IsNullOrEmpty(value) == true && required == true) throw new Exception("Bad data");
             Type myType = Type.GetType(typeName);

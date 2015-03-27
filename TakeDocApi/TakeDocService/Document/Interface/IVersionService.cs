@@ -12,11 +12,8 @@ namespace TakeDocService.Document.Interface
         TakeDocModel.Version CreateMajor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId);
         TakeDocModel.Version CreateMinor(Guid userId, Guid entityId, Guid versionId, Guid documentId, Guid typeDocumentId);
         TakeDocModel.Version GetById(Guid versionId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Version, object>>[] properties);
-        ICollection<TakeDocModel.Version> GetBy(Expression<Func<TakeDocModel.Version, bool>> where, params Expression<Func<TakeDocModel.Version, object>>[] properties);
         void SetStatus(Guid versionId, Guid entityId, string status);
-        void GeneratePdf(Guid versionId, Guid entityId);
         ICollection<TakeDocModel.Version> GeneratePdf();
-        ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId);
         byte[] GetBinaryFile(Guid versionId, Guid entityId);
         string GetUrlFile(Guid versionId, Guid entityId);
     }

@@ -18,10 +18,5 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.TypeDocument> typeDocuments = daoTypeDocument.GetBy(x => x.EntityId == entityId);
             return typeDocuments;
         }
-
-        public ICollection<TakeDocModel.TypeDocument> GetBy(Expression<Func<TakeDocModel.TypeDocument, bool>> where, params Expression<Func<TakeDocModel.TypeDocument, object>>[] properties)
-        {
-            return daoTypeDocument.GetBy(where, properties);
-        }
     }
 }

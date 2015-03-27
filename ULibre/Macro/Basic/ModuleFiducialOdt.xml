@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="ModuleFiducialOdt" script:language="StarBasic">Sub InsertFiducialText(valeur as string)
+	Dim monCurseur As Object
+	Dim oVC As Object
+
+	oVC = thisComponent.getCurrentController().getViewCursor()
+	monCurseur = oVC.getText().createTextCursorByRange(oVC)
+	monCurseur.setString(valeur)
+
+End Sub
+</script:module>

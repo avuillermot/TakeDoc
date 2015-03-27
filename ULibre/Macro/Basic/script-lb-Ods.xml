@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ce fichier est lié au fichier de macro -->
+<!DOCTYPE library:library PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "library.dtd">
+<library:library xmlns:library="http://openoffice.org/2000/library" library:name="Fiducial" library:readonly="false" library:passwordprotected="false">
+	<library:element library:name="ModuleFiducialOds"/>
+</library:library>

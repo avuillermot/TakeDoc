@@ -89,9 +89,11 @@
     <Compile Include="Document\Interface\IPageStoreLocator.cs" />
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
+    <Compile Include="Document\Format\Interface\IPdfService.cs" />
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Document\PageStoreLocator.cs" />
+    <Compile Include="Document\Format\PdfService.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
     <Compile Include="External\CustomerService.cs" />
