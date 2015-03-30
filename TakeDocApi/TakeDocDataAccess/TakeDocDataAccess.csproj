@@ -58,9 +58,6 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="Utility">
-      <HintPath>..\Lib\Utility.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DaoBase.cs" />
@@ -91,6 +88,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Utility.csproj">
+      <Project>{f7aefbb3-e18c-455a-91af-cf5a4899a2d5}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TakeDocModel\TakeDocModel.csproj">
       <Project>{2de865a8-995d-4564-9eec-5f039e682967}</Project>
       <Name>TakeDocModel</Name>

@@ -16,7 +16,17 @@ namespace TakeDocService.Document.Format
         doc.Interface.IPageService servPage = UnityHelper.Resolve<doc.Interface.IPageService>();
         doc.Interface.IImageService servImage = UnityHelper.Resolve<doc.Interface.IImageService>();
 
-        private FileInfo GenerateStarterPdf(TakeDocModel.Version version, TakeDocModel.Entity entity)
+        private PdfReader GetImagePdf(TakeDocModel.Version version) {
+            ICollection<byte[]> data = new List<byte[]>();
+            foreach (TakeDocModel.Page page in version.Page.OrderBy(x => x.PageNumber))
+            {
+                byte[] img = servPage.GetBinary(page.PageId);
+                data.Add(img);
+            }
+            return servImage.GetPdf(data);
+        }
+
+        private byte[] GenerateStarterPdf(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
             FileInfo modele = new FileInfo(string.Concat(TakeDocModel.Environnement.ModelDirectory,entity.EntityReference,@"\",version.Document.Type_Document.TypeDocumentReference,"_","starter.odt"));
             FileInfo destinationOdt = new FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory,Guid.NewGuid().ToString(),modele.Extension));
@@ -29,40 +39,37 @@ namespace TakeDocService.Document.Format
             info.Arguments = destinationOdt.FullName;
             System.Diagnostics.Process process = System.Diagnostics.Process.Start(info);
             process.WaitForExit();
-
+                        
+            byte[] data = System.IO.File.ReadAllBytes(destinationPdf.FullName);
             if (destinationOdt.Exists) destinationOdt.Delete();
-            return destinationPdf;
+            if (destinationPdf.Exists) destinationPdf.Delete();
+            return data;
         }
 
         public byte[] GeneratePdf(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
-            FileInfo destinationPdf = this.GenerateStarterPdf(version, entity);
-            using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0))
+            PdfReader entetePdf = new PdfReader(this.GenerateStarterPdf(version, entity));
+            PdfReader imagePdf = this.GetImagePdf(version);
+            its.Document outputPdf = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0);
+            MemoryStream streamOut = new MemoryStream();
+
+            using (PdfCopy writer = new PdfCopy(outputPdf, streamOut))
             {
-                PdfWriter.GetInstance(doc, new FileStream(destinationPdf.FullName, FileMode.Append));
-                doc.Open();
-                
-                foreach (TakeDocModel.Page page in version.Page.OrderBy(x => x.PageNumber))
-                {
-                    byte[] img = servPage.GetBinary(page.PageId);
-                    System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(new System.IO.MemoryStream(img));
-                    float angle = 0;
-                    bool ok = float.TryParse(page.PageRotation.ToString(), out angle);
-                    if (ok) img = servImage.Rotate(bitmap, angle);
-
-                    doc.NewPage();
-                    iTextSharp.text.Image image = its.Image.GetInstance(img);
-                    PdfPTable table = new PdfPTable(1);
-                    table.AddCell(new PdfPCell(image));
-                    doc.Add(table);
+                outputPdf.Open();
+                PdfImportedPage currentPage = null;
+                for(int p = 1; p <= entetePdf.NumberOfPages; p++) {
+                    currentPage = writer.GetImportedPage(entetePdf, p);
+                    writer.AddPage(currentPage);
                 }
-                doc.Close();
-                doc.Dispose();
+                for (int p = 1; p <= imagePdf.NumberOfPages; p++)
+                {
+                    currentPage = writer.GetImportedPage(imagePdf, p);
+                    writer.AddPage(currentPage);
+                }
+                outputPdf.Close();
+                outputPdf.Dispose();
             }
-
-            byte[] retour = System.IO.File.ReadAllBytes(destinationPdf.FullName);
-            if (destinationPdf.Exists) destinationPdf.Delete();
-            return retour;
+            return streamOut.ToArray();
         }
     }
 }

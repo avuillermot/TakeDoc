@@ -13,12 +13,13 @@ namespace TakeDocService.Document
 {
     public class ImageService : BaseService, Interface.IImageService
     {
-        /*public byte[] GetPdf(ICollection<byte[]> pages)
+        public PdfReader GetPdf(ICollection<byte[]> pages)
         {
-            string fileName = string.Concat(TakeDocModel.Environnement.TempDirectory, System.Guid.NewGuid().ToString());
+            MemoryStream streamOut = new MemoryStream();
+            PdfReader reader = null;
             using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0))
             {
-                PdfWriter.GetInstance(doc, new FileStream(fileName, FileMode.Create));
+                PdfWriter.GetInstance(doc, streamOut);
                 doc.Open();
                 
                 foreach (byte[] page in pages)
@@ -31,11 +32,10 @@ namespace TakeDocService.Document
                 }
                 doc.Close();
                 doc.Dispose();
+                reader = new PdfReader(streamOut.ToArray());
             }
-            byte[] retour = System.IO.File.ReadAllBytes(fileName);
-            if (System.IO.File.Exists(fileName)) System.IO.File.Delete(fileName);
-            return retour;
-        }*/
+            return reader;
+        }
 
         public string ToBase64String(string pathFile)
         {

@@ -49,6 +49,7 @@ namespace UnitTestTakeDocService.Document
             this.SetStatusDataSend();
             this.SetStatusMetaSend();
             this.AddVersionMinor();
+            this.AddPage1();
             this.AddPage2();
             this.SetStatusDataSend();
             this.SetStatusMetaSend();

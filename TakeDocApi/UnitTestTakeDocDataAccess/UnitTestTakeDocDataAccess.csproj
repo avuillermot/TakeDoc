@@ -58,9 +58,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Configuration" />
-    <Reference Include="Utility">
-      <HintPath>..\Lib\Utility.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -87,6 +84,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Utility.csproj">
+      <Project>{f7aefbb3-e18c-455a-91af-cf5a4899a2d5}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TakeDocDataAccess\TakeDocDataAccess.csproj">
       <Project>{c5a17e0a-2d43-41ef-a116-a998a38c407d}</Project>
       <Name>TakeDocDataAccess</Name>

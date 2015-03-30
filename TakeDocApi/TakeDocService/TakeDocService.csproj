@@ -71,10 +71,6 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Transactions" />
-    <Reference Include="Utility, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Utility.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseService.cs" />
@@ -102,6 +98,10 @@
     <Compile Include="Security\UserTkService.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Utility\Utility.csproj">
+      <Project>{f7aefbb3-e18c-455a-91af-cf5a4899a2d5}</Project>
+      <Name>Utility</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TakeDocDataAccess\TakeDocDataAccess.csproj">
       <Project>{c5a17e0a-2d43-41ef-a116-a998a38c407d}</Project>
       <Name>TakeDocDataAccess</Name>
