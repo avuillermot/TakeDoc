@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace TakeDocService.Impression.Interface
+namespace TakeDocService.Print.Interface
 {
     public interface IPdfService
     {

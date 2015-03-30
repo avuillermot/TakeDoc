@@ -85,22 +85,22 @@
     <Compile Include="Document\Interface\IPageStoreLocator.cs" />
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
-    <Compile Include="Impression\Interface\IPdfService.cs" />
+    <Compile Include="Print\Interface\IPdfService.cs" />
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Document\PageStoreLocator.cs" />
-    <Compile Include="Workflow\Task\Interface\ISetStatusSend.cs" />
-    <Compile Include="Impression\PdfService.cs" />
+    <Compile Include="Workflow\Document\Interface\ISetStatusSend.cs" />
+    <Compile Include="Print\PdfService.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
     <Compile Include="External\CustomerService.cs" />
     <Compile Include="External\Interface\ICustomerService.cs" />
-    <Compile Include="Workflow\Task\SetStatusSend.cs" />
-    <Compile Include="Impression\ReportVersionService.cs" />
-    <Compile Include="Impression\Interface\IReportVersionService.cs" />
+    <Compile Include="Workflow\Document\SetStatusSend.cs" />
+    <Compile Include="Print\ReportVersionService.cs" />
+    <Compile Include="Print\Interface\IReportVersionService.cs" />
     <Compile Include="Security\Interface\IUserTkService.cs" />
     <Compile Include="Security\UserTkService.cs" />
-    <Compile Include="Workflow\Task\TaskBase.cs" />
+    <Compile Include="Workflow\Document\TaskBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ULibre\ULibre.csproj">

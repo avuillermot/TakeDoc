@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TakeDocService.Workflow.Task
+namespace TakeDocService.Workflow.Document
 {
-    public abstract class TaskBase : BaseService
+    public abstract class WorkflowTaskBase : BaseService
     {
         protected System.IO.FileInfo GetGenerateFileInfo(string entite, string fileName, string extension)
         {

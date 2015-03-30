@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TakeDocService.Document.Interface;
 using TakeDocService.Document;
-using TakeDocService.Impression.Interface;
+using TakeDocService.Print.Interface;
 using Utility.MyUnityHelper;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,7 @@ namespace UnitTestTakeDocService.Document
         IImageService servImage = UnityHelper.Resolve<IImageService>();
         IReportVersionService servReport = UnityHelper.Resolve<IReportVersionService>();
         TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
-        TakeDocService.Workflow.Task.Interface.ISetStatusSend servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Task.Interface.ISetStatusSend>();
+        TakeDocService.Workflow.Document.Interface.ISetStatusSend servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.ISetStatusSend>();
 
         TakeDocModel.Document MyDocument
         {

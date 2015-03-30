@@ -80,6 +80,8 @@
     <Compile Include="Document\Version.cs" />
     <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Dto\Document\ReadOnlyMetadata.cs" />
+    <Compile Include="Dto\Print\PrintContext.cs" />
+    <Compile Include="Dto\Stats\Dashboard.cs" />
     <Compile Include="Entity.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
@@ -166,6 +168,7 @@
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

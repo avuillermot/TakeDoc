@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Utility.MyUnityHelper;
 using dataDoc = TakeDocDataAccess.Document;
 
-namespace TakeDocService.Impression
+namespace TakeDocService.Print
 {
     public class ReportVersionService : BaseService, Interface.IReportVersionService
     {

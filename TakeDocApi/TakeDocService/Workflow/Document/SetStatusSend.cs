@@ -5,17 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Utility.MyUnityHelper;
 using dataDoc = TakeDocDataAccess.Document;
+using serviceDoc = TakeDocService.Document;
 
-namespace TakeDocService.Workflow.Task
+namespace TakeDocService.Workflow.Document
 {
-    public class SetStatusSend : TaskBase, Interface.ISetStatusSend
+    public class SetStatusSend : WorkflowTaskBase, Interface.ISetStatusSend
     {
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();
 
-        Document.Interface.IDocumentService servDocument = UnityHelper.Resolve<Document.Interface.IDocumentService>();
-        Document.Interface.IVersionService servVersion = UnityHelper.Resolve<Document.Interface.IVersionService>();
-        Impression.Interface.IPdfService servPdf = UnityHelper.Resolve<Impression.Interface.IPdfService>();
+        serviceDoc.Interface.IDocumentService servDocument = UnityHelper.Resolve<serviceDoc.Interface.IDocumentService>();
+        serviceDoc.Interface.IVersionService servVersion = UnityHelper.Resolve<serviceDoc.Interface.IVersionService>();
+        Print.Interface.IPdfService servPdf = UnityHelper.Resolve<Print.Interface.IPdfService>();
 
         public void Execute(Guid userId)
         {

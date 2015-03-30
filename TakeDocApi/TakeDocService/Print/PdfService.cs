@@ -9,7 +9,7 @@ using doc = TakeDocService.Document;
 using its = iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace TakeDocService.Impression
+namespace TakeDocService.Print
 {
     public class PdfService : Interface.IPdfService
     {

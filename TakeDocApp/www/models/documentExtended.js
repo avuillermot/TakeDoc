@@ -36,7 +36,7 @@ var DocumentExtended = Backbone.Model.extend({
         this.set("versionId", current.VersionId);
         this.set("versionReference", current.VersionReference);
         this.set("versionDateCreate", current.VersionDateCreateData);
-        this.set("formatDate", moment(current.VersionDateCreateData).format("LLL"));
+        this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
         return this;
     }
 });

@@ -14,5 +14,6 @@ namespace TakeDocModel.Dto.Document
         public string Value { get; set; }
         public string Text { get; set; }
         public int DisplayIndex { get; set; }
+        public string Type { get; set; }
     }
 }

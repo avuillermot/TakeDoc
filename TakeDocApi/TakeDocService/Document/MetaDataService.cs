@@ -133,6 +133,7 @@ namespace TakeDocService.Document
             ro.Label = metadata.DataField.DataFieldLabel;
             ro.Value = metadata.MetaDataValue;
             ro.Text = metadata.MetaDataValue;
+            ro.Type = metadata.DataField.DataFieldType.DataFieldInputType;
             if (metadata.HtmlType.Equals("list") && string.IsNullOrEmpty(metadata.MetaDataValue) == false) ro.Text = metadata.DataFieldValues.First(x => x.DataFieldValueKey == metadata.MetaDataValue).DataFieldValueText;
 
             return ro;

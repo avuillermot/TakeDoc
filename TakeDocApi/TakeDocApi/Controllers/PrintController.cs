@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TakeDocService.Impression.Interface;
+using TakeDocService.Print.Interface;
 
 namespace TakeDocApi.Controllers
 {
-    [RoutePrefix("Impression")]
-    public class ImpressionController : ApiController
+    [RoutePrefix("Print")]
+    public class PrintController : ApiController
     {
         [HttpGet]
         [Route("Binary/{versionId}/{entityId}")]

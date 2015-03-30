@@ -180,7 +180,7 @@
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
-    <Compile Include="Controllers\ImpressionController.cs" />
+    <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />
     <Compile Include="Controllers\oData\DocumentExtendedsController.cs" />
     <Compile Include="Controllers\oData\oDataBase.cs" />

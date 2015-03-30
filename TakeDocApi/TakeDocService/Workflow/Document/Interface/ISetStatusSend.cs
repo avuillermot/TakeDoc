@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TakeDocService.Workflow.Task.Interface
+namespace TakeDocService.Workflow.Document.Interface
 {
     public interface ISetStatusSend
     {

@@ -156,8 +156,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
 	$scope.enlarge = function (id) {
 	    var page = $rootScope.myTakeDoc.Pages.where({ id: id })[0];
-
-
+        
 	    var elem = angular.element("#img-page-" + id);
 	    var prefix = "take-picture-rotate";
 	    var cssRotation = prefix + "000";
