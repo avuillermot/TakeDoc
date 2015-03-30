@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TakeDocService.Document.Interface;
 using TakeDocService.Document;
+using TakeDocService.Impression.Interface;
 using Utility.MyUnityHelper;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,9 @@ namespace UnitTestTakeDocService.Document
         IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
         IMetaDataService servMetaData = UnityHelper.Resolve<IMetaDataService>();
         IImageService servImage = UnityHelper.Resolve<IImageService>();
+        IReportVersionService servReport = UnityHelper.Resolve<IReportVersionService>();
         TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
+        TakeDocService.Workflow.Task.Interface.ISetStatusSend servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Task.Interface.ISetStatusSend>();
 
         TakeDocModel.Document MyDocument
         {
@@ -42,17 +45,17 @@ namespace UnitTestTakeDocService.Document
             this.CreateDocument();
             this.AddPage1();
             this.AddPage2();
-            this.SetStatusDataSend();
-            this.SetStatusMetaSend();
+            this.SetStatusIncomplete();
+            this.SetStatusComplete();
             this.AddVersionMajor();
             this.AddPage1();
-            this.SetStatusDataSend();
-            this.SetStatusMetaSend();
+            this.SetStatusIncomplete();
+            this.SetStatusComplete();
             this.AddVersionMinor();
             this.AddPage1();
             this.AddPage2();
-            this.SetStatusDataSend();
-            this.SetStatusMetaSend();
+            this.SetStatusIncomplete();
+            this.SetStatusComplete();
 
             this.GeneratePdfTest();
         }
@@ -112,17 +115,17 @@ namespace UnitTestTakeDocService.Document
         }
 
         [TestMethod]
-        public void SetStatusDataSend()
+        public void SetStatusIncomplete()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Incomplete, true);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Incomplete, userId, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Incomplete), "Statut du document DataSend");
         }
 
         [TestMethod]
-        public void SetStatusMetaSend()
+        public void SetStatusComplete()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Complete, true);
+            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Complete), "Statut du document MetaSend");
         }
@@ -162,7 +165,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void GeneratePdfTest()
         {
-            servDocument.GeneratePdf();
+            servTask.Execute(userId);
         }
 
         public void test()

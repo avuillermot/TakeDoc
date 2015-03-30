@@ -9,12 +9,13 @@ using doc = TakeDocService.Document;
 using its = iTextSharp.text;
 using iTextSharp.text.pdf;
 
-namespace TakeDocService.Document.Format
+namespace TakeDocService.Impression
 {
     public class PdfService : Interface.IPdfService
     {
         doc.Interface.IPageService servPage = UnityHelper.Resolve<doc.Interface.IPageService>();
         doc.Interface.IImageService servImage = UnityHelper.Resolve<doc.Interface.IImageService>();
+        TakeDocService.Document.MetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.MetaDataService>();
 
         private PdfReader GetImagePdf(TakeDocModel.Version version) {
             ICollection<byte[]> data = new List<byte[]>();
@@ -26,13 +27,34 @@ namespace TakeDocService.Document.Format
             return servImage.GetPdf(data);
         }
 
+        private void FillField(TakeDocModel.Version version, FileInfo destination)
+        {
+            ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> roMetaDatas = servMetaData.GetReadOnlyMetaData(version);
+
+            ULibre.Drivers.Interface.IDriver model = new ULibre.Drivers.Implementation.OdtDriver();
+            model.Open(destination.FullName);
+            foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
+            {
+                ICollection<string> line = new List<string>();
+                line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
+                line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : ro.Text));
+                model.AddLine("TabMetadata", line.ToArray<string>());
+            }
+            model.RemoveEmptyLine("TabMetadata");
+            model.Save();
+        }
+
         private byte[] GenerateStarterPdf(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
             FileInfo modele = new FileInfo(string.Concat(TakeDocModel.Environnement.ModelDirectory,entity.EntityReference,@"\",version.Document.Type_Document.TypeDocumentReference,"_","starter.odt"));
+            if (modele.Exists == false) modele = new FileInfo(string.Concat(TakeDocModel.Environnement.ModelDirectory, "empty.odt"));
+
             FileInfo destinationOdt = new FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory,Guid.NewGuid().ToString(),modele.Extension));
             FileInfo destinationPdf = new FileInfo(string.Concat(destinationOdt.FullName.Replace(destinationOdt.Extension,".pdf")));
 
             modele.CopyTo(destinationOdt.FullName);
+
+            this.FillField(version, destinationOdt);
 
             System.Diagnostics.ProcessStartInfo info = new System.Diagnostics.ProcessStartInfo(TakeDocModel.Environnement.BatchConvertPdf);
             info.WorkingDirectory = TakeDocModel.Environnement.TempDirectory;

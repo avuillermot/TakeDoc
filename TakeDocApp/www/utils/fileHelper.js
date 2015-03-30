@@ -36,7 +36,7 @@ fileHelper.prototype.read = function (fileName) {
 fileHelper.readUrl = function (versionId, entityId) {
     $.ajax({
         type: 'GET',
-        url: environnement.UrlBase + "Version/Url/"+versionId+"/"+entityId,
+        url: environnement.UrlBase + "Impression/Url/"+versionId+"/"+entityId,
         success: function () {
             window.open(environnement.UrlBase+"Temp/Pdf/"+arguments[0]);
         },

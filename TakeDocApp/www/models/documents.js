@@ -70,7 +70,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
         success: function () {
             if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
             else {
-                documentService.SetSend(document, onSuccess, onError);
+                documentService.SetIncomplete(document, onSuccess, onError);
 			}
 
         },
@@ -80,10 +80,11 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     });
 }
 
-documentService.SetSend = function (document, onSuccess, onError) {
-    console.log("documents.prototype.SetSend:start");
-    var url = environnement.UrlBase + "Document/SetDataSend/<documentId/>";
+documentService.SetIncomplete = function (document, onSuccess, onError) {
+    console.log("documents.prototype.SetIncomplete:start");
+    var url = environnement.UrlBase + "Document/SetIncomplete/<documentId/>/<userId/>";
     url = url.replace("<documentId/>", document.get("DocumentId"));
+    url = url.replace("<userId/>", document.get("UserCreateData"));
 
     $.ajax({
         type: 'GET',

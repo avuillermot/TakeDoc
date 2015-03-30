@@ -104,13 +104,13 @@ namespace TakeDocService.Document
 
         public ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId)
         {
-            ICollection<TakeDocModel.MetaData> metas = daoMetaData.GetBy(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
+            ICollection<TakeDocModel.MetaData> metas = daoMetaData.GetBy(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false, x => x.DataField).ToList();
             foreach (TakeDocModel.MetaData meta in metas)
             {
                 ICollection<TakeDocModel.DataFieldValue> values = daoDataFieldValue.GetBy(x => x.DataFieldId == meta.DataFieldId && x.EntityId == meta.EntityId && (x.EtatDeleteData == false || x.DataFieldValueKey == meta.MetaDataValue));
                 if (values != null && values.Count() > 0) meta.DataFieldValues = values;
                 else meta.DataFieldValues = new List<TakeDocModel.DataFieldValue>();
-
+                
                 ICollection<TakeDocModel.DataFieldAutoComplete> autoCompletes = daoAutoComplete.GetBy(x => x.DataFieldAutoCompleteId == meta.DataField.DataFieldAutoCompleteId && x.EntityId == meta.EntityId && x.EtatDeleteData == false);
                 if (autoCompletes != null && autoCompletes.Count() > 0) meta.AutoComplete = autoCompletes.First();
                 else meta.AutoComplete = null;
@@ -119,21 +119,32 @@ namespace TakeDocService.Document
             return metas;
         }
 
+        public ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(TakeDocModel.Version version)
+        {
+            return this.GetReadOnlyMetaData(version.VersionId, version.EntityId);
+        }
+
+        private TakeDocModel.Dto.Document.ReadOnlyMetadata ToReadOnlyMetaData(TakeDocModel.MetaData metadata)
+        {
+            TakeDocModel.Dto.Document.ReadOnlyMetadata ro = new TakeDocModel.Dto.Document.ReadOnlyMetadata();
+            ro.Name = metadata.MetaDataName;
+            ro.EntityId = metadata.EntityId;
+            ro.DisplayIndex = metadata.MetaDataDisplayIndex;
+            ro.Label = metadata.DataField.DataFieldLabel;
+            ro.Value = metadata.MetaDataValue;
+            ro.Text = metadata.MetaDataValue;
+            if (metadata.HtmlType.Equals("list") && string.IsNullOrEmpty(metadata.MetaDataValue) == false) ro.Text = metadata.DataFieldValues.First(x => x.DataFieldValueKey == metadata.MetaDataValue).DataFieldValueText;
+
+            return ro;
+        }
+
         public ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(Guid versionId, Guid entityId)
         {
             ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> roMetas = new List<TakeDocModel.Dto.Document.ReadOnlyMetadata>();
             ICollection<TakeDocModel.MetaData> metadatas = this.GetByVersion(versionId, entityId);
             foreach (TakeDocModel.MetaData metadata in metadatas)
             {
-                TakeDocModel.Dto.Document.ReadOnlyMetadata ro = new TakeDocModel.Dto.Document.ReadOnlyMetadata();
-                ro.Name = metadata.MetaDataName;
-                ro.EntityId = metadata.EntityId;
-                ro.DisplayIndex = metadata.MetaDataDisplayIndex;
-                ro.Label = metadata.DataField.DataFieldLabel;
-                ro.Value = metadata.MetaDataValue;
-                ro.Text = metadata.MetaDataValue;
-                if (metadata.HtmlType.Equals("list")) ro.Text = metadata.DataFieldValues.First(x => x.DataFieldValueKey == metadata.MetaDataValue).DataFieldValueText;
-                roMetas.Add(ro);
+                roMetas.Add(this.ToReadOnlyMetaData(metadata));
             }
 
             return roMetas;

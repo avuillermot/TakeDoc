@@ -4,12 +4,12 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TakeDocService.Document.Interface;
+using TakeDocService.Impression.Interface;
 
 namespace TakeDocApi.Controllers
 {
-    [RoutePrefix("Version")]
-    public class VersionController : ApiController
+    [RoutePrefix("Impression")]
+    public class ImpressionController : ApiController
     {
         [HttpGet]
         [Route("Binary/{versionId}/{entityId}")]
@@ -17,8 +17,8 @@ namespace TakeDocApi.Controllers
         {
             try
             {
-                IVersionService servVersion = Utility.MyUnityHelper.UnityHelper.Resolve<IVersionService>();
-                byte[] data = servVersion.GetBinaryFile(versionId, entityId);
+                IReportVersionService servReport = Utility.MyUnityHelper.UnityHelper.Resolve<IReportVersionService>();
+                byte[] data = servReport.GetBinaryFile(versionId, entityId);
 
                 return Request.CreateResponse(data);
             }
@@ -34,8 +34,8 @@ namespace TakeDocApi.Controllers
         {
             try
             {
-                IVersionService servVersion = Utility.MyUnityHelper.UnityHelper.Resolve<IVersionService>();
-                string name = servVersion.GetUrlFile(versionId, entityId);
+                IReportVersionService servReport = Utility.MyUnityHelper.UnityHelper.Resolve<IReportVersionService>();
+                string name = servReport.GetUrlFile(versionId, entityId);
 
                 return Request.CreateResponse(name);
             }

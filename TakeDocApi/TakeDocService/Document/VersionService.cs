@@ -17,7 +17,6 @@ namespace TakeDocService.Document
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
-        Format.Interface.IPdfService servPdf = UnityHelper.Resolve<Format.Interface.IPdfService>();
 
         private TakeDocModel.Version Create(Guid userId, Guid entityId, Guid versionId, Guid documentId, decimal versionNumber)
         {
@@ -52,80 +51,15 @@ namespace TakeDocService.Document
             return version;
         }
 
-        private void SetStatus(TakeDocModel.Version version, string statusRef)
+        public void SetStatus(TakeDocModel.Version version, string statusRef, Guid userId)
         {
             TakeDocModel.Status_Version stVersion = daoStVersion.GetBy(x => x.StatusVersionReference.Trim() == statusRef && x.EntityId == version.EntityId).First();
             version.VersionStatusId = stVersion.StatusVersionId;
+            version.UserUpdateData = userId;
+            version.DateUpdateData = System.DateTimeOffset.UtcNow;
+
             daoVersion.Update(version);
         }
-
-        public void SetStatus(Guid versionId, Guid entityId, string status)
-        {
-            TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId).First();
-            this.SetStatus(version, status);
-        }
-
-        private ICollection<TakeDocModel.Version> PdfToGenerate(Guid entityId)
-        {
-            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.Complete) 
-                && x.EntityId == entityId 
-                && x.EtatDeleteData == false
-                && x.Document.DocumentCurrentVersionId == x.VersionId && x.Document.EtatDeleteData == false
-                && x.Document.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Complete)).ToList();
-            return versions;
-        }
-
-        /// <summary>
-        /// Generate Pdf and return version concern
-        /// </summary>
-        /// <returns></returns>
-        public ICollection<TakeDocModel.Version> GeneratePdf()
-        {
-            ICollection<TakeDocModel.Version> back = new List<TakeDocModel.Version>();
-
-            ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EtatDeleteData == false).ToList();
-            foreach (TakeDocModel.Entity entity in entitys)
-            {
-                ICollection<TakeDocModel.Version> versions = this.PdfToGenerate(entity.EntityId);
-                foreach (TakeDocModel.Version version in versions)
-                {
-                    back.Add(version);
-                    this.GeneratePdf(version);
-                }
-            }
-            return back;
-        }
-
-        private void GeneratePdf(TakeDocModel.Version version)
-        {
-            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
-
-            System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, version.VersionReference, "pdf");
-            byte[] data = servPdf.GeneratePdf(version, entity);
-            System.IO.File.WriteAllBytes(file.FullName, data);
-
-            ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
-            locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
-            version.VersionStreamId = locators.First().StreamId;
-            this.SetStatus(version, TakeDocModel.Status_Version.Send);
-        }
-
-        private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)
-        {
-            string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
-            string[] arr = storeLocalPath.Split('/');
-            string deep = string.Empty;
-            foreach (string s in arr)
-            {
-                if (string.IsNullOrEmpty(s) == false)
-                {
-                    deep = string.Concat(deep, @"\", s);
-                    if (System.IO.Directory.Exists(deep) == false) System.IO.Directory.CreateDirectory(string.Concat(TakeDocModel.Environnement.VersionStoreUNC, @"\", deep));
-                }
-            }
-            return new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.VersionStoreUNC, @"\", storeLocalPath, @"\", fileName, ".", extension));
-        }
-
 
         public TakeDocModel.Version GetById(Guid versionId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Version, object>>[] properties)
         {
@@ -139,39 +73,5 @@ namespace TakeDocService.Document
             return daoVersion.GetBy(where, properties);
         }
 
-        /// <summary>
-        /// Return file in byte array
-        /// </summary>
-        /// <param name="versionId"></param>
-        /// <param name="entityId"></param>
-        /// <returns></returns>
-        public byte[] GetBinaryFile(Guid versionId, Guid entityId)
-        {
-            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId);
-            if (versions.Count() == 0)
-            {
-                string msg = string.Format("Unknow version {0} for entity {1}", versionId, entityId);
-                base.Logger.Error(msg);
-                throw new Exception(msg);
-            }
-            Guid? streamId = versions.First().VersionStreamId;
-            ICollection<TakeDocModel.View_VersionStoreLocator> locators = daoVersionLocator.GetBy(x => x.StreamId == streamId);
-            if (locators.Count() == 0)
-            {
-                string msg = string.Format("Unknow locator for version {0} for entity {1}", versionId, entityId);
-                base.Logger.Error(msg);
-                throw new Exception(msg);
-            }
-            return System.IO.File.ReadAllBytes(locators.First().StreamLocator);
-        }
-
-        public string GetUrlFile(Guid versionId, Guid entityId)
-        {
-            byte[] data = this.GetBinaryFile(versionId, entityId);
-            System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory,versionId,".pdf"));
-            if (System.IO.File.Exists(file.FullName)) System.IO.File.Delete(file.FullName);
-            System.IO.File.WriteAllBytes(file.FullName, data);
-            return file.Name;
-        }
     }
 }
