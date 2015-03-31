@@ -1,4 +1,10 @@
 /* Empty. Add your own CSS if you like */
+.counter-round {
+    font-size: 10px;
+    border-radius: 25px;
+    background-color: #FFFF66;
+}
+
 .menu-empty {
     background-color:#D8D8D8 !important;
 }

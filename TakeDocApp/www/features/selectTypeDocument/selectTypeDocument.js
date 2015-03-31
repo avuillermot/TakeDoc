@@ -1,13 +1,17 @@
 ﻿'use strict';
-takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', '$stateParams', function ($scope, $rootScope, $location, $ionicLoading, $stateParams) {
+takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', '$stateParams', '$timeout', function ($scope, $rootScope, $location, $ionicLoading, $stateParams, $timeout) {
 
     var mode = null;
+    var status = null;
+
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.nextUrl = $rootScope.Scenario.next().to;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         mode = states.stateParams.mode;
+        status = states.stateParams.status;
+
         $ionicLoading.show({
             template: 'Chargement...'
         }); 
@@ -24,14 +28,14 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         var types = arguments[0].value;
         var nb = 0;
         $.each(types, function(index, value) {
-            if (value.EtatDeleteData == false)nb++;
+            if (value.EtatDeleteData == false) nb++;
         });
 
         if (nb == 0) {
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
-        if (mode == "search") {
+        if (mode == "SEARCH") {
             var all = {
                 TypeDocumentId: "",
                 EntityId: $rootScope.User.CurrentEntity.Id,
@@ -58,6 +62,13 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
         });
         $location.path($scope.nextUrl.replace("#/", ""));
+    };
+
+    $scope.countStatus = function (typeDocumentId, entityId) {
+        if (status != null && status != "" && typeDocumentId != "" && typeDocumentId != null) {
+            return  $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, status);
+        }
+        else return "";
     };
 }]);
 

@@ -11,10 +11,8 @@ namespace TakeDocService.Document
 {
     public class VersionService : BaseService, Interface.IVersionService
     {
-        TakeDocDataAccess.Document.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoVersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version> daoStVersion = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Version>();
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
-        TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
 

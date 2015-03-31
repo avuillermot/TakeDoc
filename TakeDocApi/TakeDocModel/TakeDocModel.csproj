@@ -81,7 +81,7 @@
     <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Dto\Document\ReadOnlyMetadata.cs" />
     <Compile Include="Dto\Print\PrintContext.cs" />
-    <Compile Include="Dto\Stats\Dashboard.cs" />
+    <Compile Include="Dto\Stats\StatusDocument.cs" />
     <Compile Include="Entity.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

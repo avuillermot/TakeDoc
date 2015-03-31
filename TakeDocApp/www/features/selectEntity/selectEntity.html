@@ -3,7 +3,7 @@
         <section>
             <ion-list>
                 <ion-item ng-repeat="Entity in Entitys | orderBy:['Label']" class="row-result ion-android-arrow-dropright" ng-click="onChoose('{{Entity.Id}}')">
-                    <span>{{Entity.Label}}</span>
+                    <span>{{Entity.Label}}&#160;<span class="counter-round" ng-bind="countStatus('{{Entity.Id}}')"></span></span>
                 </ion-item>
             </ion-list>
         </section>

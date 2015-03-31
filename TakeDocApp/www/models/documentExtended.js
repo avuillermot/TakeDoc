@@ -63,8 +63,17 @@ var DocumentsExtended = Backbone.Collection.extend({
         else this.url = this.url.replace("<" + field + "/>", value);
     },
     clauses: {
-        complete: " and (DocumentStatusReference eq 'COMPLETE' or DocumentStatusReference eq 'SEND')",
-        incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')"
+        complete: " and DocumentStatusReference eq 'COMPLETE' ",
+        incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
+        send: " and DocumentStatusReference eq 'SEND'",
+    },
+    loadSend: function (param) {
+        this.url = this.urlBase + this.loadBase + this.clauses.send + this.loadOptions;
+        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
+        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+
+        this.fetch({ success: param.success, error: param.error });
     },
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
@@ -76,14 +85,6 @@ var DocumentsExtended = Backbone.Collection.extend({
     },
     loadIncomplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.incomplete + this.loadOptions;
-        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
-        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
-        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
-
-        this.fetch({ success: param.success, error: param.error });
-    },
-    loadLast: function (param) {
-        this.url = this.urlBase + this.loadBase + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);

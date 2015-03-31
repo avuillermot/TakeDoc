@@ -3,7 +3,7 @@
         <section>
             <ion-list>
                 <ion-item ng-repeat="TypeDocument in TypeDocuments | filter:searchTypeDocument | orderBy:['TypeDocumentLabel']" ng-click="onChoose('{{TypeDocument.TypeDocumentId}}')" class="row-result ion-android-arrow-dropright">
-                    <span>{{TypeDocument.TypeDocumentLabel}}</span>
+                    <span>{{TypeDocument.TypeDocumentLabel}}&#160;<span class="counter-round" ng-bind="countStatus('{{TypeDocument.TypeDocumentId}}','{{TypeDocument.EntityId}}')"></span></span>
                 </ion-item>
             </ion-list>
         </section>

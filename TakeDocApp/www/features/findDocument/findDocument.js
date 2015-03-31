@@ -40,9 +40,10 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
             error: onError
         }
         mode = states.stateParams.search;
-        if (mode === "complete") extDocuments.loadComplete(params);
-        else if (mode === "incomplete") extDocuments.loadIncomplete(params);
-        else if (mode === "last") extDocuments.loadLast(params);
+
+        if (mode === "COMPLETE") extDocuments.loadComplete(params);
+        else if (mode === "INCOMPLETE") extDocuments.loadIncomplete(params);
+        else if (mode === "SEND") extDocuments.loadSend(params);
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
@@ -94,7 +95,8 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     $scope.viewDocument = function (docRef, entityRef) {
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"));
+            if ($rootScope.isApp == false) fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"));
+            else fileHelper.download(current[0].get("versionId"), current[0].get("entityId"));
         }
     };
 }]);

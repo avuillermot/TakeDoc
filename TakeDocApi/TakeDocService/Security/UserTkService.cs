@@ -11,7 +11,6 @@ namespace TakeDocService.Security
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUserTk = new TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.Document> daoDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Document>();
 
         public TakeDocModel.UserTk GetByLogin(string login)
         {
@@ -80,56 +79,6 @@ namespace TakeDocService.Security
             ClaimsIdentity ci = new ClaimsIdentity(claims);
             
             return new ClaimsPrincipal(ci);
-        }
-
-        public ICollection<TakeDocModel.Dto.Stats.Dashboard> GetDashboard(Guid userId)
-        {
-            ICollection<TakeDocModel.Dto.Stats.Dashboard> back = new List<TakeDocModel.Dto.Stats.Dashboard>();
-            ICollection<TakeDocModel.View_UserEntity> userEntitys = daoViewUserEntity.GetBy(x => x.UserTkId == userId);
-            foreach (TakeDocModel.View_UserEntity vue in userEntitys.Where(x => x.EtatDeleteData == false))
-            {
-                ICollection<TakeDocModel.Document> documents = daoDocument.GetBy(x =>
-                    (x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create
-                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete
-                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete
-                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Send)
-                    && x.EntityId == vue.EntityId && x.DocumentOwner == vue.UserTkId).ToList();
-
-                int nbCreate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create).Count();
-                int nbIncomplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete).Count();
-                int nbComplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete).Count();
-                int nbSend = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Send).Count();
-
-                back.Add(new TakeDocModel.Dto.Stats.Dashboard()
-                {
-                    EntityId = vue.EntityId,
-                    Type = "STATUS_DOCUMENT",
-                    Code = TakeDocModel.Status_Document.Create,
-                    Value = nbCreate
-                });
-                back.Add(new TakeDocModel.Dto.Stats.Dashboard()
-                {
-                    EntityId = vue.EntityId,
-                    Type = "STATUS_DOCUMENT",
-                    Code = TakeDocModel.Status_Document.Incomplete,
-                    Value = nbIncomplete
-                });
-                back.Add(new TakeDocModel.Dto.Stats.Dashboard()
-                {
-                    EntityId = vue.EntityId,
-                    Type = "STATUS_DOCUMENT",
-                    Code = TakeDocModel.Status_Document.Complete,
-                    Value = nbComplete
-                });
-                back.Add(new TakeDocModel.Dto.Stats.Dashboard()
-                {
-                    EntityId = vue.EntityId,
-                    Type = "STATUS_DOCUMENT",
-                    Code = TakeDocModel.Status_Document.Send,
-                    Value = nbSend
-                });
-            }
-            return back;
         }
     }
 }

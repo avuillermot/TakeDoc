@@ -45,3 +45,27 @@ fileHelper.readUrl = function (versionId, entityId) {
         }
     });
 }
+
+fileHelper.download = function (versionId, entityId) {
+    var fileTransfer = new FileTransfer();
+    var uri = encodeURI(environnement.UrlBase + "Print/Url/"+versionId+"/"+entityId);
+
+    fileTransfer.download(
+        uri,
+        filePath,
+        function (entry) { // success
+            console.log("download complete: " + entry.fullPath);
+        },
+        function (error) { // error
+            console.log("download error source " + error.source);
+            console.log("download error target " + error.target);
+            console.log("upload error code" + error.code);
+        },
+        false,
+        {
+            headers: {
+                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+            }
+        }
+    );
+}

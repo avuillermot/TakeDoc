@@ -16,7 +16,6 @@ namespace TakeDocService.Document
             return dataFields;
         }
 
-
         public ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(ICollection<string> fields, Guid entityId)
         {
             ICollection<TakeDocModel.View_TypeDocumentDataField> dataFields = 

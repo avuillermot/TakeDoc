@@ -54,22 +54,6 @@ namespace TakeDocApi.Controllers
             }
         }
 
-        [HttpGet]
-        [Route("dashboard/{userId}")]
-        public HttpResponseMessage GetDashboard(Guid userId)
-        {
-            TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
-            try
-            {
-                ICollection<TakeDocModel.Dto.Stats.Dashboard> stats = servUser.GetDashboard(userId);
-                return Request.CreateResponse(stats);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
         private void SetPrincipal(IPrincipal principal)
         {
             Thread.CurrentPrincipal = principal;

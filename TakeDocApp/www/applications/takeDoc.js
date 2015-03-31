@@ -16,44 +16,45 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.isApp = false;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
+    $rootScope.Dashboards = new Dashboards();
 
     var scenarioAddDocument = [
-        { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/create" },
+        { from: "#/menu", to: "#/selectEntity/status/" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/CREATE/status/" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
         { from: "#/takePicture", to: "#/autocomplete" },
         { from: "#/autocomplete", to: "#/metadata/mode/add" },
         { from: "#/metadata", to: "#/menu" }
     ];
-    var scenarioFindComplet = [
-        { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
-        { from: "#/selectTypeDocument", to: "#/findDocument/search/complete" },
-        { from: "#/findDocument", to: "#/menu" }
-    ];
     var scenarioFindIncomplet = [
-        { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
-        { from: "#/selectTypeDocument", to: "#/findDocument/search/incomplete" },
+        { from: "#/menu", to: "#/selectEntity/status/INCOMPLETE" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/INCOMPLETE" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/INCOMPLETE" },
+        { from: "#/findDocument", to: "#/menu" }
+        ];
+    var scenarioFindComplet = [
+        { from: "#/menu", to: "#/selectEntity/status/COMPLETE" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/COMPLETE" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/COMPLETE" },
         { from: "#/findDocument", to: "#/menu" }
     ];
-    var scenarioFindLast = [
-        { from: "#/menu", to: "#/selectEntity" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/search" },
-        { from: "#/selectTypeDocument", to: "#/findDocument/search/last" },
+    var scenarioFindSend = [
+        { from: "#/menu", to: "#/selectEntity/status/SEND" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/SEND" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/SEND" },
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioDetailIncomplet = [
         { from: "#/findDocument", to: "#/autocomplete" },
-        { from: "#/autocomplete", to: "#/metadata/mode/update" },
+        { from: "#/autocomplete", to: "#/metadata/mode/UPDATE" },
         { from: "#/metadata", to: "#/menu" }
     ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     $rootScope.Scenario.init("findDocument", scenarioFindComplet);
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
-    $rootScope.Scenario.init("findLast", scenarioFindLast);
+    $rootScope.Scenario.init("findSend", scenarioFindSend);
     $rootScope.Scenario.init("detailIncomplet", scenarioDetailIncomplet);
     
     $ionicPlatform.ready(function() {
@@ -81,8 +82,8 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
     $stateProvider
         .state('login', _routeHelper.get("login", false))
         .state('createDocument', _routeHelper.get("createDocument", false))
-        .state('selectEntity', _routeHelper.get("selectEntity", false))
-        .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false, "/mode/:mode"))
+        .state('selectEntity', _routeHelper.get("selectEntity", false, "/status/:status"))
+        .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false, "/mode/:mode/status/:status"))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
         .state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))

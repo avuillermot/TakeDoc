@@ -178,6 +178,7 @@
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
+    <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
