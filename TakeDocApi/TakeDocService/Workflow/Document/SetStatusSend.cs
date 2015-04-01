@@ -9,7 +9,7 @@ using serviceDoc = TakeDocService.Document;
 
 namespace TakeDocService.Workflow.Document
 {
-    public class SetStatusSend : WorkflowTaskBase, Interface.ISetStatusSend
+    public class SetStatusSend : DocumentTaskBase, Interface.ISetStatusSend
     {
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();

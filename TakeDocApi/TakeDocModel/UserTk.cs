@@ -26,5 +26,6 @@ namespace TakeDocModel
         public bool UserTkEnable { get; set; }
         public System.Guid UserTkGroupId { get; set; }
         public string UserTkCulture { get; set; }
+        public bool UserTkActivate { get; set; }
     }
 }

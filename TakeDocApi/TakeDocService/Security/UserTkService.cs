@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using System.Text.RegularExpressions;
 
 namespace TakeDocService.Security
 {
@@ -80,5 +81,32 @@ namespace TakeDocService.Security
             
             return new ClaimsPrincipal(ci);
         }
+
+        public TakeDocModel.UserTk Create(TakeDocModel.UserTk user)
+        {
+            string reference = this.daoUserTk.Context.GenerateReference("UserTk");
+            user.UserTkId = Guid.NewGuid();
+
+            // encrypt password
+            // check valid email
+            bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (isEmail == false)
+            {
+                string msg = string.Concat("Create User : invalid email {0}", user.UserTkEmail);
+                this.Logger.Error(msg);
+                throw new Exception(msg);
+            }
+
+            // format name
+            user.UserTkLastName = user.UserTkLastName.ToUpper();
+            if (user.UserTkFirstName.Length >= 2) user.UserTkFirstName = user.UserTkFirstName.Substring(0, 1).ToUpper() + user.UserTkFirstName.Substring(2).ToUpper();
+            else user.UserTkFirstName = user.UserTkFirstName.ToUpper();
+
+            daoUserTk.Context.UserTk.Add(user);
+
+
+            return daoUserTk.GetBy(x => x.UserTkReference == reference).First();
+        }
+
     }
 }

@@ -103,7 +103,9 @@
     <Compile Include="Print\Interface\IReportVersionService.cs" />
     <Compile Include="Security\Interface\IUserTkService.cs" />
     <Compile Include="Security\UserTkService.cs" />
-    <Compile Include="Workflow\Document\TaskBase.cs" />
+    <Compile Include="Workflow\Document\DocumentTaskBase.cs" />
+    <Compile Include="Workflow\Security\Interface\IRequestAccount.cs" />
+    <Compile Include="Workflow\Security\RequestAccount.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ULibre\ULibre.csproj">
