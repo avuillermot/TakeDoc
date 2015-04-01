@@ -47,25 +47,69 @@ fileHelper.readUrl = function (versionId, entityId) {
 }
 
 fileHelper.download = function (versionId, entityId) {
-    var fileTransfer = new FileTransfer();
-    var uri = encodeURI(environnement.UrlBase + "Print/Url/"+versionId+"/"+entityId);
 
-    fileTransfer.download(
-        uri,
-        filePath,
-        function (entry) { // success
-            console.log("download complete: " + entry.fullPath);
-        },
-        function (error) { // error
-            console.log("download error source " + error.source);
-            console.log("download error target " + error.target);
-            console.log("upload error code" + error.code);
-        },
-        false,
-        {
-            headers: {
-                "Authorization": "Basic dGVzdHVzZXJuYW1lOnRlc3RwYXNzd29yZA=="
+    var uri = environnement.UrlBase + "Temp/Pdf/9c8fd677-a5e3-48cd-95d1-9604b0abf8a3.pdf";
+    var fileName = "/Download/avt.pdf";
+
+    var transferFile = function (uri, filePath) {
+        alert("transfert");
+        var transfer = new FileTransfer();
+        transfer.download(
+			uri,
+			filePath,
+			function (entry) {
+			    var targetPath = entry.toURL();
+			    if (device.platform == "Win32NT") {
+			        targetPath = entry.fullPath;
+			    }
+
+			},
+			function (error) {
+			    alert("download error source " + error.source);
+			    alert("download error target " + error.target);
+			    alert("upload error code" + error.code);
+			}
+	    );
+    };
+
+    var getFolder = function (fileSystem, folderName, success, fail) {
+        alert("gotFolder");
+        fileSystem.root.getDirectory(folderName, { create: true, exclusive: false }, success, fail)
+    };
+    
+    var getFilesystem = function (fileSystem) {
+        alert("gotFS");
+
+        if (device.platform === "Android") {
+            alert("android");
+            getFolder(fileSystem, "",
+                function (folder) {
+                    alert(folder.toURL());
+                    filePath = folder.toURL() + "/Download/avt.pdf";
+                    alert(filePath);
+                    transferFile(uri, filePath)
+                }, function () {
+                    alert("failed to get folder");
+                }
+            );
+        } else {
+            var filePath;
+            var urlPath = fileSystem.root.toURL();
+            if (device.platform == "Win32NT") {
+                urlPath = fileSystem.root.fullPath;
             }
+            if (parseFloat(device.cordova) <= 3.2) {
+                filePath = urlPath.substring(urlPath.indexOf("/var")) + "/" + fileName;
+            } else {
+                filePath = urlPath + "/" + fileName;
+            }
+            transferFile(uri, filePath)
         }
-    );
+    };
+
+    var fail = function () {
+        alert("fail");
+    };
+    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getFilesystem, fail);
+  
 }
