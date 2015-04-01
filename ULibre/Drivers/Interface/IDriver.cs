@@ -15,6 +15,11 @@ namespace ULibre.Drivers.Interface
         void FillField(string fieldName, string value);
         void FillField(Object obj);
         void FillField(IDictionary<string, string> dictionnary);
+        /// <summary>
+        /// Rempli le champ avec une image
+        /// </summary>
+        /// <param name="fieldName"></param>
+        /// <param name="value">chemin d'accès complet ou paramètre ImagesDirectory(appSettings) plus la valeur en paramètre</param>
         void FillImage(string fieldName, string value);
         /// <summary>
         /// Ajout une ligne à un tableau avec les valeurs en parametres

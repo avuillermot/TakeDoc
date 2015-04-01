@@ -150,10 +150,8 @@ namespace ULibre.Drivers.Implementation
             zipManager.addZipEntry(this._officeDocument.FullName, this._menuBarPathFile, ms);
         }
 
-        private void FillImage(string imageName, FileInfo file)
+        private void SetNewImage(XmlNode nodeFrame, XmlNamespaceManager ns, FileInfo image)
         {
-            XmlNamespaceManager ns = this.GetNamespaceManager(_xmlContent);
-            XmlNode nodeFrame = _xmlContent.SelectSingleNode("//draw:frame[@draw:name='" + imageName + "']", ns);
             if (nodeFrame != null)
             {
                 XmlNode nodeImage = nodeFrame.SelectSingleNode("draw:image", ns);
@@ -161,12 +159,25 @@ namespace ULibre.Drivers.Implementation
                 {
                     string odtImageName = nodeImage.Attributes["xlink:href"].Value;
 
-                    byte[] data = System.IO.File.ReadAllBytes(file.FullName);
+                    byte[] data = System.IO.File.ReadAllBytes(image.FullName);
                     MemoryStream ms = new MemoryStream(data);
                     // remplacement de l'ancienne image
                     zipManager.addZipEntry(this._officeDocument.FullName, odtImageName, ms);
                 }
             }
+        }
+
+        private void FillImage(string imageName, FileInfo file)
+        {
+            // update document header
+            XmlNamespaceManager ns = this.GetNamespaceManager(_xmlStyles);
+            XmlNode nodeFrame = _xmlStyles.SelectSingleNode("//draw:frame[@draw:name='" + imageName + "']", ns);
+            this.SetNewImage(nodeFrame, ns, file);
+            
+            // update document content
+            ns = this.GetNamespaceManager(_xmlContent);
+            nodeFrame = _xmlContent.SelectSingleNode("//draw:frame[@draw:name='" + imageName + "']", ns);
+            this.SetNewImage(nodeFrame, ns, file);
         }
 
         /// <summary>

@@ -14,10 +14,12 @@ namespace ULibre.Drivers.Implementation
         private static IDictionary<string, string> uri = new Dictionary<string, string>();
 
         protected string _contentPathFile = "content.xml";
+        protected string _stylesPathFile = "styles.xml";
         protected string _manifestPathFile = "META-INF/manifest.xml";
         protected string _menuBarPathFile = "Configurations2/menubar/menubar.xml";
         protected FileInfo _officeDocument = null;
         protected XmlDocument _xmlContent = null;
+        protected XmlDocument _xmlStyles = null;
         public Menu.Interface.IMenuBar MenuBar { get; set; }
         protected Utils.ZipManager zipManager = new Utils.ZipManager();
 
@@ -126,7 +128,9 @@ namespace ULibre.Drivers.Implementation
         protected void Load(FileInfo src)
         {
             _xmlContent = this.GetXmlDocument(zipManager.extractEntry(this._officeDocument.FullName, this._contentPathFile));
-
+            if (zipManager.contains(this._officeDocument, this._stylesPathFile))
+                _xmlStyles = this.GetXmlDocument(zipManager.extractEntry(this._officeDocument.FullName, this._stylesPathFile));
+            
             if (zipManager.contains(this._officeDocument,this._menuBarPathFile))
             {
                 XmlDocument myMenu = this.GetXmlDocument(zipManager.extractEntry(this._officeDocument.FullName, this._menuBarPathFile));
@@ -142,6 +146,7 @@ namespace ULibre.Drivers.Implementation
         {
             Utility.Logger.myLogger.Debug("Sauvegarde du document.");
             this.SaveZipEntry(this._xmlContent, this._contentPathFile);
+            this.SaveZipEntry(this._xmlStyles, this._stylesPathFile);
             if (this.MenuBar.XmlMenuBar != null)
             {
                 this.SaveZipEntry(this.MenuBar.XmlMenuBar, this._menuBarPathFile);

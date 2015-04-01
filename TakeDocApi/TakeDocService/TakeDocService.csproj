@@ -89,6 +89,7 @@
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Document\PageStoreLocator.cs" />
+    <Compile Include="Print\Interface\IReportService.cs" />
     <Compile Include="Stats\Interface\IDashboardService.cs" />
     <Compile Include="Stats\DashboardService.cs" />
     <Compile Include="Workflow\Document\Interface\ISetStatusSend.cs" />

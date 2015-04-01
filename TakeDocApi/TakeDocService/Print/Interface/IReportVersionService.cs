@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Print.Interface
 {
-    public interface IReportVersionService
+    public interface IReportVersionService : IReportService<TakeDocModel.Version>
     {
-        byte[] GetBinaryFile(Guid versionId, Guid entityId);
-        string GetUrlFile(Guid versionId, Guid entityId);
+        
     }
 }

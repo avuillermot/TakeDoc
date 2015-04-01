@@ -10,8 +10,8 @@
                     <div class="fd-col0-result"></div>
                     <div class="fd-col1-result">Prop.&#160;:&#160;<span>{{document.attributes.ownerFullName}}</span></div><br />
                     <div>
-                        <div ng-click='viewDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-eye" ng-hide="document.attributes.statusReference != 'SEND'"></div>
-                        <div ng-click='openDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-edit"></div>
+                        <div ng-click='viewDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-document" ng-hide="document.attributes.statusReference != 'SEND'"></div>
+                        <div ng-click='openDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-eye"></div>
                     </div>
                 </ion-item>
             </ion-list>

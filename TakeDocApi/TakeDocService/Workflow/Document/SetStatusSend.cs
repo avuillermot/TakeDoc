@@ -16,7 +16,7 @@ namespace TakeDocService.Workflow.Document
 
         serviceDoc.Interface.IDocumentService servDocument = UnityHelper.Resolve<serviceDoc.Interface.IDocumentService>();
         serviceDoc.Interface.IVersionService servVersion = UnityHelper.Resolve<serviceDoc.Interface.IVersionService>();
-        Print.Interface.IPdfService servPdf = UnityHelper.Resolve<Print.Interface.IPdfService>();
+        Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
 
         public void Execute(Guid userId)
         {
@@ -26,8 +26,8 @@ namespace TakeDocService.Workflow.Document
                 ICollection<TakeDocModel.Version> versions = this.Get(entity);
                 foreach (TakeDocModel.Version version in versions)
                 {
-                    this.GeneratePdf(version, userId);
-                    servDocument.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Send, userId, true);
+                    bool ok = this.GeneratePdf(version, userId);
+                    if (ok) servDocument.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Send, userId, true);
                 }
             }
         }
@@ -42,18 +42,20 @@ namespace TakeDocService.Workflow.Document
             return versions;
         }
 
-       public void GeneratePdf(TakeDocModel.Version version, Guid userId)
+       public bool GeneratePdf(TakeDocModel.Version version, Guid userId)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
             System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
-            byte[] data = servPdf.GeneratePdf(version, entity);
+            byte[] data = servReportVersion.Generate(version, entity);
+            if (data == null) return false;
             System.IO.File.WriteAllBytes(file.FullName, data);
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
             servVersion.SetStatus(version, TakeDocModel.Status_Version.Send, userId);
+            return true;
         }
     }
 }
