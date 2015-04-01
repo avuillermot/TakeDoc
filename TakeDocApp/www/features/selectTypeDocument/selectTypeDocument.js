@@ -66,7 +66,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 
     $scope.countStatus = function (typeDocumentId, entityId) {
         if (status != null && status != "" && typeDocumentId != "" && typeDocumentId != null) {
-            return  $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, status);
+            return  "("+ $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, status) + ")";
         }
         else return "";
     };
