@@ -25,7 +25,7 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location
 
     $scope.countStatus = function (entityId) {
         if (status != null && status != "") {
-            return $rootScope.Dashboards.countStatusEntity(entityId, status);
+            return "("+ $rootScope.Dashboards.countStatusEntity(entityId, status) + ")";
         }
         else return "";
     };
