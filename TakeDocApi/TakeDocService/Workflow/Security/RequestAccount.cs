@@ -6,11 +6,21 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Workflow.Security
 {
-    public class RequestAccount : Interface.IRequestAccount
+    public class RequestAccount : BaseService, Interface.IRequestAccount
     {
         TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+        TakeDocService.Security.Interface.IGroupeTkService servGroupe = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IGroupeTkService>();
+        TakeDocService.Communication.Interface.IMailService servMail = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Communication.Interface.IMailService>();
 
-        public bool Execute(string firstName, string lastName, string email, string password, string culture) {
+        TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
+
+        public bool Execute(string firstName, string lastName, string email, string password, string culture, string entityRef) {
+
+            ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EntityReference == entityRef);
+            if (entitys.Count() == 0) base.CreateError("Entity unknow");
+            Guid entityId =  entitys.First().EntityId;
+
             bool back = false;
 
             TakeDocModel.UserTk user = new TakeDocModel.UserTk()
@@ -21,15 +31,47 @@ namespace TakeDocService.Workflow.Security
                 UserTkLogin = email,
                 UserTkPassword = password,
                 UserTkCulture = culture,
-                UserTkExterneId = string.Empty,
+                UserTkExterneId = null,
+                UserTkActivate = false,
+                UserTkGroupId = servGroupe.GetBy(x => x.GroupTkReference == "USER" && x.GroupTkEntityId == entityId).First().GroupTkId
             };
-            servUser.Create(user);
+            try
+            {
+                servUser.Create(user, entitys.First());
+                this.SendMail(user, entitys.First());
 
-            // send mail to administrator
+                back = true;
+            }
+            catch (Exception ex)
+            {
+                this.Logger.Error(ex);
+                back = false;
+                throw ex;
+            }
+            // send mail to user for activate account
 
-            // send mail to user
 
             return back;
+        }
+
+        private string FillField(string body, TakeDocModel.UserTk user)
+        {
+            string back = body;
+            back = back.Replace("{{Reference}}", user.UserTkReference);
+            back = back.Replace("{{FirstName}}", user.UserTkFirstName);
+            back = back.Replace("{{LastName}}", user.UserTkLastName);
+            return back;
+        }
+
+        private void SendMail(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
+        {
+            string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_REQUEST_ACCOUNT_TITLE").First().ParameterValue;
+            string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_REQUEST_ACCOUNT_BODY").First().ParameterValue;
+
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
+            string body = System.IO.File.ReadAllText(path);
+
+            servMail.Send(title, this.FillField(body, user), user.UserTkEmail);
         }
     }
 }

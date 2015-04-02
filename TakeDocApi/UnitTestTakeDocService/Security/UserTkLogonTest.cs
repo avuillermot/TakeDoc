@@ -5,10 +5,10 @@ using Utility.MyUnityHelper;
 using System.Collections.Generic;
 using System.Security.Claims;
 
-namespace UnitTestTakeDocService.Secutity
+namespace UnitTestTakeDocService.Security
 {
     [TestClass]
-    public class UserTkServiceTest : UnitTestTakeDocService.BaseServiceTest
+    public class UserTkLogonTest : UnitTestTakeDocService.BaseServiceTest
     {
         IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
 

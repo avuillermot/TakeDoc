@@ -68,6 +68,7 @@
     <Compile Include="Document\DaoPage.cs" />
     <Compile Include="Document\DaoPageStoreLocator.cs" />
     <Compile Include="Document\DaoTypeDocument.cs" />
+    <Compile Include="Security\DaoUserTk.cs" />
     <Compile Include="Document\DaoVersion.cs" />
     <Compile Include="Document\DaoVersionStoreLocator.cs" />
     <Compile Include="Document\DaoDataFieldAutoComplete.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Document\Interface\IDaoMetaData.cs" />
     <Compile Include="Document\Interface\IDaoPage.cs" />
     <Compile Include="Document\Interface\IDaoTypeDocument.cs" />
+    <Compile Include="Security\Interface\IDaoUserTk.cs" />
     <Compile Include="Document\Interface\IDaoVersionStoreLocator.cs" />
     <Compile Include="Document\Interface\IDaoPageStoreLocator.cs" />
     <Compile Include="Document\Interface\IDaoVersion.cs" />

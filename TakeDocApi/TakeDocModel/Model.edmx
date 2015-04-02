@@ -114,6 +114,15 @@
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="GroupTk">
+          <Key>
+            <PropertyRef Name="GroupTkId" />
+          </Key>
+          <Property Name="GroupTkId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="GroupTkReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="GroupTkLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="GroupTkEntityId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="MetaData">
           <Key>
             <PropertyRef Name="MetaDataId" />
@@ -152,6 +161,14 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="PageRotation" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParameterReference" />
+          </Key>
+          <Property Name="ParameterReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParameterValue" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="ParameterDescription" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="Status_Document">
           <Key>
@@ -220,8 +237,8 @@
           <Property Name="UserTkReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserTkLastName" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserTkFirstName" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="UserTkLogin" Type="nvarchar" MaxLength="200" />
-          <Property Name="UserTkPassword" Type="nvarchar" MaxLength="200" />
+          <Property Name="UserTkLogin" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="UserTkPassword" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserTkExternalAccount" Type="bit" Nullable="false" />
           <Property Name="UserTkEmail" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="UserTkExterneId" Type="nvarchar" MaxLength="50" />
@@ -489,6 +506,13 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AddUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userRef" Type="nvarchar" Mode="In" />
+          <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="DeleteEntityUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userRef" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetNewReference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="nvarchar" Mode="In" />
           <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
@@ -502,8 +526,10 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySet Name="DataFieldValue" EntityType="Self.DataFieldValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupTk" EntityType="Self.GroupTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Document" EntityType="Self.Status_Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Version" EntityType="Self.Status_Version" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -701,6 +727,15 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
+          <EntitySet Name="GroupTk" EntityType="TakeDocModel.GroupTk" />
+          <FunctionImport Name="AddUserToEntity">
+            <Parameter Name="userRef" Mode="In" Type="String" />
+            <Parameter Name="entityRef" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteEntityUser">
+          <Parameter Name="userRef" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="Parameter" EntityType="TakeDocModel.Parameter" />
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -908,8 +943,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserTkLastName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkFirstName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserTkLogin" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="UserTkPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkLogin" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserTkPassword" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="UserTkExternalAccount" Type="Boolean" Nullable="false" />
           <Property Name="UserTkEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkExterneId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
@@ -1186,6 +1221,23 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="GroupTk">
+          <Key>
+            <PropertyRef Name="GroupTkId" />
+          </Key>
+          <Property Name="GroupTkId" Type="Guid" Nullable="false" />
+          <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GroupTkEntityId" Type="Guid" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParameterReference" />
+          </Key>
+          <Property Name="ParameterReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1521,6 +1573,27 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupTk">
+            <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
+              <MappingFragment StoreEntitySet="GroupTk">
+                <ScalarProperty Name="GroupTkEntityId" ColumnName="GroupTkEntityId" />
+                <ScalarProperty Name="GroupTkLabel" ColumnName="GroupTkLabel" />
+                <ScalarProperty Name="GroupTkReference" ColumnName="GroupTkReference" />
+                <ScalarProperty Name="GroupTkId" ColumnName="GroupTkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
+          <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
+          <EntitySetMapping Name="Parameter">
+            <EntityTypeMapping TypeName="TakeDocModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
+                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+                <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

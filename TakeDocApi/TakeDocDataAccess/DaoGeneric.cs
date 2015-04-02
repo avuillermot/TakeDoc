@@ -45,5 +45,20 @@ namespace TakeDocDataAccess
             }
             ctx.SaveChanges();
         }
+
+        public void Delete(T item)
+        {
+            ctx.Entry(item).State = EntityState.Deleted;
+            ctx.SaveChanges();
+        }
+
+        public void Delete(ICollection<T> items)
+        {
+            foreach (T item in items)
+            {
+                ctx.Entry(item).State = System.Data.Entity.EntityState.Deleted;
+            }
+            ctx.SaveChanges();
+        }
     }
 }

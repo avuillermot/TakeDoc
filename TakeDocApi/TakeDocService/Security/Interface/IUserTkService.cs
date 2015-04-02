@@ -14,6 +14,6 @@ namespace TakeDocService.Security.Interface
         ICollection<TakeDocModel.UserTk> GetAll();
         TakeDocModel.UserTk Logon(string login, string password);
         ClaimsPrincipal GetClaimsPrincipal(TakeDocModel.UserTk user);
-        TakeDocModel.UserTk Create(TakeDocModel.UserTk user);
+        TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
     }
 }

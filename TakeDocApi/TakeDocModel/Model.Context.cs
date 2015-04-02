@@ -48,6 +48,8 @@ namespace TakeDocModel
         public virtual DbSet<DataFieldAutoComplete> DataFieldAutoComplete { get; set; }
         public virtual DbSet<View_DocumentExtended> View_DocumentExtended { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
+        public virtual DbSet<GroupTk> GroupTk { get; set; }
+        public virtual DbSet<Parameter> Parameter { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {
@@ -56,6 +58,28 @@ namespace TakeDocModel
                 new ObjectParameter("table", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetNewReference", tableParameter, reference);
+        }
+    
+        public virtual int AddUserToEntity(string userRef, string entityRef)
+        {
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            var entityRefParameter = entityRef != null ?
+                new ObjectParameter("entityRef", entityRef) :
+                new ObjectParameter("entityRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserToEntity", userRefParameter, entityRefParameter);
+        }
+    
+        public virtual int DeleteEntityUser(string userRef)
+        {
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
         }
     }
 }

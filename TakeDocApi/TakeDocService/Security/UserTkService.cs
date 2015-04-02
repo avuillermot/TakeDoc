@@ -10,9 +10,9 @@ namespace TakeDocService.Security
 {
     public class UserTkService : BaseService, Interface.IUserTkService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUserTk = new TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>();
+        TakeDocDataAccess.Security.Interface.IDaoUserTk daoUserTk = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
-
+        
         public TakeDocModel.UserTk GetByLogin(string login)
         {
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false);
@@ -82,10 +82,20 @@ namespace TakeDocService.Security
             return new ClaimsPrincipal(ci);
         }
 
-        public TakeDocModel.UserTk Create(TakeDocModel.UserTk user)
+        public TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity) {
+            this.Create(user);
+            daoUserTk.AddEntity(user, entity);
+            return user;
+        }
+
+        private TakeDocModel.UserTk Create(TakeDocModel.UserTk user)
         {
-            string reference = this.daoUserTk.Context.GenerateReference("UserTk");
-            user.UserTkId = Guid.NewGuid();
+            bool emailExist = (daoUserTk.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
+            bool validPassword = user.UserTkPassword.Length >= 5;
+
+            if (emailExist == true) base.CreateError("Email already exists");
+            if (validPassword == false) base.CreateError("Invalid password");
+
 
             // encrypt password
             // check valid email
@@ -99,13 +109,22 @@ namespace TakeDocService.Security
 
             // format name
             user.UserTkLastName = user.UserTkLastName.ToUpper();
-            if (user.UserTkFirstName.Length >= 2) user.UserTkFirstName = user.UserTkFirstName.Substring(0, 1).ToUpper() + user.UserTkFirstName.Substring(2).ToUpper();
+            if (user.UserTkFirstName.Length >= 2) user.UserTkFirstName = user.UserTkFirstName.Substring(0, 1).ToUpper() + user.UserTkFirstName.Substring(1).ToLower();
             else user.UserTkFirstName = user.UserTkFirstName.ToUpper();
 
-            daoUserTk.Context.UserTk.Add(user);
+            user.UserTkEnable = false;
 
-
-            return daoUserTk.GetBy(x => x.UserTkReference == reference).First();
+            try
+            {
+                return daoUserTk.Create(user);
+            }
+            catch (Exception ex)
+            {
+                string msg = string.Format("Error creation user name : {0} {1} - email : {2} - password : {3}", user.UserTkFirstName, user.UserTkLastName, user.UserTkEmail, user.UserTkPassword);
+                this.Logger.Error(ex);
+                base.CreateError(msg);
+                return null;
+            }
         }
 
     }

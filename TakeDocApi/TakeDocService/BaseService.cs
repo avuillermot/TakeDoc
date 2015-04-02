@@ -15,6 +15,12 @@ namespace TakeDocService
                 return Utility.Logger.myLogger.getLogger("AdoNetAppender");
             }
         }
+
+        public void CreateError(string message)
+        {
+            this.Logger.Error(message);
+            throw new Exception(message);
+        }
                     
     }
 }

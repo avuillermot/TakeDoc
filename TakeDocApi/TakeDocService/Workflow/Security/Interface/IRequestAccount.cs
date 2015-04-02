@@ -11,6 +11,6 @@ namespace TakeDocService.Workflow.Security.Interface
     /// </summary>
     public interface IRequestAccount
     {
-        bool Execute(string firstName, string lastName, string email, string password, string culture);
+        bool Execute(string firstName, string lastName, string email, string password, string culture, string entityRef);
     }
 }
