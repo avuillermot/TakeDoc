@@ -613,6 +613,7 @@
     <Content Include="Scripts\utils\routeHelper.js" />
     <Content Include="Temp\Pdf\info.txt" />
     <Content Include="test.html" />
+    <Content Include="Html\requestAccount.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

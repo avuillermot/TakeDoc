@@ -33,83 +33,94 @@ fileHelper.prototype.read = function (fileName) {
     return dfd.promise();
 }
 
-fileHelper.readUrl = function (versionId, entityId) {
+fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
     $.ajax({
         type: 'GET',
-        url: environnement.UrlBase + "Print/Url/"+versionId+"/"+entityId,
+        url: environnement.UrlBase + "Print/Url/" + versionId + "/" + entityId,
         success: function () {
-            window.open(environnement.UrlBase+"Temp/Pdf/"+arguments[0]);
+            success.apply(this, arguments);
         },
         error: function () {
-            //onError();
+            error.apply(this, arguments);
         }
     });
 }
 
-fileHelper.download = function (versionId, entityId) {
+fileHelper.readUrl = function (versionId, entityId, success, error) {
+    var onSuccess = function () {
+        window.open(environnement.UrlBase + "Temp/Pdf/" + arguments[0]);
+        success.apply(this,arguments);
+    };
+    var onError = function () {
+        error.apply(this, arguments);
+    };
+    fileHelper.copyOnServerTemp(versionId, entityId, onSuccess, onError);
+}
 
-    var uri = environnement.UrlBase + "Temp/Pdf/9c8fd677-a5e3-48cd-95d1-9604b0abf8a3.pdf";
-    var fileName = "/Download/avt.pdf";
+fileHelper.download = function (versionId, entityId, onSuccess, onError) {
 
     var transferFile = function (uri, filePath) {
-        alert("transfert");
         var transfer = new FileTransfer();
         transfer.download(
 			uri,
 			filePath,
 			function (entry) {
-			    var targetPath = entry.toURL();
-			    if (device.platform == "Win32NT") {
-			        targetPath = entry.fullPath;
+			    var targetPath = entry.toURL().replace("file:///storage","");
+			    alert(targetPath);
+			    try {
+			        window.plugins.fileOpener2.open(
+                        targetPath, 'application/pdf',
+                        { 
+                            error : function(e) { 
+                                //console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
+                                onError.apply(this, arguments);
+                            },
+                            success : function () {
+                                //console.log('file opened successfully'); 
+                                onSuccess.apply(this, arguments);
+                            }
+                        }
+                    );
+			        
 			    }
-
-			},
+			    catch (ex) {
+			        alert("error opener 2");
+			        onError.apply(this, arguments);
+			    }
+    		},
 			function (error) {
-			    alert("download error source " + error.source);
-			    alert("download error target " + error.target);
-			    alert("upload error code" + error.code);
+			    onError.apply(this, arguments);
 			}
 	    );
     };
 
     var getFolder = function (fileSystem, folderName, success, fail) {
-        alert("gotFolder");
         fileSystem.root.getDirectory(folderName, { create: true, exclusive: false }, success, fail)
     };
-    
-    var getFilesystem = function (fileSystem) {
-        alert("gotFS");
-
-        if (device.platform === "Android") {
-            alert("android");
+        
+    var success = function () {
+        var fileName = arguments[0];
+        var uri = environnement.UrlBase + "Temp/Pdf/" + fileName;
+        var getFilesystem = function (fileSystem) {
             getFolder(fileSystem, "",
                 function (folder) {
-                    alert(folder.toURL());
-                    filePath = folder.toURL() + "/Download/avt.pdf";
-                    alert(filePath);
-                    transferFile(uri, filePath)
+                    filePath = folder.toURL() + fileName;
+                    transferFile(uri, filePath);
                 }, function () {
-                    alert("failed to get folder");
+                    onError.apply(this, arguments);
                 }
             );
-        } else {
-            var filePath;
-            var urlPath = fileSystem.root.toURL();
-            if (device.platform == "Win32NT") {
-                urlPath = fileSystem.root.fullPath;
-            }
-            if (parseFloat(device.cordova) <= 3.2) {
-                filePath = urlPath.substring(urlPath.indexOf("/var")) + "/" + fileName;
-            } else {
-                filePath = urlPath + "/" + fileName;
-            }
-            transferFile(uri, filePath)
-        }
-    };
+        };
 
-    var fail = function () {
-        alert("fail");
+        var fail = function () {
+            onError.apply(this, arguments);
+        };
+
+        window.requestFileSystem(LocalFileSystem.TEMPORARY, 0, getFilesystem, fail);
     };
-    window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, getFilesystem, fail);
-  
+    
+    var error = function () {
+        onError.apply(this, arguments);
+    };
+    fileHelper.copyOnServerTemp(versionId, entityId, success, error);
 }

@@ -10,7 +10,7 @@ namespace UnitTestTakeDocService.Security
     [TestClass]
     public class UserRequestAcountTest : UnitTestTakeDocService.BaseServiceTest
     {
-        IRequestAccount servRequestAccount = UnityHelper.Resolve<IRequestAccount>();
+        IAccount servRequestAccount = UnityHelper.Resolve<IAccount>();
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
  
         public void TestOrdered()
@@ -20,13 +20,13 @@ namespace UnitTestTakeDocService.Security
             this.RequestAccountTest_errorPassword();
 
             ICollection<TakeDocModel.UserTk> toDeletes = daoUser.GetBy(x => x.UserTkEmail == "avuillermot@hotmail.com");
-            daoUser.Delete(toDeletes);
+            //daoUser.Delete(toDeletes);
         }
 
         [TestMethod]
         public void RequestAccountTest_create()
         {
-            bool ok = servRequestAccount.Execute("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
+            bool ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
             Assert.IsTrue(ok, "Account should be created");
         }
         [TestMethod]
@@ -35,7 +35,7 @@ namespace UnitTestTakeDocService.Security
             bool ok = false;
             try
             {
-                ok = servRequestAccount.Execute("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
+                ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
             }
             catch(Exception ex) {
                 // success
@@ -48,7 +48,7 @@ namespace UnitTestTakeDocService.Security
             bool ok = false;
             try
             {
-                ok = servRequestAccount.Execute("alexandre", "vuillermot", "avuillermot@hotmail.com", "test", "fr", "MASTER");
+                ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "avuillermot@hotmail.com", "test", "fr", "MASTER");
             }
             catch (Exception ex)
             {

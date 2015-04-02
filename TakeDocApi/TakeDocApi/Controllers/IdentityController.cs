@@ -63,6 +63,22 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("activate/{userReference}")]
+        public HttpResponseMessage Activate(string userReference)
+        {
+            TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+            try
+            {
+                bool back = servUser.ActivateUser(userReference);
+                return Request.CreateResponse(back);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
     }
 }

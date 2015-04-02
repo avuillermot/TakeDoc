@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <script src="../Scripts/bower_components/jquery/dist/jquery.min.js"></script>
+    <script>
+        $.urlParam = function (name) {
+            var results = new RegExp('[\?&amp;]' + name + '=([^&amp;#]*)').exec(window.location.href);
+            return results[1] || 0;
+        }
+
+        $(document).ready(function () {
+            var reference = $.urlParam("value");
+            var url = window.location.protocol + "//" + window.location.hostname + "/takedocapi/identity/activate/"+reference;
+            $.ajax({
+                type: 'GET',
+                url: url,
+                success: function () {
+                    $("#message").html("Votre compte est activé.");
+                },
+                error: function () {
+                    $("#message").html(arguments[0].responseText);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="message">Veuillez patienter....</div>
+</body>
+</html>

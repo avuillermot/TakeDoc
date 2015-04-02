@@ -93,10 +93,20 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     };
 
     $scope.viewDocument = function (docRef, entityRef) {
+        $ionicLoading.show({
+            template: 'Chargement en cours...'
+        });
+
+        var success = function () {
+            $ionicLoading.hide();
+        };
+        var error = function () {
+            $ionicLoading.hide();
+        };
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            if ($rootScope.isApp == false) fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"));
-            else fileHelper.download(current[0].get("versionId"), current[0].get("entityId"));
+            if ($rootScope.isApp == false) fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"), success, error);
+            else fileHelper.download(current[0].get("versionId"), current[0].get("entityId"), success, error);
         }
     };
 }]);

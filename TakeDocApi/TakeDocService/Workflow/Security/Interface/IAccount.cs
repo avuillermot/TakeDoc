@@ -9,8 +9,9 @@ namespace TakeDocService.Workflow.Security.Interface
     /// <summary>
     /// A user ask a account, the request will be create on database
     /// </summary>
-    public interface IRequestAccount
+    public interface IAccount
     {
-        bool Execute(string firstName, string lastName, string email, string password, string culture, string entityRef);
+        bool CreateRequest(string firstName, string lastName, string email, string password, string culture, string entityRef);
+        bool ActivateUser(string userRef);
     }
 }

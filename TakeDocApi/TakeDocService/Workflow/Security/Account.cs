@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Workflow.Security
 {
-    public class RequestAccount : BaseService, Interface.IRequestAccount
+    public class Account : BaseService, Interface.IAccount
     {
         TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
         TakeDocService.Security.Interface.IGroupeTkService servGroupe = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IGroupeTkService>();
@@ -15,7 +15,13 @@ namespace TakeDocService.Workflow.Security
         TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
 
-        public bool Execute(string firstName, string lastName, string email, string password, string culture, string entityRef) {
+        public bool ActivateUser(string userRef)
+        {
+            bool back = servUser.ActivateUser(userRef);
+            return back;
+        }
+
+        public bool CreateRequest(string firstName, string lastName, string email, string password, string culture, string entityRef) {
 
             ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EntityReference == entityRef);
             if (entitys.Count() == 0) base.CreateError("Entity unknow");
@@ -38,7 +44,7 @@ namespace TakeDocService.Workflow.Security
             try
             {
                 servUser.Create(user, entitys.First());
-                this.SendMail(user, entitys.First());
+                //this.SendMail(user, entitys.First());
 
                 back = true;
             }

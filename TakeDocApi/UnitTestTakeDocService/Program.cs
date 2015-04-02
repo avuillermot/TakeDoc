@@ -18,8 +18,8 @@ namespace UnitTestTakeDocService
             Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
             Security.UserRequestAcountTest requestAccountTest = new Security.UserRequestAcountTest();
 
-            documentTest.TestOrdered();
-            metaDataTest.TestOrdered();
+            /*documentTest.TestOrdered();
+            metaDataTest.TestOrdered();*/
             requestAccountTest.TestOrdered();
 
             /*ULibre.Drivers.Interface.IDriver driver = new ULibre.Drivers.Implementation.OdtDriver();
