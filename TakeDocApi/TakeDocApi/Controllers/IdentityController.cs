@@ -79,6 +79,33 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("request/account")]
+        public HttpResponseMessage RequestAccount([FromBody]string value)
+        {
+            TakeDocService.Workflow.Security.Interface.IAccount servAccount = UnityHelper.Resolve<TakeDocService.Workflow.Security.Interface.IAccount>();
+            Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+
+            try
+            {
+                string entityRef = data.Value<string>("entity");
+                string firstName = data.Value<string>("firstName");
+                string lastName = data.Value<string>("lastName");
+                string email = data.Value<string>("email");
+                string password1 = data.Value<string>("password1");
+                string password2 = data.Value<string>("password2");
+                string culture = data.Value<string>("culture");
+
+                bool ok = servAccount.CreateRequest(firstName, lastName, email, password1, culture, entityRef);
+
+                return Request.CreateResponse(HttpStatusCode.OK, ok);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
 
     }
 }

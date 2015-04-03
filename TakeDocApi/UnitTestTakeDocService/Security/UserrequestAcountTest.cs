@@ -4,6 +4,7 @@ using TakeDocService.Workflow.Security.Interface;
 using Utility.MyUnityHelper;
 using System.Collections.Generic;
 using System.Security.Claims;
+using System.Linq;
 
 namespace UnitTestTakeDocService.Security
 {
@@ -20,7 +21,7 @@ namespace UnitTestTakeDocService.Security
             this.RequestAccountTest_errorPassword();
 
             ICollection<TakeDocModel.UserTk> toDeletes = daoUser.GetBy(x => x.UserTkEmail == "avuillermot@hotmail.com");
-            //daoUser.Delete(toDeletes);
+            daoUser.Delete(toDeletes);
         }
 
         [TestMethod]

@@ -168,7 +168,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -194,6 +193,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Account\askAccountBase.js" />
+    <Content Include="Account\activateAccount.js" />
+    <Content Include="Account\askAccountBase.html" />
+    <Content Include="Account\askAccountTemplate\askAccountTemplate.html" />
     <Content Include="Backoffice\features\login\login.html" />
     <Content Include="Backoffice\features\login\login.js" />
     <Content Include="Backoffice\features\menu\menu.html" />
@@ -610,10 +613,10 @@
     <Content Include="Scripts\lib\respond.js" />
     <Content Include="Scripts\lib\respond.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\utils\environnnement.js" />
     <Content Include="Scripts\utils\routeHelper.js" />
     <Content Include="Temp\Pdf\info.txt" />
-    <Content Include="test.html" />
-    <Content Include="Html\requestAccount.html" />
+    <Content Include="Account\activateAccount.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -623,11 +626,6 @@
     </Content>
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\lib\_references.js" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Shared\Error.cshtml" />
-    <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\lib\underscore-min.map" />
   </ItemGroup>
   <ItemGroup>

@@ -246,6 +246,7 @@
           <Property Name="UserTkGroupId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserTkCulture" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="UserTkActivate" Type="bit" Nullable="false" />
+          <Property Name="UserTkDateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -952,6 +953,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="UserTkGroupId" Type="Guid" Nullable="false" />
           <Property Name="UserTkCulture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="UserTkActivate" Type="Boolean" Nullable="false" />
+          <Property Name="UserTkDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1404,6 +1406,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkDateCreateData" ColumnName="UserTkDateCreateData" />
                 <ScalarProperty Name="UserTkActivate" ColumnName="UserTkActivate" />
                 <ScalarProperty Name="UserTkCulture" ColumnName="UserTkCulture" />
                 <ScalarProperty Name="UserTkGroupId" ColumnName="UserTkGroupId" />

@@ -14,6 +14,7 @@ namespace TakeDocDataAccess.Security
             string reference = this.Context.GenerateReference("UserTk");
             user.UserTkReference = reference;
             user.UserTkId = Guid.NewGuid();
+            user.UserTkDateCreateData = System.DateTimeOffset.UtcNow;
 
             base.Context.UserTk.Add(user);
             base.Context.SaveChanges();

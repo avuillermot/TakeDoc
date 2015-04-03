@@ -16,7 +16,7 @@ namespace TakeDocService.Communication
             string login = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_LOGIN").First().ParameterValue;
             string password = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_PASSWORD").First().ParameterValue;
             string smtp = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SERVER_SMTP").First().ParameterValue;
-            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_REQUEST_ACCOUNT_FROM").First().ParameterValue;
+            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_FROM").First().ParameterValue;
             string port = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_PORT").First().ParameterValue;
 
             System.Net.NetworkCredential basicCredential =  new System.Net.NetworkCredential(login, password);

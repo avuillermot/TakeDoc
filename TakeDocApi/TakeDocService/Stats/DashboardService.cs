@@ -27,13 +27,14 @@ namespace TakeDocService.Stats
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Send)
                     && x.EntityId == vue.EntityId && x.DocumentOwner == vue.UserTkId).ToList();
 
-                int nbCreate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create).Count();
-                int nbIncomplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete).Count();
-                int nbComplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete).Count();
-                int nbSend = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Send).Count();
-
                 foreach (TakeDocModel.TypeDocument type in types.Where(x => x.EntityId == vue.EntityId && x.EtatDeleteData == false))
                 {
+                    Guid typeDocumentId = type.TypeDocumentId;
+                    int nbCreate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int nbIncomplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int nbComplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int nbSend = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Send && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+
                     back.Add(new TakeDocModel.Dto.Stats.StatusDocument()
                     {
                         EntityId = vue.EntityId,

@@ -27,5 +27,6 @@ namespace TakeDocModel
         public System.Guid UserTkGroupId { get; set; }
         public string UserTkCulture { get; set; }
         public bool UserTkActivate { get; set; }
+        public System.DateTimeOffset UserTkDateCreateData { get; set; }
     }
 }

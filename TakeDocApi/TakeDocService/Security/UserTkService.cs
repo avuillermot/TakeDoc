@@ -12,6 +12,8 @@ namespace TakeDocService.Security
     {
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUserTk = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
+
+        TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
         
         public TakeDocModel.UserTk GetByLogin(string login)
         {
@@ -51,7 +53,9 @@ namespace TakeDocService.Security
         {
             this.Logger.InfoFormat("Log on {0}", login);
             TakeDocModel.UserTk user = this.GetByLogin(login);
-            if (user != null && (user.UserTkPassword != password || user.UserTkEnable == false)) user = null;
+            var passwordDecrypt = servCrypto.Decrypt(user.UserTkPassword);
+
+            if (user != null && (password != passwordDecrypt || user.UserTkEnable == false)) user = null;
             if (user == null) {
                 string msg = string.Format("Utilisateur inconnu ou non identifié : {0}", login);
                 this.Logger.Info(msg);
@@ -98,6 +102,7 @@ namespace TakeDocService.Security
 
 
             // encrypt password
+            user.UserTkPassword = servCrypto.Encrypt(user.UserTkPassword);
             // check valid email
             bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
             if (isEmail == false)
