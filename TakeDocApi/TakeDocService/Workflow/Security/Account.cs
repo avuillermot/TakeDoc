@@ -44,7 +44,7 @@ namespace TakeDocService.Workflow.Security
             try
             {
                 servUser.Create(user, entitys.First());
-                //this.SendMail(user, entitys.First());
+                this.SendMail(user, entitys.First());
 
                 back = true;
             }
@@ -66,7 +66,15 @@ namespace TakeDocService.Workflow.Security
             back = back.Replace("{{Reference}}", user.UserTkReference);
             back = back.Replace("{{FirstName}}", user.UserTkFirstName);
             back = back.Replace("{{LastName}}", user.UserTkLastName);
+            back = back.Replace("{{UrlBase}}", this.GetFieldValue("URL_BASE"));
             return back;
+        }
+
+        private string GetFieldValue(string paramRef)
+        {
+            ICollection<TakeDocModel.Parameter> parameters = daoParameter.GetBy(x => x.ParameterReference == paramRef);
+            if (parameters.Count != 1) return string.Empty;
+            else return parameters.First().ParameterValue;
         }
 
         private void SendMail(TakeDocModel.UserTk user, TakeDocModel.Entity entity)

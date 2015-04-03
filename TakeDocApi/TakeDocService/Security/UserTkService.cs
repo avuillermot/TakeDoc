@@ -131,8 +131,7 @@ namespace TakeDocService.Security
         {
             bool back = false;
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(x => x.UserTkReference == userRef);
-            if (users.Count == 0) base.CreateError(string.Format("no user with ref {0}"));
-            if (users.Count > 1) base.CreateError(string.Format("to many user with ref {0}", userRef));
+            if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
 
             TakeDocModel.UserTk user = users.First();
             if (user.UserTkActivate == true) base.CreateError(string.Format("user {0} already activate",user.UserTkLogin));
