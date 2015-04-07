@@ -7,13 +7,12 @@ backOffice.run(function ($rootScope,$location) {
 });
 
 backOffice.config(function ($stateProvider, $urlRouterProvider) {
-    var _routeHelper = new routeHelper();
-    $stateProvider.state('index', {
-        url: "",
+    $stateProvider.state('test', {
+        url: "/test",
         views: {
             "viewMenu": {
-                templateUrl: "features/login/login.html",
-                controller: 'loginController'
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
             },
             "viewGrid": {
                 templateUrl: "features/login/login.html",
@@ -24,7 +23,25 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'loginController'
             }
         }
-    })
+    });
+    $stateProvider.state('home', {
+        url: "/home",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            }
+        }
+    });
+    $stateProvider.state('login', {
+        url: "/login",
+        views: {
+            "viewDetail": {
+                templateUrl: "features/login/login.html",
+                controller: 'loginController'
+            }
+        }
+    });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });

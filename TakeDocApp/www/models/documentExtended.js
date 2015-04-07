@@ -65,7 +65,7 @@ var DocumentsExtended = Backbone.Collection.extend({
     clauses: {
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
-        send: " and DocumentStatusReference eq 'SEND'",
+        send: " and DocumentStatusReference eq 'TO_VALIDATE'",
     },
     loadSend: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.send + this.loadOptions;

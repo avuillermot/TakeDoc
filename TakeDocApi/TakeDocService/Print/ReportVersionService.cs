@@ -60,7 +60,7 @@ namespace TakeDocService.Print
         #region generate
         private void FillField(TakeDocModel.Version version, TakeDocModel.Entity entity, FileInfo destination)
         {
-            TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == version.Document.DocumentOwner).First();
+            TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == version.Document.DocumentOwnerId).First();
 
             string directoryEntity = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference);
 

@@ -23,7 +23,7 @@ namespace TakeDocDataAccess.Document
             retour.DocumentLabel = documentLabel;
             retour.DocumentTypeId = typeDocumentId;
 
-            retour.DocumentOwner = userId;
+            retour.DocumentOwnerId = userId;
             retour.UserCreateData = userId;
             retour.EntityId = entityId;
             retour.EtatDeleteData = false;

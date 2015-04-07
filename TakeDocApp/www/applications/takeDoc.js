@@ -40,9 +40,9 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioFindSend = [
-        { from: "#/menu", to: "#/selectEntity/status/SEND" },
-        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/SEND" },
-        { from: "#/selectTypeDocument", to: "#/findDocument/search/SEND" },
+        { from: "#/menu", to: "#/selectEntity/status/TO_VALIDATE" },
+        { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/TO_VALIDATE" },
+        { from: "#/selectTypeDocument", to: "#/findDocument/search/TO_VALIDATE" },
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioDetailIncomplet = [

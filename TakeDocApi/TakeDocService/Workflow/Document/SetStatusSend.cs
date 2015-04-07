@@ -27,7 +27,7 @@ namespace TakeDocService.Workflow.Document
                 foreach (TakeDocModel.Version version in versions)
                 {
                     bool ok = this.GeneratePdf(version, userId);
-                    if (ok) servDocument.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.Send, userId, true);
+                    if (ok) servDocument.SetStatus(version.VersionDocumentId, TakeDocModel.Status_Document.ToValidate, userId, true);
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace TakeDocService.Workflow.Document
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
-            servVersion.SetStatus(version, TakeDocModel.Status_Version.Send, userId);
+            servVersion.SetStatus(version, TakeDocModel.Status_Version.ToValidate, userId);
             return true;
         }
     }

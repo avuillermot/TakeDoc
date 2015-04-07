@@ -11,6 +11,6 @@ namespace TakeDocModel
         public static string Create { get { return "CREATE"; } }
         public static string Incomplete { get { return "INCOMPLETE"; } }
         public static string Complete { get { return "COMPLETE"; } }
-        public static string Send { get { return "SEND"; } }
+        public static string ToValidate { get { return "TO_VALIDATE"; } }
     }
 }

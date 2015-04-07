@@ -197,8 +197,10 @@
     <Content Include="Account\activateAccount.js" />
     <Content Include="Account\askAccountBase.html" />
     <Content Include="Account\askAccountTemplate\askAccountTemplate.html" />
+    <Content Include="Backoffice\css\backoffice.css" />
     <Content Include="Backoffice\features\login\login.html" />
     <Content Include="Backoffice\features\login\login.js" />
+    <Content Include="Backoffice\features\menu\menu.js" />
     <Content Include="Backoffice\features\menu\menu.html" />
     <Content Include="Backoffice\index.html" />
     <Content Include="Content\bootstrap.css" />
@@ -613,8 +615,8 @@
     <Content Include="Scripts\lib\respond.js" />
     <Content Include="Scripts\lib\respond.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\models\userTk.js" />
     <Content Include="Scripts\utils\environnnement.js" />
-    <Content Include="Scripts\utils\routeHelper.js" />
     <Content Include="Temp\Pdf\info.txt" />
     <Content Include="Account\activateAccount.html" />
     <Content Include="Web.config" />

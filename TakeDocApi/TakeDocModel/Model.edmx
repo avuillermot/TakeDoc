@@ -95,7 +95,8 @@
           <Property Name="DocumentCurrentVersionId" Type="uniqueidentifier" />
           <Property Name="DocumentLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="DocumentTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DocumentOwner" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentOwnerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentValidateUserId" Type="uniqueidentifier" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -459,6 +460,9 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <!--Erreurs détectées durant la génération :
+avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui ne font pas partie de la clé de la table du côté primaire de la relation. La relation a été exclue.
+        <Association Name="FK_MetaData_DataField_ref" />-->
         <Association Name="FK_MetaData_Version">
           <End Role="Version" Type="Self.Version" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -764,10 +768,11 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="DocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="DocumentTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Document" ToRole="Type_Document" />
-          <Property Name="DocumentOwner" Type="Guid" Nullable="false" />
           <Property Name="DocumentCurrentVersionId" Type="Guid" />
           <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Status_Document" Relationship="TakeDocModel.FK_Document_Status_Document" FromRole="Document" ToRole="Status_Document" />
+          <Property Name="DocumentOwnerId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentValidateUserId" Type="Guid" />
           </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -1269,9 +1274,10 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <EntitySetMapping Name="Document">
             <EntityTypeMapping TypeName="TakeDocModel.Document">
               <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DocumentValidateUserId" ColumnName="DocumentValidateUserId" />
+                <ScalarProperty Name="DocumentOwnerId" ColumnName="DocumentOwnerId" />
                 <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
                 <ScalarProperty Name="DocumentCurrentVersionId" ColumnName="DocumentCurrentVersionId" />
-                <ScalarProperty Name="DocumentOwner" ColumnName="DocumentOwner" />
                 <ScalarProperty Name="DocumentTypeId" ColumnName="DocumentTypeId" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />

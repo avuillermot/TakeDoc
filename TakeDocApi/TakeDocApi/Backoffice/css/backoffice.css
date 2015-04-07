@@ -1,0 +1,18 @@
+﻿body {
+}
+
+#viewMenu{
+
+}
+
+#viewDetail {
+    background-color:yellow; 
+    display:inline-block; 
+    width:49%;
+}
+
+#viewGrid {
+    background-color:red; 
+    display:inline-block; 
+    width:49%
+}

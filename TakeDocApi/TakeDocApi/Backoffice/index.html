@@ -4,11 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <title>TakeDoc Backoffice</title>
     <link href="../Scripts/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/backoffice.css" rel="stylesheet">
 
     <script src="../Scripts/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../Scripts/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-    <script src="../Scripts/utils/routeHelper.js"></script>
 
     <script src="../Scripts/bower_components/angular/angular.min.js"></script>
     <script src="../Scripts/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
@@ -18,8 +17,8 @@
 </head>
 <body ng-app="backOffice">
 
-    <div ui-view="viewMenu" style="background-color:blue"></div>
-    <div ui-view="viewGrid" style="background-color:red; display:inline-block; width:29%"></div>
-    <div ui-view="viewDetail" style="background-color:yellow; display:inline-block; width:69%"></div>
+    <div id="viewMenu" ui-view="viewMenu"></div>
+    <div id="viewGrid" ui-view="viewGrid"></div>
+    <div id="viewDetail" ui-view="viewDetail"></div>
 </body>
 </html>
