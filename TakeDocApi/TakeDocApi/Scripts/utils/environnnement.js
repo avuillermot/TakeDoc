@@ -1,3 +1,3 @@
 ﻿environnement = {
-    UrlBase:  "http://localhost/TakeDocApi"
+    UrlBase:  "http://localhost/TakeDocApi/"
 }

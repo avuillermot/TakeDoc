@@ -11,12 +11,18 @@
 
     <script src="../Scripts/bower_components/angular/angular.min.js"></script>
     <script src="../Scripts/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="../Scripts/models/userTk.js"></script>
+    <script src="../Scripts/models/entity.js"></script>
+    <script src="../Scripts/utils/environnnement.js"></script>
     <script src="../Scripts/applications/backOffice.js"></script>
 
     <script src="../Backoffice/features/login/login.js"></script>
+    <script src="../Backoffice/features/menu/menu.js"></script>
 </head>
 <body ng-app="backOffice">
-
+    <div class="btn-loader-container">
+        <button class="btn btn-lg btn-warning btn-loader"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>&#160;<span id="span-loader-message">Chargement...</span></button>
+    </div>
     <div id="viewMenu" ui-view="viewMenu"></div>
     <div id="viewGrid" ui-view="viewGrid"></div>
     <div id="viewDetail" ui-view="viewDetail"></div>

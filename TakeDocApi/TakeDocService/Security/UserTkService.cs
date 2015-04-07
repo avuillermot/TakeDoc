@@ -97,8 +97,8 @@ namespace TakeDocService.Security
             bool emailExist = (daoUserTk.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
             bool validPassword = user.UserTkPassword.Length >= 5;
 
-            if (emailExist == true) base.CreateError("Email already exists");
-            if (validPassword == false) base.CreateError("Invalid password");
+            if (emailExist == true) base.CreateError("Cette adresse mail est déjà utilisée.");
+            if (validPassword == false) base.CreateError("Votre mot de passe doit avoir au moins 5 caractères.");
 
 
             // encrypt password
@@ -107,7 +107,7 @@ namespace TakeDocService.Security
             bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
             if (isEmail == false)
             {
-                string msg = string.Concat("Create User : invalid email {0}", user.UserTkEmail);
+                string msg = string.Concat("Création d'un utilisateur; cette adresse mail n'est pas valide {0}", user.UserTkEmail);
                 this.Logger.Error(msg);
                 throw new Exception(msg);
             }

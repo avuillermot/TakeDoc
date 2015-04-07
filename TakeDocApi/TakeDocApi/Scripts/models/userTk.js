@@ -17,7 +17,7 @@
             }
         });
         this.IsLog = true;
-        moment.locale('fr');
+        //moment.locale('fr');
     }
 };
 

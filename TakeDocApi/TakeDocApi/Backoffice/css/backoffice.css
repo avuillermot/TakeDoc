@@ -1,18 +1,51 @@
 ﻿body {
 }
 
+/* spinner */
+.btn-loader {
+    position:absolute;
+    display:block;
+    top:50%;
+    left:45%;
+}
+.btn-loader-container {
+    width:100%;
+    height:100%;
+    position:absolute;
+    background-color:black;
+    opacity:0.7;
+    display: none;
+}
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
 #viewMenu{
 
 }
 
 #viewDetail {
-    background-color:yellow; 
     display:inline-block; 
     width:49%;
 }
 
 #viewGrid {
-    background-color:red; 
     display:inline-block; 
     width:49%
+}
+
+.welcome {
+    padding-left:25px;
+    font-size: 16px;
 }

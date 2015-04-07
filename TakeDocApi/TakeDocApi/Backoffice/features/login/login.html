@@ -1,9 +1,12 @@
-﻿<div class="form-group">
+﻿<div style="padding-top:50px">
+    <label>Connexion</label>
+</div>
+<div class="form-group" style="padding-top:30px">
     <label for="inputLogin">Identifiant (email)</label>
-    <input type="email" class="form-control" id="inputLogin" placeholder=".....">
+    <input type="text" class="form-control" id="inputLogin" ng-model="identity.login" placeholder=".....">
 </div>
 <div class="form-group">
     <label for="inputPassword">Mot de passe</label>
-    <input type="password" class="form-control" id="inputPassword" placeholder=".....">
+    <input type="password" class="form-control" id="inputPassword" ng-model="identity.password" placeholder=".....">
 </div>
-<button type="submit" class="btn btn-default">Se connecter</button>
+<button type="submit" class="btn btn-default" ng-click="doCheck();">Se connecter</button>
