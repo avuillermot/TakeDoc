@@ -138,7 +138,7 @@ takeDoc.directive('goBack', function ($location, $rootScope) {
                             $location.path("menu");
                         }
                     };
-                    $rootScope.PopupHelper.show("Annulation", "Vos données en cours de modification seront perdues.", "OkCancel", onTap);
+                    $rootScope.PopupHelper.show("Annulation", "Vos données en cours de modification seront disponibles dans le menu INCOMPLET.", "OkCancel", onTap);
                 }
             });
         });

@@ -18,8 +18,8 @@ namespace TakeDocService.Security
         public TakeDocModel.UserTk GetByLogin(string login)
         {
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false);
-            if (users.Count() > 1) base.Logger.Error(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
-            else if (users.Count() == 0) return null;
+            if (users.Count() > 1) base.CreateError(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
+            else if (users.Count() == 0) base.CreateError(string.Format("Utilisateur {0} inconu.", login));
             TakeDocModel.UserTk user = users.First();
 
             user.Entitys = daoViewUserEntity.GetBy(x => x.UserTkId == user.UserTkId);
