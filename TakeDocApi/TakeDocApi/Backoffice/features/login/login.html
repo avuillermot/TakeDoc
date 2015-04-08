@@ -3,10 +3,10 @@
 </div>
 <div class="form-group" style="padding-top:30px">
     <label for="inputLogin">Identifiant (email)</label>
-    <input type="text" class="form-control" id="inputLogin" ng-model="identity.login" placeholder=".....">
+    <input type="text" class="form-control" id="inputLogin" ng-model="identity.login" placeholder="....." ng-keyup="onKeyPress($event)">
 </div>
 <div class="form-group">
     <label for="inputPassword">Mot de passe</label>
-    <input type="password" class="form-control" id="inputPassword" ng-model="identity.password" placeholder=".....">
+    <input type="password" class="form-control" id="inputPassword" ng-model="identity.password" placeholder="....." ng-keyup="onKeyPress($event)">
 </div>
 <button type="submit" class="btn btn-default" ng-click="doCheck();">Se connecter</button>

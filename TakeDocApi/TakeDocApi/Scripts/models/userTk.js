@@ -6,9 +6,8 @@
         this.Telephone = "";
         this.Id = user.UserTkId;
         this.Entitys = new Array();
-        this.CurrentEntity = null;
-        this.CurrentTypeDocument = null;
         this.Culture = user.UserTkCulture;
+        this.GroupUserId = user.UserTkGroupId;
         that = this;
         $.each(user.Entitys, function(index, value) {
             if (value.EtatDeleteData == false){
@@ -17,7 +16,6 @@
             }
         });
         this.IsLog = true;
-        //moment.locale('fr');
     }
 };
 

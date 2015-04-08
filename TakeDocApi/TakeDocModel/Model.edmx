@@ -122,7 +122,6 @@
           <Property Name="GroupTkId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="GroupTkReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GroupTkLabel" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="GroupTkEntityId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="MetaData">
           <Key>
@@ -1235,7 +1234,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="GroupTkId" Type="Guid" Nullable="false" />
           <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="GroupTkEntityId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Parameter">
           <Key>
@@ -1588,7 +1586,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="GroupTk">
             <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
               <MappingFragment StoreEntitySet="GroupTk">
-                <ScalarProperty Name="GroupTkEntityId" ColumnName="GroupTkEntityId" />
                 <ScalarProperty Name="GroupTkLabel" ColumnName="GroupTkLabel" />
                 <ScalarProperty Name="GroupTkReference" ColumnName="GroupTkReference" />
                 <ScalarProperty Name="GroupTkId" ColumnName="GroupTkId" />

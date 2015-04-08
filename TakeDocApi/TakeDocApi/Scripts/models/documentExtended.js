@@ -34,7 +34,7 @@
         this.set("versionId", current.VersionId);
         this.set("versionReference", current.VersionReference);
         this.set("versionDateCreate", current.VersionDateCreateData);
-        this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
+        //this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
         return this;
     }
 });

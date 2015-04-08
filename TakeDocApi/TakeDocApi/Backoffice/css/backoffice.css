@@ -21,6 +21,14 @@
     -webkit-animation: spin2 .7s infinite linear;
 }
 
+/* modal */
+.tk-modal {
+    position:absolute;
+    display:block;
+    top:40%;
+    left:0%;
+}
+
 @-webkit-keyframes spin2 {
     from { -webkit-transform: rotate(0deg);}
     to { -webkit-transform: rotate(360deg);}

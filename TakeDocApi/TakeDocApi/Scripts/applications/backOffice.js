@@ -3,7 +3,19 @@ var backOffice = angular.module("backOffice", ['ui.router']);
 
 backOffice.run(function ($rootScope, $location) {
 
-   $rootScope.User = null;
+    $rootScope.getUser = function () {
+        return JSON.parse(localStorage.getItem("TkUser"));
+    };
+    $rootScope.setUser = function () {
+        localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
+    };
+
+    $rootScope.getGroup = function () {
+        return JSON.parse(localStorage.getItem("TkGroups"));
+    };
+    $rootScope.setGroup = function () {
+        localStorage.setItem("TkGroups", JSON.stringify(arguments[0]));
+    };
 
    $rootScope.showLoader = function () {
         $("#span-loader-message").html(arguments[0]);
@@ -13,8 +25,17 @@ backOffice.run(function ($rootScope, $location) {
         $(".btn-loader-container").css("display", "none");
     };
 
+    $rootScope.showModal = function (title, body) {
+        $("#myModalLabel").html(title);
+        $("#myModalBody").html(body);
+        $('#myModal').modal('show');
+    };
+    $rootScope.hideModal = function () {
+    };
+
     $rootScope.$on("$viewContentLoaded", function (scopes) {
         $rootScope.hideLoader();
+        if ($rootScope.getUser() == null) alert("user null");
     });
 });
 
@@ -42,6 +63,10 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
             "viewMenu": {
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/myDocument/myDocument.html",
+                controller: 'myDocumentController'
             }
         }
     });

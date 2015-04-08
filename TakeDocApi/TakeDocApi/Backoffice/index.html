@@ -8,16 +8,21 @@
 
     <script src="../Scripts/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="../Scripts/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../Scripts/lib/underscore-min.js"></script>
+    <script src="../Scripts/lib/backbone-min.js"></script>
 
     <script src="../Scripts/bower_components/angular/angular.min.js"></script>
     <script src="../Scripts/bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="../Scripts/models/userTk.js"></script>
-    <script src="../Scripts/models/entity.js"></script>
     <script src="../Scripts/utils/environnnement.js"></script>
+    <script src="../Scripts/models/entity.js"></script>
+    <script src="../Scripts/models/groupTk.js"></script>
+    <script src="../Scripts/models/userTk.js"></script>
+    <script src="../Scripts/models/documentExtended.js"></script>
     <script src="../Scripts/applications/backOffice.js"></script>
 
     <script src="../Backoffice/features/login/login.js"></script>
     <script src="../Backoffice/features/menu/menu.js"></script>
+    <script src="../Backoffice/features/myDocument/myDocument.js"></script>
 </head>
 <body ng-app="backOffice">
     <div class="btn-loader-container">
@@ -26,5 +31,20 @@
     <div id="viewMenu" ui-view="viewMenu"></div>
     <div id="viewGrid" ui-view="viewGrid"></div>
     <div id="viewDetail" ui-view="viewDetail"></div>
+
+
+    <!-- Modal -->
+    <div class="modal fade tk-modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body" id="myModalBody">
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

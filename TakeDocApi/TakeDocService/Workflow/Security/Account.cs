@@ -39,7 +39,7 @@ namespace TakeDocService.Workflow.Security
                 UserTkCulture = culture,
                 UserTkExterneId = null,
                 UserTkActivate = false,
-                UserTkGroupId = servGroupe.GetBy(x => x.GroupTkReference == "USER" && x.GroupTkEntityId == entityId).First().GroupTkId
+                UserTkGroupId = servGroupe.GetBy(x => x.GroupTkReference == "USER").First().GroupTkId
             };
             try
             {
