@@ -618,6 +618,10 @@
     <Content Include="Scripts\lib\modernizr-2.6.2.js" />
     <Content Include="Scripts\lib\respond.js" />
     <Content Include="Scripts\lib\respond.min.js" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.css" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.js" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.min.css" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
     <Content Include="Scripts\models\documentExtended.js" />
     <Content Include="Scripts\models\entity.js" />
@@ -662,6 +666,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.eot" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.svg" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.ttf" />
+    <Content Include="Scripts\lib\ui-grid\ui-grid.woff" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\bower_components\angular-ui-router\api\angular-ui-router.d.ts" />

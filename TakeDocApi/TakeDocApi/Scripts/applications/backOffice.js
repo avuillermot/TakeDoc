@@ -1,5 +1,5 @@
 ﻿'use strict';
-var backOffice = angular.module("backOffice", ['ui.router']);
+var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit']);
 
 backOffice.run(function ($rootScope, $location) {
 
