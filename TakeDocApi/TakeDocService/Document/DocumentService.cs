@@ -21,57 +21,73 @@ namespace TakeDocService.Document
         
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
-            this.Logger.Info(string.Format("Create document by {0}", userId));
-            Guid documentId = System.Guid.NewGuid();
-            Guid versionId = documentId;
-            TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel);
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                this.Logger.Info(string.Format("Create document by {0}", userId));
+                Guid documentId = System.Guid.NewGuid();
+                Guid versionId = documentId;
+                TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel);
 
-            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, versionId, documentId, typeDocumentId);
+                TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, versionId, documentId, typeDocumentId);
 
-            return document;
+                transaction.Complete();
+                return document;
+            }
         }
 
         public void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation)
         {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
+                servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
+            }
         }
 
         public void SetStatus(Guid documentId, string status, Guid userId, bool updateStatusVersion)
         {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == x.EntityId).First();
-            
-            // mise à jour du statut de la version à recu
-            if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
+            using (TransactionScope transaction = new TransactionScope())
             {
-                TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
-                servVersion.SetStatus(version, status, userId);
-            }
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
+                TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == x.EntityId).First();
 
-            // mise à jour du statut du document à recu
-            document.DocumentStatusId = stDocument.StatusDocumentId;
-            document.UserUpdateData = userId;
-            document.DateUpdateData = System.DateTimeOffset.UtcNow;
-            daoDocument.Update(document);
+                // mise à jour du statut de la version à recu
+                if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
+                {
+                    TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
+                    servVersion.SetStatus(version, status, userId);
+                }
+
+                // mise à jour du statut du document à recu
+                document.DocumentStatusId = stDocument.StatusDocumentId;
+                document.UserUpdateData = userId;
+                document.DateUpdateData = System.DateTimeOffset.UtcNow;
+                daoDocument.Update(document);
+            }
         }
 
         public void AddVersionMajor(Guid userId, Guid entityId, Guid documentId)
         {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
-            document.DocumentCurrentVersionId = version.VersionId;
-            daoDocument.Update(document);
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
+                TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
+                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
+                document.DocumentCurrentVersionId = version.VersionId;
+                daoDocument.Update(document);
+            }
         }
 
         public void AddVersionMinor(Guid userId, Guid entityId, Guid documentId)
         {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-            TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
-            document.DocumentCurrentVersionId = version.VersionId;
-            daoDocument.Update(document);
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
+                TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
+                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
+                document.DocumentCurrentVersionId = version.VersionId;
+                daoDocument.Update(document);
+            }
         }
 
         public TakeDocModel.Document GetById(Guid documentId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Document, object>>[] properties)
@@ -83,12 +99,15 @@ namespace TakeDocService.Document
 
         public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
         {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
 
-            TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
-            servMeta.SetMetaData(userId, entityId, versionId, metadatas);
-            servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
-            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+                TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
+                servMeta.SetMetaData(userId, entityId, versionId, metadatas);
+                servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
+                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+            }
         }
    }
 }

@@ -1,5 +1,9 @@
 ﻿'use strict';
 backOffice.controller('accountController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+
+    $scope.user = $rootScope.getUser();
+    $scope.group = $rootScope.getGroup();
+
     $scope.doCheck = function () {
         var elems = $("input[mandatory='true']");
         $("#divAccountInfo div.has-error").removeClass("has-error");

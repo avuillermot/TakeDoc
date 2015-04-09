@@ -106,6 +106,29 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpPatch]
+        [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}")]
+        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture) {
+            try
+            {
+                TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+                ICollection<TakeDocModel.UserTk> users = servUser.GetBy(x => x.UserTkId == userId);
+                if (users.Count != 1) throw new Exception("Invalid user");
+                TakeDocModel.UserTk user = users.First();
+                user.UserTkFirstName = firstName;
+                user.UserTkLastName = lastName;
+                user.UserTkEmail = email;
+                user.UserTkCulture = culture;
+                servUser.Update(user);
+                return Request.CreateResponse(HttpStatusCode.OK, true);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+
+        }
+
 
     }
 }

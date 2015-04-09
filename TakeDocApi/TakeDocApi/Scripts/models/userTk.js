@@ -45,3 +45,7 @@ userTkService.dashboard = function (userId, success, error) {
         error: error
     });
 };
+
+userTkService.update = function () {
+    var url = environnement.UrlBase + "identity/logon";
+}

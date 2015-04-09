@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Claims;
@@ -14,10 +15,14 @@ namespace TakeDocService.Security
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
 
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
-        
+
+        public ICollection<TakeDocModel.UserTk> GetBy(Expression<Func<TakeDocModel.UserTk, bool>> where, params Expression<Func<TakeDocModel.UserTk, object>>[] properties)
+        {
+            return daoUserTk.GetBy(where, properties);
+        }
         public TakeDocModel.UserTk GetByLogin(string login)
         {
-            ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false);
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false);
             if (users.Count() > 1) base.CreateError(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
             else if (users.Count() == 0) base.CreateError(string.Format("Utilisateur {0} inconu.", login));
             TakeDocModel.UserTk user = users.First();
@@ -92,9 +97,40 @@ namespace TakeDocService.Security
             return user;
         }
 
+
+        /// <summary>
+        /// Check user data
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private bool Check(TakeDocModel.UserTk user)
+        {
+            bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
+            if (isEmail == false)
+            {
+                string msg = string.Format("Création d'un utilisateur; cette adresse mail n'est pas valide {0}", user.UserTkEmail);
+                this.Logger.Error(msg);
+                throw new Exception(msg);
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Format data in object
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        private TakeDocModel.UserTk Format(TakeDocModel.UserTk user)
+        {
+            user.UserTkLastName = user.UserTkLastName.ToUpper();
+            if (user.UserTkFirstName.Length >= 2) user.UserTkFirstName = user.UserTkFirstName.Substring(0, 1).ToUpper() + user.UserTkFirstName.Substring(1).ToLower();
+            else user.UserTkFirstName = user.UserTkFirstName.ToUpper();
+            return user;
+        }
+
         private TakeDocModel.UserTk Create(TakeDocModel.UserTk user)
         {
-            bool emailExist = (daoUserTk.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
+            bool emailExist = (this.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
             bool validPassword = user.UserTkPassword.Length >= 5;
 
             if (emailExist == true) base.CreateError("Cette adresse mail est déjà utilisée.");
@@ -103,19 +139,9 @@ namespace TakeDocService.Security
 
             // encrypt password
             user.UserTkPassword = servCrypto.Encrypt(user.UserTkPassword);
-            // check valid email
-            bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-            if (isEmail == false)
-            {
-                string msg = string.Concat("Création d'un utilisateur; cette adresse mail n'est pas valide {0}", user.UserTkEmail);
-                this.Logger.Error(msg);
-                throw new Exception(msg);
-            }
-
-            // format name
-            user.UserTkLastName = user.UserTkLastName.ToUpper();
-            if (user.UserTkFirstName.Length >= 2) user.UserTkFirstName = user.UserTkFirstName.Substring(0, 1).ToUpper() + user.UserTkFirstName.Substring(1).ToLower();
-            else user.UserTkFirstName = user.UserTkFirstName.ToUpper();
+            
+            bool isValid = this.Check(user);
+            user = this.Format(user);
 
             user.UserTkEnable = false;
 
@@ -135,7 +161,7 @@ namespace TakeDocService.Security
         public bool ActivateUser(string userRef)
         {
             bool back = false;
-            ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(x => x.UserTkReference == userRef);
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkReference == userRef);
             if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
 
             TakeDocModel.UserTk user = users.First();
@@ -145,6 +171,18 @@ namespace TakeDocService.Security
             daoUserTk.Update(user);
 
             return back;
+        }
+
+        public void Update(TakeDocModel.UserTk user)
+        {
+            using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
+            {
+                this.Check(user);
+                user = this.Format(user);
+                daoUserTk.Update(user);
+
+                tr.Complete();
+            }
         }
 
     }
