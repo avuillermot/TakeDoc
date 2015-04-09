@@ -82,6 +82,19 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     });
+    $stateProvider.state('account', {
+        url: "/account",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/account/accountInfo.html",
+                controller: 'accountController'
+            }
+        }
+    });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });
