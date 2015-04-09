@@ -46,6 +46,13 @@ userTkService.dashboard = function (userId, success, error) {
     });
 };
 
-userTkService.update = function () {
-    var url = environnement.UrlBase + "identity/logon";
+userTkService.update = function (user, success, error) {
+
+    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>";
+    $.ajax({
+        type: 'PATCH',
+        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture),
+        success: success,
+        error: error
+    });
 }
