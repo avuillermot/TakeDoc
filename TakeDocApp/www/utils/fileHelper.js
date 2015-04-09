@@ -65,18 +65,16 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
 			uri,
 			filePath,
 			function (entry) {
-			    var targetPath = entry.toURL().replace("file:///storage","");
+			    var targetPath = entry.toURL();
 			    alert(targetPath);
 			    try {
-			        window.plugins.fileOpener2.open(
+			        cordova.plugins.fileOpener2.open(
                         targetPath, 'application/pdf',
                         { 
                             error : function(e) { 
-                                //console.log('Error status: ' + e.status + ' - Error message: ' + e.message);
                                 onError.apply(this, arguments);
                             },
                             success : function () {
-                                //console.log('file opened successfully'); 
                                 onSuccess.apply(this, arguments);
                             }
                         }
@@ -84,7 +82,6 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
 			        
 			    }
 			    catch (ex) {
-			        alert("error opener 2");
 			        onError.apply(this, arguments);
 			    }
     		},
