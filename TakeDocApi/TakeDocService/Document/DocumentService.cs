@@ -41,6 +41,8 @@ namespace TakeDocService.Document
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
                 servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
+
+                transaction.Complete();
             }
         }
 
@@ -63,6 +65,8 @@ namespace TakeDocService.Document
                 document.UserUpdateData = userId;
                 document.DateUpdateData = System.DateTimeOffset.UtcNow;
                 daoDocument.Update(document);
+
+                transaction.Complete();
             }
         }
 
@@ -75,6 +79,8 @@ namespace TakeDocService.Document
                 this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
                 document.DocumentCurrentVersionId = version.VersionId;
                 daoDocument.Update(document);
+
+                transaction.Complete();
             }
         }
 
@@ -87,6 +93,8 @@ namespace TakeDocService.Document
                 this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
                 document.DocumentCurrentVersionId = version.VersionId;
                 daoDocument.Update(document);
+
+                transaction.Complete();
             }
         }
 
@@ -107,6 +115,8 @@ namespace TakeDocService.Document
                 servMeta.SetMetaData(userId, entityId, versionId, metadatas);
                 servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
                 this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+
+                transaction.Complete();
             }
         }
    }
