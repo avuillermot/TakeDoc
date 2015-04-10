@@ -48,8 +48,8 @@ namespace TakeDocModel
         public virtual DbSet<DataFieldAutoComplete> DataFieldAutoComplete { get; set; }
         public virtual DbSet<View_DocumentExtended> View_DocumentExtended { get; set; }
         public virtual DbSet<Customer> Customer { get; set; }
-        public virtual DbSet<GroupTk> GroupTk { get; set; }
         public virtual DbSet<Parameter> Parameter { get; set; }
+        public virtual DbSet<GroupTk> GroupTk { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

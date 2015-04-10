@@ -486,6 +486,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserTk_GroupTk">
+          <End Role="GroupTk" Type="Self.GroupTk" Multiplicity="1" />
+          <End Role="UserTk" Type="Self.UserTk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="UserTk">
+              <PropertyRef Name="UserTkGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Version_Document">
           <End Role="Document" Type="Self.Document" Multiplicity="1" />
           <End Role="Version" Type="Self.Version" Multiplicity="*" />
@@ -638,6 +650,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Version" EntitySet="Version" />
             <End Role="Page" EntitySet="Page" />
           </AssociationSet>
+          <AssociationSet Name="FK_UserTk_GroupTk" Association="Self.FK_UserTk_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="UserTk" EntitySet="UserTk" />
+          </AssociationSet>
           <AssociationSet Name="FK_Version_Document" Association="Self.FK_Version_Document">
             <End Role="Document" EntitySet="Document" />
             <End Role="Version" EntitySet="Version" />
@@ -731,7 +747,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
-          <EntitySet Name="GroupTk" EntityType="TakeDocModel.GroupTk" />
           <FunctionImport Name="AddUserToEntity">
             <Parameter Name="userRef" Mode="In" Type="String" />
             <Parameter Name="entityRef" Mode="In" Type="String" />
@@ -740,6 +755,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="userRef" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="Parameter" EntityType="TakeDocModel.Parameter" />
+          <EntitySet Name="GroupTk" EntityType="TakeDocModel.GroupTk" />
+          <AssociationSet Name="FK_UserTk_GroupTk" Association="TakeDocModel.FK_UserTk_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="UserTk" EntitySet="UserTk" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -954,10 +974,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserTkEmail" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="UserTkExterneId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserTkEnable" Type="Boolean" Nullable="false" />
-          <Property Name="UserTkGroupId" Type="Guid" Nullable="false" />
           <Property Name="UserTkCulture" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
           <Property Name="UserTkActivate" Type="Boolean" Nullable="false" />
           <Property Name="UserTkDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserTkGroupId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_UserTk_GroupTk" FromRole="UserTk" ToRole="GroupTk" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1227,14 +1248,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="GroupTk">
-          <Key>
-            <PropertyRef Name="GroupTkId" />
-          </Key>
-          <Property Name="GroupTkId" Type="Guid" Nullable="false" />
-          <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="Parameter">
           <Key>
             <PropertyRef Name="ParameterReference" />
@@ -1243,6 +1256,26 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="GroupTk">
+          <Key>
+            <PropertyRef Name="GroupTkId" />
+          </Key>
+          <Property Name="GroupTkId" Type="Guid" Nullable="false" />
+          <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_UserTk_GroupTk">
+          <End Type="TakeDocModel.GroupTk" Role="GroupTk" Multiplicity="1" />
+          <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="UserTk">
+              <PropertyRef Name="UserTkGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1410,10 +1443,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkGroupId" ColumnName="UserTkGroupId" />
                 <ScalarProperty Name="UserTkDateCreateData" ColumnName="UserTkDateCreateData" />
                 <ScalarProperty Name="UserTkActivate" ColumnName="UserTkActivate" />
                 <ScalarProperty Name="UserTkCulture" ColumnName="UserTkCulture" />
-                <ScalarProperty Name="UserTkGroupId" ColumnName="UserTkGroupId" />
                 <ScalarProperty Name="UserTkEnable" ColumnName="UserTkEnable" />
                 <ScalarProperty Name="UserTkExterneId" ColumnName="UserTkExterneId" />
                 <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
@@ -1583,15 +1616,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="GroupTk">
-            <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
-              <MappingFragment StoreEntitySet="GroupTk">
-                <ScalarProperty Name="GroupTkLabel" ColumnName="GroupTkLabel" />
-                <ScalarProperty Name="GroupTkReference" ColumnName="GroupTkReference" />
-                <ScalarProperty Name="GroupTkId" ColumnName="GroupTkId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
           <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
           <EntitySetMapping Name="Parameter">
@@ -1600,6 +1624,15 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GroupTk">
+            <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
+              <MappingFragment StoreEntitySet="GroupTk">
+                <ScalarProperty Name="GroupTkLabel" ColumnName="GroupTkLabel" />
+                <ScalarProperty Name="GroupTkReference" ColumnName="GroupTkReference" />
+                <ScalarProperty Name="GroupTkId" ColumnName="GroupTkId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

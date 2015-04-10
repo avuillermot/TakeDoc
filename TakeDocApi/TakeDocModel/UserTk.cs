@@ -24,9 +24,11 @@ namespace TakeDocModel
         public string UserTkEmail { get; set; }
         public string UserTkExterneId { get; set; }
         public bool UserTkEnable { get; set; }
-        public System.Guid UserTkGroupId { get; set; }
         public string UserTkCulture { get; set; }
         public bool UserTkActivate { get; set; }
         public System.DateTimeOffset UserTkDateCreateData { get; set; }
+        public System.Guid UserTkGroupId { get; set; }
+    
+        public virtual GroupTk GroupTk { get; set; }
     }
 }

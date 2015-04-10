@@ -10,13 +10,6 @@ backOffice.run(function ($rootScope, $location) {
         localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
     };
 
-    $rootScope.getGroup = function () {
-        return JSON.parse(localStorage.getItem("TkGroups"));
-    };
-    $rootScope.setGroup = function () {
-        localStorage.setItem("TkGroups", JSON.stringify(arguments[0]));
-    };
-
    $rootScope.showLoader = function () {
         $("#span-loader-message").html(arguments[0]);
         $(".btn-loader-container").css("display", "block");
@@ -90,7 +83,7 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
         }
     });
     $stateProvider.state('account', {
-        url: "/account",
+        url: "/account/:user",
         views: {
             "viewMenu": {
                 templateUrl: "features/menu/menu.html",
@@ -110,8 +103,8 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'menuController'
             },
             "viewGrid": {
-                templateUrl: "features/account/passwordUpdate.html",
-                controller: 'accountController'
+                templateUrl: "features/passwordUpdate/passwordUpdate.html",
+                controller: 'passwordController'
             }
         }
     });

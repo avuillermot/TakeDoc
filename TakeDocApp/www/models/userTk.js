@@ -1,4 +1,4 @@
-﻿function userTk(user) {
+﻿function userTk(user, isLog) {
     if (user != null) {
         this.FirstName = user.UserTkFirstName;
         this.LastName = user.UserTkLastName;
@@ -9,6 +9,11 @@
         this.CurrentEntity = null;
         this.CurrentTypeDocument = null;
         this.Culture = user.UserTkCulture;
+        this.GroupTkId = user.GroupTk.GroupTkId;
+        this.GroupTkLabel = user.GroupTk.GroupTkLabel;
+        this.GroupTkReference = user.GroupTk.GroupTkReference;
+        this.ExternalAccount = user.UserTkExternalAccount;
+
         that = this;
         $.each(user.Entitys, function(index, value) {
             if (value.EtatDeleteData == false){
@@ -16,7 +21,7 @@
                 that.Entitys.push(myEntity);
             }
         });
-        this.IsLog = true;
+        this.IsLog = isLog;
         moment.locale('fr');
     }
 };
@@ -47,3 +52,14 @@ userTkService.dashboard = function (userId, success, error) {
         error: error
     });
 };
+
+userTkService.update = function (user, success, error) {
+
+    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>";
+    $.ajax({
+        type: 'PATCH',
+        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture),
+        success: success,
+        error: error
+    });
+}

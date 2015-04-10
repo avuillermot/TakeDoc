@@ -4,7 +4,7 @@ backOffice.controller('menuController', ['$scope', '$rootScope', function ($scop
     $scope.$on("$viewContentLoaded", function (scopes) {
         if ($rootScope.getUser() != null) {
             $scope.UserFullName = $rootScope.getUser().FirstName + " " + $rootScope.getUser().LastName;
-            $scope.GroupReference = $rootScope.getGroup().reference;
+            $scope.GroupReference = $rootScope.getUser().GroupTkReference;
         }
     });
 }]);

@@ -13,16 +13,19 @@ namespace TakeDocService.Security
     {
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUserTk = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk> daoGroupTk = new TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk>();
 
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
 
         public ICollection<TakeDocModel.UserTk> GetBy(Expression<Func<TakeDocModel.UserTk, bool>> where, params Expression<Func<TakeDocModel.UserTk, object>>[] properties)
         {
-            return daoUserTk.GetBy(where, properties);
+            ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(where, properties);
+            foreach (TakeDocModel.UserTk user in users) user.Entitys = daoViewUserEntity.GetBy(x => x.UserTkId == user.UserTkId);
+            return users;
         }
         public TakeDocModel.UserTk GetByLogin(string login)
         {
-            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false);
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false, x => x.GroupTk);
             if (users.Count() > 1) base.CreateError(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
             else if (users.Count() == 0) base.CreateError(string.Format("Utilisateur {0} inconu.", login));
             TakeDocModel.UserTk user = users.First();
@@ -181,6 +184,26 @@ namespace TakeDocService.Security
             {
                 this.Check(user, false);
                 user = this.Format(user);
+                daoUserTk.Update(user);
+
+                tr.Complete();
+            }
+        }
+
+        public void ChangePassword(Guid userId, string olderPaswword, string newPassword)
+        {
+            using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
+            {
+                ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkId == userId);
+                if (users.Count != 1) base.CreateError("L'utilisateur est iconnu.");
+                
+                TakeDocModel.UserTk user = users.First();
+                // check older password
+                if (user.UserTkPassword != servCrypto.Encrypt(olderPaswword)) this.CreateError("Mot de passe erronné.");
+                user.UserTkPassword = servCrypto.Encrypt(newPassword);
+                this.Check(user, false);
+
+                // update password
                 daoUserTk.Update(user);
 
                 tr.Complete();

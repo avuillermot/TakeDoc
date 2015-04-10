@@ -1,18 +1,21 @@
 ﻿'use strict';
-backOffice.controller('accountController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParams', function ($scope, $rootScope, $stateParams) {
 
-    $scope.user = $rootScope.getUser();
-    $scope.group = $rootScope.getGroup();
-    
-    // if external account, all input are readonly
-    if ($scope.user.ExternalAccount == true) {
-        $("#divAccountInfo div input").attr("readonly", "");
+    var userToDisplay = $stateParams.user;
+
+    var displayUser = function () {
+        // if external account, all input are readonly
+        if ($scope.user.ExternalAccount == true) {
+            $("#divAccountInfo div input").attr("readonly", "");
+            $("#toolbarAccountInfo").hide();
+        }
+        $scope.$apply();
     }
 
     // return false if an error
     var setStateInputField = function (divId) {
         var elems = $("#" + divId + " input[mandatory='true']");
-        $("#"+divId+" div.has-error").removeClass("has-error");
+        $("#" + divId + " div.has-error").removeClass("has-error");
 
         var i = 0;
         $.each(elems, function (index, value) {
@@ -23,12 +26,11 @@ backOffice.controller('accountController', ['$scope', '$rootScope', function ($s
         });
 
         return !(i > 0);
-    };
+    }
 
     // reset data to origine
     $scope.doReset = function () {
         $scope.user = $rootScope.getUser();
-        $scope.group = $rootScope.getGroup();
     };
 
     // save user
@@ -71,12 +73,22 @@ backOffice.controller('accountController', ['$scope', '$rootScope', function ($s
             userTkService.update(user, success, error);
         }
     };
+       
+    $scope.user = null;
+    if (userToDisplay == "current") {
+        $scope.user = $rootScope.getUser();
+        displayUser();
+    }
+    else {
+        var success = function () {
+            var current = new userTk(arguments[0], false);
+            $scope.user = current;
+            displayUser();
+        };
+        var error = function () {
+            $rootScope.showModal("Erreur", "Utilisateur indisponible ou inconnu.")
+        };
+        userTkService.get(userToDisplay, success, error);
 
-    $scope.doUpdatePassword = function () {
-        var ok = setStateInputField("divPasswordUpdate");
-        var older = $("#inputOlderPassword").val();
-        var new1 = $("#inputNewPassword1").val();
-        var new2 = $("#inputNewPassword2").val();
-        if (new1 != new2) $rootScope.showModal("Erreur","Votre saisie de mot de passe n'est pas identique.");
-    };
+    }
 }]);

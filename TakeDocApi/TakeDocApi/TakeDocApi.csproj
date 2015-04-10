@@ -201,9 +201,11 @@
     <Content Include="Backoffice\css\backoffice.css" />
     <Content Include="Backoffice\features\account\accountInfo.html" />
     <Content Include="Backoffice\features\account\account.js" />
-    <Content Include="Backoffice\features\account\passwordUpdate.html" />
+    <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.js" />
+    <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.js" />
+    <Content Include="Backoffice\features\searchUser\searchUser.html" />
     <Content Include="Backoffice\features\welcome\welcome.html" />
     <Content Include="Backoffice\features\login\login.html" />
     <Content Include="Backoffice\features\login\login.js" />

@@ -19,5 +19,6 @@ namespace TakeDocService.Security.Interface
         TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
         bool ActivateUser(string userRef);
         void Update(TakeDocModel.UserTk user);
+        void ChangePassword(Guid userId, string olderPaswword, string newPassword);
     }
 }

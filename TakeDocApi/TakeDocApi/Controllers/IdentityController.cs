@@ -30,7 +30,46 @@ namespace TakeDocApi.Controllers
                 ClaimsPrincipal cp = servUser.GetClaimsPrincipal(user);
 
                 SetPrincipal(cp);
+
                 return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("user/{userId}")]
+        [AllowAnonymous]
+        public HttpResponseMessage GetUser(Guid userId)
+        {
+            IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
+            try
+            {
+                ICollection<TakeDocModel.UserTk> users = servUser.GetBy(x => x.UserTkId == userId);
+                TakeDocModel.UserTk user = users.First();
+
+                return Request.CreateResponse(HttpStatusCode.OK, user);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("ChangePassword")]
+        [AllowAnonymous]
+        public HttpResponseMessage ChangePassword([FromBody]string value)
+        {
+            IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
+            Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+            try
+            {
+                servUser.ChangePassword(new Guid(data.Value<string>("userId")),data.Value<string>("olderPassword"),data.Value<string>("newPassword"));
+
+                return Request.CreateResponse(HttpStatusCode.OK, true);
             }
             catch (Exception ex)
             {

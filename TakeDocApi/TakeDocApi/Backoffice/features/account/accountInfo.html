@@ -1,5 +1,5 @@
 ﻿<div>
-    <div class="btn-toolbar" role="toolbar">
+    <div id="toolbarAccountInfo" class="btn-toolbar" role="toolbar">
         <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
     </div>
@@ -7,7 +7,7 @@
     <form class="tk-form" id="divAccountInfo">
         <div class="form-group" id="divinputFirstName">
             <label for="inputFirtsName" class="form-tk-label">Prénom</label>
-            <input class="form-control form-tk-item" id="inputFirstName" mandatory="true" ng-model="user.FirstName">
+            <input type="text" class="form-control form-tk-item" id="inputFirstName" mandatory="true" ng-model="user.FirstName">
         </div>
         <div class="form-group" id="divinputLastName">
             <label for="inputLastName" class="form-tk-label">Nom</label>
@@ -27,7 +27,7 @@
         </div>
         <div class="form-group" id="divinputGroupe">
             <label for="inputGroupe" class="form-tk-label">Groupe</label>
-            <input type="text" class="form-control form-tk-item" id="inputGroupe" mandatory="true" ng-model="group.label" readonly>
+            <input type="text" class="form-control form-tk-item" id="inputGroupe" mandatory="true" ng-model="user.GroupTkLabel" readonly>
         </div>
         <div class="form-group" id="divinputManager">
             <label for="inputManager" class="form-tk-label">Manager</label>
@@ -35,7 +35,7 @@
         </div>
         <div class="form-group" >
             <label>
-                <input type="checkbox" ng-checked="{{user.ExternalAccount}}" onclick="return false;"> Utilisateur externe
+                <input type="checkbox" ng-checked="user.ExternalAccount" onclick="return false;">&#160;Utilisateur externe
             </label>
         </div>
     </form>
