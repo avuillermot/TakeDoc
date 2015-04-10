@@ -30,9 +30,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
         }
         
         if ($rootScope.isApp == false) {
-            imageToBase64("img/page1.jpeg", 0);
-            imageToBase64("img/page2.jpeg", 1);
-            imageToBase64("img/r1.jpeg", 2);
+            imageToBase64("img/page1.png", 0);
+            imageToBase64("img/page2.png", 1);
+            imageToBase64("img/r1.png", 2);
         }
 
         $scope.Pages = $rootScope.myTakeDoc.Pages.models;

@@ -103,15 +103,25 @@ namespace TakeDocService.Security
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        private bool Check(TakeDocModel.UserTk user)
+        private bool Check(TakeDocModel.UserTk user, bool createMode)
         {
+            bool emailExist = false;
+
+            /*
+             * createMode is true : verify if a user with this email exist,
+             * createMode is false : verify if a user, not the current, with this email exist
+            */
+            if (createMode) emailExist = (this.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
+            else emailExist = (this.GetBy(x => x.UserTkEmail == user.UserTkEmail && x.UserTkId != user.UserTkId).Count() > 0);
+
+            bool validPassword = servCrypto.Decrypt(user.UserTkPassword).Length >= 5;
+
+            if (emailExist == true) base.CreateError("Cette adresse mail est déjà utilisée.");
+            if (validPassword == false) base.CreateError("Votre mot de passe doit avoir au moins 5 caractères.");
+
             bool isEmail = Regex.IsMatch(user.UserTkEmail, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
-            if (isEmail == false)
-            {
-                string msg = string.Format("Création d'un utilisateur; cette adresse mail n'est pas valide {0}", user.UserTkEmail);
-                this.Logger.Error(msg);
-                throw new Exception(msg);
-            }
+            if (isEmail == false) base.CreateError(string.Format("Création d'un utilisateur : cette adresse mail n'est pas valide {0}", user.UserTkEmail));
+
             return true;
         }
 
@@ -130,19 +140,11 @@ namespace TakeDocService.Security
 
         private TakeDocModel.UserTk Create(TakeDocModel.UserTk user)
         {
-            bool emailExist = (this.GetBy(x => x.UserTkEmail == user.UserTkEmail).Count() > 0);
-            bool validPassword = user.UserTkPassword.Length >= 5;
-
-            if (emailExist == true) base.CreateError("Cette adresse mail est déjà utilisée.");
-            if (validPassword == false) base.CreateError("Votre mot de passe doit avoir au moins 5 caractères.");
-
-
             // encrypt password
             user.UserTkPassword = servCrypto.Encrypt(user.UserTkPassword);
             
-            bool isValid = this.Check(user);
+            bool isValid = this.Check(user, true);
             user = this.Format(user);
-
             user.UserTkEnable = false;
 
             try
@@ -165,7 +167,7 @@ namespace TakeDocService.Security
             if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
 
             TakeDocModel.UserTk user = users.First();
-            if (user.UserTkActivate == true) base.CreateError(string.Format("user {0} already activate",user.UserTkLogin));
+            if (user.UserTkActivate == true) base.CreateError(string.Format("Utilisateur {0} déjà activer",user.UserTkLogin));
 
             user.UserTkActivate = true;
             daoUserTk.Update(user);
@@ -177,7 +179,7 @@ namespace TakeDocService.Security
         {
             using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
             {
-                this.Check(user);
+                this.Check(user, false);
                 user = this.Format(user);
                 daoUserTk.Update(user);
 

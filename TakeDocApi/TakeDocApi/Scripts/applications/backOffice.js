@@ -35,7 +35,14 @@ backOffice.run(function ($rootScope, $location) {
 
     $rootScope.$on("$viewContentLoaded", function (scopes) {
         $rootScope.hideLoader();
-        if ($rootScope.getUser() == null) alert("user null");
+
+        if ($location.$$path != "/login") {
+            if ($rootScope.getUser() == null) $location.path("#/login");
+        }
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
     });
 });
 
@@ -95,6 +102,19 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     });
+    $stateProvider.state('updatePassword', {
+        url: "/updatePassword",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/account/passwordUpdate.html",
+                controller: 'accountController'
+            }
+        }
+    });
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });
@@ -103,7 +123,7 @@ backOffice.directive('tdLogout', function ($rootScope, $location) {
     return function (scope, element, attrs) {
         element.bind('click', function () {
             scope.$apply(function () {
-                $rootScope.User = null;
+                $rootScope.setUser(null);
                 $location.path("login");
             });
         });

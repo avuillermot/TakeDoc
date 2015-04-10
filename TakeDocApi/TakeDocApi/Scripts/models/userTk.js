@@ -8,6 +8,8 @@
         this.Entitys = new Array();
         this.Culture = user.UserTkCulture;
         this.GroupUserId = user.UserTkGroupId;
+        this.ExternalAccount = user.UserTkExternalAccount;
+
         that = this;
         $.each(user.Entitys, function(index, value) {
             if (value.EtatDeleteData == false){

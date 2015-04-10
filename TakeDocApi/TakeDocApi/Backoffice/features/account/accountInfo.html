@@ -1,9 +1,10 @@
 ﻿<div>
     <div class="btn-toolbar" role="toolbar">
-        <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doCheck();"></button>
+        <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
     </div>
 
-    <form id="divAccountInfo">
+    <form class="tk-form" id="divAccountInfo">
         <div class="form-group" id="divinputFirstName">
             <label for="inputFirtsName" class="form-tk-label">Prénom</label>
             <input class="form-control form-tk-item" id="inputFirstName" mandatory="true" ng-model="user.FirstName">
@@ -31,6 +32,11 @@
         <div class="form-group" id="divinputManager">
             <label for="inputManager" class="form-tk-label">Manager</label>
             <input type="text" class="form-control form-tk-item" id="inputManager" mandatory="false" readonly>
+        </div>
+        <div class="form-group" >
+            <label>
+                <input type="checkbox" ng-checked="{{user.ExternalAccount}}" onclick="return false;"> Utilisateur externe
+            </label>
         </div>
     </form>
 </div>

@@ -2,7 +2,9 @@
 backOffice.controller('menuController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
     $scope.$on("$viewContentLoaded", function (scopes) {
-        $scope.UserFullName = $rootScope.getUser().FirstName + " " + $rootScope.getUser().LastName;
-        $scope.GroupReference = $rootScope.getGroup().reference;
+        if ($rootScope.getUser() != null) {
+            $scope.UserFullName = $rootScope.getUser().FirstName + " " + $rootScope.getUser().LastName;
+            $scope.GroupReference = $rootScope.getGroup().reference;
+        }
     });
 }]);
