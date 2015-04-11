@@ -1,4 +1,4 @@
-﻿function userTk(user, isLog) {
+﻿function userTk(user) {
     if (user != null) {
         this.FirstName = user.UserTkFirstName;
         this.LastName = user.UserTkLastName;
@@ -21,7 +21,6 @@
                 that.Entitys.push(myEntity);
             }
         });
-        this.IsLog = isLog;
         moment.locale('fr');
     }
 };

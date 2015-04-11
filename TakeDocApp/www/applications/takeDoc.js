@@ -9,11 +9,10 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
 
         if ($location.$$path != "/login") {
             if ($rootScope.User == null) $location.path("#/login");
-            else if ($rootScope.User.IsLog == false) $location.path("#/login");
         }
     });
 
-    $rootScope.isApp = false;
+    $rootScope.isApp = true;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
     $rootScope.Dashboards = new Dashboards();

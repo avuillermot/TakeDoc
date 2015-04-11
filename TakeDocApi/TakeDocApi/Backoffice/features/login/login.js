@@ -21,7 +21,7 @@ backOffice.controller('loginController', ['$scope', '$rootScope', '$location', f
             $rootScope.showModal("Erreur", data.Message);
         };
         var success = function () {
-            $rootScope.setUser(new userTk(arguments[0], false));
+            $rootScope.setUser(new userTk(arguments[0]));
             $location.path("/home");
             $scope.$apply();
         };

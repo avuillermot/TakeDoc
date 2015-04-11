@@ -80,7 +80,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     }
     else {
         var success = function () {
-            var current = new userTk(arguments[0], false);
+            var current = new userTk(arguments[0]);
             $scope.user = current;
             displayUser();
         };
