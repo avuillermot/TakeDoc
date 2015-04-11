@@ -94,8 +94,10 @@
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Document\PageStoreLocator.cs" />
     <Compile Include="Print\Interface\IReportService.cs" />
+    <Compile Include="Security\View_UserEntityService.cs" />
     <Compile Include="Security\GroupeTkService.cs" />
     <Compile Include="Security\CryptoService.cs" />
+    <Compile Include="Security\Interface\IView_UserEntityService.cs" />
     <Compile Include="Security\Interface\ICryptoService.cs" />
     <Compile Include="Security\Interface\IGroupeTkService.cs" />
     <Compile Include="Stats\Interface\IDashboardService.cs" />

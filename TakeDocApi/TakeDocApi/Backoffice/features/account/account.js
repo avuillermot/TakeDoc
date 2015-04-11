@@ -77,7 +77,6 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     $scope.user = null;
     if (userToDisplay == "current") {
         $scope.user = $rootScope.getUser();
-        displayUser();
     }
     else {
         var success = function () {

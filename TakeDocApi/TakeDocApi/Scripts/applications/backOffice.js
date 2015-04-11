@@ -92,6 +92,10 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
             "viewGrid": {
                 templateUrl: "features/account/accountInfo.html",
                 controller: 'accountController'
+            },
+            "viewDetail": {
+                templateUrl: "features/account/entity.html",
+                controller: 'entityController'
             }
         }
     });

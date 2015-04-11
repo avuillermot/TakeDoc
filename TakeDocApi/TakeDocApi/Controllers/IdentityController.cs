@@ -19,7 +19,7 @@ namespace TakeDocApi.Controllers
         [HttpPost]
         [Route("logon")]
         [AllowAnonymous]
-        public HttpResponseMessage Post([FromBody]string value)
+        public HttpResponseMessage Logon([FromBody]string value)
         {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
             Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
@@ -61,7 +61,7 @@ namespace TakeDocApi.Controllers
         [HttpPatch]
         [Route("ChangePassword")]
         [AllowAnonymous]
-        public HttpResponseMessage ChangePassword([FromBody]string value)
+        public HttpResponseMessage ChangeUserPassword([FromBody]string value)
         {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
             Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
@@ -79,7 +79,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("all")]
-        public HttpResponseMessage GetAll()
+        public HttpResponseMessage GetAllUser()
         {
             TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
             try
@@ -104,7 +104,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("activate/{userReference}")]
-        public HttpResponseMessage Activate(string userReference)
+        public HttpResponseMessage ActivateUser(string userReference)
         {
             TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
             try
@@ -165,7 +165,22 @@ namespace TakeDocApi.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
+        }
 
+        [HttpGet]
+        [Route("user/entity/{userId}")]
+        public HttpResponseMessage GetEntityUser(Guid userId)
+        {
+            try
+            {
+                TakeDocService.Security.Interface.IView_UserEntityService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IView_UserEntityService>();
+                ICollection<TakeDocModel.View_UserEntity> back = servUser.GetByUser(userId);
+                return Request.CreateResponse(HttpStatusCode.OK, back);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
 
