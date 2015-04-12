@@ -40,24 +40,7 @@ backOffice.run(function ($rootScope, $location) {
 });
 
 backOffice.config(function ($stateProvider, $urlRouterProvider) {
-    $stateProvider.state('test', {
-        url: "/test",
-        views: {
-            "viewMenu": {
-                templateUrl: "features/menu/menu.html",
-                controller: 'menuController'
-            },
-            "viewGrid": {
-                templateUrl: "features/login/login.html",
-                controller: 'loginController'
-            },
-            "viewDetail": {
-                templateUrl: "features/login/login.html",
-                controller: 'loginController'
-            }
-        }
-    });
-    $stateProvider.state('home', {
+   $stateProvider.state('home', {
         url: "/home",
         views: {
             "viewMenu": {
@@ -112,6 +95,24 @@ backOffice.config(function ($stateProvider, $urlRouterProvider) {
             }
         }
     });
+    $stateProvider.state('searchUsers', {
+        url: "/searchUsers",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/users/searchUser.html",
+                controller: 'searchUserController'
+            },
+            "viewDetail": {
+                templateUrl: "features/users/resultUser.html",
+                controller: 'resultUserController'
+            }
+        }
+    });
+
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });
@@ -125,6 +126,19 @@ backOffice.directive('tdLogout', function ($rootScope, $location) {
             });
         });
     };
+});
+
+backOffice.factory('usersResult', function () {
+    var data = { users: [], calls: 0 };
+
+    return {
+        set: function () {
+            debugger;
+            data.users = arguments[0];
+            data.calls = data.calls + 1;
+        },
+        data: data
+    }
 });
 
 

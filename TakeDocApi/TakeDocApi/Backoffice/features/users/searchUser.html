@@ -1,0 +1,36 @@
+﻿<div>
+    <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
+        <button type="button" class="btn btn-default glyphicon glyphicon glyphicon-search" ng-click="doSearch();" data-toggle="tooltip" title="Rechercher" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+    </div>
+
+    <form class="tk-form" id="divAccountInfo">
+        <div class="form-group" id="divinputFirstName">
+            <label for="inputFirstName" class="form-tk-label">Prénom</label>
+            <input type="text" class="form-control form-tk-item" id="inputFirstName" mandatory="true" ng-model="search.firstName">
+        </div>
+        <div class="form-group" id="divinputLastName">
+            <label for="inputLastName" class="form-tk-label">Nom</label>
+            <input type="text" class="form-control form-tk-item" id="inputLastName" mandatory="true" ng-model="search.lastName">
+        </div>
+        <div class="form-group" id="divinputEmail">
+            <label for="inputEmail" class="form-tk-label">Email</label>
+            <input type="email" class="form-control form-tk-item" id="inputEmail" mandatory="true" ng-model="search.email">
+        </div>
+        <div class="form-group">
+            <label for="dropdownSearchUserTitle" class="form-tk-label">Entité</label>
+            <div class="dropdown" style="display:inline-block">
+                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSearchUserTitle" data-toggle="dropdown" aria-expanded="true">
+                    {{selectedEntity.Label}}
+                    <span class="caret"></span>
+                </button>
+                <ul id="dropdownSearchUser" class="dropdown-menu" role="menu" aria-labelledby="dropdownSearchUserTitle">
+                    <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" ng-repeat="entity in entitys | filter:filterType | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                </ul>
+            </div>
+        </div>
+</form>
+</div>
+
+
+

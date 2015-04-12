@@ -13,12 +13,14 @@
         this.ExternalAccount = user.UserTkExternalAccount;
 
         that = this;
-        $.each(user.Entitys, function(index, value) {
-            if (value.EtatDeleteData == false){
-                var myEntity =  new entity(value);
-                that.Entitys.push(myEntity);
-            }
-        });
+        if (user.Entitys != null && user.Entitys.length > 0) {
+            $.each(user.Entitys, function (index, value) {
+                if (value.EtatDeleteData == false) {
+                    var myEntity = new entity(value);
+                    that.Entitys.push(myEntity);
+                }
+            });
+        }
     }
 };
 
@@ -80,6 +82,24 @@ userTkService.changePassword = function (param, success, error) {
     var url = environnement.UrlBase + "identity/changepassword";
     $.ajax({
         type: 'PATCH',
+        url: url,
+        data: { '': JSON.stringify(data) },
+        success: success,
+        error: error
+    });
+}
+
+userTkService.search = function (param, success, error) {
+    var data = null;
+    if (param != null) data = {
+        firstName: param.firstName,
+        lastName: param.lastName,
+        email: param.email
+    };
+
+    var url = environnement.UrlBase + "identity/search";
+    $.ajax({
+        type: 'GET',
         url: url,
         data: { '': JSON.stringify(data) },
         success: success,

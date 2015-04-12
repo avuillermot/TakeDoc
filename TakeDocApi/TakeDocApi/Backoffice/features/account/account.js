@@ -7,7 +7,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         // if external account, all input are readonly
         if ($scope.user.ExternalAccount == true) {
             $("#divAccountInfo div input").attr("readonly", "");
-            $("#toolbarAccountInfo").hide();
+            $("#toolbarTakeDoc").hide();
         }
         $scope.$apply();
     }

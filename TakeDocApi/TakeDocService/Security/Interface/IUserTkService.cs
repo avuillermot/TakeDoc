@@ -20,5 +20,6 @@ namespace TakeDocService.Security.Interface
         bool ActivateUser(string userRef);
         void Update(TakeDocModel.UserTk user);
         void ChangePassword(Guid userId, string olderPaswword, string newPassword);
+        ICollection<TakeDocModel.UserTk> Search(TakeDocModel.UserTk search, TakeDocModel.Entity entity);
     }
 }

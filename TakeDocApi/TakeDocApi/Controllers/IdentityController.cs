@@ -183,6 +183,40 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("search")]
+        [AllowAnonymous]
+        public HttpResponseMessage Search([FromBody]string value)
+        {
+            try
+            {
+                TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+                 Newtonsoft.Json.Linq.JObject data = null;
+                 TakeDocModel.UserTk search = null;
+                 if (value != null)
+                 {
+                     data = Newtonsoft.Json.Linq.JObject.Parse(value);
+
+                     string firstName = data.Value<string>("firstName");
+                     string lastName = data.Value<string>("lastName");
+                     string email = data.Value<string>("email");
+
+                     search = new TakeDocModel.UserTk()
+                     {
+                         UserTkFirstName = firstName,
+                         UserTkLastName = lastName,
+                         UserTkEmail = email
+                     };
+                 }
+                ICollection<TakeDocModel.UserTk> users = servUser.Search(search, null);
+
+                return Request.CreateResponse(HttpStatusCode.OK, users);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
     }
 }

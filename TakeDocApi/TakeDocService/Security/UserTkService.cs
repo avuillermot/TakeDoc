@@ -210,5 +210,21 @@ namespace TakeDocService.Security
             }
         }
 
+        public ICollection<TakeDocModel.UserTk> Search(TakeDocModel.UserTk search, TakeDocModel.Entity entity)
+        {
+            ICollection<TakeDocModel.UserTk> users = new List<TakeDocModel.UserTk>();
+            if (search != null) {
+                users = daoUserTk.GetBy(x => x.UserTkFirstName.StartsWith(search.UserTkFirstName)
+                && x.UserTkLastName.StartsWith(search.UserTkLastName)
+                && x.UserTkEmail.StartsWith(search.UserTkEmail));
+            }
+            else
+            {
+                users = daoUserTk.GetAll();
+            }
+
+            return users;
+        }
+
     }
 }

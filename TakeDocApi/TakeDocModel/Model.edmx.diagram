@@ -22,7 +22,7 @@
         <EntityTypeShape EntityType="TakeDocModel.MetaData" Width="1.5" PointX="16.375" PointY="6" />
         <AssociationConnector Association="TakeDocModel.FK_MetaData_DataField" />
         <EntityTypeShape EntityType="TakeDocModel.UserTk" Width="1.5" PointX="0.75" PointY="9.75" />
-        <EntityTypeShape EntityType="TakeDocModel.View_UserEntity" Width="1.5" PointX="2.75" PointY="9.75" />
+        <EntityTypeShape EntityType="TakeDocModel.View_UserEntity" Width="1.5" PointX="3.375" PointY="9.75" />
         <EntityTypeShape EntityType="TakeDocModel.Entity" Width="1.5" PointX="8.375" PointY="9.75" />
         <AssociationConnector Association="TakeDocModel.FK_MetaData_Version" />
         <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="21.25" PointY="4.125" />
