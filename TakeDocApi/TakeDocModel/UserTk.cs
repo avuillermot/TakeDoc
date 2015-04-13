@@ -14,6 +14,11 @@ namespace TakeDocModel
     
     public partial class UserTk
     {
+        public UserTk()
+        {
+            this.View_UserEntity = new HashSet<View_UserEntity>();
+        }
+    
         public System.Guid UserTkId { get; set; }
         public string UserTkReference { get; set; }
         public string UserTkLastName { get; set; }
@@ -30,5 +35,6 @@ namespace TakeDocModel
         public System.Guid UserTkGroupId { get; set; }
     
         public virtual GroupTk GroupTk { get; set; }
+        public virtual ICollection<View_UserEntity> View_UserEntity { get; set; }
     }
 }

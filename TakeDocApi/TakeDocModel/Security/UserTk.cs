@@ -8,6 +8,6 @@ namespace TakeDocModel
 {
     public partial class UserTk
     {
-        public ICollection<View_UserEntity> Entitys {get; set;}
+        /*public ICollection<View_UserEntity> Entitys {get; set;}*/
     }
 }

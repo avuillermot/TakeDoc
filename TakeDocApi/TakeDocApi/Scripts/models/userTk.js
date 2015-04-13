@@ -99,7 +99,7 @@ userTkService.search = function (param, success, error) {
 
     var url = environnement.UrlBase + "identity/search";
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
         data: { '': JSON.stringify(data) },
         success: success,

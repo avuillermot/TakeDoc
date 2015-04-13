@@ -42,6 +42,7 @@
         <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="7.375" PointY="12.75" />
         <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.75" />
         <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
+        <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
