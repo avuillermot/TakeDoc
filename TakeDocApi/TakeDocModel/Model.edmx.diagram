@@ -40,9 +40,9 @@
         <EntityTypeShape EntityType="TakeDocModel.Customer" Width="1.5" PointX="10.625" PointY="14.75" />
         <AssociationConnector Association="TakeDocModel.FK_Client_Entity" />
         <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="7.375" PointY="12.75" />
-        <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.75" />
-        <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
         <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />
+        <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.875" />
+        <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

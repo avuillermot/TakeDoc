@@ -9,20 +9,17 @@
         this.CurrentEntity = null;
         this.CurrentTypeDocument = null;
         this.Culture = user.UserTkCulture;
-        this.GroupTkId = user.GroupTk.GroupTkId;
-        this.GroupTkLabel = user.GroupTk.GroupTkLabel;
-        this.GroupTkReference = user.GroupTk.GroupTkReference;
+        this.GroupUserId = user.UserTkGroupId;
         this.ExternalAccount = user.UserTkExternalAccount;
 
         that = this;
-        if (user.View_UserEntity != null && user.View_UserEntity.length > 0) {
-            $.each(user.View_UserEntity, function (index, value) {
-                if (value.EtatDeleteData == false) {
-                    var myEntity = new entity(value);
-                    that.Entitys.push(myEntity);
-                }
-            });
-        }
+        $.each(user.Entitys, function(index, value) {
+            if (value.EtatDeleteData == false){
+                var myEntity =  new entity(value);
+                that.Entitys.push(myEntity);
+            }
+        });
+        this.IsLog = true;
         moment.locale('fr');
     }
 };
@@ -53,14 +50,3 @@ userTkService.dashboard = function (userId, success, error) {
         error: error
     });
 };
-
-userTkService.update = function (user, success, error) {
-
-    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>";
-    $.ajax({
-        type: 'PATCH',
-        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture),
-        success: success,
-        error: error
-    });
-}

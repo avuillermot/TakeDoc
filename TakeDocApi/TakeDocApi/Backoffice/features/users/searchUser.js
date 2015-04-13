@@ -2,19 +2,33 @@
 backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersResult', function ($scope, $rootScope, usersResult) {
     $scope.search = null;
 
+    $scope.doReset = function () {
+        $scope.search = null;
+        usersResult.data.users = new Array();
+        usersResult.data.calls = usersResult.data.calls + 1;
+
+        $.each($scope.entitys, function (index, value) {
+            if (value.Reference == "ALL") $scope.selectedEntity = value;
+        });
+    }
+
     $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
     };
         
     $scope.doSearch = function () {
         var success = function () {
-            usersResult.data.users = arguments[0];
+            usersResult.data.users = new Array();
+            $.each(arguments[0].value, function (index, value) {
+                var user = new userTk(value);
+                usersResult.data.users.push(user);
+            });
+
             usersResult.data.calls = usersResult.data.calls + 1;
             $scope.$apply();
         };
         var error = function () {
-            var data = arguments[0].responseJSON;
-            $rootScope.showModal("Erreur", data.Message);
+            $rootScope.showError(arguments[0]);
         };
         userTkService.search($scope.search, success, error)
     }

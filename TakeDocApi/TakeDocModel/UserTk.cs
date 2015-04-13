@@ -34,7 +34,7 @@ namespace TakeDocModel
         public System.DateTimeOffset UserTkDateCreateData { get; set; }
         public System.Guid UserTkGroupId { get; set; }
     
-        public virtual GroupTk GroupTk { get; set; }
         public virtual ICollection<View_UserEntity> View_UserEntity { get; set; }
+        public virtual GroupTk GroupTk { get; set; }
     }
 }

@@ -8,8 +8,9 @@ backOffice.controller('resultUserController', ['$scope', '$rootScope', 'usersRes
    $scope.gridResultSearchUser = {
         enableSorting: true,
         columnDefs: [
-          { name: 'Prenom', field: 'UserTkFirstName' },
-          { name: 'Nom', field: 'UserTkLastName' }
+          { name: 'Prenom', field: 'FirstName' },
+          { name: 'Nom', field: 'LastName' },
+          { name: 'Email', field: 'Email' }
         ],
         data: usersResult.data.users
     };

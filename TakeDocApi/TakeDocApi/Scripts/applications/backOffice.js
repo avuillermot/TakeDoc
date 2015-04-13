@@ -26,6 +26,11 @@ backOffice.run(function ($rootScope, $location) {
     $rootScope.hideModal = function () {
     };
 
+    $rootScope.showError = function (data) {
+        if (data.responseJSON == null || data.responseJSON.Message == null) $rootScope.showModal("Erreur", "Une erreur est survenue.")
+        else $rootScope.showModal("Erreur", data.Message);
+    }
+
     $rootScope.$on("$viewContentLoaded", function (scopes) {
         $rootScope.hideLoader();
 
@@ -133,7 +138,6 @@ backOffice.factory('usersResult', function () {
 
     return {
         set: function () {
-            debugger;
             data.users = arguments[0];
             data.calls = data.calls + 1;
         },

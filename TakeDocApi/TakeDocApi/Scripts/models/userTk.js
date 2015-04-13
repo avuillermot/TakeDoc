@@ -7,14 +7,16 @@
         this.Id = user.UserTkId;
         this.Entitys = new Array();
         this.Culture = user.UserTkCulture;
-        this.GroupTkId = user.GroupTk.GroupTkId;
-        this.GroupTkLabel = user.GroupTk.GroupTkLabel;
-        this.GroupTkReference = user.GroupTk.GroupTkReference;
+        if (user.GroupTk != null) {
+            this.GroupTkId = user.GroupTk.GroupTkId;
+            this.GroupTkLabel = user.GroupTk.GroupTkLabel;
+            this.GroupTkReference = user.GroupTk.GroupTkReference;
+        }
         this.ExternalAccount = user.UserTkExternalAccount;
 
         that = this;
-        if (user.Entitys != null && user.Entitys.length > 0) {
-            $.each(user.Entitys, function (index, value) {
+        if (user.View_UserEntity != null && user.View_UserEntity.length > 0) {
+            $.each(user.View_UserEntity, function (index, value) {
                 if (value.EtatDeleteData == false) {
                     var myEntity = new entity(value);
                     that.Entitys.push(myEntity);
@@ -90,18 +92,19 @@ userTkService.changePassword = function (param, success, error) {
 }
 
 userTkService.search = function (param, success, error) {
-    var data = null;
-    if (param != null) data = {
-        firstName: param.firstName,
-        lastName: param.lastName,
-        email: param.email
-    };
+    var query = "";
+    if (param != null) {
+        query = query + " 1 eq 1 "
+        if (param.firstName != null && param.firstName != "") query = query + " and startswith(UserTkFirstName,'" + param.firstName + "')";
+        if (param.lastName != null && param.lastName != "") query = query + " and startswith(UserTkLastName,'" + param.lastName + "')";
+        if (param.email != null && param.email != "") query = query + " and startswith(UserTkEmail,'" + param.email + "')";
+    }
+    if (query != "") query = "?$filter=" + query;
 
-    var url = environnement.UrlBase + "identity/search";
+    var url = environnement.UrlBase + "odata/UserTks" + query;
     $.ajax({
-        type: 'POST',
+        type: 'GET',
         url: url,
-        data: { '': JSON.stringify(data) },
         success: success,
         error: error
     });

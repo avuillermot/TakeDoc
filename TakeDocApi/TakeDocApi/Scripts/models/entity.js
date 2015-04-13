@@ -5,7 +5,3 @@
         this.Label = data.EntityLabel;
     }
 }
-
-function entityService() {
-
-}

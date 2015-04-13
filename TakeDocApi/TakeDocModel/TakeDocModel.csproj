@@ -114,7 +114,6 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Security\UserTk.cs" />
     <Compile Include="Status_Document.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
