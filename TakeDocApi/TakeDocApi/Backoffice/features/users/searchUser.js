@@ -17,6 +17,7 @@ backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersRes
     };
         
     $scope.doSearch = function () {
+        $rootScope.showLoader("Recherche en cours...");
         var success = function () {
             usersResult.data.users = new Array();
             $.each(arguments[0].value, function (index, value) {
@@ -28,6 +29,7 @@ backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersRes
             $scope.$apply();
         };
         var error = function () {
+            $rootScope.hideLoader();
             $rootScope.showError(arguments[0]);
         };
         userTkService.search($scope.search, success, error)
