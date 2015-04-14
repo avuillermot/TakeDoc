@@ -94,3 +94,9 @@ form {
 #divAccountEntity {
     padding-top:40px;
 }
+
+/* select in grid */
+.selectInGrid {
+    width: 50px;
+    background-color: bisque
+}

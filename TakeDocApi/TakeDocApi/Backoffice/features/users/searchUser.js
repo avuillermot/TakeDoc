@@ -1,6 +1,6 @@
 ﻿'use strict';
 backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersResult', function ($scope, $rootScope, usersResult) {
-    $scope.search = null;
+    $scope.search = {};
 
     $scope.doReset = function () {
         $scope.search = null;
@@ -14,6 +14,7 @@ backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersRes
 
     $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
+        $scope.search.entityId = this.entity.Id;
     };
         
     $scope.doSearch = function () {
