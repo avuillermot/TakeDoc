@@ -770,7 +770,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="GroupTk" EntitySet="GroupTk" />
             <End Role="UserTk" EntitySet="UserTk" />
           </AssociationSet>
-          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk)">
+          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk_Result)">
             <Parameter Name="firstName" Mode="In" Type="String" />
             <Parameter Name="lastName" Mode="In" Type="String" />
             <Parameter Name="email" Mode="In" Type="String" />
@@ -1305,10 +1305,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SearchUserTk">
+        <ComplexType Name="SearchUserTk_Result">
           <Property Type="Guid" Name="UserTkId" Nullable="false" />
           <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -1672,10 +1673,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk">
+              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk_Result">
                 <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
                 <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
                 <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
+                <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

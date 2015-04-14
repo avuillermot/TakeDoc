@@ -5,10 +5,14 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
 
     var userEntitys = new UserEntitys();
 
+    $scope.entityToDelete = function () {
+        alert("delete");
+    };
+
     $scope.gridUserEntity = {
         enableSorting: true,
         columnDefs: [
-          { name: 'Entité', field: 'attributes.label' }
+          { name: 'Entité', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.entityToDelete(row)"></button>&#160;{{row.entity.attributes.label}}' },
         ],
         data: [ ]
     };

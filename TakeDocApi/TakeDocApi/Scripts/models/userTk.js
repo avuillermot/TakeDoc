@@ -92,20 +92,11 @@ userTkService.changePassword = function (param, success, error) {
 }
 
 userTkService.search = function (param, success, error) {
-    var query = "";
-    if (param != null) {
-        query = query + " 1 eq 1 "
-        if (param.firstName != null && param.firstName != "") query = query + " and startswith(UserTkFirstName,'" + odataHelper.replaceAll(param.firstName,"\'", "\''") + "')";
-        if (param.lastName != null && param.lastName != "") query = query + " and startswith(UserTkLastName,'" + odataHelper.replaceAll(param.lastName,"\'", "\''") + "')";
-        if (param.email != null && param.email != "") query = query + " and startswith(UserTkEmail,'" + odataHelper.replaceAll(param.email,"\'", "\''") + "')";
-        if (param.entityId != null && param.entityId != "") query = query + " and View_UserEntity/any(View_UserEntity: View_UserEntity/EntityId eq guid'" + odataHelper.replaceAll(param.entityId,"'", "\''") + "')";
-    }
-    if (query != "") query = "?$filter=" + query;
-
-    var url = environnement.UrlBase + "odata/UserTks" + query;
+    var url = environnement.UrlBase + "search/user";
     $.ajax({
-        type: 'GET',
+        type: 'POST',
         url: url,
+        data: { '': JSON.stringify(param) },
         success: success,
         error: error
     });

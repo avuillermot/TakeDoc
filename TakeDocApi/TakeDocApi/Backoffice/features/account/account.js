@@ -7,7 +7,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         // if external account, all input are readonly
         if ($scope.user.ExternalAccount == true) {
             $("#divAccountInfo div input").attr("readonly", "");
-            $("#toolbarTakeDoc").hide();
+            //$("#toolbarTakeDoc").css("visibility","hidden");
         }
         $scope.$apply();
     }
@@ -90,4 +90,19 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         userTkService.get(userToDisplay, success, error);
 
     }
+
+    /* section add entity to user */
+    $scope.addEntity = function () {
+        $("#modalAccountAddEntity").modal("show");
+        $scope.addEntitysList = $rootScope.getUser().Entitys;
+    }
+
+    $scope.doSelectEntityToAdd = function () {
+        $scope.selectedEntity = this.entity;
+    }
+
+    $scope.doSaveEntityToAdd = function () {
+        alert("to add");
+        $("#modalAccountAddEntity").modal("hide");
+    };
 }]);

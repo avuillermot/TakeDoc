@@ -82,7 +82,7 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
         }
     
-        public virtual ObjectResult<SearchUserTk> SearchUserTk(string firstName, string lastName, string email, Nullable<System.Guid> entityId)
+        public virtual ObjectResult<SearchUserTk_Result> SearchUserTk(string firstName, string lastName, string email, Nullable<System.Guid> entityId)
         {
             var firstNameParameter = firstName != null ?
                 new ObjectParameter("firstName", firstName) :
@@ -100,7 +100,7 @@ namespace TakeDocModel
                 new ObjectParameter("entityId", entityId) :
                 new ObjectParameter("entityId", typeof(System.Guid));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk>("SearchUserTk", firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk_Result>("SearchUserTk", firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
         }
     }
 }

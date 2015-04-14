@@ -1,6 +1,7 @@
 ﻿<div>
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
         <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" title="Ajouter une entité" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
     </div>
 
@@ -39,6 +40,32 @@
             </label>
         </div>
     </form>
+</div>
+
+<!-- Modal -->
+<div class="modal fade tk-modal" id="modalAccountAddEntity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ajouter une entité</h4>
+            </div>
+            <div class="modal-body">
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSearchUserTitle" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedEntity.Label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="dropdownSearchUser" class="dropdown-menu" role="menu" aria-labelledby="dropdownSearchUserTitle">
+                        <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntityToAdd();" onclick="return false" ng-repeat="entity in addEntitysList | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveEntityToAdd()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            </div>
+        </div>
+    </div>
 </div>
 
 

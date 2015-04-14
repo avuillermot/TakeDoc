@@ -25,7 +25,7 @@
                     <span class="caret"></span>
                 </button>
                 <ul id="dropdownSearchUser" class="dropdown-menu" role="menu" aria-labelledby="dropdownSearchUserTitle">
-                    <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" ng-repeat="entity in entitys | filter:filterType | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                    <li role="presentation" ng-model="entity.Id" onclick="return false" ng-click="doSelectEntity();" ng-repeat="entity in entitys | filter:filterType | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
                 </ul>
             </div>
         </div>
