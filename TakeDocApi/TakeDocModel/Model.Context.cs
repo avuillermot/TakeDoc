@@ -81,5 +81,26 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
         }
+    
+        public virtual ObjectResult<SearchUserTk> SearchUserTk(string firstName, string lastName, string email, Nullable<System.Guid> entityId)
+        {
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("firstName", firstName) :
+                new ObjectParameter("firstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("lastName", lastName) :
+                new ObjectParameter("lastName", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk>("SearchUserTk", firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
+        }
     }
 }

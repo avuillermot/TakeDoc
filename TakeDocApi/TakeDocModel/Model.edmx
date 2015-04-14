@@ -533,6 +533,12 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="table" Type="nvarchar" Mode="In" />
           <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
         </Function>
+        <Function Name="SearchUserTk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="firstName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="lastName" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="email" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -764,6 +770,12 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="GroupTk" EntitySet="GroupTk" />
             <End Role="UserTk" EntitySet="UserTk" />
           </AssociationSet>
+          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk)">
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1293,6 +1305,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="SearchUserTk">
+          <Property Type="Guid" Name="UserTkId" Nullable="false" />
+          <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
+        </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1653,6 +1670,15 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk">
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
+                <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

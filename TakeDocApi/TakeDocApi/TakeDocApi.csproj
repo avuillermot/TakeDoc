@@ -190,7 +190,6 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
     <Compile Include="Controllers\oData\GroupTksController.cs" />
-    <Compile Include="Controllers\oData\UserTksController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />
     <Compile Include="Controllers\oData\DocumentExtendedsController.cs" />
