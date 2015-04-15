@@ -11,8 +11,8 @@ namespace TakeDocApi.Controllers
     public class EntityController : ApiController
     {
         [HttpPost]
-        [Route("add/user/{userId}/{entityId}")]
-        public HttpResponseMessage AddEntityToUser(Guid userId, Guid entityId)
+        [Route("user/add/{entityId}/{userId}")]
+        public HttpResponseMessage AddUserToEntity(Guid userId, Guid entityId)
         {
             try
             {
@@ -24,9 +24,9 @@ namespace TakeDocApi.Controllers
             }
         }
 
-        [HttpDelete]
-        [Route("delete/user/{userId}/{entityId}")]
-        public HttpResponseMessage RemoveEntityToUser(Guid userId, Guid entityId)
+         [HttpPost]
+        [Route("user/remove/{entityId}/{userId}")]
+        public HttpResponseMessage RemoveUserToEntity(Guid userId, Guid entityId)
         {
             try
             {

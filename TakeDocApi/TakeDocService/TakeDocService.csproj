@@ -89,6 +89,8 @@
     <Compile Include="Document\Interface\IPageStoreLocator.cs" />
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
+    <Compile Include="Parameter\EntityService.cs" />
+    <Compile Include="Parameter\Interface\IEntityService.cs" />
     <Compile Include="Print\Interface\IPdfService.cs" />
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />

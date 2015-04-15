@@ -16,18 +16,21 @@ namespace UnitTestTakeDocService.Security
  
         public void TestOrdered()
         {
+            ICollection<TakeDocModel.UserTk> toDeletes1 = daoUser.GetBy(x => x.UserTkEmail == "a.vuillermot@hotmail.com");
+            daoUser.Delete(toDeletes1);
+
             this.RequestAccountTest_create();
             this.RequestAccountTest_errorEmail();
             this.RequestAccountTest_errorPassword();
 
-            ICollection<TakeDocModel.UserTk> toDeletes = daoUser.GetBy(x => x.UserTkEmail == "avuillermot@hotmail.com");
-            daoUser.Delete(toDeletes);
+            ICollection<TakeDocModel.UserTk> toDeletes2 = daoUser.GetBy(x => x.UserTkEmail == "a.vuillermot@hotmail.com");
+            daoUser.Delete(toDeletes2);
         }
 
         [TestMethod]
         public void RequestAccountTest_create()
         {
-            bool ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
+            bool ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "a.vuillermot@hotmail.com", "testpwd", "fr", "MASTER");
             Assert.IsTrue(ok, "Account should be created");
         }
         [TestMethod]
@@ -36,7 +39,7 @@ namespace UnitTestTakeDocService.Security
             bool ok = false;
             try
             {
-                ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "avuillermot@hotmail.com", "testpwd", "fr", "MASTER");
+                ok = servRequestAccount.CreateRequest("alexandre", "vuillermot", "a.vuillermot@hotmail.com", "testpwd", "fr", "MASTER");
             }
             catch(Exception ex) {
                 // success

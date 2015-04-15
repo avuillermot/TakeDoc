@@ -14,7 +14,6 @@ namespace TakeDocDataAccess.Security.Interface
         TakeDocModel.UserTk Create(TakeDocModel.UserTk user);
         void Delete(TakeDocModel.UserTk user);
         void Delete(ICollection<TakeDocModel.UserTk> items);
-        void AddEntity(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
         void Update(TakeDocModel.UserTk user);
     }
 }

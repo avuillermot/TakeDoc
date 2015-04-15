@@ -22,10 +22,6 @@ namespace TakeDocDataAccess.Security
             return user;
         }
 
-        public void AddEntity(TakeDocModel.UserTk user, TakeDocModel.Entity entity) {
-            base.Context.AddUserToEntity(user.UserTkReference, entity.EntityReference);
-        }
-
         public new void Delete(TakeDocModel.UserTk user)
         {
             this.Context.DeleteEntityUser(user.UserTkReference);

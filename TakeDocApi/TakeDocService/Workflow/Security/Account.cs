@@ -22,41 +22,42 @@ namespace TakeDocService.Workflow.Security
         }
 
         public bool CreateRequest(string firstName, string lastName, string email, string password, string culture, string entityRef) {
-
-            ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EntityReference == entityRef);
-            if (entitys.Count() == 0) base.CreateError("Entity unknow");
-            Guid entityId =  entitys.First().EntityId;
-
             bool back = false;
 
-            TakeDocModel.UserTk user = new TakeDocModel.UserTk()
+            using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
             {
-                UserTkFirstName = firstName,
-                UserTkLastName = lastName,
-                UserTkEmail = email,
-                UserTkLogin = email,
-                UserTkPassword = password,
-                UserTkCulture = culture,
-                UserTkExterneId = null,
-                UserTkActivate = false,
-                GroupTk = servGroupe.GetBy(x => x.GroupTkReference == "USER").First()
-            };
-            try
-            {
-                servUser.Create(user, entitys.First());
-                this.SendMail(user, entitys.First());
 
-                back = true;
+                ICollection<TakeDocModel.Entity> entitys = daoEntity.GetBy(x => x.EntityReference == entityRef);
+                if (entitys.Count() == 0) base.CreateError("Entity unknow");
+                Guid entityId = entitys.First().EntityId;
+                TakeDocModel.UserTk user = new TakeDocModel.UserTk()
+                {
+                    UserTkFirstName = firstName,
+                    UserTkLastName = lastName,
+                    UserTkEmail = email,
+                    UserTkLogin = email,
+                    UserTkPassword = password,
+                    UserTkCulture = culture,
+                    UserTkExterneId = null,
+                    UserTkActivate = false,
+                    GroupTk = servGroupe.GetBy(x => x.GroupTkReference == "USER").First()
+                };
+                try
+                {
+                    servUser.Create(user, entitys.First());
+                    //this.SendMail(user, entitys.First());
+
+                    back = true;
+                    tr.Complete();
+                }
+                catch (Exception ex)
+                {
+                    this.Logger.Error(ex);
+                    back = false;
+                    throw ex;
+                }
+
             }
-            catch (Exception ex)
-            {
-                this.Logger.Error(ex);
-                back = false;
-                throw ex;
-            }
-            // send mail to user for activate account
-
-
             return back;
         }
 

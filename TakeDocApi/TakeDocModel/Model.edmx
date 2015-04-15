@@ -529,6 +529,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <Function Name="DeleteEntityUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="DeleteUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userRef" Type="nvarchar" Mode="In" />
+          <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetNewReference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="nvarchar" Mode="In" />
           <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
@@ -753,13 +757,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
-          <FunctionImport Name="AddUserToEntity">
-            <Parameter Name="userRef" Mode="In" Type="String" />
-            <Parameter Name="entityRef" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="DeleteEntityUser">
-          <Parameter Name="userRef" Mode="In" Type="String" />
-          </FunctionImport>
           <EntitySet Name="Parameter" EntityType="TakeDocModel.Parameter" />
           <AssociationSet Name="UserTkView_UserEntity" Association="TakeDocModel.UserTkView_UserEntity">
             <End Role="UserTk" EntitySet="UserTk" />
@@ -775,6 +772,17 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="lastName" Mode="In" Type="String" />
             <Parameter Name="email" Mode="In" Type="String" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="AddUserToEntity">
+            <Parameter Name="userRef" Mode="In" Type="String" />
+            <Parameter Name="entityRef" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteUserToEntity">
+            <Parameter Name="userRef" Mode="In" Type="String" />
+            <Parameter Name="entityRef" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteEntityUser">
+            <Parameter Name="userRef" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1651,8 +1659,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
-          <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
           <EntitySetMapping Name="Parameter">
             <EntityTypeMapping TypeName="TakeDocModel.Parameter">
               <MappingFragment StoreEntitySet="Parameter">
@@ -1681,6 +1687,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
+          <FunctionImportMapping FunctionImportName="DeleteUserToEntity" FunctionName="TakeDocModel.Store.DeleteUserToEntity" />
+          <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

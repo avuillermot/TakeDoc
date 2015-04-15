@@ -16,12 +16,11 @@ namespace TakeDocService.Security
         TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk> daoGroupTk = new TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk>();
 
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
+        TakeDocService.Parameter.Interface.IEntityService servEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Parameter.Interface.IEntityService>();
 
         public ICollection<TakeDocModel.UserTk> GetBy(Expression<Func<TakeDocModel.UserTk, bool>> where, params Expression<Func<TakeDocModel.UserTk, object>>[] properties)
         {
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(where, properties);
-            // TODO AVT entity
-            //foreach (TakeDocModel.UserTk user in users) user.Entitys = daoViewUserEntity.GetBy(x => x.UserTkId == user.UserTkId);
             return users;
         }
         public TakeDocModel.UserTk GetByLogin(string login)
@@ -30,8 +29,6 @@ namespace TakeDocService.Security
             if (users.Count() > 1) base.CreateError(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
             else if (users.Count() == 0) base.CreateError(string.Format("Utilisateur {0} inconu.", login));
             TakeDocModel.UserTk user = users.First();
-            // TODO AVT entity
-            //user.Entitys = daoViewUserEntity.GetBy(x => x.UserTkId == user.UserTkId);
 
             return user;
         }
@@ -39,16 +36,6 @@ namespace TakeDocService.Security
         public ICollection<TakeDocModel.UserTk> GetAll()
         {
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetAll();
-            ICollection<TakeDocModel.View_UserEntity> userEntitys = daoViewUserEntity.GetAll();
-
-            foreach (TakeDocModel.UserTk user in users.Where(x => x.UserTkExternalAccount == false))
-            {
-                // TODO AVT entity
-                //user.Entitys = new List<TakeDocModel.View_UserEntity>();
-                //ICollection<TakeDocModel.View_UserEntity> ues = userEntitys.Where(x => x.UserTkId == user.UserTkId).ToList();
-                //foreach (TakeDocModel.View_UserEntity ue in ues) user.Entitys.Add(ue);
-            }
-
             return users;
         }
 
@@ -85,13 +72,6 @@ namespace TakeDocService.Security
             claims.Add(new Claim("Login", user.UserTkLogin));
             claims.Add(new Claim("Id", user.UserTkId.ToString()));
 
-            // TODO AVT entity
-            /*foreach (TakeDocModel.View_UserEntity ue in user.Entitys)
-            {
-                claims.Add(new Claim(ue.EntityId.ToString(),ue.EntityLabel,"entityId"));
-                claims.Add(new Claim(ue.EntityReference, ue.EntityLabel, "entityReference"));
-            }*/
-
             ClaimsIdentity ci = new ClaimsIdentity(claims);
             
             return new ClaimsPrincipal(ci);
@@ -99,7 +79,7 @@ namespace TakeDocService.Security
 
         public TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity) {
             this.Create(user);
-            daoUserTk.AddEntity(user, entity);
+            servEntity.AddUser(user, entity);
             return user;
         }
 
@@ -228,6 +208,5 @@ namespace TakeDocService.Security
 
             return users;
         }
-
     }
 }

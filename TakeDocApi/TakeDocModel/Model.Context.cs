@@ -60,28 +60,6 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetNewReference", tableParameter, reference);
         }
     
-        public virtual int AddUserToEntity(string userRef, string entityRef)
-        {
-            var userRefParameter = userRef != null ?
-                new ObjectParameter("userRef", userRef) :
-                new ObjectParameter("userRef", typeof(string));
-    
-            var entityRefParameter = entityRef != null ?
-                new ObjectParameter("entityRef", entityRef) :
-                new ObjectParameter("entityRef", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserToEntity", userRefParameter, entityRefParameter);
-        }
-    
-        public virtual int DeleteEntityUser(string userRef)
-        {
-            var userRefParameter = userRef != null ?
-                new ObjectParameter("userRef", userRef) :
-                new ObjectParameter("userRef", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
-        }
-    
         public virtual ObjectResult<SearchUserTk_Result> SearchUserTk(string firstName, string lastName, string email, Nullable<System.Guid> entityId)
         {
             var firstNameParameter = firstName != null ?
@@ -101,6 +79,41 @@ namespace TakeDocModel
                 new ObjectParameter("entityId", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk_Result>("SearchUserTk", firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
+        }
+    
+        public virtual int AddUserToEntity(string userRef, string entityRef)
+        {
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            var entityRefParameter = entityRef != null ?
+                new ObjectParameter("entityRef", entityRef) :
+                new ObjectParameter("entityRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserToEntity", userRefParameter, entityRefParameter);
+        }
+    
+        public virtual int DeleteUserToEntity(string userRef, string entityRef)
+        {
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            var entityRefParameter = entityRef != null ?
+                new ObjectParameter("entityRef", entityRef) :
+                new ObjectParameter("entityRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteUserToEntity", userRefParameter, entityRefParameter);
+        }
+    
+        public virtual int DeleteEntityUser(string userRef)
+        {
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
         }
     }
 }

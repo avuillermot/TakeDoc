@@ -24,8 +24,7 @@ namespace UnitTestTakeDocService.Security
         {
             TakeDocModel.UserTk user = servUser.GetByLogin("eleonore");
             Assert.IsTrue(user.UserTkLogin == "eleonore");
-            // TODO AVT entity
-            //Assert.IsTrue(user.Entitys.Count > 0);
+            Assert.IsTrue(user.View_UserEntity.Count > 0);
         }
 
         [TestMethod]
@@ -42,8 +41,7 @@ namespace UnitTestTakeDocService.Security
             foreach (TakeDocModel.UserTk user in users)
             {
                 Assert.IsTrue(user.UserTkLogin == "eleonore");
-                // TODO AVT entity
-                //Assert.IsTrue(user.Entitys.Count > 0);
+                Assert.IsTrue(user.View_UserEntity.Count > 0);
             }
         }
     }
