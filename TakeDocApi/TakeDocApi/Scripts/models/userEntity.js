@@ -33,5 +33,23 @@ var UserEntitys = Backbone.Collection.extend({
     loadByUser: function (param) {
         this.url = (environnement.UrlBase + "identity/user/entity/<userId/>").replace("<userId/>", param.userId);
         this.fetch({ success: param.success, error: param.error });
+    },
+    addEntityToUser: function (param) {
+        var url = (environnement.UrlBase + "entity/user/add/<entityId/>/<userId/>").replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: param.success,
+            error: param.error
+        });
+    },
+    removeEntityToUser: function (param) {
+        var url = (environnement.UrlBase + "entity/user/remove/<entityId/>/<userId/>").replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: param.success,
+            error: param.error
+        });
     }
 });

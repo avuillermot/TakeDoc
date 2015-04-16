@@ -1,24 +1,8 @@
 ﻿'use strict';
 backOffice.controller('passwordController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
-    // return false if an error
-    var setStateInputField = function (divId) {
-        var elems = $("#" + divId + " input[mandatory='true']");
-        $("#"+divId+" div.has-error").removeClass("has-error");
-
-        var i = 0;
-        $.each(elems, function (index, value) {
-            if (value.value == "") {
-                $("#div" + value.id).addClass("has-error");
-                i++;
-            }
-        });
-
-        return !(i > 0);
-    };
-
     $scope.doUpdatePassword = function () {
-        var ok = setStateInputField("divPasswordUpdate");
+        var ok = utils.setStateInputField("divPasswordUpdate");
         var older = $("#inputOlderPassword").val();
         var new1 = $("#inputNewPassword1").val();
         var new2 = $("#inputNewPassword2").val();

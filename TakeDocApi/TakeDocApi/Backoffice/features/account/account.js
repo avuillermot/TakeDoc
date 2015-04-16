@@ -2,30 +2,12 @@
 backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParams', function ($scope, $rootScope, $stateParams) {
 
     var userToDisplay = $stateParams.user;
+    var userEntity = new UserEntitys();
 
     var displayUser = function () {
         // if external account, all input are readonly
-        if ($scope.user.ExternalAccount == true) {
-            $("#divAccountInfo div input").attr("readonly", "");
-            //$("#toolbarTakeDoc").css("visibility","hidden");
-        }
+        if ($scope.user.ExternalAccount == true) $("#divAccountInfo div input").attr("readonly", "");
         $scope.$apply();
-    }
-
-    // return false if an error
-    var setStateInputField = function (divId) {
-        var elems = $("#" + divId + " input[mandatory='true']");
-        $("#" + divId + " div.has-error").removeClass("has-error");
-
-        var i = 0;
-        $.each(elems, function (index, value) {
-            if (value.value == "") {
-                $("#div" + value.id).addClass("has-error");
-                i++;
-            }
-        });
-
-        return !(i > 0);
     }
 
     // reset data to origine
@@ -35,7 +17,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
 
     // save user
     $scope.doSaveUser = function () {
-        var ok = setStateInputField("divAccountInfo");
+        var ok = utils.setStateInputField("divAccountInfo");
 
         if ($scope.user.Email == undefined) {
             $("#divinputEmail").addClass("has-error");
@@ -95,6 +77,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     $scope.addEntity = function () {
         $("#modalAccountAddEntity").modal("show");
         $scope.addEntitysList = $rootScope.getUser().Entitys;
+        $scope.selectedEntity = $scope.addEntitysList[0];
     }
 
     $scope.doSelectEntityToAdd = function () {
@@ -102,7 +85,22 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     }
 
     $scope.doSaveEntityToAdd = function () {
-        alert("to add");
         $("#modalAccountAddEntity").modal("hide");
+       
+        var success = function () {
+
+        };
+
+        var error = function () {
+            $rootScope.showError(arguments[0]);
+        };
+
+        var param = {
+            userId: $scope.user.Id,
+            entityId: $scope.selectedEntity.Id,
+            success: success,
+            error: error
+        };
+        userEntity.addEntityToUser(param);
     };
 }]);

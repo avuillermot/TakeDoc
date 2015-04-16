@@ -28,7 +28,7 @@ backOffice.run(function ($rootScope, $location) {
 
     $rootScope.showError = function (data) {
         if (data.responseJSON == null || data.responseJSON.Message == null) $rootScope.showModal("Erreur", "Une erreur est survenue.")
-        else $rootScope.showModal("Erreur", data.Message);
+        else $rootScope.showModal("Erreur", data.responseJSON.Message);
     }
 
     $rootScope.$on("$viewContentLoaded", function (scopes) {

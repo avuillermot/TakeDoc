@@ -6,7 +6,23 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
     var userEntitys = new UserEntitys();
 
     $scope.entityToDelete = function () {
-        alert("delete");
+        var data = arguments[0].entity;
+
+        var success = function () {
+            alert("ok");
+        };
+
+        var error = function () {
+            $rootScope.showError(arguments[0]);
+        };
+
+        var param = {
+            userId: data.get("userId"),
+            entityId: data.get("id"),
+            success: success,
+            error: error
+        };
+        userEntitys.removeEntityToUser(param);
     };
 
     $scope.gridUserEntity = {
