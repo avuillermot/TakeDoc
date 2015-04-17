@@ -167,6 +167,7 @@ namespace TakeDocService.Security
         {
             using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
             {
+                user.UserTkLogin = user.UserTkEmail;
                 this.Check(user, false);
                 user = this.Format(user);
                 daoUserTk.Update(user);

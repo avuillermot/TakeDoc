@@ -10,6 +10,12 @@ backOffice.run(function ($rootScope, $location) {
         localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
     };
 
+    $rootScope.isBackofficeUser = function () {
+        if ($rootScope.getUser() == null) return false;
+        if ($rootScope.getUser().GroupReference == null) return false;
+        return ($rootScope.getUser().GroupReference == "ADMIN" || $rootScope.getUser().GroupReference == "BACKOFFICE")
+    };
+
     $rootScope.showLoader = function () {
         var msg = "Traitement en cours....";
         if (arguments[0] != null) msg = arguments[0];;

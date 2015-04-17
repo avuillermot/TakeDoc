@@ -54,10 +54,14 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
         userEntitys.removeEntityToUser(param);
     };
 
+    var cellAdmin = '<button class="btn btn-info btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.entityToDelete(row)"></button>&#160;{{row.entity.attributes.label}}';
+    var cellUser = '<span>&#160;{{row.entity.attributes.label}}</span>';
+    var cell = ($rootScope.isBackofficeUser()) ? cellAdmin : cellUser ;
+
     $scope.gridUserEntity = {
         enableSorting: true,
         columnDefs: [
-          { name: 'Entité', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.entityToDelete(row)"></button>&#160;{{row.entity.attributes.label}}' },
+          { name: 'Entité', field: '', cellTemplate: cell },
         ],
         data: [ ]
     };

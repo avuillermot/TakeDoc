@@ -5,10 +5,12 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     var userEntity = new UserEntitys();
     $scope.user = null;
 
+    $scope.isBackofficeUser = $rootScope.isBackofficeUser();
+
     var displayUser = function () {
         // if external account, all input are readonly
         if ($scope.user.ExternalAccount == true) $("#divAccountInfo div input").attr("readonly", "");
-        $scope.$apply();
+        if ($scope.isBackofficeUser == false) $("#divAccountInfo div #inputEmail").attr("readonly", "");
     }
 
     // init group list from combo
@@ -18,12 +20,16 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
 
     // get data of current user
     var fetchUser = function () {
-        if (userToDisplay == "current") $scope.user = $rootScope.getUser();
+        if (userToDisplay == "current") {
+            $scope.user = $rootScope.getUser();
+            displayUser();
+        }
         else {
             var success = function () {
                 var current = new userTk(arguments[0]);
                 $scope.user = current;
                 displayUser();
+                $scope.$apply();
             };
             var error = function () {
                 $rootScope.showModal("Erreur", "Utilisateur indisponible ou inconnu.")
