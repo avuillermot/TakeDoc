@@ -538,6 +538,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
         </Function>
         <Function Name="SearchUserTk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="currentUserId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="firstName" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="lastName" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="email" Type="nvarchar(max)" Mode="In" />
@@ -767,12 +768,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="GroupTk" EntitySet="GroupTk" />
             <End Role="UserTk" EntitySet="UserTk" />
           </AssociationSet>
-          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk_Result)">
-            <Parameter Name="firstName" Mode="In" Type="String" />
-            <Parameter Name="lastName" Mode="In" Type="String" />
-            <Parameter Name="email" Mode="In" Type="String" />
-            <Parameter Name="entityId" Mode="In" Type="Guid" />
-          </FunctionImport>
           <FunctionImport Name="AddUserToEntity">
             <Parameter Name="userRef" Mode="In" Type="String" />
             <Parameter Name="entityRef" Mode="In" Type="String" />
@@ -782,7 +777,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="entityRef" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="DeleteEntityUser">
-            <Parameter Name="userRef" Mode="In" Type="String" />
+          <Parameter Name="userRef" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk_Result)">
+            <Parameter Name="currentUserId" Mode="In" Type="Guid" />
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1677,7 +1679,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk">
+          <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
+          <FunctionImportMapping FunctionImportName="DeleteUserToEntity" FunctionName="TakeDocModel.Store.DeleteUserToEntity" />
+          <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
+          <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk" >
             <ResultMapping>
               <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk_Result">
                 <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
@@ -1687,9 +1692,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
-          <FunctionImportMapping FunctionImportName="DeleteUserToEntity" FunctionName="TakeDocModel.Store.DeleteUserToEntity" />
-          <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

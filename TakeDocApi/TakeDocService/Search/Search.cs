@@ -12,10 +12,11 @@ namespace TakeDocService.Search
     {
         TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
-        public ICollection<SearchUserTk_Result> SearchUser(string firstName, string lastName, string email, Guid entityId)
+        public ICollection<SearchUserTk_Result> SearchUser(Guid currentUserId, string firstName, string lastName, string email, Guid entityId)
         {
-            ObjectResult<SearchUserTk_Result> back = context.SearchUserTk(firstName, lastName, email, entityId);
-            return back.ToList();
+            ObjectResult<SearchUserTk_Result> results = context.SearchUserTk(currentUserId, firstName, lastName, email, entityId);
+            ICollection<SearchUserTk_Result> back = results.ToList();
+            return back;
         }
     }
 }

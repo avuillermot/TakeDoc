@@ -1,9 +1,13 @@
 ﻿'use strict';
 backOffice.controller('searchUserController', ['$scope', '$rootScope', 'usersResult', function ($scope, $rootScope, usersResult) {
-    $scope.search = {};
+    $scope.search = {
+        userId: $rootScope.getUser().Id
+    };
 
     $scope.doReset = function () {
-        $scope.search = {};
+        $scope.search = {
+            userId: $rootScope.getUser().Id
+        };
         usersResult.data.users = new Array();
         usersResult.data.calls = usersResult.data.calls + 1;
 
