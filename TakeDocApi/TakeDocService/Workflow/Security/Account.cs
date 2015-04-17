@@ -45,7 +45,7 @@ namespace TakeDocService.Workflow.Security
                 try
                 {
                     servUser.Create(user, entitys.First());
-                    //this.SendMail(user, entitys.First());
+                    this.SendMail(user, entitys.First());
 
                     back = true;
                     tr.Complete();
@@ -61,23 +61,6 @@ namespace TakeDocService.Workflow.Security
             return back;
         }
 
-        private string FillField(string body, TakeDocModel.UserTk user)
-        {
-            string back = body;
-            back = back.Replace("{{Reference}}", user.UserTkReference);
-            back = back.Replace("{{FirstName}}", user.UserTkFirstName);
-            back = back.Replace("{{LastName}}", user.UserTkLastName);
-            back = back.Replace("{{UrlBase}}", this.GetFieldValue("URL_BASE"));
-            return back;
-        }
-
-        private string GetFieldValue(string paramRef)
-        {
-            ICollection<TakeDocModel.Parameter> parameters = daoParameter.GetBy(x => x.ParameterReference == paramRef);
-            if (parameters.Count != 1) return string.Empty;
-            else return parameters.First().ParameterValue;
-        }
-
         private void SendMail(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
         {
             string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_TITLE").First().ParameterValue;
@@ -86,7 +69,7 @@ namespace TakeDocService.Workflow.Security
             string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
             string body = System.IO.File.ReadAllText(path);
 
-            servMail.Send(title, this.FillField(body, user), user.UserTkEmail);
+            servMail.Send(title, body, user.UserTkEmail, user);
         }
     }
 }

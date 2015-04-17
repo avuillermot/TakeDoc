@@ -9,9 +9,9 @@
         this.CurrentEntity = null;
         this.CurrentTypeDocument = null;
         this.Culture = user.UserTkCulture;
-        this.GroupTkId = user.GroupTk.GroupTkId;
-        this.GroupTkLabel = user.GroupTk.GroupTkLabel;
-        this.GroupTkReference = user.GroupTk.GroupTkReference;
+        this.GroupId = user.GroupTk.GroupTkId;
+        this.GroupLabel = user.GroupTk.GroupTkLabel;
+        this.GroupReference = user.GroupTk.GroupTkReference;
         this.ExternalAccount = user.UserTkExternalAccount;
 
         that = this;

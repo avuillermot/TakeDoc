@@ -100,3 +100,16 @@ form {
     width: 50px;
     background-color: bisque
 }
+
+.tk-glyphicon {
+    background-size: 50%;
+    background-position:center;
+    background-repeat: no-repeat;
+    width: 35px;
+    height: 35px;
+}
+
+.glyphicon-keys {
+    background-image: url('../../Content/glyphicons_free/glyphicons/png/glyphicons-45-keys.png');
+   
+}

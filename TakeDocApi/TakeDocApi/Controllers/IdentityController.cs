@@ -146,8 +146,8 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPatch]
-        [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}")]
-        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture) {
+        [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}/{enable}/{activate}/{groupId}")]
+        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId) {
             try
             {
                 TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
@@ -158,6 +158,9 @@ namespace TakeDocApi.Controllers
                 user.UserTkLastName = lastName;
                 user.UserTkEmail = email;
                 user.UserTkCulture = culture;
+                user.UserTkEnable = enable;
+                user.UserTkActivate = activate;
+                user.UserTkGroupId = groupId;
                 servUser.Update(user);
                 return Request.CreateResponse(HttpStatusCode.OK, true);
             }
@@ -176,6 +179,22 @@ namespace TakeDocApi.Controllers
                 TakeDocService.Security.Interface.IView_UserEntityService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IView_UserEntityService>();
                 ICollection<TakeDocModel.View_UserEntity> back = servUser.GetByUser(userId);
                 return Request.CreateResponse(HttpStatusCode.OK, back);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("generate/password/{userId}")]
+        public HttpResponseMessage GenerateNewPassword(Guid userId)
+        {
+            try
+            {
+                TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+                servUser.GenerateNewPassword(userId);
+                return Request.CreateResponse(HttpStatusCode.OK, true);
             }
             catch (Exception ex)
             {

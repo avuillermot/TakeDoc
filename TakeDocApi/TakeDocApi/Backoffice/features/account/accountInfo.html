@@ -1,8 +1,9 @@
 ﻿<div>
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
         <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" title="Ajouter une entité" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" title="Ajouter une entité" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
     </div>
 
     <form class="tk-form" id="divAccountInfo">
@@ -27,14 +28,26 @@
             <input type="text" class="form-control form-tk-item" id="inputCulture" mandatory="true" ng-model="user.Culture" readonly>
         </div>
         <div class="form-group" id="divinputGroupe">
-            <label for="inputGroupe" class="form-tk-label">Groupe</label>
-            <input type="text" class="form-control form-tk-item" id="inputGroupe" mandatory="true" ng-model="user.GroupTkLabel" readonly>
+            <label for="inputGroupe" class="form-tk-label">&#160;Groupe</label>
+            <input type="text" class="form-control form-tk-item" id="inputGroupe" mandatory="true" ng-model="user.GroupLabel" readonly>
+            <button class="btn-xs btn-default glyphicon glyphicon-pencil" ng-click="doChangeGroup();" data-toggle="tooltip" title="Changer de groupe" data-placement="bottom"></button>
+
         </div>
         <div class="form-group" id="divinputManager">
             <label for="inputManager" class="form-tk-label">Manager</label>
             <input type="text" class="form-control form-tk-item" id="inputManager" mandatory="false" readonly>
         </div>
-        <div class="form-group" >
+        <div class="form-group">
+            <label>
+                <input type="checkbox" ng-checked="user.Enable" onclick="return true;" ng-model="user.Enable">&#160;Utilisateur autorisé
+            </label>
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" ng-checked="user.Activate" onclick="return true;" ng-model="user.Activate">&#160;Adresse mail confirmée
+            </label>
+        </div>
+        <div class="form-group">
             <label>
                 <input type="checkbox" ng-checked="user.ExternalAccount" onclick="return false;">&#160;Utilisateur externe
             </label>
@@ -42,7 +55,7 @@
     </form>
 </div>
 
-<!-- Modal -->
+<!-- Modal entity -->
 <div class="modal fade tk-modal" id="modalAccountAddEntity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
@@ -52,17 +65,43 @@
             </div>
             <div class="modal-body">
                 <div class="dropdown" style="display:inline-block">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownSearchUserTitle" data-toggle="dropdown" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
                         {{selectedEntity.Label}}
                         <span class="caret"></span>
                     </button>
-                    <ul id="dropdownSearchUser" class="dropdown-menu" role="menu" aria-labelledby="dropdownSearchUserTitle">
+                    <ul class="dropdown-menu" role="menu" >
                         <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntityToAdd();" onclick="return false" ng-repeat="entity in addEntitysList | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
                     </ul>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveEntityToAdd()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal group -->
+<div class="modal fade tk-modal" id="modalAccountGroup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Groupe</h4>
+            </div>
+            <div class="modal-body">
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedGroup.attributes.label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="group.attributes.id" ng-click="doSelectedGroup();" onclick="return false" ng-repeat="group in groups.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{group.attributes.label}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default glyphicon glyphicon-ok" ng-model="selectedGroup.attributes.id" ng-click="doValidSelectedGroup()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             </div>
         </div>
     </div>

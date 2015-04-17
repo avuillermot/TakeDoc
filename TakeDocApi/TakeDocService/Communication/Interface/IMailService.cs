@@ -8,6 +8,6 @@ namespace TakeDocService.Communication.Interface
 {
     public interface IMailService
     {
-        void Send(string subject, string body, string to);
+        void Send(string subject, string body, string to, TakeDocModel.UserTk user);
     }
 }

@@ -7,10 +7,12 @@
         this.Id = user.UserTkId;
         this.Entitys = new Array();
         this.Culture = user.UserTkCulture;
+        this.Enable = user.UserTkEnable;
+        this.Activate = user.UserTkActivate;
         if (user.GroupTk != null) {
-            this.GroupTkId = user.GroupTk.GroupTkId;
-            this.GroupTkLabel = user.GroupTk.GroupTkLabel;
-            this.GroupTkReference = user.GroupTk.GroupTkReference;
+            this.GroupId = user.GroupTk.GroupTkId;
+            this.GroupLabel = user.GroupTk.GroupTkLabel;
+            this.GroupReference = user.GroupTk.GroupTkReference;
         }
         this.ExternalAccount = user.UserTkExternalAccount;
 
@@ -65,11 +67,10 @@ userTkService.get = function (userId, success, error) {
 };
 
 userTkService.update = function (user, success, error) {
-
-    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>";
+    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>/<enable/>/<activate/>/<groupId/>";
     $.ajax({
         type: 'PATCH',
-        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture),
+        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture).replace("<enable/>", user.enable).replace("<activate/>", user.activate).replace("<groupId/>", user.groupId),
         success: success,
         error: error
     });
@@ -88,6 +89,16 @@ userTkService.changePassword = function (param, success, error) {
         data: { '': JSON.stringify(data) },
         success: success,
         error: error
+    });
+}
+
+userTkService.generatePassword = function (param) {
+    var url = (environnement.UrlBase + "identity/generate/password/<userId/>").replace("<userId/>", param.userId);
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: param.success,
+        error: param.error
     });
 }
 

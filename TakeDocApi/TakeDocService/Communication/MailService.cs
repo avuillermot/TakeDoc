@@ -10,9 +10,15 @@ namespace TakeDocService.Communication
     public class MailService : Interface.IMailService
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
+        TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
 
-        public void Send(string subject, string body, string to)
+        public void Send(string subject, string body, string to, TakeDocModel.UserTk user)
         {
+            TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
+
+            string overloadTo = daoParameter.GetBy(x => x.ParameterReference == "REDIRECT_MAIL").First().ParameterValue;
+            if (string.IsNullOrEmpty(overloadTo) == false) to = overloadTo;
+
             string login = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_LOGIN").First().ParameterValue;
             string password = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_PASSWORD").First().ParameterValue;
             string smtp = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SERVER_SMTP").First().ParameterValue;
@@ -29,9 +35,27 @@ namespace TakeDocService.Communication
             client.EnableSsl = true;
             client.Host = smtp;
             mail.Subject = subject;
-            mail.Body = body;
+            mail.Body = this.FillField(body, user);
             mail.IsBodyHtml = true;
             client.Send(mail);
+        }
+
+        private string FillField(string body, TakeDocModel.UserTk user)
+        {
+            string back = body;
+            back = back.Replace("{{Reference}}", user.UserTkReference);
+            back = back.Replace("{{FirstName}}", user.UserTkFirstName);
+            back = back.Replace("{{LastName}}", user.UserTkLastName);
+            back = back.Replace("{{Password}}", servCrypto.Decrypt(user.UserTkPassword));
+            back = back.Replace("{{UrlBase}}", this.GetFieldValue("URL_BASE"));
+            return back;
+        }
+
+        private string GetFieldValue(string paramRef)
+        {
+            ICollection<TakeDocModel.Parameter> parameters = daoParameter.GetBy(x => x.ParameterReference == paramRef);
+            if (parameters.Count != 1) return string.Empty;
+            else return parameters.First().ParameterValue;
         }
     }
 }

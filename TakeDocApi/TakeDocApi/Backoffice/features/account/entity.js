@@ -1,15 +1,43 @@
 ﻿'use strict';
-backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams', function ($scope, $rootScope, $stateParams) {
+backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams', 'refreshDetail', function ($scope, $rootScope, $stateParams, refreshDetail) {
 
     var userToDisplay = $stateParams.user;
+    var userEntitys = null;
 
-    var userEntitys = new UserEntitys();
+    var fetchUser = function () {
+
+        var success = function () {
+            var userEntityToDisplay = new Array();
+            var data = userEntitys.where({ enable: true });
+            $.each(data, function (index, value) {
+                userEntityToDisplay.push(value);
+            });
+            $scope.gridUserEntity.data = userEntityToDisplay;
+            $scope.$apply();
+        };
+
+        var error = function () {
+            $rootScope.showModal("Erreur", "Une erreur est survenue lors de l'obtention des entités.")
+        };
+
+        var param = {
+            userId: (userToDisplay == "current") ? $rootScope.getUser().Id : userToDisplay,
+            success: success,
+            error: error
+        };
+        userEntitys = new UserEntitys();
+        userEntitys.loadByUser(param);
+    };
+
+    $scope.$watch(function () { return refreshDetail.data.calls; }, function () {
+        fetchUser();
+    });
 
     $scope.entityToDelete = function () {
         var data = arguments[0].entity;
 
         var success = function () {
-            alert("ok");
+            fetchUser();
         };
 
         var error = function () {
@@ -22,6 +50,7 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
             success: success,
             error: error
         };
+        userEntitys = new UserEntitys();
         userEntitys.removeEntityToUser(param);
     };
 
@@ -32,22 +61,4 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
         ],
         data: [ ]
     };
-
-    var success = function () {
-        var userEntityToDisplay = userEntitys.where({ enable: true });
-        $scope.gridUserEntity.data = userEntityToDisplay;
-    };
-
-    var error = function () {
-        $rootScope.showModal("Erreur", "Une erreur est survenue lors de l'obtention des entités.")
-    };
-
-    var param = {
-        userId: (userToDisplay == "current") ? $rootScope.getUser().Id : userToDisplay,
-        success: success,
-        error: error
-    };
-
-    userEntitys.loadByUser(param);
-
 }]);

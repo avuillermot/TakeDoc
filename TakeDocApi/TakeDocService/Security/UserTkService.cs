@@ -14,9 +14,11 @@ namespace TakeDocService.Security
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUserTk = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity> daoViewUserEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.View_UserEntity>();
         TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk> daoGroupTk = new TakeDocDataAccess.DaoBase<TakeDocModel.GroupTk>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
 
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
         TakeDocService.Parameter.Interface.IEntityService servEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Parameter.Interface.IEntityService>();
+        TakeDocService.Communication.Interface.IMailService servMail = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Communication.Interface.IMailService>();
 
         public ICollection<TakeDocModel.UserTk> GetBy(Expression<Func<TakeDocModel.UserTk, bool>> where, params Expression<Func<TakeDocModel.UserTk, object>>[] properties)
         {
@@ -25,7 +27,7 @@ namespace TakeDocService.Security
         }
         public TakeDocModel.UserTk GetByLogin(string login)
         {
-            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLogin == login && x.UserTkExternalAccount == false, x => x.GroupTk);
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLogin == login, x => x.GroupTk);
             if (users.Count() > 1) base.CreateError(string.Format("Le login {0} ne peut pas exister plusileurs fois.", login));
             else if (users.Count() == 0) base.CreateError(string.Format("Utilisateur {0} inconu.", login));
             TakeDocModel.UserTk user = users.First();
@@ -52,7 +54,7 @@ namespace TakeDocService.Security
             TakeDocModel.UserTk user = this.GetByLogin(login);
             var passwordDecrypt = servCrypto.Decrypt(user.UserTkPassword);
 
-            if (user != null && (password != passwordDecrypt || user.UserTkEnable == false)) user = null;
+            if (user != null && (password != passwordDecrypt || user.UserTkEnable == false || user.UserTkActivate == false)) user = null;
             if (user == null) {
                 string msg = string.Format("Utilisateur inconnu ou non identifié : {0}", login);
                 this.Logger.Info(msg);
@@ -207,6 +209,39 @@ namespace TakeDocService.Security
             }
 
             return users;
+        }
+
+        public string GenerateNewPassword(Guid userId)
+        {
+            string newPassWord = System.Web.Security.Membership.GeneratePassword(7, 0);
+
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkId == userId);
+            if (users.Count != 1) base.CreateError("L'utilisateur est iconnu.");
+            TakeDocModel.UserTk user = users.First();
+
+            user.UserTkPassword = servCrypto.Encrypt(newPassWord);
+            daoUserTk.Update(user);
+
+            this.SendMailNewPassword(user, null);
+
+            return newPassWord;
+        }
+
+        private void SendMailNewPassword(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
+        {
+            string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_NEW_PASSWORD_TITLE").First().ParameterValue;
+            string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_NEW_PASSWORD_BODY").First().ParameterValue;
+
+            string entityRef = "MASTER";
+            if (entity != null) entityRef =  entity.EntityReference;
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entityRef, @"\", "mail", @"\", bodyFile);
+            string body = System.IO.File.ReadAllText(path);
+
+            servMail.Send(title, body, user.UserTkEmail, user);
+        }
+
+        private string FillField(string body, TakeDocModel.UserTk user) {
+            return body;
         }
     }
 }

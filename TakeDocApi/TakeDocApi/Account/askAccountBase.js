@@ -42,6 +42,9 @@ askAccountBase = {
 
         var hasError = $(".form-group.has-error").length > 0;
         if (hasError == false) {
+            $("#span-loader-message").html("Envoi de la demande");
+            $(".btn-loader-container").css("display", "block");
+
             var url = environnement.UrlBase + "/identity/request/account";
 
             var data = {
@@ -63,11 +66,13 @@ askAccountBase = {
         }
     },
     requestAccount_success: function () {
-        alert("ok");
+        $(".btn-loader-container").css("display", "none");
+        alert("Votre demande a été prise en compte.")
     },
     requestAccount_error: function () {
+        $(".btn-loader-container").css("display", "none");
         var error = arguments[0];
         alert(error.responseJSON.Message);
-    },
+    }
 }
 
