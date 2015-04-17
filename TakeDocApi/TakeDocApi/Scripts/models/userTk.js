@@ -112,3 +112,13 @@ userTkService.search = function (param, success, error) {
         error: error
     });
 }
+
+userTkService.delete = function (param, success, error) {
+    var url = (environnement.UrlBase + "identity/delete/<userId/>/<currentUserId/>").replace("<userId/>", param.userId).replace("<currentUserId/>", param.currentUserId);
+    $.ajax({
+        type: 'DELETE',
+        url: url,
+        success: param.success,
+        error: param.error
+    });
+}

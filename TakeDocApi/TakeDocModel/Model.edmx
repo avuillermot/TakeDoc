@@ -247,6 +247,7 @@
           <Property Name="UserTkCulture" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="UserTkActivate" Type="bit" Nullable="false" />
           <Property Name="UserTkDateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserTkDateFirstEnable" Type="datetimeoffset" Precision="7" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -522,6 +523,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="AddEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="type" Type="nvarchar" Mode="In" />
+          <Parameter Name="from" Type="nvarchar" Mode="In" />
+          <Parameter Name="info" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="AddUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
           <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
@@ -786,6 +792,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="email" Mode="In" Type="String" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
+          <FunctionImport Name="AddEvent">
+            <Parameter Name="type" Mode="In" Type="String" />
+            <Parameter Name="from" Mode="In" Type="String" />
+            <Parameter Name="info" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1006,6 +1017,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserTkGroupId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="View_UserEntity" Relationship="TakeDocModel.UserTkView_UserEntity" FromRole="UserTk" ToRole="View_UserEntity" />
           <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_UserTk_GroupTk" FromRole="UserTk" ToRole="GroupTk" />
+          <Property Name="UserTkDateFirstEnable" Type="DateTimeOffset" Precision="7" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1488,6 +1500,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkDateFirstEnable" ColumnName="UserTkDateFirstEnable" />
                 <ScalarProperty Name="UserTkGroupId" ColumnName="UserTkGroupId" />
                 <ScalarProperty Name="UserTkDateCreateData" ColumnName="UserTkDateCreateData" />
                 <ScalarProperty Name="UserTkActivate" ColumnName="UserTkActivate" />
@@ -1692,6 +1705,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="AddEvent" FunctionName="TakeDocModel.Store.AddEvent" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

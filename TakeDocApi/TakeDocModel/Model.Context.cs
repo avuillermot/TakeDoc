@@ -119,5 +119,22 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk_Result>("SearchUserTk", currentUserIdParameter, firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
         }
+    
+        public virtual int AddEvent(string type, string from, string info)
+        {
+            var typeParameter = type != null ?
+                new ObjectParameter("type", type) :
+                new ObjectParameter("type", typeof(string));
+    
+            var fromParameter = from != null ?
+                new ObjectParameter("from", from) :
+                new ObjectParameter("from", typeof(string));
+    
+            var infoParameter = info != null ?
+                new ObjectParameter("info", info) :
+                new ObjectParameter("info", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddEvent", typeParameter, fromParameter, infoParameter);
+        }
     }
 }

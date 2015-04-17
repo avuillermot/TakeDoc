@@ -45,7 +45,7 @@ namespace TakeDocService.Workflow.Security
                 try
                 {
                     servUser.Create(user, entitys.First());
-                    this.SendMail(user, entitys.First());
+                    //this.SendMail(user, entitys.First());
 
                     back = true;
                     tr.Complete();

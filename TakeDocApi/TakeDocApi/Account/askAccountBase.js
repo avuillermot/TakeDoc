@@ -67,7 +67,7 @@ askAccountBase = {
     },
     requestAccount_success: function () {
         $(".btn-loader-container").css("display", "none");
-        alert("Votre demande a été prise en compte.")
+        alert("Votre demande a été prise en compte. Vous recevrez prochainement un mail vous permettant d'activer votre compte.")
     },
     requestAccount_error: function () {
         $(".btn-loader-container").css("display", "none");

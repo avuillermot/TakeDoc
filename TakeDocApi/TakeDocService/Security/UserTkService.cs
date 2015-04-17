@@ -20,6 +20,8 @@ namespace TakeDocService.Security
         TakeDocService.Parameter.Interface.IEntityService servEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Parameter.Interface.IEntityService>();
         TakeDocService.Communication.Interface.IMailService servMail = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Communication.Interface.IMailService>();
 
+        TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
+
         public ICollection<TakeDocModel.UserTk> GetBy(Expression<Func<TakeDocModel.UserTk, bool>> where, params Expression<Func<TakeDocModel.UserTk, object>>[] properties)
         {
             ICollection<TakeDocModel.UserTk> users = daoUserTk.GetBy(where, properties);
@@ -133,7 +135,7 @@ namespace TakeDocService.Security
             
             bool isValid = this.Check(user, true);
             user = this.Format(user);
-            user.UserTkEnable = true;
+            user.UserTkEnable = false;
 
             try
             {
@@ -241,8 +243,15 @@ namespace TakeDocService.Security
             servMail.Send(title, body, user.UserTkEmail, user);
         }
 
-        private string FillField(string body, TakeDocModel.UserTk user) {
-            return body;
+        public void Delete(Guid userId, Guid currentUserId)
+        {
+            using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
+            {
+                TakeDocModel.UserTk user = daoUserTk.GetBy(x => x.UserTkId == userId).First();
+                daoUserTk.Delete(user);
+                context.AddEvent("REMOVE_USER", "UserTkService.Delete", string.Format("userId : {0} login : {1} by currentUserId {2}", userId, user.UserTkLogin, currentUserId));
+                tr.Complete();
+            }
         }
     }
 }

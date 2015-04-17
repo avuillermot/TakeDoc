@@ -7,11 +7,19 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
     var fetchUser = function () {
 
         var success = function () {
+            var myEntitys = $rootScope.getUser().Entitys;
             var userEntityToDisplay = new Array();
             var data = userEntitys.where({ enable: true });
+
+            // select only entity that current user have access
             $.each(data, function (index, value) {
-                userEntityToDisplay.push(value);
+
+                $.each(myEntitys, function (myIndex, myValue) {
+                    if (myValue.Id == value.get("id")) userEntityToDisplay.push(value);
+                });
+                
             });
+
             $scope.gridUserEntity.data = userEntityToDisplay;
             $scope.$apply();
         };

@@ -201,5 +201,21 @@ namespace TakeDocApi.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route("delete/{userId}/{currentUserId}")]
+        public HttpResponseMessage Delete(Guid userId, Guid currentUserId)
+        {
+            try
+            {
+                TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+                servUser.Delete(userId, currentUserId);
+                return Request.CreateResponse(HttpStatusCode.OK, true);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

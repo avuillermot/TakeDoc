@@ -2,7 +2,7 @@
 backOffice.controller('loginController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.identity = {
-        login: "eleonore",
+        login: "avuillermot@gmail.com",
         password: "password"
     };
 
