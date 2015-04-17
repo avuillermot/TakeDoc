@@ -133,7 +133,7 @@ namespace TakeDocService.Security
             
             bool isValid = this.Check(user, true);
             user = this.Format(user);
-            user.UserTkEnable = false;
+            user.UserTkEnable = true;
 
             try
             {
