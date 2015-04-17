@@ -1,5 +1,6 @@
 ﻿<div>
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
+        <button type="button" class="btn btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
         <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser"  data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>

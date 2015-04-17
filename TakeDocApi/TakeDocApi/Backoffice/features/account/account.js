@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParams', 'refreshDetail', 'groups', function ($scope, $rootScope, $stateParams, refreshDetail, groups) {
+backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParams', '$location', 'refreshDetail', 'groups', function ($scope, $rootScope, $stateParams, $location, refreshDetail, groups) {
 
     var userToDisplay = $stateParams.user;
     var userEntity = new UserEntitys();
@@ -39,6 +39,11 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     };
 
     fetchUser();
+
+    // reset data to origine
+    $scope.doGoSeach = function () {
+        $location.path("/searchUsers");
+    };
 
     // reset data to origine
     $scope.doReset = function () {
