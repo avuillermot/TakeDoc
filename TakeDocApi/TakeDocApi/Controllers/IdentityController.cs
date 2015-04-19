@@ -106,10 +106,10 @@ namespace TakeDocApi.Controllers
         [Route("activate/{userReference}")]
         public HttpResponseMessage ActivateUser(string userReference)
         {
-            TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+            TakeDocService.Workflow.Security.Interface.IAccount servAccount = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Security.Interface.IAccount>();
             try
             {
-                bool back = servUser.ActivateUser(userReference);
+                bool back = servAccount.ActivateUser(userReference);
                 return Request.CreateResponse(back);
             }
             catch (Exception ex)

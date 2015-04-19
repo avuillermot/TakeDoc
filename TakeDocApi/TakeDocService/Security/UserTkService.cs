@@ -149,22 +149,7 @@ namespace TakeDocService.Security
                 return null;
             }
         }
-
-        public bool ActivateUser(string userRef)
-        {
-            bool back = false;
-            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkReference == userRef);
-            if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
-
-            TakeDocModel.UserTk user = users.First();
-            if (user.UserTkActivate == true) base.CreateError(string.Format("Utilisateur {0} déjà activer",user.UserTkLogin));
-
-            user.UserTkActivate = true;
-            daoUserTk.Update(user);
-
-            return back;
-        }
-
+        
         public void Update(TakeDocModel.UserTk user)
         {
             using (System.Transactions.TransactionScope tr = new System.Transactions.TransactionScope())
@@ -172,10 +157,31 @@ namespace TakeDocService.Security
                 user.UserTkLogin = user.UserTkEmail;
                 this.Check(user, false);
                 user = this.Format(user);
+                // we stored the first time when account is enable
+                if (user.UserTkEnable == true && user.UserTkDateFirstEnable == null)
+                {
+                    user.UserTkDateFirstEnable = System.DateTime.UtcNow;
+                    this.SendMailAccountEnable(user);
+                }
                 daoUserTk.Update(user);
 
                 tr.Complete();
             }
+        }
+
+        private void SendMailAccountEnable(TakeDocModel.UserTk user)
+        {
+            
+            TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
+            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == user.View_UserEntity.First().EntityId).First();
+
+            string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_TITLE").First().ParameterValue;
+            string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_BODY").First().ParameterValue;
+
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
+            string body = System.IO.File.ReadAllText(path);
+
+            servMail.Send(title, body, user.UserTkEmail, user);
         }
 
         public void ChangePassword(Guid userId, string olderPaswword, string newPassword)

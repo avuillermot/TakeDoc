@@ -17,7 +17,16 @@ namespace TakeDocService.Workflow.Security
 
         public bool ActivateUser(string userRef)
         {
-            bool back = servUser.ActivateUser(userRef);
+            bool back = false;
+            ICollection<TakeDocModel.UserTk> users = servUser.GetBy(x => x.UserTkReference == userRef);
+            if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
+
+            TakeDocModel.UserTk user = users.First();
+            if (user.UserTkActivate == true) base.CreateError(string.Format("Utilisateur {0} déjà activer", user.UserTkLogin));
+
+            user.UserTkActivate = true;
+            servUser.Update(user);
+
             return back;
         }
 
@@ -45,7 +54,7 @@ namespace TakeDocService.Workflow.Security
                 try
                 {
                     servUser.Create(user, entitys.First());
-                    //this.SendMail(user, entitys.First());
+                    throw new Exception("send mail to admin in order to inform");
 
                     back = true;
                     tr.Complete();
@@ -61,15 +70,6 @@ namespace TakeDocService.Workflow.Security
             return back;
         }
 
-        private void SendMail(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
-        {
-            string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_TITLE").First().ParameterValue;
-            string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_BODY").First().ParameterValue;
-
-            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
-            string body = System.IO.File.ReadAllText(path);
-
-            servMail.Send(title, body, user.UserTkEmail, user);
-        }
+        
     }
 }

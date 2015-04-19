@@ -214,6 +214,8 @@
     <Content Include="Backoffice\features\account\accountInfo.html" />
     <Content Include="Backoffice\features\account\account.js" />
     <Content Include="Backoffice\features\account\entity.html" />
+    <Content Include="Backoffice\features\inbox\inbox.js" />
+    <Content Include="Backoffice\features\inbox\inbox.html" />
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.js" />
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.html" />

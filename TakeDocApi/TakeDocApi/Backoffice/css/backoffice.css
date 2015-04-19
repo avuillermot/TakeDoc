@@ -113,3 +113,35 @@ form {
     background-image: url('../../Content/glyphicons_free/glyphicons/png/glyphicons-45-keys.png');
    
 }
+
+/* inbox */
+#inbox-directories {
+    padding-left: 5px;
+    padding-top: 5px;
+    display:inline-block; 
+    width:30%;
+    height:100%;
+    vertical-align:top;
+}
+
+.inbox-directory {
+    font-weight: 800;
+    cursor:pointer;
+}
+
+#inbox-directories div ul
+{
+    list-style-type: none;
+}
+
+#inbox-items {
+        padding-top: 5px;
+        display: inline-block;
+        width: 68%;
+        vertical-align: top;
+}
+
+
+.cell-inbox-item {
+    height:50px !important;
+}

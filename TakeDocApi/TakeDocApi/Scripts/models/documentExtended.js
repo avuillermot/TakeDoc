@@ -88,5 +88,9 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
+    },
+    loadAll: function (param) {
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'").replace("<documentOwnerId/>", param.userId);
+        this.fetch({ success: param.success, error: param.error });
     }
 });

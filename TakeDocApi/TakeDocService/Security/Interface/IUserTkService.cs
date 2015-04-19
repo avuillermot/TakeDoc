@@ -17,7 +17,6 @@ namespace TakeDocService.Security.Interface
         TakeDocModel.UserTk Logon(string login, string password);
         ClaimsPrincipal GetClaimsPrincipal(TakeDocModel.UserTk user);
         TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
-        bool ActivateUser(string userRef);
         void Update(TakeDocModel.UserTk user);
         void ChangePassword(Guid userId, string olderPaswword, string newPassword);
         ICollection<TakeDocModel.UserTk> Search(TakeDocModel.UserTk search, TakeDocModel.Entity entity);
