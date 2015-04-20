@@ -38,7 +38,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             documentDisplay.data.metadatas = arguments[0];
             documentDisplay.data.document = toShow;
             documentDisplay.data.calls = documentDisplay.data.calls + 1;
-            $scope.$apply();
+            if(!$scope.$$phase) $scope.$apply();
         };
         var error = function() {
             $rootScope.showError(arguments[0]);

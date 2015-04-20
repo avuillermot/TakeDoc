@@ -44,7 +44,6 @@ namespace TakeDocApi.Controllers
                               index = metadata.MetaDataDisplayIndex,
                               name = metadata.MetaDataName,
                               value = metadata.MetaDataValue,
-                              dateValue = string.Empty,
                               mandatory = metadata.MetaDataMandatory,
                               type = metadata.DataField.DataFieldType.DataFieldInputType,
                               label = metadata.DataField.DataFieldLabel,

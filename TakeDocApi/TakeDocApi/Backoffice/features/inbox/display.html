@@ -1,11 +1,19 @@
 ﻿<div id="divInboxDisplay">
     {{document.attributes.label}}&#160;-&#160; Du {{document.attributes.formatDate}}
-    <ul>
-        <li ng-repeat="metadata in metadatas | orderBy:['attributes.index'] ">
-            <div class="inbox-metadata-name">{{metadata.attributes.label}}</div>
-            <div class="inbox-metadata-value">{{metadata.attributes.value}}</div>
-        </li>
-    </ul>
+    <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] ">
+        <label ng-switch on="metadata.attributes.htmlType">
+            {{metadata.attributes.label}}
+
+                <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}">
+                    <option ng-repeat="item in metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>
+                </select>
+
+                <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-model="metadata.attributes.value" checked="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />{{metadata.attributes.value}}{{metadata.attributes.type}}
+
+        </label>
+    </div>
     <div ng-click="doOpenDocument()">open</div>
 </div>
 
