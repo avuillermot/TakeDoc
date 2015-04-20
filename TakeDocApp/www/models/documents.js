@@ -106,21 +106,3 @@ documentService.getMetaData = function (document, onSuccess, onError) {
     };
     metas.fetch({ success: fn, error: onError } );
 }
-
-/*documentService.loadByRef = function (reference, onSuccess, onError) {
-    var url = environnement.UrlBase + "odata/Documents?$filter=DocumentReference eq '<reference/>'";
-    url = url.replace("<reference/>", reference);
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        success: function () {
-            if (arguments[0] == null || arguments[0].value == null) onSuccess(null);
-            var current = arguments[0].value[0];
-            documentService.getMetaData(current);
-        },
-        error: function () {
-            onError();
-        }
-    });
-}*/

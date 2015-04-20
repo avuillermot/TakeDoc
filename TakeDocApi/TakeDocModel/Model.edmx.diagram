@@ -36,7 +36,7 @@
         <AssociationConnector Association="TakeDocModel.FK_Version_Status_Version" />
         <EntityTypeShape EntityType="TakeDocModel.DataFieldAutoComplete" Width="1.5" PointX="20.375" PointY="14.625" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldAutoComplete" />
-        <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="1.5" PointX="5.375" PointY="11.75" />
+        <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="2.75" PointX="4.125" PointY="11.75" />
         <EntityTypeShape EntityType="TakeDocModel.Customer" Width="1.5" PointX="10.625" PointY="14.75" />
         <AssociationConnector Association="TakeDocModel.FK_Client_Entity" />
         <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="7.375" PointY="12.75" />

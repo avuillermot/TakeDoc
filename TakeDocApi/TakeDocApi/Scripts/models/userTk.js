@@ -25,6 +25,7 @@
                 }
             });
         }
+        moment.locale('fr');
     }
 };
 

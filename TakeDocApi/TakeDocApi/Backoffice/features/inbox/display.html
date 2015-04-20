@@ -1,0 +1,11 @@
+﻿<div id="divInboxDisplay">
+    {{document.attributes.label}}&#160;-&#160; Du {{document.attributes.formatDate}}
+    <ul>
+        <li ng-repeat="metadata in metadatas | orderBy:['attributes.index'] ">
+            <div class="inbox-metadata-name">{{metadata.attributes.label}}</div>
+            <div class="inbox-metadata-value">{{metadata.attributes.value}}</div>
+        </li>
+    </ul>
+</div>
+
+

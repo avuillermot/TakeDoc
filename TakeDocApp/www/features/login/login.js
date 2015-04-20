@@ -1,7 +1,7 @@
 ﻿'use strict';
 takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
     $scope.identity = {
-        login: "eleonore",
+        login: "avuillermot@gmail.com",
         password: "password"
     };
 

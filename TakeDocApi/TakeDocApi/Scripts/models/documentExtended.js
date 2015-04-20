@@ -12,6 +12,7 @@
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,
+        documentDateCreate: null,
         versionId: null,
         versionReference: null,
         versionDateCreate: null,
@@ -34,7 +35,8 @@
         this.set("versionId", current.VersionId);
         this.set("versionReference", current.VersionReference);
         this.set("versionDateCreate", current.VersionDateCreateData);
-        //this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
+        this.set("documentDateCreate", current.DocumentDateCreateData);
+        this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
         return this;
     }
 });
@@ -90,7 +92,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.fetch({ success: param.success, error: param.error });
     },
     loadAll: function (param) {
-        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'").replace("<documentOwnerId/>", param.userId);
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
         this.fetch({ success: param.success, error: param.error });
     }
 });

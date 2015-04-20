@@ -1,5 +1,5 @@
 ﻿'use strict';
-var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit','ui.grid.resizeColumns', 'ui.grid.pagination']);
+var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit','ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize']);
 
 backOffice.run(function ($rootScope, $location) {
 
@@ -63,6 +63,7 @@ backOffice.directive('tdLogout', function ($rootScope, $location) {
     };
 });
 
+/* contain result of user search */
 backOffice.factory('usersResult', function () {
     var data = { users: [], calls: 0 };
 
@@ -75,6 +76,7 @@ backOffice.factory('usersResult', function () {
     }
 });
 
+/* contain all user group */
 backOffice.factory('groups', function () {
     var data = { groups: [], calls: 0 };
 
@@ -94,9 +96,27 @@ backOffice.factory('groups', function () {
     }
 });
 
+/* contain document display in detail in inbox */
+backOffice.factory('documentDisplay', function () {
+    var data = { document: null, metadatas: [], calls: 0 };
+
+    return {
+        set: function () {
+            data.document = arguments[0];
+            data.metadatas = arguments[1];
+            data.calls = data.calls + 1;
+        },
+        data: data
+    }
+
+    return {
+        data: data
+    }
+});
+
 backOffice.factory('refreshDetail', function () {
     var data = { calls: 0 };
-
+    
     return {
         data: data
     }

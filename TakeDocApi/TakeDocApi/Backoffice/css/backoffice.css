@@ -114,7 +114,7 @@ form {
    
 }
 
-/* inbox */
+/* inbox - directoy*/
 #inbox-directories {
     padding-left: 5px;
     padding-top: 5px;
@@ -141,7 +141,53 @@ form {
         vertical-align: top;
 }
 
-
 .cell-inbox-item {
     height:50px !important;
+}
+.cell-inbox-item-small {
+    height:30px !important;
+}
+
+.cell-inbox-item-show-me {
+    font-weight: 600;
+    font-size: 12px;
+    width:100%;
+}
+
+.cell-inbox-item-show-me div {
+    display: inline-block;
+    padding-right: 10px;
+    float: right;
+}
+
+.cell-inbox-item-show-me:hover {
+    font-style:italic;
+    cursor: pointer;
+    color: #0404B4;
+}
+
+.cell-inbox-item-show-entity {
+    font-size: 10px;
+}
+
+.inbox-item-CREATE {
+    color:#D358F7;
+}
+
+/* inbox - display */
+#divInboxDisplay ul
+{
+    list-style-type: none;
+}
+
+.inbox-metadata-name {
+    padding-top: 5px;
+    display: inline-block;
+    width: 45%;
+}
+
+.inbox-metadata-value {
+    padding-top: 5px;
+    display: inline-block;
+    width:45%;
 }

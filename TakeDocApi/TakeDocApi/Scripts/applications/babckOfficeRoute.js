@@ -81,6 +81,10 @@
             "viewGrid": {
                 templateUrl: "features/inbox/inbox.html",
                 controller: 'inboxController'
+            },
+            "viewDetail": {
+                templateUrl: "features/inbox/display.html",
+                controller: 'displayController'
             }
         }
     });
