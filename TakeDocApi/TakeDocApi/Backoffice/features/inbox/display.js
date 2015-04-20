@@ -8,4 +8,15 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.metadatas = documentDisplay.data.metadatas.models;
         }
     });
+
+    $scope.doOpenDocument = function () {
+        var success = function () {
+
+        };
+        var error = function () {
+            $rootScope.showError("Impossible d'ouvrir le document.")
+        };
+
+        fileHelper.readUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
+    };
 }]);

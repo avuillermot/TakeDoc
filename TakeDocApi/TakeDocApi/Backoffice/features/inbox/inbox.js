@@ -2,7 +2,7 @@
 backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', function ($scope, $rootScope, $stateParams, documentDisplay) {
 
     var myDocuments = new DocumentsExtended();
-    var cellTitle = '<div class="cell-inbox-item-show-me" ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-show-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div>';
+    var cellTitle = '<div ng-click="grid.appScope.showMe(row)"><div class="cell-inbox-item-show-me">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-show-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
     var cellDate = '<div>{{row.entity.attributes.formatDate}}</div>';
 
     $scope.gridDocuments = {
