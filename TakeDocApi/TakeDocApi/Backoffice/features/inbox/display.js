@@ -7,7 +7,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         if (documentDisplay.data.metadatas.length > 0 && documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
-            $scope.title = $scope.document.get("label") + " - " + $scope.document.get("formatDate");
+            $scope.title = $scope.document.get("label");
         }
         else {
             $scope.document = {};
@@ -36,6 +36,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             entityId: $scope.document.get("entityId"),
             userId: $rootScope.getUser().Id,
             success: function () {
+                $rootScope.hideLoader();
                 documentsDirectory.data.documents.remove(documentDisplay.data.document);
                 documentsDirectory.data.calls = documentsDirectory.data.calls + 1;
 
@@ -44,17 +45,19 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 if (!$scope.$$phase) $scope.$apply();
             },
             error: function () {
-                alert("error");
+                $rootScope.hideLoader();
             }
         };
+        $rootScope.showLoader("Suppression....");
         documentsExt.delete(param);
     };
 
     $scope.doSave = function () {
         var success = function () {
-            alert("ok");
+            $rootScope.hideLoader();
         };
         var error = function () {
+            $rootScope.hideLoader();
             $rootScope.showError(arguments[0]);
         };
         var param = {
@@ -72,6 +75,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             current[0].set("dateValue", elemMetaValue);
         });
 
+        $rootScope.showLoader("Enregistrement....");
         documentDisplay.data.metadatas.save(param, success, error);
     };
 }]);

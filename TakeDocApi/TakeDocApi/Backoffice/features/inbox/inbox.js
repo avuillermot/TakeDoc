@@ -30,12 +30,14 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         var toShow = arguments[0].entity;
 
         var success = function () {
+            $rootScope.hideLoader();
             documentDisplay.data.metadatas = arguments[0];
             documentDisplay.data.document = toShow;
             documentDisplay.data.calls = documentDisplay.data.calls + 1;
             if(!$scope.$$phase) $scope.$apply();
         };
-        var error = function() {
+        var error = function () {
+            $rootScope.hideLoader();
             $rootScope.showError(arguments[0]);
         };
 
@@ -45,6 +47,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             entityId: toShow.get("entityId")
         };
         metas = new Metadatas("byVersion", toShow.get("versionId"), toShow.get("entityId"));
+        $rootScope.showLoader("En cours...");
         metas.fetch({ success: success, error: error });
     };
 

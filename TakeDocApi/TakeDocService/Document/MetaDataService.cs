@@ -93,7 +93,7 @@ namespace TakeDocService.Document
                 }
                 else if (myType == typeof(System.Decimal))
                 {
-                    Decimal.Parse(value.Replace(".",","));
+                    if (string.IsNullOrEmpty(value) == false) Decimal.Parse(value.Replace(".",","));
                 }
             }
             catch (Exception ex)

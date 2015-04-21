@@ -180,19 +180,15 @@ form {
     list-style-type: none;
 }
 
-.inbox-metadata-name {
-    padding-top: 10px;
-    display: inline-block;
-    width: 30%;
-    font-size:14px;
-}
-
-.inbox-metadata-value {
-    padding-top: 10px;
-    display: inline-block;
-    width:45%;
+.inbox-metadata {
+    padding-top: 5px;
 }
 
 .inbox-item-title {
     font-size:18px;
+}
+
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
 }
