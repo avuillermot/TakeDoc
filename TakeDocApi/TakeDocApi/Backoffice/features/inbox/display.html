@@ -1,18 +1,23 @@
 ﻿<div id="divInboxDisplay">
-    {{document.attributes.label}}&#160;-&#160; Du {{document.attributes.formatDate}}
-    <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] ">
-        <label ng-switch on="metadata.attributes.htmlType">
-            {{metadata.attributes.label}}
+    <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar" ng-show="title != null">
+        <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+    </div>
 
+    <div class="inbox-item-title">{{title}}</div>
+    <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] ">
+        <div ng-switch on="metadata.attributes.htmlType">
+            <div class="inbox-metadata-name">{{metadata.attributes.label}}</div>
+            <div class="inbox-metadata-value">
                 <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}">
-                    <option ng-repeat="item in metadata.attributes.valueList" value="{{item.key}}">{{item.text}}</option>
+                    <option ng-repeat="item in metadata.attributes.valueList" ng-selected="metadata.attributes.value == item.key" value="{{item.key}}">{{item.text}}</option>
                 </select>
 
-                <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
-                <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-model="metadata.attributes.value" checked="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                <input ng-switch-when="date" name="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
                 <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />{{metadata.attributes.value}}{{metadata.attributes.type}}
-
-        </label>
+            </div>
+        </div>
     </div>
     <div ng-click="doOpenDocument()">open</div>
 </div>

@@ -144,29 +144,29 @@ form {
 .cell-inbox-item {
     height:50px !important;
 }
-.cell-inbox-item-small {
-    height:30px !important;
+
+.cell-inbox-item div {
+    cursor:pointer;
 }
 
-.cell-inbox-item-show-me {
+.cell-inbox-item-title {
     font-weight: 600;
     font-size: 12px;
     width:100%;
 }
 
-.cell-inbox-item-show-me div {
+.cell-inbox-item-title div {
     display: inline-block;
     padding-right: 10px;
     float: right;
 }
 
-.cell-inbox-item-show-me:hover {
+.cell-inbox-item-title:hover {
     font-style:italic;
-    cursor: pointer;
     color: #0404B4;
 }
 
-.cell-inbox-item-show-entity {
+.cell-inbox-item-entity {
     font-size: 10px;
 }
 
@@ -181,13 +181,18 @@ form {
 }
 
 .inbox-metadata-name {
-    padding-top: 5px;
+    padding-top: 10px;
     display: inline-block;
-    width: 45%;
+    width: 30%;
+    font-size:14px;
 }
 
 .inbox-metadata-value {
-    padding-top: 5px;
+    padding-top: 10px;
     display: inline-block;
     width:45%;
+}
+
+.inbox-item-title {
+    font-size:18px;
 }

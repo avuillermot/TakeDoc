@@ -40,6 +40,7 @@ namespace UnitTestTakeDocService.Document
 
         [TestMethod]
         public void TestOrdered() {
+            this.DeleteDocument();
             this.IsValidMetaData();
 
             this.CreateDocument();
@@ -166,6 +167,12 @@ namespace UnitTestTakeDocService.Document
         public void GeneratePdfTest()
         {
             servTask.Execute(userId);
+        }
+
+        [TestMethod]
+        public void DeleteDocument()
+        {
+            servDocument.Delete(new Guid("03679883-0437-4AED-AFE9-82CCB43F141F"), entityId, userId);
         }
 
         public void test()

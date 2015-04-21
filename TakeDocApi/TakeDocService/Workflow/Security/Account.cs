@@ -54,7 +54,7 @@ namespace TakeDocService.Workflow.Security
                 try
                 {
                     servUser.Create(user, entitys.First());
-                    throw new Exception("send mail to admin in order to inform");
+                    //throw new Exception("send mail to admin in order to inform");
 
                     back = true;
                     tr.Complete();

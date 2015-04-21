@@ -12,5 +12,6 @@ namespace TakeDocDataAccess.Document.Interface
         TakeDocModel.MetaData Add(TakeDocModel.MetaData meta);
         void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> values);
         ICollection<TakeDocModel.MetaData> GetBy(Expression<Func<TakeDocModel.MetaData, bool>> where, params Expression<Func<TakeDocModel.MetaData, object>>[] properties);
+        void Update(TakeDocModel.MetaData version);
     }
 }

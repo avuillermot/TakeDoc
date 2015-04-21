@@ -71,5 +71,16 @@ namespace TakeDocService.Document
             return daoVersion.GetBy(where, properties);
         }
 
+        public void Delete(Guid documentId, Guid entityId, Guid userId)
+        {
+            ICollection<TakeDocModel.Version> versions = daoVersion.GetBy(x => x.Document.DocumentId == documentId);
+            foreach (TakeDocModel.Version version in versions) {
+                servMetaData.Delete(version.VersionId, entityId, userId);
+                version.EtatDeleteData = true;
+                version.DateDeleteData = System.DateTime.UtcNow;
+                version.UserDeleteData = userId;
+                daoVersion.Update(version);
+            }
+        }
     }
 }

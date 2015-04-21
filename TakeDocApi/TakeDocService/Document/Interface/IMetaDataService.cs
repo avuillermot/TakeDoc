@@ -21,5 +21,6 @@ namespace TakeDocService.Document.Interface
         ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId);
         ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(Guid versionId, Guid entityId);
         ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(TakeDocModel.Version version);
+        void Delete(Guid versionId, Guid entityId, Guid userId);
     }
 }

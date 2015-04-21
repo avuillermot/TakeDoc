@@ -54,6 +54,7 @@ var Metadatas = Backbone.Collection.extend({
             if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
 
             if (mandatory == true) {
+                // use datevalue if date is stored in javascript date object
                 var myValue = (current.get("type") != "date") ? current.get("value") : current.get("dateValue");
 
                 if (myValue == null || myValue == "") {

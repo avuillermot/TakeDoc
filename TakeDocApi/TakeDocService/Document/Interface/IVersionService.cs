@@ -14,5 +14,12 @@ namespace TakeDocService.Document.Interface
         TakeDocModel.Version GetById(Guid versionId, params System.Linq.Expressions.Expression<Func<TakeDocModel.Version, object>>[] properties);
         ICollection<TakeDocModel.Version> GetBy(Expression<Func<TakeDocModel.Version, bool>> where, params Expression<Func<TakeDocModel.Version, object>>[] properties);
         void SetStatus(TakeDocModel.Version version, string status, Guid userId);
+        /// <summary>
+        /// delete all version of a document and metadata
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        void Delete(Guid documentId, Guid entityId, Guid userId);
     }
 }

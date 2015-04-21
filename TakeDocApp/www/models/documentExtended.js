@@ -12,6 +12,7 @@
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,
+        documentDateCreate: null,
         versionId: null,
         versionReference: null,
         versionDateCreate: null,
@@ -34,6 +35,7 @@
         this.set("versionId", current.VersionId);
         this.set("versionReference", current.VersionReference);
         this.set("versionDateCreate", current.VersionDateCreateData);
+        this.set("documentDateCreate", current.DocumentDateCreateData);
         this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
         return this;
     }
@@ -88,5 +90,18 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
         this.fetch({ success: param.success, error: param.error });
+    },
+    loadAll: function (param) {
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
+        this.fetch({ success: param.success, error: param.error });
+    },
+    delete: function (param) {
+        var url = (environnement.UrlBase + "document/delete/<documentId/>/<entityId/>/<userId/>").replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: param.success,
+            error: param.error
+        });
     }
 });

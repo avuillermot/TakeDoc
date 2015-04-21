@@ -94,5 +94,14 @@ var DocumentsExtended = Backbone.Collection.extend({
     loadAll: function (param) {
         this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
         this.fetch({ success: param.success, error: param.error });
+    },
+    delete: function (param) {
+        var url = (environnement.UrlBase + "document/delete/<documentId/>/<entityId/>/<userId/>").replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
+        $.ajax({
+            type: 'DELETE',
+            url: url,
+            success: param.success,
+            error: param.error
+        });
     }
 });

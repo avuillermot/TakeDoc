@@ -1,9 +1,21 @@
 ﻿'use strict';
-backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', function ($scope, $rootScope, $stateParams, documentDisplay) {
+backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
+    // subscribe to displayController that it can update list currently display
+    $scope.$watch(function () { return documentsDirectory.data.calls; }, function () {
+        if (documentsDirectory.data.documents != null)
+            $scope.gridDocuments.data = documentsDirectory.data.documents.models;
+    });
+
+    var resizeGridInbox = function () {
+        var h = ($(document).height() - 200);
+        $("#inbox-items").css('height', h + 'px');
+    };
+
+    // document grid display
     var myDocuments = new DocumentsExtended();
-    var cellTitle = '<div ng-click="grid.appScope.showMe(row)"><div class="cell-inbox-item-show-me">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-show-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
-    var cellDate = '<div>{{row.entity.attributes.formatDate}}</div>';
+    var cellTitle = '<div ng-click="grid.appScope.showMe(row)"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
+    var cellDate = '<div ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.formatDate}}</div>';
 
     $scope.gridDocuments = {
         columnDefs: [
@@ -12,25 +24,8 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         ],
         data: []
     };
-
-    var param = {
-        userId: $rootScope.getUser().Id,
-        success: function () {
-            $scope.gridDocuments.data = arguments[0].models;
-            $scope.$apply();
-            resizeGridInbox();
-
-        },
-        error: function () {
-            $rootScope.showError(arguments[0]);
-        }
-    };
-
-    var resizeGridInbox = function () {
-        var h = ($(document).height() - 200);
-        $("#inbox-items").css('height', h + 'px');
-    };
     
+    // display detail of this document in the display module
     $scope.showMe = function () {
         var toShow = arguments[0].entity;
 
@@ -53,5 +48,19 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         metas.fetch({ success: success, error: error });
     };
 
+    // load documents
+    var param = {
+        userId: $rootScope.getUser().Id,
+        success: function () {
+            documentsDirectory.data.documents = arguments[0];
+            $scope.gridDocuments.data = documentsDirectory.data.documents.models;
+            if (!$scope.$$phase) $scope.$apply();
+            resizeGridInbox();
+
+        },
+        error: function () {
+            $rootScope.showError(arguments[0]);
+        }
+    };
     myDocuments.loadAll(param);
 }]);

@@ -15,5 +15,12 @@ namespace TakeDocService.Document.Interface
         void SetStatus(Guid document, string status, Guid userId, bool updateStatusVersion);
         TakeDocModel.Document GetById(Guid documentId, params Expression<Func<TakeDocModel.Document, object>>[] properties);
         void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas);
+        /// <summary>
+        /// Delete document, all his version and all metadata
+        /// </summary>
+        /// <param name="documentId"></param>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        void Delete(Guid documentId, Guid entityId, Guid userId);
     }
 }

@@ -20,7 +20,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         var metas = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
             return item.get("htmlType") !== "autocomplete";
         });
-        if (metas.length == 0) $scope.doSave(); //$location.path($scope.nextUrl.replace("#/", ""));
+        if (metas.length == 0) $scope.doSave();
     });
 
     $scope.doSave = function () {

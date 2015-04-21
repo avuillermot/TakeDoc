@@ -25,7 +25,7 @@ namespace TakeDocService.Stats
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate)
-                    && x.EntityId == vue.EntityId && x.DocumentOwnerId == vue.UserTkId).ToList();
+                    && x.EntityId == vue.EntityId && x.DocumentOwnerId == vue.UserTkId && x.EtatDeleteData == false).ToList();
 
                 foreach (TakeDocModel.TypeDocument type in types.Where(x => x.EntityId == vue.EntityId && x.EtatDeleteData == false))
                 {

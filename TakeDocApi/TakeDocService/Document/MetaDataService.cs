@@ -150,5 +150,17 @@ namespace TakeDocService.Document
 
             return roMetas;
         }
+
+        public void Delete(Guid versionId, Guid entityId, Guid userId)
+        {
+            ICollection<TakeDocModel.MetaData> metas = daoMetaData.GetBy(x => x.MetaDataVersionId == versionId);
+            foreach (TakeDocModel.MetaData meta in metas)
+            {
+                meta.EtatDeleteData = true;
+                meta.DateDeleteData = System.DateTime.UtcNow;
+                meta.UserDeleteData = userId;
+                daoMetaData.Update(meta);
+            }
+        }
     }
 }

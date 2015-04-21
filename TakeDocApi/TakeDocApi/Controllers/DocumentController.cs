@@ -26,5 +26,21 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpDelete]
+        [Route("delete/{documentId}/{entityId}/{userId}")]
+        public HttpResponseMessage DeleteDocument(Guid documentId, Guid entityId, Guid userId)
+        {
+            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
+            try
+            {
+                servDocument.Delete(documentId, entityId, userId);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

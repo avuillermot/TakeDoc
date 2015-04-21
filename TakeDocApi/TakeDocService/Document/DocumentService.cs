@@ -119,5 +119,20 @@ namespace TakeDocService.Document
                 transaction.Complete();
             }
         }
+
+        public void Delete(Guid documentId, Guid entityId, Guid userId)
+        {
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
+                servVersion.Delete(documentId, entityId, userId);
+                document.EtatDeleteData = true;
+                document.DateDeleteData = System.DateTime.UtcNow;
+                document.UserDeleteData = userId;
+                daoDocument.Update(document);
+
+                transaction.Complete();
+            }
+        }
    }
 }

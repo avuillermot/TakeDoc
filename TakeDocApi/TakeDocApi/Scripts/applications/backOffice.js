@@ -35,7 +35,10 @@ backOffice.run(function ($rootScope, $location) {
     };
 
     $rootScope.showError = function (err) {
-        if (err.responseJSON == null || err.responseJSON.Message == null) $rootScope.showModal("Erreur", "Une erreur est survenue.")
+        if (err == null || err.responseJSON == null || err.responseJSON.Message == null) {
+            if (err.message != null) $rootScope.showModal("Erreur", err.message)
+            else $rootScope.showModal("Erreur", "Une erreur est survenue.")
+        }
         else $rootScope.showModal("Erreur", err.responseJSON.Message);
     }
 
@@ -96,7 +99,6 @@ backOffice.factory('groups', function () {
     }
 });
 
-/* contain document display in detail in inbox */
 backOffice.factory('documentDisplay', function () {
     var data = { document: null, metadatas: [], calls: 0 };
 
@@ -104,6 +106,23 @@ backOffice.factory('documentDisplay', function () {
         set: function () {
             data.document = arguments[0];
             data.metadatas = arguments[1];
+            data.calls = data.calls + 1;
+        },
+        data: data
+    }
+
+    return {
+        data: data
+    }
+});
+
+/* contain document display in detail in inbox */
+backOffice.factory('documentsDirectory', function () {
+    var data = { documents: null, calls: 0 };
+
+    return {
+        set: function () {
+            data.documents = arguments[0];
             data.calls = data.calls + 1;
         },
         data: data
