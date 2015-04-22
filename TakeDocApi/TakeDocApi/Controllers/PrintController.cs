@@ -36,8 +36,24 @@ namespace TakeDocApi.Controllers
             {
                 IReportVersionService servReport = Utility.MyUnityHelper.UnityHelper.Resolve<IReportVersionService>();
                 string name = servReport.GetUrlFile(versionId, entityId);
-
                 return Request.CreateResponse(name);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
+        [HttpPost]
+        [Route("generatepdf/version/{versionId}/{entityId}/{userId}")]
+        public HttpResponseMessage GeneratePdf(Guid versionId, Guid entityId, Guid userId)
+        {
+            try
+            {
+                IReportVersionService serv = Utility.MyUnityHelper.UnityHelper.Resolve<IReportVersionService>();
+                serv.Generate(versionId, entityId);
+                return Request.CreateResponse(true);
             }
             catch (Exception ex)
             {

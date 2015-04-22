@@ -9,7 +9,7 @@ using serviceDoc = TakeDocService.Document;
 
 namespace TakeDocService.Workflow.Document
 {
-    public class SetStatusSend : DocumentTaskBase, Interface.ISetStatusSend
+    public class SetStatusToValidate : Interface.ISetStatusToValidate
     {
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();
@@ -32,7 +32,7 @@ namespace TakeDocService.Workflow.Document
             }
         }
 
-        public ICollection<TakeDocModel.Version> Get(TakeDocModel.Entity entity)
+        private ICollection<TakeDocModel.Version> Get(TakeDocModel.Entity entity)
         {
             ICollection<TakeDocModel.Version> versions = servVersion.GetBy(x => x.Status_Version.StatusVersionReference.Equals(TakeDocModel.Status_Version.Complete) 
                 && x.EntityId == entity.EntityId 
@@ -42,19 +42,12 @@ namespace TakeDocService.Workflow.Document
             return versions;
         }
 
-       public bool GeneratePdf(TakeDocModel.Version version, Guid userId)
+       private bool GeneratePdf(TakeDocModel.Version version, Guid userId)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == version.EntityId).First();
 
-            System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
             byte[] data = servReportVersion.Generate(version, entity);
             if (data == null) return false;
-            System.IO.File.WriteAllBytes(file.FullName, data);
-
-            ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
-            locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
-            version.VersionStreamId = locators.First().StreamId;
-            servVersion.SetStatus(version, TakeDocModel.Status_Version.ToValidate, userId);
             return true;
         }
     }

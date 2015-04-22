@@ -8,12 +8,28 @@ using System.IO;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
+using Utility.MyUnityHelper;
+using doc = TakeDocService.Document;
+
 
 namespace TakeDocService.Document
 {
     public class ImageService : BaseService, Interface.IImageService
     {
-        public PdfReader GetPdf(ICollection<byte[]> pages)
+        doc.Interface.IPageService servPage = UnityHelper.Resolve<doc.Interface.IPageService>();
+
+        public PdfReader GetImagePdf(TakeDocModel.Version version)
+        {
+            ICollection<byte[]> data = new List<byte[]>();
+            foreach (TakeDocModel.Page page in version.Page.OrderBy(x => x.PageNumber))
+            {
+                byte[] img = servPage.GetBinary(page.PageId);
+                data.Add(img);
+            }
+            return this.GetPdf(data);
+        }
+
+        private PdfReader GetPdf(ICollection<byte[]> pages)
         {
             MemoryStream streamOut = new MemoryStream();
             PdfReader reader = null;
@@ -53,7 +69,7 @@ namespace TakeDocService.Document
             }
         }
 
-        public byte[] Rotate(Bitmap input, float angle)
+        private byte[] Rotate(Bitmap input, float angle)
         {
             if (angle != 0 && angle != 90 && angle != 180 && angle != 270 ) throw new Exception("Angle inconnu");
             using (System.IO.MemoryStream ms = new System.IO.MemoryStream())

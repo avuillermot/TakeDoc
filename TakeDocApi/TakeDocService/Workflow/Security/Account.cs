@@ -54,7 +54,7 @@ namespace TakeDocService.Workflow.Security
                 try
                 {
                     servUser.Create(user, entitys.First());
-                    //throw new Exception("send mail to admin in order to inform");
+                    this.SendMailToInform(user, entitys.First());
 
                     back = true;
                     tr.Complete();
@@ -68,6 +68,30 @@ namespace TakeDocService.Workflow.Security
 
             }
             return back;
+        }
+
+        /// <summary>
+        /// Send mail to inform that a user ask a account
+        /// </summary>
+        /// <param name="user">user who want to create account</param>
+        /// <param name="entity"></param>
+        private void SendMailToInform(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
+        {
+            string toParameter = string.Concat("MAIL_INFORM_REQUEST_ACCOUNT_TO_", entity.EntityReference);
+            ICollection<TakeDocModel.Parameter> parameters = daoParameter.GetBy(x => x.ParameterReference == toParameter);
+            if (parameters.Count() == 0) throw new Exception("Aucun destinataire ne sera informé dans cette demande. Votre demande ne sera pas prise en compte.");
+
+            string to = parameters.First().ParameterValue;
+            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_FROM").First().ParameterValue;
+            string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_TITLE").First().ParameterValue;
+            string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_BODY").First().ParameterValue;
+
+            string entityRef = "MASTER";
+            if (entity != null) entityRef = entity.EntityReference;
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entityRef, @"\", "mail", @"\", bodyFile);
+            string body = System.IO.File.ReadAllText(path);
+
+            servMail.Send(title, body, from, to, user);
         }
 
         

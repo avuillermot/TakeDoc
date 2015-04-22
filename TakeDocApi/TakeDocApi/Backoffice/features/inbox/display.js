@@ -55,6 +55,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     $scope.doSave = function () {
         var success = function () {
             $rootScope.hideLoader();
+            generatePdf();
         };
         var error = function () {
             $rootScope.hideLoader();
@@ -77,5 +78,17 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
         $rootScope.showLoader("Enregistrement....");
         documentDisplay.data.metadatas.save(param, success, error);
+    };
+
+    var generatePdf = function () {
+        var param = {
+            userId: $rootScope.getUser().Id,
+            entityId: $scope.document.get("entityId"),
+            versionId: $scope.document.get("versionId"),
+            success: function () { },
+            error: function () { }
+        };
+        
+        documentDisplay.data.metadatas.generatePdf(param);
     };
 }]);

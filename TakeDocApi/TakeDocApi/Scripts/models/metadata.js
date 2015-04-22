@@ -101,5 +101,15 @@ var Metadatas = Backbone.Collection.extend({
                 onError();
             }
         });
+    },
+
+    generatePdf: function (param) {
+        var url = environnement.UrlBase + "print/generatepdf/version/<versionId/>/<entityId/>/<userId/>".replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId)
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: param.succes,
+            error: param.error
+        });
     }
 });

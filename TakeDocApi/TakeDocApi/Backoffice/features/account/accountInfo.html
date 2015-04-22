@@ -1,7 +1,7 @@
 ﻿<div>
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
-        <button type="button" class="btn btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
-        <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser"  data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
@@ -61,7 +61,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Ajouter une entité</h4>
             </div>
             <div class="modal-body">
@@ -76,7 +76,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveEntityToAdd()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+                <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveEntityToAdd()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             </div>
         </div>
     </div>
@@ -87,7 +87,7 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Groupe</h4>
             </div>
             <div class="modal-body">
@@ -102,7 +102,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default glyphicon glyphicon-ok" ng-model="selectedGroup.attributes.id" ng-click="doValidSelectedGroup()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+                <button class="btn btn-default glyphicon glyphicon-ok" ng-model="selectedGroup.attributes.id" ng-click="doValidSelectedGroup()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             </div>
         </div>
     </div>

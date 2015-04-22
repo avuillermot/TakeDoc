@@ -9,8 +9,7 @@ namespace TakeDocService.Document.Interface
 {
     public interface IImageService
     {
-        PdfReader GetPdf(ICollection<byte[]> pages);
+        PdfReader GetImagePdf(TakeDocModel.Version version);
         string ToBase64String(string pathFile);
-        byte[] Rotate(System.Drawing.Bitmap bitmap, float angle);
     }
 }

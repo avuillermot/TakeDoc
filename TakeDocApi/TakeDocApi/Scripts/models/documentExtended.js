@@ -8,7 +8,7 @@
         label: null,
         typeLabel: null,
         statusLabel: null,
-        statusRefernce: null,
+        statusReference: null,
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,

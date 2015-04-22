@@ -92,7 +92,6 @@
     <Compile Include="Document\Interface\IVersionService.cs" />
     <Compile Include="Parameter\EntityService.cs" />
     <Compile Include="Parameter\Interface\IEntityService.cs" />
-    <Compile Include="Print\Interface\IPdfService.cs" />
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Document\PageStoreLocator.cs" />
@@ -107,18 +106,16 @@
     <Compile Include="Security\Interface\IGroupeTkService.cs" />
     <Compile Include="Stats\Interface\IDashboardService.cs" />
     <Compile Include="Stats\DashboardService.cs" />
-    <Compile Include="Workflow\Document\Interface\ISetStatusSend.cs" />
-    <Compile Include="Print\PdfService.cs" />
+    <Compile Include="Workflow\Document\Interface\ISetStatusToValidate.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
     <Compile Include="External\CustomerService.cs" />
     <Compile Include="External\Interface\ICustomerService.cs" />
-    <Compile Include="Workflow\Document\SetStatusSend.cs" />
+    <Compile Include="Workflow\Document\SetStatusToValidate.cs" />
     <Compile Include="Print\ReportVersionService.cs" />
     <Compile Include="Print\Interface\IReportVersionService.cs" />
     <Compile Include="Security\Interface\IUserTkService.cs" />
     <Compile Include="Security\UserTkService.cs" />
-    <Compile Include="Workflow\Document\DocumentTaskBase.cs" />
     <Compile Include="Workflow\Security\Interface\IAccount.cs" />
     <Compile Include="Workflow\Security\Account.cs" />
   </ItemGroup>

@@ -12,7 +12,7 @@ namespace TakeDocService.Communication
         TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
 
-        public void Send(string subject, string body, string to, TakeDocModel.UserTk user)
+        public void Send(string subject, string body, string from, string to, TakeDocModel.UserTk user)
         {
             TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
 
@@ -22,7 +22,6 @@ namespace TakeDocService.Communication
             string login = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_LOGIN").First().ParameterValue;
             string password = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_PASSWORD").First().ParameterValue;
             string smtp = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SERVER_SMTP").First().ParameterValue;
-            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_FROM").First().ParameterValue;
             string port = daoParameter.GetBy(x => x.ParameterReference == "MAIL_SMTP_PORT").First().ParameterValue;
 
             System.Net.NetworkCredential basicCredential =  new System.Net.NetworkCredential(login, password);

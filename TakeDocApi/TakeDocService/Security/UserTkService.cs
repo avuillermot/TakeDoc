@@ -173,15 +173,17 @@ namespace TakeDocService.Security
         {
             
             TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
-            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == user.View_UserEntity.First().EntityId).First();
+            Guid currentEntityId = user.View_UserEntity.First().EntityId;
+            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == currentEntityId).First();
 
             string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_TITLE").First().ParameterValue;
             string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_BODY").First().ParameterValue;
+            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_ACTIVATE_ACCOUNT_FROM").First().ParameterValue;
 
             string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
             string body = System.IO.File.ReadAllText(path);
 
-            servMail.Send(title, body, user.UserTkEmail, user);
+            servMail.Send(title, body, from, user.UserTkEmail, user);
         }
 
         public void ChangePassword(Guid userId, string olderPaswword, string newPassword)
@@ -240,13 +242,14 @@ namespace TakeDocService.Security
         {
             string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_NEW_PASSWORD_TITLE").First().ParameterValue;
             string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_NEW_PASSWORD_BODY").First().ParameterValue;
+            string from = daoParameter.GetBy(x => x.ParameterReference == "MAIL_NEW_PASSWORD_BODY").First().ParameterValue;
 
             string entityRef = "MASTER";
             if (entity != null) entityRef =  entity.EntityReference;
             string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entityRef, @"\", "mail", @"\", bodyFile);
             string body = System.IO.File.ReadAllText(path);
 
-            servMail.Send(title, body, user.UserTkEmail, user);
+            servMail.Send(title, body, from, user.UserTkEmail, user);
         }
 
         public void Delete(Guid userId, Guid currentUserId)

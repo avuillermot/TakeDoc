@@ -15,10 +15,29 @@ namespace TakeDocService.Print
     {
         Document.Interface.IVersionService servVersion = UnityHelper.Resolve<Document.Interface.IVersionService>();
         TakeDocService.Document.MetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.MetaDataService>();
-        TakeDocService.Print.Interface.IPdfService servPdf = UnityHelper.Resolve<TakeDocService.Print.Interface.IPdfService>();
+        TakeDocService.Document.Interface.IImageService servImage = UnityHelper.Resolve<TakeDocService.Document.Interface.IImageService>();
 
         dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUser = new TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
+
+        protected System.IO.FileInfo GetGenerateFileInfo(string entite, string fileName, string extension)
+        {
+            string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
+            string[] arr = storeLocalPath.Split('/');
+            string deep = string.Empty;
+            foreach (string s in arr)
+            {
+                if (string.IsNullOrEmpty(s) == false)
+                {
+                    deep = string.Concat(deep, @"\", s);
+                    if (System.IO.Directory.Exists(deep) == false) System.IO.Directory.CreateDirectory(string.Concat(TakeDocModel.Environnement.VersionStoreUNC, @"\", deep));
+                }
+            }
+            return new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.VersionStoreUNC, @"\", storeLocalPath, @"\", fileName, ".", extension));
+        }
+
+
         #region getfile
         /// <summary>
         /// Return file in byte array
@@ -122,14 +141,22 @@ namespace TakeDocService.Print
             return data;
         }
 
+        public byte[] Generate(Guid versionId, Guid entityId)
+        {
+            TakeDocModel.Version version = servVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId).First();
+            TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
+            return this.Generate(version, entity);
+        }
+
         public byte[] Generate(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
             byte[] data = this.GenerateStarterPdf(version, entity);
             if (data == null) return null;
             PdfReader entetePdf = new PdfReader(data);
-            PdfReader imagePdf = servPdf.GetImagePdf(version);
+            PdfReader imagePdf = servImage.GetImagePdf(version);
             its.Document outputPdf = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0);
             MemoryStream streamOut = new MemoryStream();
+
 
             using (PdfCopy writer = new PdfCopy(outputPdf, streamOut))
             {
@@ -148,6 +175,14 @@ namespace TakeDocService.Print
                 outputPdf.Close();
                 outputPdf.Dispose();
             }
+
+            System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
+            System.IO.File.WriteAllBytes(file.FullName, data);
+
+            ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
+            locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
+            version.VersionStreamId = locators.First().StreamId;
+           
             return streamOut.ToArray();
         }
         #endregion
