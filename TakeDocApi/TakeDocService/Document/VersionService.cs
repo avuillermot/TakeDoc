@@ -15,6 +15,7 @@ namespace TakeDocService.Document
         daDoc.Interface.IDaoVersion daoVersion = UnityHelper.Resolve<daDoc.Interface.IDaoVersion>();
 
         Interface.IMetaDataService servMetaData = UnityHelper.Resolve<Interface.IMetaDataService>();
+        Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
 
         private TakeDocModel.Version Create(Guid userId, Guid entityId, Guid versionId, Guid documentId, decimal versionNumber)
         {
@@ -81,6 +82,23 @@ namespace TakeDocService.Document
                 version.UserDeleteData = userId;
                 daoVersion.Update(version);
             }
+        }
+
+        public ICollection<object> GetPages(Guid versionId, Guid entityId, Guid userId)
+        {
+            ICollection<object> back = new List<object>();
+            TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId, x => x.Page).First();
+            int index = 1;
+            foreach(TakeDocModel.Page page in version.Page.Where(x => x.EtatDeleteData == false)) {
+                var current = new {
+                    index = index,
+                    base64Image = servPage.GetBase64(page.PageId),
+                    rotation = page.PageRotation
+                };
+                back.Add(current);
+                index++;
+            }
+            return back.ToArray();
         }
     }
 }

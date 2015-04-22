@@ -1405,6 +1405,7 @@
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.css" />
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\models\page.js" />
     <Content Include="Scripts\models\documentExtended.js" />
     <Content Include="Scripts\models\entity.js" />
     <Content Include="Scripts\models\groupTk.js" />

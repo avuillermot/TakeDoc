@@ -1,6 +1,8 @@
 ﻿'use strict';
 backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
+    var pages = new Pages();
+
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();
@@ -8,11 +10,14 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
             $scope.title = $scope.document.get("label");
+
+            loadImage();
         }
         else {
             $scope.document = {};
             $scope.metadatas = [];
             $scope.title = null;
+
         }
     });
 
@@ -86,9 +91,30 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             entityId: $scope.document.get("entityId"),
             versionId: $scope.document.get("versionId"),
             success: function () { },
-            error: function () { }
+            error: function () {
+                $rootScope.showError("La générartion du PDF est en erreur");
+            }
         };
         
         documentDisplay.data.metadatas.generatePdf(param);
+    };
+
+    var loadImage = function () {
+        var success = function () {
+            $scope.pages = arguments[0];
+            if (!$scope.$$phase) $scope.$apply();
+        };
+
+        var param = {
+            userId: $rootScope.getUser().Id,
+            entityId: $scope.document.get("entityId"),
+            versionId: $scope.document.get("versionId"),
+            success: success,
+            error: function () {
+                $rootScope.showError("Les images ne sont pas disponibles");
+            }
+        };
+
+        pages.load(param);
     };
 }]);

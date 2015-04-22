@@ -2,12 +2,11 @@
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar" ng-show="title != null">
         <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="document.attributes.statusReference == 'CREATE'" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="document.attributes.statusReference == 'CREATE' || document.attributes.statusReference == 'COMPLETE'" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
     </div>
 
     <div class="inbox-item-title">{{title}}</div>
     <form class="form-horizontal">
-
         <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] " class="form-group" ng-switch on="metadata.attributes.htmlType">
             <label class="col-sm-2 control-label">{{metadata.attributes.label}}</label>
 
@@ -20,9 +19,11 @@
                 <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
                 <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
             </div>
-
         </div>
     </form>
+    <div>
+        <img ng-repeat="page in pages | orderBy:['attributes.index']" data-ng-src="{{page.base64Image}}" class="inbox-thumbnail" />
+    </div>
 </div>
 
 

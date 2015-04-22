@@ -69,5 +69,16 @@ namespace TakeDocService.Document
             TakeDocModel.View_PageStoreLocator locator = dao.GetBy(x => x.StreamId == page.PageStreamId).First();
             return System.IO.File.ReadAllBytes(locator.StreamLocator);
         }
+
+        public string GetBase64(Guid pageId)
+        {
+            TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
+            TakeDocModel.View_PageStoreLocator locator = dao.GetBy(x => x.StreamId == page.PageStreamId).First();
+            byte[] data = System.IO.File.ReadAllBytes(locator.StreamLocator);
+
+            string prefix = "data:image/png;base64,";
+ 
+            return string.Concat(prefix, Convert.ToBase64String(data));
+        }
     }
 }

@@ -10,5 +10,6 @@ namespace TakeDocService.Document.Interface
     {
         void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation);
         byte[] GetBinary(Guid pageId);
+        string GetBase64(Guid pageId);
     }
 }
