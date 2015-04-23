@@ -113,8 +113,9 @@ namespace TakeDocService.Document
 
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
                 servMeta.SetMetaData(userId, entityId, versionId, metadatas);
-                servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
-                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+
+                if (TakeDocModel.Status_Version.Incomplete == version.Status_Version.StatusVersionReference) servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
+                if (TakeDocModel.Status_Document.Incomplete == document.Status_Document.StatusDocumentReference)  this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
 
                 transaction.Complete();
             }

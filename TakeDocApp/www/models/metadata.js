@@ -3,14 +3,32 @@
         id: null,
         index: null,
         key: null,
-        value: null,
+        text: null,
         reference: null,
-        etatDelete: null,
+        etatDelete: null
+    },
+    parse: function () {
+        var current = arguments[0];
+        this.set("id", current.id);
+        this.set("index", current.index);
+        this.set("key", current.key);
+        this.set("text", current.text);
+        this.set("reference", current.reference);
+        this.set("etatDelete", current.etatDelete);
+        return this;
     }
 });
 
 var MetaDataValues = Backbone.Collection.extend({
-    model: MetaDataValue
+    model: MetaDataValue,
+    parse: function () {
+        var data = arguments[0];
+        var arr = new Array();
+        for (var i = 0; i < data.length; i++) {
+            var current = new MetaDataValue();
+            this.models.push(current.parse(data[i]));
+        }
+    }
 });
 
 var Metadata = Backbone.Model.extend({
@@ -23,25 +41,46 @@ var Metadata = Backbone.Model.extend({
         type: null,
         label: null,
         htmlType: null,
-        valueList: new MetaDataValues(),
+        valueList: null,
         autoCompleteId: null,
         autoCompleteTitle: null,
         autoCompletePlaceHolder: null,
         autoCompleteUrl: null,
         autoCompleteReference: null
+    },
+    parse: function () {
+        var current = arguments[0];
+        this.set("id", current.id);
+        this.set("index", current.index);
+        this.set("name", current.name);
+        this.set("value", current.value);
+        this.set("mandatory", current.mandatory);
+        this.set("type", current.type);
+        this.set("label", current.label);
+        this.set("htmlType", current.htmlType);
+        this.set("autoCompleteId", current.autoCompleteId);
+        this.set("autoCompleteTitle", current.autoCompleteTitle);
+        this.set("autoCompletePlaceHolder", current.autoCompletePlaceHolder);
+        this.set("autoCompleteUrl", current.autoCompleteUrl);
+        this.set("autoCompleteReference", current.autoCompleteReference);
+        var values = new MetaDataValues();
+        values.parse(current.valueList);
+        this.set("valueList", values);
+        return this;
     }
 });
 
 
 var Metadatas = Backbone.Collection.extend({
-    initialize: function () {
-        if (arguments[0] == "byVersion") {
-            this.url = environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>";
-            this.url = this.url.replace("<versionId/>", arguments[1]);
-            this.url = this.url.replace("<entityId/>", arguments[2]);
+    model: Metadata,
+    parse: function () {
+        var data = arguments[0];
+        var arr = new Array();
+        for (var i = 0; i < data.length; i++) {
+            var current = new Metadata();
+            this.models.push(current.parse(data[i]));
         }
     },
-    model: Metadata,
     check: function () {
         var retour = { message: "", valid: true };
 
@@ -101,5 +140,19 @@ var Metadatas = Backbone.Collection.extend({
                 onError();
             }
         });
+    },
+
+    generatePdf: function (param) {
+        var url = environnement.UrlBase + "print/generatepdf/version/<versionId/>/<entityId/>/<userId/>".replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId)
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: param.success,
+            error: param.error
+        });
+    },
+    load: function (param) {
+        var url = (environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>").replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId);
+        this.fetch({ success: param.success, error: param.error, url: url });
     }
 });

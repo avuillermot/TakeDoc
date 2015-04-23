@@ -1,6 +1,9 @@
 ﻿'use strict';
 backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
+    var myDocuments = new DocumentsExtended();
+    var myMetas = new Metadatas();
+
     // subscribe to displayController that it can update list currently display
     $scope.$watch(function () { return documentsDirectory.data.calls; }, function () {
         if (documentsDirectory.data.documents != null)
@@ -13,7 +16,6 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     // document grid display
-    var myDocuments = new DocumentsExtended();
     var cellTitle = '<div ng-click="grid.appScope.showMe(row)"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
     var cellDate = '<div ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.formatDate}}</div>';
 
@@ -30,25 +32,23 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         var toShow = arguments[0].entity;
 
         var success = function () {
-            //$rootScope.hideLoader();
             documentDisplay.data.metadatas = arguments[0];
             documentDisplay.data.document = toShow;
             documentDisplay.data.calls = documentDisplay.data.calls + 1;
             if(!$scope.$$phase) $scope.$apply();
         };
         var error = function () {
-            //$rootScope.hideLoader();
             $rootScope.showError(arguments[0]);
         };
 
-        var metas = new Metadatas();
         var param = {
             versionId: toShow.get("versionId"),
-            entityId: toShow.get("entityId")
+            entityId: toShow.get("entityId"),
+            success: success, 
+            error: error
         };
-        metas = new Metadatas("byVersion", toShow.get("versionId"), toShow.get("entityId"));
-        //$rootScope.showLoader("En cours...");
-        metas.fetch({ success: success, error: error });
+        myMetas = new Metadatas();
+        myMetas.load(param);
     };
 
     // load documents

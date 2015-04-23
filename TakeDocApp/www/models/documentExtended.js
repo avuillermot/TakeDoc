@@ -8,7 +8,7 @@
         label: null,
         typeLabel: null,
         statusLabel: null,
-        statusRefernce: null,
+        statusReference: null,
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,
@@ -52,9 +52,8 @@ var DocumentsExtended = Backbone.Collection.extend({
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new DocumentExtended();
-            arr.push(current.parse(data[i]));
+            this.models.push(current.parse(data[i]));
         }
-        return arr;
     },
     loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",

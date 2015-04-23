@@ -15,21 +15,16 @@
 
 var GroupTks = Backbone.Collection.extend({
     model: GroupTk,
-    urlBase: environnement.UrlBase + "odata/GroupTks",
-    initialize: function () {
-        this.url = this.urlBase;
-    },
     parse: function () {
         var data = arguments[0].value;
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new GroupTk();
-            arr.push(current.parse(data[i]));
+            this.models.push(current.parse(data[i]));
         }
-        return arr;
     },
     loadAll: function (param) {
         this.url = this.urlBase;
-        this.fetch({ success: param.success, error: param.error });
+        this.fetch({ success: param.success, error: param.error, url: (environnement.UrlBase + "odata/GroupTks") });
     }
 });

@@ -2,11 +2,23 @@
 backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
     var pages = new Pages();
+    var cloneData = new Array();
+
+    var clone = function () {
+        cloneData = new Array();
+        for (var i = 0; i < documentDisplay.data.metadatas.length; i++) {
+            var current = documentDisplay.data.metadatas.models[i];
+            var key = current.get("key");
+            var value = current.get("value");
+            cloneData.push({key: key, value: value});
+        }
+    };
+
 
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();
-        if (documentDisplay.data.metadatas.length > 0 && documentDisplay.data.document != null) {
+        if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
             $scope.title = $scope.document.get("label");
@@ -17,8 +29,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.document = {};
             $scope.metadatas = [];
             $scope.title = null;
-
         }
+        clone();
     });
 
     // display pdf of this document
@@ -47,6 +59,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
                 documentDisplay.data.document = null;
                 documentDisplay.data.calls = documentDisplay.data.calls + 1;
+
+                $scope.pages = null;
                 if (!$scope.$$phase) $scope.$apply();
             },
             error: function () {
@@ -57,10 +71,14 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         documentsExt.delete(param);
     };
 
+    var hasChanged = function () {
+        dataHasChanged = true;
+    }
+
     $scope.doSave = function () {
         var success = function () {
             $rootScope.hideLoader();
-            generatePdf();
+            if (dataHasChanged) generatePdf();
         };
         var error = function () {
             $rootScope.hideLoader();
@@ -90,12 +108,16 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             userId: $rootScope.getUser().Id,
             entityId: $scope.document.get("entityId"),
             versionId: $scope.document.get("versionId"),
-            success: function () { },
+            success: function () {
+                $rootScope.hideLoader();
+                dataHasChanged = false;
+            },
             error: function () {
+                $rootScope.hideLoader();
                 $rootScope.showError("La générartion du PDF est en erreur");
             }
         };
-        
+        $rootScope.showLoader("Génération PDF....");
         documentDisplay.data.metadatas.generatePdf(param);
     };
 

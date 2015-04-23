@@ -33,7 +33,7 @@ function documentService() {
 }
 
 documentService.create = function (document, onSuccess, onError) {
-	if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Aucune page n'est disponible.");
+	if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Une photographie est requise.");
     console.log("documents.prototype.create:start");
     $.ajax({
 	        type: 'PUT',
@@ -101,10 +101,17 @@ documentService.SetIncomplete = function (document, onSuccess, onError) {
 }
 
 documentService.getMetaData = function (document, onSuccess, onError) {
-    metas = new Metadatas("byVersion", document.get("DocumentCurrentVersionId"), document.get("EntityId"));
+    metas = new Metadatas();
     var fn = function (collection) {
        document.Metadatas = collection;
        onSuccess();
     };
-    metas.fetch({ success: fn, error: onError } );
+    debugger;
+    var param = {
+        versionId:  document.get("DocumentCurrentVersionId"),
+        entityId:  document.get("EntityId"),
+        success: fn, 
+        error: onError
+    };
+    metas.load(param);
 }

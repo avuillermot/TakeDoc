@@ -26,9 +26,8 @@ var UserEntitys = Backbone.Collection.extend({
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new UserEntity();
-            arr.push(current.parse(data[i]));
+            this.models.push(current.parse(data[i]));
         }
-        return arr;
     },
     loadByUser: function (param) {
         this.url = (environnement.UrlBase + "identity/user/entity/<userId/>").replace("<userId/>", param.userId);

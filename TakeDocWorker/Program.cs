@@ -11,11 +11,13 @@ namespace TakeDocWorker
     {
         static void Main(string[] args)
         {
+            TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>>();
+            TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkLastName == "SYSTEM").First();
             Utility.Logger.myLogger.Init();
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
             TakeDocService.Workflow.Document.Interface.ISetStatusToValidate servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.ISetStatusToValidate>();
             // use root id
-            servTask.Execute(new Guid("A90CEA2D-7599-437B-88D3-A5405BE3EF93"));
+            servTask.Execute(user.UserTkId);
             Console.WriteLine("fin");
         }
     }
