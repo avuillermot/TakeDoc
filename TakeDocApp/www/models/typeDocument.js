@@ -4,7 +4,8 @@
         reference: null,
         entityRefence: null,
         label: null,
-        delete: null
+        delete: null,
+        pageNeed: null
     },
     parse: function () {
         var current = arguments[0];
@@ -13,6 +14,7 @@
         this.set("label", current.TypeDocumentLabel);
         this.set("entityId", current.EntityId);
         this.set("delete", current.EtatDeleteData);
+        this.set("pageNeed", current.TypeDocumentPageNeed);
         return this;
     }
 });

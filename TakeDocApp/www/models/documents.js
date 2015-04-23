@@ -18,6 +18,7 @@ var TkDocument = Backbone.Model.extend({
             EntityId: null,
             UserCreateData: null,
             DocumentTypeId: null,
+            DocumentPageNeed: null,
             DocumentCurrentVersionId: null,
             DocumentLabel: null,
             Pages: new Pictures(),
@@ -32,7 +33,7 @@ function documentService() {
 }
 
 documentService.create = function (document, onSuccess, onError) {
-	if (document.Pages == null || document.Pages.length == 0) throw new Error("Aucune page n'est disponible.");
+	if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Aucune page n'est disponible.");
     console.log("documents.prototype.create:start");
     $.ajax({
 	        type: 'PUT',
@@ -44,7 +45,8 @@ documentService.create = function (document, onSuccess, onError) {
             document.set("DocumentId", arguments[0].DocumentId);
             document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
             var current = arguments[0];
-            documentService.addPage(document, 1, onSuccess, onError);
+            if (document.Pages != null && document.Pages.length > 0) documentService.addPage(document, 1, onSuccess, onError);
+            else documentService.SetIncomplete(document, onSuccess, onError);
         },
         error: function () {
 			onError();

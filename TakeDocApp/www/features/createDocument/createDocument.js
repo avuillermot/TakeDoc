@@ -7,6 +7,7 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', function
         $rootScope.myTakeDoc.set("EntityId", $rootScope.User.CurrentEntity.Id);
         $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
         $rootScope.myTakeDoc.set("DocumentTypeId", $rootScope.User.CurrentTypeDocument.get("id"));
+        $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
 
 		var step = $rootScope.Scenario.next();
 		$scope.nextUrl = step.to;
