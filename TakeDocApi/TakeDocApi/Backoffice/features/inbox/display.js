@@ -4,15 +4,34 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     var pages = new Pages();
     var cloneData = new Array();
 
+    // clone metadata to compare if data has changed before save
     var clone = function () {
         cloneData = new Array();
         for (var i = 0; i < documentDisplay.data.metadatas.length; i++) {
-            var current = documentDisplay.data.metadatas.models[i];
-            var key = current.get("key");
+            var current = documentDisplay.data.metadatas.at(i);
+            var id = current.get("id");
             var value = current.get("value");
-            cloneData.push({key: key, value: value});
+            cloneData.push({id: id, value: value});
         }
     };
+
+    // test if data are updated, return true if yes else false
+    var hasChanged = function () {
+        for (var i = 0; i < cloneData.length; i++) {
+            var current = cloneData[i];
+            var meta = documentDisplay.data.metadatas.where({ id: current.id });
+            if (meta[0].get("value") != current.value) return true;
+        }
+        return false;
+    };
+
+    $scope.pdfIsEnable = function () {
+        if (documentDisplay.data.document == null) return false;
+        if (documentDisplay.data.document.get("statusReference") == "CREATE"
+            || documentDisplay.data.document.get("statusReference") == "COMPLETE"
+            || documentDisplay.data.document.get("statusReference") == "INCOMPLETE") return false;
+        return true;
+    }
 
 
     // subscribe to event for display the current document
@@ -71,14 +90,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         documentsExt.delete(param);
     };
 
-    var hasChanged = function () {
-        dataHasChanged = true;
-    }
-
     $scope.doSave = function () {
         var success = function () {
             $rootScope.hideLoader();
-            if (dataHasChanged) generatePdf();
+            if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
+            clone();
         };
         var error = function () {
             $rootScope.hideLoader();
@@ -110,7 +126,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             versionId: $scope.document.get("versionId"),
             success: function () {
                 $rootScope.hideLoader();
-                dataHasChanged = false;
             },
             error: function () {
                 $rootScope.hideLoader();

@@ -100,5 +100,10 @@ namespace TakeDocService.Document
             }
             return back.ToArray();
         }
+
+        public void Update(TakeDocModel.Version version)
+        {
+            daoVersion.Update(version);
+        }
     }
 }

@@ -150,39 +150,42 @@ namespace TakeDocService.Print
 
         public byte[] Generate(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
+            byte[] back = null;
             byte[] data = this.GenerateStarterPdf(version, entity);
             if (data == null) return null;
             PdfReader entetePdf = new PdfReader(data);
             PdfReader imagePdf = servImage.GetImagePdf(version);
-            its.Document outputPdf = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0);
+            its.Document document = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0);
             MemoryStream streamOut = new MemoryStream();
-
-
-            using (PdfCopy writer = new PdfCopy(outputPdf, streamOut))
+               
+            using (PdfCopy copy = new PdfCopy(document, streamOut))
             {
-                outputPdf.Open();
-                PdfImportedPage currentPage = null;
+                document.Open();
                 for (int p = 1; p <= entetePdf.NumberOfPages; p++)
                 {
-                    currentPage = writer.GetImportedPage(entetePdf, p);
-                    writer.AddPage(currentPage);
+                    PdfImportedPage page = copy.GetImportedPage(entetePdf, p);
+                    copy.AddPage(page);
                 }
+                copy.FreeReader(entetePdf);
+                entetePdf.Close();
+
+                // add page image to the pdf
                 for (int p = 1; p <= imagePdf.NumberOfPages; p++)
                 {
-                    currentPage = writer.GetImportedPage(imagePdf, p);
-                    writer.AddPage(currentPage);
+                    PdfImportedPage page = copy.GetImportedPage(imagePdf, p);
+                    copy.AddPage(page);
                 }
-                outputPdf.Close();
-                outputPdf.Dispose();
+                copy.FreeReader(imagePdf);
+                imagePdf.Close();
             }
 
             System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
-            System.IO.File.WriteAllBytes(file.FullName, data);
+            System.IO.File.WriteAllBytes(file.FullName, streamOut.ToArray());
 
             ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
             locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             version.VersionStreamId = locators.First().StreamId;
-           
+            servVersion.Update(version);
             return streamOut.ToArray();
         }
         #endregion

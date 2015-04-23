@@ -20,13 +20,19 @@ namespace TakeDocService.Document
 
         public PdfReader GetImagePdf(TakeDocModel.Version version)
         {
+            ICollection<byte[]> data = this.GetImage(version);
+            return this.GetPdf(data);
+        }
+
+        public ICollection<byte[]> GetImage(TakeDocModel.Version version)
+        {
             ICollection<byte[]> data = new List<byte[]>();
             foreach (TakeDocModel.Page page in version.Page.Where(x => x.EtatDeleteData == false).OrderBy(x => x.PageNumber))
             {
                 byte[] img = servPage.GetBinary(page.PageId);
                 data.Add(img);
             }
-            return this.GetPdf(data);
+            return data;
         }
 
         private PdfReader GetPdf(ICollection<byte[]> pages)

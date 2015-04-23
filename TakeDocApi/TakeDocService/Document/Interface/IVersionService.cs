@@ -22,5 +22,6 @@ namespace TakeDocService.Document.Interface
         /// <param name="userId"></param>
         void Delete(Guid documentId, Guid entityId, Guid userId);
         ICollection<object> GetPages(Guid versionId, Guid entityId, Guid userId);
+        void Update(TakeDocModel.Version version);
     }
 }

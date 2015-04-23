@@ -10,6 +10,7 @@ namespace TakeDocService.Document.Interface
     public interface IImageService
     {
         PdfReader GetImagePdf(TakeDocModel.Version version);
+        ICollection<byte[]> GetImage(TakeDocModel.Version version);
         string ToBase64String(string pathFile);
     }
 }

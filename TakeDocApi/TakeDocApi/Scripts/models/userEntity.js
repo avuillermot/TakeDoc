@@ -27,6 +27,7 @@ var UserEntitys = Backbone.Collection.extend({
         for (var i = 0; i < data.length; i++) {
             var current = new UserEntity();
             this.models.push(current.parse(data[i]));
+            this.length = this.models.length;
         }
     },
     loadByUser: function (param) {

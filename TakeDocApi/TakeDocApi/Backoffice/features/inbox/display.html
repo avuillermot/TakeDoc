@@ -2,7 +2,7 @@
     <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar" ng-show="title != null">
         <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="document.attributes.statusReference == 'CREATE' || document.attributes.statusReference == 'COMPLETE' || document.attributes.statusReference == 'INCOMPLETE'" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
+        <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
     </div>
 
     <div class="inbox-item-title">{{title}}</div>

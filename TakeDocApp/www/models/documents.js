@@ -106,7 +106,6 @@ documentService.getMetaData = function (document, onSuccess, onError) {
        document.Metadatas = collection;
        onSuccess();
     };
-    debugger;
     var param = {
         versionId:  document.get("DocumentCurrentVersionId"),
         entityId:  document.get("EntityId"),

@@ -53,6 +53,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         for (var i = 0; i < data.length; i++) {
             var current = new DocumentExtended();
             this.models.push(current.parse(data[i]));
+            this.length = this.models.length;
         }
     },
     loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",

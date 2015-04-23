@@ -27,6 +27,7 @@ var MetaDataValues = Backbone.Collection.extend({
         for (var i = 0; i < data.length; i++) {
             var current = new MetaDataValue();
             this.models.push(current.parse(data[i]));
+            this.length = this.models.length;
         }
     }
 });
@@ -79,6 +80,7 @@ var Metadatas = Backbone.Collection.extend({
         for (var i = 0; i < data.length; i++) {
             var current = new Metadata();
             this.models.push(current.parse(data[i]));
+            this.length = this.models.length;
         }
     },
     check: function () {
