@@ -30,7 +30,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
-        public string TypeDocumentEmail { get; set; }
+        public bool TypeDocumentPageNeed { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
     }

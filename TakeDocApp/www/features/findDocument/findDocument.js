@@ -32,10 +32,13 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         $ionicLoading.show({
             template: 'Recherche...'
         });
+
+        var reference = "";
+        if ($rootScope.User.CurrentTypeDocument != null) reference = (($rootScope.User.CurrentTypeDocument.get("reference") == "") ? null : $rootScope.User.CurrentTypeDocument.get("reference"));
         var params = {
             entityReference: $rootScope.User.CurrentEntity.Reference,
             ownerId: $rootScope.User.Id,
-            typeDocumentReference: (($rootScope.User.CurrentTypeDocument.TypeDocumentReference == "") ? null : $rootScope.User.CurrentTypeDocument.TypeDocumentReference),
+            typeDocumentReference: reference,
             success: onSuccess,
             error: onError
         }

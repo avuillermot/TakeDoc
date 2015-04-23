@@ -28,5 +28,6 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public int PageNumber { get; set; }
         public int PageRotation { get; set; }
+        public string PageFileExtension { get; set; }
     }
 }

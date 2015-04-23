@@ -19,7 +19,7 @@ namespace TakeDocService.Document
         private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
             base.Logger.InfoFormat("AddPage: add page to version [{0}], extension : [{1}], rotation [{2}]", versionId, extension, rotation);
-            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, rotation);
+            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, extension, rotation);
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
 
@@ -39,9 +39,7 @@ namespace TakeDocService.Document
 
         public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)
         {
-            imageString = imageString.Replace("data:image/jpeg;base64,", string.Empty);
-            imageString = imageString.Replace("data:image/png;base64,", string.Empty);
-
+            imageString = imageString.Replace(string.Format("data:image/{0};base64,", extension), string.Empty);
             byte[] bytes = Convert.FromBase64String(imageString);
             this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
         }
@@ -76,7 +74,7 @@ namespace TakeDocService.Document
             TakeDocModel.View_PageStoreLocator locator = dao.GetBy(x => x.StreamId == page.PageStreamId).First();
             byte[] data = System.IO.File.ReadAllBytes(locator.StreamLocator);
 
-            string prefix = "data:image/png;base64,";
+            string prefix = string.Format("data:image/{0};base64,", page.PageFileExtension);
  
             return string.Concat(prefix, Convert.ToBase64String(data));
         }

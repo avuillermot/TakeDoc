@@ -124,11 +124,15 @@ takeDoc.directive('goBack', function ($location, $rootScope) {
     return function (scope, element, attrs) {
         element.addClass("button button-stable ion-home");
         var force = false;
+        var message = "Vos données en cours de modification seront disponibles dans le menu INCOMPLET.";
         attrs.$observe('goBack', function (val) {
-            force = (val === "true")? true : false;
+            force = (val === "true") ? true : false;
         });
 
         element.bind('click', function () {
+            if (this.attributes["message"] != null) {
+                message = this.attributes["message"].value;
+            }
             scope.$apply(function () {
                 if (force) $location.path("menu");
                 else {
@@ -137,7 +141,7 @@ takeDoc.directive('goBack', function ($location, $rootScope) {
                             $location.path("menu");
                         }
                     };
-                    $rootScope.PopupHelper.show("Annulation", "Vos données en cours de modification seront disponibles dans le menu INCOMPLET.", "OkCancel", onTap);
+                    $rootScope.PopupHelper.show("Annulation", message, "OkCancel", onTap);
                 }
             });
         });

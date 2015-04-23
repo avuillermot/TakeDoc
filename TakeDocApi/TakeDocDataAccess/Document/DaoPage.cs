@@ -8,7 +8,7 @@ namespace TakeDocDataAccess.Document
 {
     public class DaoPage : DaoBase<TakeDocModel.Page>, Interface.IDaoPage
     {
-        public TakeDocModel.Page Add(Guid userId, Guid entityId, Guid versionId, int rotation)
+        public TakeDocModel.Page Add(Guid userId, Guid entityId, Guid versionId, string extension, int rotation)
         {
             TakeDocModel.Page page = new TakeDocModel.Page();
 
@@ -22,6 +22,7 @@ namespace TakeDocDataAccess.Document
             page.EtatDeleteData = false;
             page.PageNumber = this.GetBy(x => x.PageVersionId == versionId).Count() + 1;
             page.PageRotation = rotation;
+            page.PageFileExtension = extension.ToLower();
 
             base.Context.Page.Add(page);
             ctx.SaveChanges();

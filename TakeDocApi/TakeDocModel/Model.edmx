@@ -161,6 +161,7 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="PageRotation" Type="int" Nullable="false" />
+          <Property Name="PageFileExtension" Type="nvarchar" MaxLength="5" Nullable="false" />
         </EntityType>
         <EntityType Name="Parameter">
           <Key>
@@ -227,7 +228,7 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
-          <Property Name="TypeDocumentEmail" Type="nvarchar" MaxLength="150" />
+          <Property Name="TypeDocumentPageNeed" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserTk">
           <Key>
@@ -851,6 +852,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <Property Name="PageNumber" Type="Int32" Nullable="false" />
           <Property Name="PageRotation" Type="Int32" Nullable="false" />
+          <Property Name="PageFileExtension" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -930,7 +932,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Type_Document" ToRole="Document" />
-          <Property Name="TypeDocumentEmail" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="TypeDocumentPageNeed" Type="Boolean" Nullable="false" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -1389,6 +1391,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Page">
             <EntityTypeMapping TypeName="TakeDocModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="PageFileExtension" ColumnName="PageFileExtension" />
                 <ScalarProperty Name="PageRotation" ColumnName="PageRotation" />
                 <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
@@ -1447,7 +1450,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Type_Document">
             <EntityTypeMapping TypeName="TakeDocModel.TypeDocument">
               <MappingFragment StoreEntitySet="Type_Document">
-                <ScalarProperty Name="TypeDocumentEmail" ColumnName="TypeDocumentEmail" />
+                <ScalarProperty Name="TypeDocumentPageNeed" ColumnName="TypeDocumentPageNeed" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
                 <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />

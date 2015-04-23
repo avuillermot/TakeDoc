@@ -1,6 +1,6 @@
 ﻿<ion-view view-title="Résulats">
     <ion-content>
-        <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{User.CurrentEntity.Label}}&#160;/&#160;{{User.CurrentTypeDocument.TypeDocumentLabel}}</h5>
+        <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{User.CurrentEntity.Label}}&#160;/&#160;{{User.CurrentTypeDocument.attributes.label}}</h5>
         <section>
             <ion-list>
                 <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="fd-row-result">

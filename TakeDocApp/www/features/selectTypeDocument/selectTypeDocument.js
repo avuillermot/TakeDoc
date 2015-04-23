@@ -3,12 +3,14 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 
     var mode = null;
     var status = null;
+    var typeDocuments = null;
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.nextUrl = $rootScope.Scenario.next().to;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        typeDocuments = new TypeDocuments();
         mode = states.stateParams.mode;
         status = states.stateParams.status;
 
@@ -17,37 +19,32 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
         }); 
 
         $scope.TypeDocuments = null;
-        typeDocumentService.get($rootScope.User.CurrentEntity.Id, success, error);
+        var param = {
+            entityId: $rootScope.User.CurrentEntity.Id, 
+            success: success, 
+            error: error
+        };
+        typeDocuments.load(param);
     });
 
-    $scope.searchTypeDocument = function () {
-        return (arguments[0].EtatDeleteData == false);
-    };
-
     var success = function () {
-        var types = arguments[0].value;
-        var nb = 0;
-        $.each(types, function(index, value) {
-            if (value.EtatDeleteData == false) nb++;
-        });
-
-        if (nb == 0) {
+        var types = typeDocuments.where({delete:  false});
+        if (types.length == 0) {
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
         if (mode == "SEARCH") {
-            var all = {
-                TypeDocumentId: "",
-                EntityId: $rootScope.User.CurrentEntity.Id,
-                TypeDocumentLabel: "(Tous)",
-                TypeDocumentReference: "",
-                EtatDeleteData: false
-            };
-            arguments[0].value.push(all);
+            var all = new TypeDocument();
+            all.set("id", "");
+            all.set("reference", "");
+            all.set("label", "(Tous)");
+            all.set("entityId", $rootScope.User.CurrentEntity.Id);
+            all.set("delete", false);
+
+            types.push(all);
         }
 
         $scope.TypeDocuments = types;
-
         $ionicLoading.hide();
     };
 
@@ -58,9 +55,19 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     };
 	
     $scope.onChoose = function (typeDocumentId) {
-        $.each($scope.TypeDocuments, function (index, value) {
-            if (value.TypeDocumentId == typeDocumentId) $rootScope.User.CurrentTypeDocument = value;
-        });
+        if (typeDocumentId == "") {
+            var all = new TypeDocument();
+            all.set("id", "");
+            all.set("reference", "");
+            all.set("label", "(Tous)");
+            all.set("entityId", $rootScope.User.CurrentEntity.Id);
+            all.set("delete", false);
+            $rootScope.User.CurrentTypeDocument = all;
+        }
+        else {
+            var current = typeDocuments.where({ id: typeDocumentId });
+            $rootScope.User.CurrentTypeDocument = current[0];
+        }
         $location.path($scope.nextUrl.replace("#/", ""));
     };
 

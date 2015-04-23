@@ -172,7 +172,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void DeleteDocument()
         {
-            servDocument.Delete(new Guid("03679883-0437-4AED-AFE9-82CCB43F141F"), entityId, userId);
+            //servDocument.Delete(new Guid("03679883-0437-4AED-AFE9-82CCB43F141F"), entityId, userId);
         }
 
         public void test()
