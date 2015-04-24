@@ -23,7 +23,7 @@
         </div>
     </form>
     <div>
-        <img ng-repeat="page in pages | orderBy:['attributes.index']" data-ng-src="{{page.base64Image}}" class="inbox-thumbnail" />
+        <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
     </div>
 </div>
 

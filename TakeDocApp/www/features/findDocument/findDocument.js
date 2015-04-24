@@ -52,9 +52,10 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         $scope.nextUrl = step.to;
     });
 
-    $scope.openDocument = function (docRef, entityRef) {
+    $scope.openMetadata = function (docRef, entityRef) {
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
+            // if metadat is incomplete, metadata are edited to update
             if (current[0].get("statusReference") == "INCOMPLETE") {
                 var onSuccess = function () {
                     var step = $rootScope.Scenario.start("detailIncomplet");
@@ -70,6 +71,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
                 documentService.getMetaData($rootScope.myTakeDoc, onSuccess, onError);
             }
+            // else document is open in read only mode
             else {
                 var success = function () {
                     $ionicLoading.hide();

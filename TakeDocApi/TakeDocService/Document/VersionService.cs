@@ -88,15 +88,13 @@ namespace TakeDocService.Document
         {
             ICollection<object> back = new List<object>();
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId, x => x.Page).First();
-            int index = 1;
             foreach(TakeDocModel.Page page in version.Page.Where(x => x.EtatDeleteData == false)) {
                 var current = new {
-                    index = index,
+                    index = page.PageNumber,
                     base64Image = servPage.GetBase64(page.PageId),
                     rotation = page.PageRotation
                 };
                 back.Add(current);
-                index++;
             }
             return back.ToArray();
         }

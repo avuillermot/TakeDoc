@@ -3,22 +3,30 @@
        <section>
            <ion-list>
                <ion-item style="height:45px;padding:0px; margin-top:2px; margin-left:2px; margin-bottom:0px; margin-right:0px" ng-repeat="metadata in myTakeDoc.Metadatas.models | filter:filterType | orderBy:['attributes.index']">
-                   <span ng-if="metadata.attributes.htmlType == 'ion-toggle'" style="height:45px">
-                       <ion-toggle ng-model=" metadata.attributes.value" toggle-class="toggle-calm" class="metadata" tabindex="{{metadata.attributes.index}}">
-                       {{metadata.attributes.label}}</ion-toggle>
-                   </span>
+                   
+                   <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
+                       {{metadata.attributes.label}}
+                   </div>
 
-                   <label ng-hide="metadata.attributes.htmlType == 'ion-toggle'" class="item item-input metadata metadata-mandatory-{{metadata.attributes.mandatory}}" ng-switch on="metadata.attributes.htmlType">
-                       <span class="input-label">{{metadata.attributes.label}}</span>
-
+                   <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block; padding-left:5px; vertical-align:top; padding-top:5px;">
                        <select ng-switch-when="list" ng-model="metadata.attributes.value" class="ion-input-select" style="height:20px" tabindex="{{metadata.attributes.index}}">
                            <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                        </select>
 
                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.dateValue" tabindex="{{metadata.attributes.index}}" />
-                       <textarea ng-switch-when="textarea" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="5"></textarea>
+                       <div ng-switch-when="textarea">
+                            <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
+                       </div>
                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
-                   </label>
+                   </div>
+
+                   <div ng-if="metadata.attributes.htmlType == 'ion-toggle'">
+                       <ion-toggle ng-model=" metadata.attributes.value" toggle-class="toggle-calm" class="metadata-label-ion-toggle metadata-mandatory-{{metadata.attributes.mandatory}}" tabindex="{{metadata.attributes.index}}">
+                           {{metadata.attributes.label}}
+                       </ion-toggle>
+                   </div>
+
+
                </ion-item>
            </ion-list>
        </section>

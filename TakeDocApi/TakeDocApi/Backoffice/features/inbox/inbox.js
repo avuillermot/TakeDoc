@@ -24,6 +24,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
            { name: 'Titre', field: '', cellTemplate: cellTitle, cellClass: "cell-inbox-item" },
            { name: 'Date', field: 'attributes.formatDate', cellTemplate: cellDate, cellClass: "cell-inbox-item" }
         ],
+        paginationPageSizes:  [20, 50, 100, 500],
         data: []
     };
     

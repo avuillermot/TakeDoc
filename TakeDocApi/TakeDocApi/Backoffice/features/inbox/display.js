@@ -40,7 +40,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
-            $scope.title = $scope.document.get("label");
+            $scope.title = $scope.document.get("label") + " - (" + $scope.document.get("entityLabel") + ")";
 
             loadImage();
         }
@@ -87,7 +87,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
         };
         $rootScope.showLoader("Suppression....");
-        documentsExt.delete(param);
+        documentsExt.deleteOne(param);
     };
 
     $scope.doSave = function () {

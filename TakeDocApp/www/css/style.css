@@ -66,17 +66,26 @@ div.button-bar {
 }
 
 /* formulaire METADATA */
-.metadata {
-    border:none;
-}
-label.metadata .input-label, div.metadata div span  {
+.metadata-label {
+    display: inline-block; 
+    vertical-align:top; 
+    width:40%; 
+    padding-top:5px; 
     font-size:12px;
-    border:none;
+}
+
+.metadata-label-ion-toggle {
+    margin-left:0px; 
+    padding-left:0px;
+    border:none; 
+    vertical-align:top;
+    font-size: 12px;
 }
 
 .metadata-mandatory-true {
     background-image: url("../img/mandatory.png");
     background-repeat: no-repeat;
+    padding-left:10px;
 }
 
 /* LOGIN - page de login */
