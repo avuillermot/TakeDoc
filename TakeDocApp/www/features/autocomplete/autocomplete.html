@@ -4,7 +4,7 @@
             <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{current.autoCompleteTitle}}</h5>
             <label class="item item-input ion-man metadata-mandatory-true" style="border-top:none">
                 &#160;
-                <input type="text" placeholder="{{current.autoCompletePlaceHolder}}" ng-model="value" ng-change="onType()" />
+                <input type="text" id="inputTextValue" placeholder="{{current.autoCompletePlaceHolder}}" ng-model="value" ng-change="onType()" />
             </label>
             <ion-list>
                 <ion-item ng-repeat="item in items | orderBy:['text']" class="row-result ion-android-arrow-dropright">

@@ -4,11 +4,11 @@
         <button class="btn btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
         <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
     </div>
-
+    
     <div class="inbox-item-title">{{title}}</div>
     <form class="form-horizontal">
         <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] " class="form-group" ng-switch on="metadata.attributes.htmlType">
-            <label class="col-sm-2 control-label">{{metadata.attributes.label}}</label>
+            <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}</label>
 
             <div class="col-sm-10 inbox-metadata">
                 <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}">
@@ -17,6 +17,7 @@
 
                 <input ng-switch-when="date" name="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
                 <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
+                <textarea ng-switch-when="textarea"  class="form-control" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3"></textarea>
                 <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
             </div>
         </div>

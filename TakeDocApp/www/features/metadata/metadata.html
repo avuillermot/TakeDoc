@@ -16,6 +16,7 @@
                        </select>
 
                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.dateValue" tabindex="{{metadata.attributes.index}}" />
+                       <textarea ng-switch-when="textarea" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="5"></textarea>
                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
                    </label>
                </ion-item>

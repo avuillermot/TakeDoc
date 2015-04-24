@@ -70,6 +70,7 @@ namespace TakeDocService.Document
         private void Valid(string typeName, string value, bool required)
         {
             if (string.IsNullOrEmpty(value) == true && required == true) throw new Exception("Bad data");
+            if (typeName.StartsWith("System.String")) typeName = "System.String";
             Type myType = Type.GetType(typeName);
             try
             {

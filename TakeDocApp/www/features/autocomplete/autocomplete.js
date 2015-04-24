@@ -16,7 +16,13 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
     };
     $scope.$on("autocomplete$refreshPage", fRefresh);
 
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        angular.element("#inputTextValue").val("");
+    });
+
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $scope.items = null;
+        
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
 
