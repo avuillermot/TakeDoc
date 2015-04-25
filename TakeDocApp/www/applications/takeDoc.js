@@ -12,7 +12,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = false;
+    $rootScope.isApp = true;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
     $rootScope.Dashboards = new Dashboards();
@@ -22,8 +22,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/CREATE/status/" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
-        { from: "#/takePicture", to: "#/autocomplete" },
-        { from: "#/autocomplete", to: "#/metadata/mode/add" },
+        //{ from: "#/takePicture", to: "#/autocomplete" },
+        { from: "#/takePicture", to: "#/metadata/mode/add" },
         { from: "#/metadata", to: "#/menu" }
     ];
     var scenarioFindIncomplet = [
@@ -45,8 +45,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/findDocument", to: "#/menu" }
     ];
     var scenarioDetailIncomplet = [
-        { from: "#/findDocument", to: "#/autocomplete" },
-        { from: "#/autocomplete", to: "#/metadata/mode/UPDATE" },
+        { from: "#/findDocument", to: "#/metadata/mode/UPDATE" },
+        //{ from: "#/autocomplete", to: "#/metadata/mode/UPDATE" },
         { from: "#/metadata", to: "#/menu" }
     ];
 
@@ -163,6 +163,55 @@ takeDoc.directive('tdLogout', function ($rootScope, $location) {
         });
     };
 });
+
+takeDoc.directive('tdAutocomplete', ['$http', '$rootScope', function ($http, $rootScope) {
+    return {
+        link: function (scope, elem, attr) {
+            function highLightData(text, term) {
+                var matcher = new RegExp('(' + $.ui.autocomplete.escapeRegex(term) + ')', 'gi');
+                return text.replace(matcher, '<strong>$1</strong>');
+            }
+
+            // elem is a jquery lite object if jquery is not present, but with jquery and jquery ui, it will be a full jquery object.
+            elem.autocomplete({
+                source: function (request, response) {
+                    if (scope.$parent.metadata.get("value").length > 3) {
+                        var url = environnement.UrlBase + scope.$parent.metadata.get("autoCompleteUrl");
+                        url = url.toUpperCase().replace("<ENTITYID/>", $rootScope.User.CurrentEntity.Id);
+                        url = url.toUpperCase().replace("<USERID/>", $rootScope.User.Id);
+                        url = url.toUpperCase().replace("<VALUE/>", scope.$parent.metadata.get("value"));
+                        $http.get(url).success(function (data) {
+                            response(data);
+                        });
+                    }
+                },
+                focus: function (event, ui) {
+                    // on ne fait rien au survol de la souris sur les choix de la liste proposée
+                    return false;
+                },
+                select: function (event, ui) {
+                    $('#item-' + scope.$parent.metadata.get("id")).height("");
+                    // lors de la sélection d'un choix dans la liste, on affiche le libellé de la carte et on déclenche la recherche
+                    scope.card = ui.item.label;
+                    scope.$apply();
+                    return false;
+                },
+                appendTo: attr.appendTo
+
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                // set du label pour récupération dans la méthode select
+                item.label = item.text;
+                // nom de carte highlighted
+                var cardNameHighlighted = highLightData(item.text, scope.$parent.metadata.get("value"));
+
+                // construction de l'affichage d'une ligne
+                var cardLine = $("<div>").html(cardNameHighlighted);
+                // sortie pour jquery-ui
+                return $("<li z-index='999'>").append("<a>" + $("<div>").append(cardLine).html() + "</a>").appendTo(ul);
+            };
+        }
+    }
+}]);
 
 
 

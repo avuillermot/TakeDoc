@@ -32,7 +32,7 @@ var MetaDataValues = Backbone.Collection.extend({
     }
 });
 
-var Metadata = Backbone.Model.extend({
+var MetaData = Backbone.Model.extend({
     defaults: {
         id: null,
         index: null,
@@ -73,15 +73,16 @@ var Metadata = Backbone.Model.extend({
 
 
 var Metadatas = Backbone.Collection.extend({
-    model: Metadata,
+    model: MetaData,
     parse: function () {
         var data = arguments[0];
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
-            var current = new Metadata();
+            var current = new MetaData();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
+        return arr;
     },
     check: function () {
         var retour = { message: "", valid: true };

@@ -58,12 +58,13 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
             // if metadat is incomplete, metadata are edited to update
             if (current[0].get("statusReference") == "INCOMPLETE") {
                 var onSuccess = function () {
+                    alert("yes");
                     var step = $rootScope.Scenario.start("detailIncomplet");
                     $location.path(step.to.substr(2));
                     $scope.$broadcast("findDocument$refreshPage");
                 };
                 var onError = function() {
-
+                    alert("err");
                 };
                 $rootScope.myTakeDoc = new TkDocument();
                 $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current[0].get("versionId"));
