@@ -2,7 +2,7 @@
    <ion-content>
        <section>
            <ion-list>
-               <ion-item id="item-{{metadata.attributes.id}}" style="height:45px;padding:0px; margin-top:2px; margin-left:2px; margin-bottom:0px; margin-right:0px;" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
+               <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" style="height:45px;padding:0px; margin-top:2px; margin-left:2px; margin-bottom:0px; margin-right:0px;" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
                        {{metadata.attributes.label}}-{{metadata.attributes.index}}
@@ -16,8 +16,9 @@
                            <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
                        </div>
                        <div ng-switch-when="autocomplete">
-                           <input type="text" placeholder="{{metadata.attributes.autoCompletePlaceHolder}}" td-autocomplete="" data-append-to=".autocomplete-container" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)" />
-                           <div class="autocomplete-container"></div>
+                           <div class="ion-close-circled" style="display:none" id="autocomplete-close-{{metadata.attributes.id}}" ng-click="doLostFocus(metadata.attributes.id)"></div>
+                           <input type="text" placeholder="{{metadata.attributes.autoCompletePlaceHolder}}" td-autocomplete="" data-append-to=".autocomplete-container" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)" ng-keyup="doOnKeyUp()" style="display: inline-block;" />
+                           <div class="autocomplete-container" style="left:-50px;position:relative;"></div>
                        </div>
 
                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.dateValue" tabindex="{{metadata.attributes.index}}" />

@@ -12,7 +12,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = true;
+    $rootScope.isApp = false;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
     $rootScope.Dashboards = new Dashboards();
@@ -175,7 +175,7 @@ takeDoc.directive('tdAutocomplete', ['$http', '$rootScope', function ($http, $ro
             // elem is a jquery lite object if jquery is not present, but with jquery and jquery ui, it will be a full jquery object.
             elem.autocomplete({
                 source: function (request, response) {
-                    if (scope.$parent.metadata.get("value").length > 3) {
+                    if (scope.$parent.metadata.get("value").length >= 3) {
                         var url = environnement.UrlBase + scope.$parent.metadata.get("autoCompleteUrl");
                         url = url.toUpperCase().replace("<ENTITYID/>", $rootScope.User.CurrentEntity.Id);
                         url = url.toUpperCase().replace("<USERID/>", $rootScope.User.Id);
@@ -192,22 +192,22 @@ takeDoc.directive('tdAutocomplete', ['$http', '$rootScope', function ($http, $ro
                 select: function (event, ui) {
                     $('#item-' + scope.$parent.metadata.get("id")).height("");
                     // lors de la sélection d'un choix dans la liste, on affiche le libellé de la carte et on déclenche la recherche
-                    scope.card = ui.item.label;
+                    scope.$parent.metadata.set("value", ui.item.key);
+                    scope.autocompleteSelected(scope.$parent.metadata.get("id"));
                     scope.$apply();
                     return false;
                 },
-                appendTo: attr.appendTo
-
+                appendTo:  attr.appendTo
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 // set du label pour récupération dans la méthode select
                 item.label = item.text;
                 // nom de carte highlighted
-                var cardNameHighlighted = highLightData(item.text, scope.$parent.metadata.get("value"));
+                var highLighted = highLightData(item.text, scope.$parent.metadata.get("value"));
 
                 // construction de l'affichage d'une ligne
-                var cardLine = $("<div>").html(cardNameHighlighted);
+                var line = $("<div>").html(highLighted);
                 // sortie pour jquery-ui
-                return $("<li z-index='999'>").append("<a>" + $("<div>").append(cardLine).html() + "</a>").appendTo(ul);
+                return $("<li z-index='999' style='left:-55px;position:relative; background-color: #F2F2F2; border-bottom:1px; border-bottom-style:solid; border-bottom-width:thin;'>").append("<a>" + $("<div>").append(line).html() + "</a>").appendTo(ul);
             };
         }
     }

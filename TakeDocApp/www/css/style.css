@@ -88,6 +88,10 @@ div.button-bar {
     padding-left:10px;
 }
 
+.metadata-mandatory-false {
+    padding-left:10px;
+}
+
 /* LOGIN - page de login */
 .login {
     background-image: url("../img/login-small.jpg");
