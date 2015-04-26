@@ -6,7 +6,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
             try { $scope.$apply(); } catch (ex) { }
         }
     };
-    var autocompleteOldValue = "";
+
     $scope.$on("metadata$refreshPage", fRefresh);
     
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -17,39 +17,8 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     });
 
     $scope.doOnFocus = function (id) {
-        $(".metadata-item-list").hide();
-        $("ion-footer-bar").hide();
-        $('#item-' + id).height($(window).height() - 30);
-        $('#item-' + id).show();
-        $('#autocomplete-close-' + id).css("display", "inline-block");
-        var metadata = $rootScope.myTakeDoc.Metadatas.where({ id: id });
-        if (metadata.length > 0) {
-            autocompleteOldValue = metadata[0].get("value", "");
-        }
-        $('#item-' + id).animate({
-            scrollTop: 0
-        }, 1000);
-    };
-
-    $scope.doLostFocus = function (id) {
-        $(".metadata-item-list").show();
-        $("ion-footer-bar").show();
-        $('#item-' + id).height("");
-        $('#autocomplete-close-' + id).css("display", "none");
-
-        // set value to origine
-        var metadata = $rootScope.myTakeDoc.Metadatas.where({id: id});
-        if (metadata.length > 0) {
-            //var changed = scope.$parent.metadata.hasChanged();
-            metadata[0].set("value", autocompleteOldValue);
-        }
-    }
-
-    $scope.autocompleteSelected = function (id) {
-        $(".metadata-item-list").show();
-        $("ion-footer-bar").show();
-        $('#item-' + id).height("");
-        $('#autocomplete-close-' + id).css("display", "none");
+        $location.path("autocomplete/id/" + id);
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     $scope.doSave = function () {
@@ -75,5 +44,4 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         }, success, error);
         return false;
     };
-
 }]);

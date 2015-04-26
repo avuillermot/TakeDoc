@@ -1,6 +1,8 @@
 ﻿'use strict';
 takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location', '$ionicPlatform', '$timeout', function ($scope, $rootScope, $location, $ionicPlatform, $timeout) {
 
+    var id = null;
+
     // delay before search
     var delay = 2000;
     var timeLastKeyPress = null;
@@ -22,27 +24,22 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.items = null;
-        
-        var step = $rootScope.Scenario.next();
-        $scope.nextUrl = step.to;
 
-        // if no autocomplete go to next
-        autocompletes = $rootScope.myTakeDoc.Metadatas.filter(function (item) {
-            return item.get("htmlType") === "autocomplete";
-        });
-
-        if (autocompletes.length == 0) $location.path($scope.nextUrl.replace("#/", ""));
-        else $scope.current = autocompletes[currentIndex].attributes;
+        id = states.stateParams.id;
+        var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
+        if (current.length > 0) $scope.current = current[0].attributes;
+        $scope.$broadcast("autocomplete$refreshPage");
     });
 
     $scope.doSelect = function (key, value) {
         if (key != null) {
-            $rootScope.myTakeDoc.Metadatas.where({ name: autocompletes[currentIndex].get("name") })[0].set("value", key);
-            var fn = function () {
-                if (arguments[0] == "Ok") $location.path($scope.nextUrl.replace("#/", ""));
-            };
-            $rootScope.PopupHelper.show("Client", "Référence : " + value, "OkCancel", fn);
+            $scope.current.value = value;
+            $location.path("metadata/mode/UPDATE");
         }
+    };
+
+    $scope.doReset = function () {
+        $location.path("metadata/mode/UPDATE");
     };
 
     $scope.onType = function () {
@@ -63,7 +60,5 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         if (this.value.length >= 3) $timeout(fnSearch, delay);
         else success(null);
     };
-
-
 }]);
 

@@ -32,7 +32,7 @@ var MetaDataValues = Backbone.Collection.extend({
     }
 });
 
-var Metadata = Backbone.Model.extend({
+var MetaData = Backbone.Model.extend({
     defaults: {
         id: null,
         index: null,
@@ -73,12 +73,12 @@ var Metadata = Backbone.Model.extend({
 
 
 var Metadatas = Backbone.Collection.extend({
-    model: Metadata,
+    model: MetaData,
     parse: function () {
         var data = arguments[0];
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
-            var current = new Metadata();
+            var current = new MetaData();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
@@ -95,8 +95,7 @@ var Metadatas = Backbone.Collection.extend({
             if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
 
             if (mandatory == true) {
-                // use datevalue if date is stored in javascript date object
-                var myValue = (current.get("type") != "date") ? current.get("value") : current.get("dateValue");
+                var myValue = (current.get("type") != "date") ? current.get("value") : moment(current.get("value")).format("YYYY-MM-DD");
 
                 if (myValue == null || myValue == "") {
                     nbError++;
@@ -123,8 +122,8 @@ var Metadatas = Backbone.Collection.extend({
 
     update: function (ctx, onSucces, onError) {
         this.each(function (model, index) {
-            if (model.get("type") == "date" && model.get("dateValue") != "" && model.get("dateValue") != null) {
-                model.set("value", moment(model.get("dateValue")).format("YYYY-MM-DD"));
+            if (model.get("type") == "date") {
+                model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
         });
         var data = JSON.stringify(this.models);

@@ -24,7 +24,7 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$io
         var success = function () {
             $rootScope.User = new userTk(arguments[0], false);
             $location.path("menu");
-            $scope.$apply();
+            if (!$scope.$$phase) $scope.$apply();
         };
         userTkService.logon($scope.identity.login, $scope.identity.password, success, error);
         return false;

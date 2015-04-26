@@ -112,7 +112,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var elemMetaId = value.name;
             var elemMetaValue = value.value;
             var current = documentDisplay.data.metadatas.where({ id: elemMetaId });
-            current[0].set("dateValue", elemMetaValue);
+            current[0].set("value", elemMetaValue);
         });
 
         $rootScope.showLoader("Enregistrement....");

@@ -92,6 +92,12 @@ div.button-bar {
     padding-left:10px;
 }
 
+@media screen and (max-width: 250px) {
+    .metadata-autocomplete-value {
+        font-size: 8px !important;
+    }
+}
+
 /* LOGIN - page de login */
 .login {
     background-image: url("../img/login-small.jpg");

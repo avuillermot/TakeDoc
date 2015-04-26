@@ -55,8 +55,6 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     $scope.openMetadata = function (docRef, entityRef) {
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            // if metadat is incomplete, metadata are edited to update
-            if (current[0].get("statusReference") == "INCOMPLETE") {
                 var onSuccess = function () {
                     var step = $rootScope.Scenario.start("detailIncomplet");
                     $location.path(step.to.substr(2));
@@ -70,30 +68,6 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
                 documentService.getMetaData($rootScope.myTakeDoc, onSuccess, onError);
-            }
-            // else document is open in read only mode
-            else {
-                var success = function () {
-                    $ionicLoading.hide();
-                    $scope.readOnlyMetadatas = arguments[0].models;
-                    if ($scope.readOnlyMetadatas.length > 0) detailModal.show("Détail", current[0].get("entityLabel") + " / " + current[0].get("typeLabel"));
-                    else {
-                        $ionicLoading.show({
-                            template: 'Aucune information disponible...'
-                        });
-                        var fn = function () { $ionicLoading.hide(); }
-                        window.setTimeout(fn, 2000);
-                    }
-                };
-                var error = function () {
-                    $ionicLoading.hide();
-                    $rootScope.PopupHelper.show("Détail", "Le détail n'est pas disponible.");
-                };
-                $ionicLoading.show({
-                    template: 'Chargement...'
-                });
-                readOnlyMetadata.loadBy({ success: success, error: error, versionId: current[0].get("versionId"), entityId: current[0].get("entityId") })
-            }
         }
     };
 

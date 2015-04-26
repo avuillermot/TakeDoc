@@ -5,7 +5,7 @@
                <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" style="height:45px;padding:0px; margin-top:2px; margin-left:2px; margin-bottom:0px; margin-right:0px;" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
-                       {{metadata.attributes.label}}-{{metadata.attributes.index}}
+                       {{metadata.attributes.label}}
                    </div>
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block; padding-left:5px; vertical-align:top; padding-top:5px;">
@@ -16,13 +16,12 @@
                            <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
                        </div>
                        <div ng-switch-when="autocomplete">
-                           <div class="ion-close-circled" style="display:none" id="autocomplete-close-{{metadata.attributes.id}}" ng-click="doLostFocus(metadata.attributes.id)"></div>
-                           <input type="text" placeholder="{{metadata.attributes.autoCompletePlaceHolder}}" td-autocomplete="" data-append-to=".autocomplete-container" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)" ng-keyup="doOnKeyUp()" style="display: inline-block;" />
-                           <div class="autocomplete-container" style="left:-50px;position:relative;"></div>
-                       </div>
+                           <textarea rows="5" class="metadata-autocomplete-value" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)"></textarea>
+                        </div>
 
-                       <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.dateValue" tabindex="{{metadata.attributes.index}}" />
-                       <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
+                       <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                       <input ng-switch-when="number" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                       <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
                    </div>
 
                    <div ng-if="metadata.attributes.htmlType == 'ion-toggle'">
@@ -36,7 +35,7 @@
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <div go-back="false"></div>
+            <div go-back="true"></div>
             <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>
