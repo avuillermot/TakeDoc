@@ -22,7 +22,7 @@ namespace TakeDocService.Workflow.Security
             if (users.Count != 1) base.CreateError(string.Format("L'utilisateur {0} n'existe pas.", userRef));
 
             TakeDocModel.UserTk user = users.First();
-            if (user.UserTkActivate == true) base.CreateError(string.Format("Utilisateur {0} déjà activer", user.UserTkLogin));
+            if (user.UserTkActivate == true) base.CreateError(string.Format("Utilisateur {0} déjà activé", user.UserTkLogin));
 
             user.UserTkActivate = true;
             servUser.Update(user);
@@ -86,9 +86,7 @@ namespace TakeDocService.Workflow.Security
             string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_TITLE").First().ParameterValue;
             string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_BODY").First().ParameterValue;
 
-            string entityRef = "MASTER";
-            if (entity != null) entityRef = entity.EntityReference;
-            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entityRef, @"\", "mail", @"\", bodyFile);
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, "MASTER", @"\", "mail", @"\", bodyFile);
             string body = System.IO.File.ReadAllText(path);
 
             servMail.Send(title, body, from, to, user);

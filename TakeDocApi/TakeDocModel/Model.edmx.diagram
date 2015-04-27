@@ -43,6 +43,8 @@
         <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />
         <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.875" />
         <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
+        <EntityTypeShape EntityType="TakeDocModel.Type_Validation" Width="1.5" PointX="8.625" PointY="0.75" />
+        <AssociationConnector Association="TakeDocModel.FK_Type_Document_Type_Validation" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

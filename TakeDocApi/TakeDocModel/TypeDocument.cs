@@ -31,7 +31,9 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
         public bool TypeDocumentPageNeed { get; set; }
+        public System.Guid TypeDocumentValidationId { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
+        public virtual Type_Validation Type_Validation { get; set; }
     }
 }

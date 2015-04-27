@@ -42,8 +42,9 @@ backOffice.controller('resultUserController', ['$scope', '$rootScope', '$locatio
    $scope.gridResultSearchUser = {
        enableSorting: true,
        columnDefs: [
-          { name: ' ', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-pencil" ng-click="grid.appScope.showMe(row)"></button>&#160;&#160;&#160;&#160;&#160;<button class="btn btn-danger btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.deleteMe(row)"></button>&#160;{{row.entity.FirstName}}' },
+          { name: ' ', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-pencil" ng-click="grid.appScope.showMe(row)"></button>&#160;&#160;&#160;&#160;&#160;<button class="btn btn-danger btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.deleteMe(row)"></button>' },
           { name: 'Nom', field: 'LastName' },
+          { name: 'Prenom', field: 'FirstName' },
           { name: 'Email', field: 'Email' }
         ],
         data: usersResult.data.users

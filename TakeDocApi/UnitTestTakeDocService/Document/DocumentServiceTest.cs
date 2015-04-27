@@ -18,7 +18,7 @@ namespace UnitTestTakeDocService.Document
         IImageService servImage = UnityHelper.Resolve<IImageService>();
         IReportVersionService servReport = UnityHelper.Resolve<IReportVersionService>();
         TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
-        TakeDocService.Workflow.Document.Interface.ISetStatusToValidate servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.ISetStatusToValidate>();
+        TakeDocService.Workflow.Document.Interface.IWorkflowStatus servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IWorkflowStatus>();
 
         TakeDocModel.Document MyDocument
         {

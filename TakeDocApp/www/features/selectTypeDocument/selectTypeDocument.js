@@ -28,11 +28,14 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     });
 
     var success = function () {
-        var types = typeDocuments.where({delete:  false});
+        var types = typeDocuments.where({ delete: false });
         if (types.length == 0) {
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
         }
+        // if only one type doc, we choose it
+        else if (types.length == 1) $scope.onChoose(types[0].get("id"));
+
         if (mode == "SEARCH") {
             var all = new TypeDocument();
             all.set("id", "");

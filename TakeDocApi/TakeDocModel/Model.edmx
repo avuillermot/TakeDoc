@@ -229,6 +229,16 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="TypeDocumentPageNeed" Type="bit" Nullable="false" />
+          <Property Name="TypeDocumentValidationId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Type_Validation">
+          <Key>
+            <PropertyRef Name="TypeValidationId" />
+          </Key>
+          <Property Name="TypeValidationId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TypeValidationReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeValidationLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="EtatDataDelete" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserTk">
           <Key>
@@ -249,6 +259,7 @@
           <Property Name="UserTkActivate" Type="bit" Nullable="false" />
           <Property Name="UserTkDateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="UserTkDateFirstEnable" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserTkManagerId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -490,6 +501,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Type_Document_Type_Validation">
+          <End Role="Type_Validation" Type="Self.Type_Validation" Multiplicity="1" />
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Validation">
+              <PropertyRef Name="TypeValidationId" />
+            </Principal>
+            <Dependent Role="Type_Document">
+              <PropertyRef Name="TypeDocumentValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_UserTk_GroupTk">
           <End Role="GroupTk" Type="Self.GroupTk" Multiplicity="1" />
           <End Role="UserTk" Type="Self.UserTk" Multiplicity="*" />
@@ -570,6 +593,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="Status_Version" EntityType="Self.Status_Version" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type_Document" EntityType="Self.Type_Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type_Validation" EntityType="Self.Type_Validation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTk" EntityType="Self.UserTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_DocumentExtended" EntityType="Self.View_DocumentExtended" store:Type="Views" store:Schema="dbo">
@@ -670,6 +694,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_Page_Version" Association="Self.FK_Page_Version">
             <End Role="Version" EntitySet="Version" />
             <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type_Document_Type_Validation" Association="Self.FK_Type_Document_Type_Validation">
+            <End Role="Type_Validation" EntitySet="Type_Validation" />
+            <End Role="Type_Document" EntitySet="Type_Document" />
           </AssociationSet>
           <AssociationSet Name="FK_UserTk_GroupTk" Association="Self.FK_UserTk_GroupTk">
             <End Role="GroupTk" EntitySet="GroupTk" />
@@ -801,6 +829,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="from" Mode="In" Type="String" />
             <Parameter Name="info" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Type_Validation" EntityType="TakeDocModel.Type_Validation" />
+          <AssociationSet Name="FK_Type_Document_Type_Validation" Association="TakeDocModel.FK_Type_Document_Type_Validation">
+            <End Role="Type_Validation" EntitySet="Type_Validation" />
+            <End Role="TypeDocument" EntitySet="Type_Document" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -933,6 +966,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Type_Document" ToRole="Document" />
           <Property Name="TypeDocumentPageNeed" Type="Boolean" Nullable="false" />
+          <Property Name="TypeDocumentValidationId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Type_Validation" Relationship="TakeDocModel.FK_Type_Document_Type_Validation" FromRole="TypeDocument" ToRole="Type_Validation" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -1023,6 +1058,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="View_UserEntity" Relationship="TakeDocModel.UserTkView_UserEntity" FromRole="UserTk" ToRole="View_UserEntity" />
           <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_UserTk_GroupTk" FromRole="UserTk" ToRole="GroupTk" />
           <Property Name="UserTkDateFirstEnable" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserTkManagerId" Type="Guid" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1340,6 +1376,28 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="Type_Validation">
+          <Key>
+            <PropertyRef Name="TypeValidationId" />
+          </Key>
+          <Property Name="TypeValidationId" Type="Guid" Nullable="false" />
+          <Property Name="TypeValidationReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="TypeValidationLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EtatDataDelete" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Type_Document_Type_Validation" FromRole="Type_Validation" ToRole="TypeDocument" />
+        </EntityType>
+        <Association Name="FK_Type_Document_Type_Validation">
+          <End Type="TakeDocModel.Type_Validation" Role="Type_Validation" Multiplicity="1" />
+          <End Type="TakeDocModel.TypeDocument" Role="TypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Validation">
+              <PropertyRef Name="TypeValidationId" />
+            </Principal>
+            <Dependent Role="TypeDocument">
+              <PropertyRef Name="TypeDocumentValidationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1450,6 +1508,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Type_Document">
             <EntityTypeMapping TypeName="TakeDocModel.TypeDocument">
               <MappingFragment StoreEntitySet="Type_Document">
+                <ScalarProperty Name="TypeDocumentValidationId" ColumnName="TypeDocumentValidationId" />
                 <ScalarProperty Name="TypeDocumentPageNeed" ColumnName="TypeDocumentPageNeed" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
@@ -1508,6 +1567,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="UserTk">
             <EntityTypeMapping TypeName="TakeDocModel.UserTk">
               <MappingFragment StoreEntitySet="UserTk">
+                <ScalarProperty Name="UserTkManagerId" ColumnName="UserTkManagerId" />
                 <ScalarProperty Name="UserTkDateFirstEnable" ColumnName="UserTkDateFirstEnable" />
                 <ScalarProperty Name="UserTkGroupId" ColumnName="UserTkGroupId" />
                 <ScalarProperty Name="UserTkDateCreateData" ColumnName="UserTkDateCreateData" />
@@ -1715,6 +1775,16 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="AddEvent" FunctionName="TakeDocModel.Store.AddEvent" />
+          <EntitySetMapping Name="Type_Validation">
+            <EntityTypeMapping TypeName="TakeDocModel.Type_Validation">
+              <MappingFragment StoreEntitySet="Type_Validation">
+                <ScalarProperty Name="EtatDataDelete" ColumnName="EtatDataDelete" />
+                <ScalarProperty Name="TypeValidationLabel" ColumnName="TypeValidationLabel" />
+                <ScalarProperty Name="TypeValidationReference" ColumnName="TypeValidationReference" />
+                <ScalarProperty Name="TypeValidationId" ColumnName="TypeValidationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

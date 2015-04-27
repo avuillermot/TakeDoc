@@ -9,10 +9,9 @@ using serviceDoc = TakeDocService.Document;
 
 namespace TakeDocService.Workflow.Document
 {
-    public class SetStatusToValidate : Interface.ISetStatusToValidate
+    public class WorkflowStatus : Interface.IWorkflowStatus
     {
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
-        dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();
 
         serviceDoc.Interface.IDocumentService servDocument = UnityHelper.Resolve<serviceDoc.Interface.IDocumentService>();
         serviceDoc.Interface.IVersionService servVersion = UnityHelper.Resolve<serviceDoc.Interface.IVersionService>();

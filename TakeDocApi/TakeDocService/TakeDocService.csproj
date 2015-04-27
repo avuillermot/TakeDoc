@@ -106,12 +106,12 @@
     <Compile Include="Security\Interface\IGroupeTkService.cs" />
     <Compile Include="Stats\Interface\IDashboardService.cs" />
     <Compile Include="Stats\DashboardService.cs" />
-    <Compile Include="Workflow\Document\Interface\ISetStatusToValidate.cs" />
+    <Compile Include="Workflow\Document\Interface\IWorkflowStatus.cs" />
     <Compile Include="Document\TypeDocumentService.cs" />
     <Compile Include="Document\VersionService.cs" />
     <Compile Include="External\CustomerService.cs" />
     <Compile Include="External\Interface\ICustomerService.cs" />
-    <Compile Include="Workflow\Document\SetStatusToValidate.cs" />
+    <Compile Include="Workflow\Document\WorkflowStatus.cs" />
     <Compile Include="Print\ReportVersionService.cs" />
     <Compile Include="Print\Interface\IReportVersionService.cs" />
     <Compile Include="Security\Interface\IUserTkService.cs" />

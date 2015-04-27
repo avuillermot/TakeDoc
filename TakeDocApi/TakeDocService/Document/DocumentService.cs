@@ -18,6 +18,7 @@ namespace TakeDocService.Document
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IMetaDataService servMeta = UnityHelper.Resolve<Interface.IMetaDataService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
+        Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
         
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
@@ -105,6 +106,7 @@ namespace TakeDocService.Document
             return documents.First();
         }
 
+
         public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
         {
             using (TransactionScope transaction = new TransactionScope())
@@ -114,8 +116,14 @@ namespace TakeDocService.Document
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
                 servMeta.SetMetaData(userId, entityId, versionId, metadatas);
 
-                if (TakeDocModel.Status_Version.Incomplete == version.Status_Version.StatusVersionReference) servVersion.SetStatus(version, TakeDocModel.Status_Version.Complete, userId);
+                TakeDocModel.Type_Validation validation = version.Document.Type_Document.Type_Validation;
+                                
                 if (TakeDocModel.Status_Document.Incomplete == document.Status_Document.StatusDocumentReference)  this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+                if (validation.TypeValidationReference == "AUTO")
+                {
+                    this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Approve, userId, true);
+                    servReportVersion.Generate(versionId, entityId);
+                }
 
                 transaction.Complete();
             }

@@ -12,5 +12,6 @@ namespace TakeDocModel
         public static string Incomplete { get { return "INCOMPLETE"; } }
         public static string Complete { get { return "COMPLETE"; } }
         public static string ToValidate { get { return "TO_VALIDATE"; } }
+        public static string Approve { get { return "APPROVE"; } }
     }
 }

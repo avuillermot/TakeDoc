@@ -50,6 +50,7 @@ namespace TakeDocModel
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Parameter> Parameter { get; set; }
         public virtual DbSet<GroupTk> GroupTk { get; set; }
+        public virtual DbSet<Type_Validation> Type_Validation { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

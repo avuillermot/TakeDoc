@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Workflow.Document.Interface
 {
-    public interface ISetStatusToValidate
+    public interface IWorkflowStatus
     {
         void Execute(Guid userId);
     }

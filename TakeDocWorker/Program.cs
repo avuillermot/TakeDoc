@@ -15,7 +15,7 @@ namespace TakeDocWorker
             TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkLastName == "SYSTEM").First();
             Utility.Logger.myLogger.Init();
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
-            TakeDocService.Workflow.Document.Interface.ISetStatusToValidate servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.ISetStatusToValidate>();
+            TakeDocService.Workflow.Document.Interface.IWorkflowStatus servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IWorkflowStatus>();
             // use root id
             servTask.Execute(user.UserTkId);
             Console.WriteLine("fin");
