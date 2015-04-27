@@ -15,6 +15,11 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $("#inbox-items").css('height', h + 'px');
     };
 
+    /**************************************************
+    ***************************************************
+    display/use item list and item to display
+    ***************************************************
+    ***************************************************/
     // document grid display
     var cellTitle = '<div ng-click="grid.appScope.showMe(row)" ng-class="{inboxActiveItem : grid.appScope.isSelectedItem(row)}"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
     var cellDate = '<div ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.formatDate}}</div>';
@@ -61,19 +66,44 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         myMetas.load(param);
     };
 
-    // load documents
-    var param = {
-        userId: $rootScope.getUser().Id,
-        success: function () {
-            documentsDirectory.data.documents = arguments[0];
-            $scope.gridDocuments.data = documentsDirectory.data.documents.models;
-            if (!$scope.$$phase) $scope.$apply();
-            resizeGridInbox();
+    var loadDocument = function () {
+        // load documents
+        var param = {
+            userId: $rootScope.getUser().Id,
+            success: function () {
+                documentsDirectory.data.documents = arguments[0];
+                $scope.gridDocuments.data = documentsDirectory.data.documents.models;
+                if (!$scope.$$phase) $scope.$apply();
+                resizeGridInbox();
+            },
+            error: function () {
+                $rootScope.showError(arguments[0]);
+            }
+        };
 
-        },
-        error: function () {
-            $rootScope.showError(arguments[0]);
+        if ($scope.selectedDirectory === "MYDOC")
+            myDocuments.loadAll(param);
+        else {
+            documentsDirectory.data.documents = [];
+            $scope.gridDocuments.data = [];
         }
+    }
+
+    /**************************************************
+    ***************************************************
+    display/use directory list and directory to display
+    ***************************************************
+    ***************************************************/
+    // set css for selected item
+    $scope.isSelectedDirectory = function (id) {
+        return $scope.selectedDirectory === id;
     };
-    myDocuments.loadAll(param);
+
+    $scope.setSelectedDirectory = function (id) {
+        $scope.selectedDirectory = id;
+        loadDocument(id);
+    };
+
+
+    $scope.setSelectedDirectory("MYDOC");
 }]);

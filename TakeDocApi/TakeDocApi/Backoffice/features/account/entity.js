@@ -21,7 +21,7 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
             });
 
             $scope.gridUserEntity.data = userEntityToDisplay;
-            $scope.$apply();
+            if (!$scope.$$phase) $scope.$apply();
         };
 
         var error = function () {
@@ -62,7 +62,7 @@ backOffice.controller('entityController', ['$scope', '$rootScope', '$stateParams
         userEntitys.removeEntityToUser(param);
     };
 
-    var cellAdmin = '<button class="btn btn-info btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.entityToDelete(row)"></button>&#160;{{row.entity.attributes.label}}';
+    var cellAdmin = '<button class="btn btn-info btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.entityToDelete(row)"></button><span>&#160;{{row.entity.attributes.label}}</span>';
     var cellUser = '<span>&#160;{{row.entity.attributes.label}}</span>';
     var cell = ($rootScope.isBackofficeUser()) ? cellAdmin : cellUser ;
 

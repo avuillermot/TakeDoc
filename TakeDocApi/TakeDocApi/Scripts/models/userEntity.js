@@ -23,7 +23,6 @@ var UserEntitys = Backbone.Collection.extend({
     },
     parse: function () {
         var data = arguments[0];
-        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new UserEntity();
             this.models.push(current.parse(data[i]));

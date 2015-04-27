@@ -3,9 +3,9 @@
        <div>
            <div class="inbox-directory">Boîte de réception</div>
            <ul>
-               <li>Mes documents</li>
-               <li>Valider</li>
-               <li>Refuser</li>
+               <li ng-click="setSelectedDirectory('MYDOC')" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Mes documents</li>
+               <li ng-click="setSelectedDirectory('VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('VALIDATE')}">Valider</li>
+               <li ng-click="setSelectedDirectory('REFUSE')" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser</li>
            </ul>
        </div>
        <div>

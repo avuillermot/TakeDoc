@@ -55,12 +55,6 @@ namespace TakeDocService.Document
                 doc.Close();
                 doc.Dispose();
                 reader = new PdfReader(streamOut.ToArray());
-
-                /*using (FileStream fs = File.Create(@"C:\temp\Test.pdf"))
-                {
-                    fs.Write(streamOut.ToArray(), 0, (int)streamOut.ToArray().Length);
-                }
-                reader = new PdfReader(@"C:\temp\Test.pdf");*/
             }
             return reader;
         }

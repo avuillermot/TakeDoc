@@ -23,8 +23,11 @@ namespace TakeDocService.Document
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
 
+            //**********************************
+            // Store page in original format
+            //**********************************
             // generate full path filename
-            System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, page.PageReference, extension);
+            System.IO.FileInfo file = this.GeneratePageUNC(entity.EntityReference, page.PageReference, extension);
             // write full path file name
             base.Logger.InfoFormat("AddPage:  write byte in file [{0}]", file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
@@ -44,7 +47,17 @@ namespace TakeDocService.Document
             this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
         }
 
-        private System.IO.FileInfo GenerateUNC(string entite, string fileName, string extension)
+        private System.IO.FileInfo GeneratePageUNC(string entite, string fileName, string extension)
+        {
+            return this.GenerateUNC(entite, TakeDocModel.Environnement.PageStoreUNC, fileName, extension);
+        }
+
+        private System.IO.FileInfo GenerateVignetteUNC(string entite, string fileName, string extension)
+        {
+            return this.GenerateUNC(entite, TakeDocModel.Environnement.VignetteStoreUNC, fileName, extension);
+        }
+        
+        private System.IO.FileInfo GenerateUNC(string entite, string store, string fileName, string extension)
         {
             string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
             base.Logger.InfoFormat("GenerateUNC path in [{0}]", storeLocalPath);
@@ -58,8 +71,9 @@ namespace TakeDocService.Document
                     if (System.IO.Directory.Exists(deep) == false) System.IO.Directory.CreateDirectory(string.Concat(TakeDocModel.Environnement.PageStoreUNC, @"\", deep));
                 }
             }
-            return new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.PageStoreUNC, @"\", storeLocalPath, @"\", fileName, ".", extension));
+            return new System.IO.FileInfo(string.Concat(store, @"\", storeLocalPath, @"\", fileName, ".", extension));
         }
+
         
         public byte[] GetBinary(Guid pageId)
         {

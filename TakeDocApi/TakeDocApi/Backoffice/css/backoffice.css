@@ -132,6 +132,7 @@ form {
 #inbox-directories div ul
 {
     list-style-type: none;
+    cursor: pointer;
 }
 
 #inbox-items {
