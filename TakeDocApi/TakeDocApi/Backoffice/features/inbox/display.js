@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
+backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', '$timeout', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, $timeout, documentDisplay, documentsDirectory) {
 
     var pages = new Pages();
     var cloneData = new Array();
@@ -23,6 +23,12 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             if (meta[0].get("value") != current.value) return true;
         }
         return false;
+    };
+
+    $scope.openImage = function () {
+        $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
+        $("#enlarge-page-modal-body").html('<img src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
+        $('#enlarge-page-modal').modal('show');
     };
 
     $scope.pdfIsEnable = function () {
@@ -87,7 +93,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
         };
         $rootScope.showLoader("Suppression....");
-        documentsExt.deleteOne(param);
+        documentsExt.delete(param);
     };
 
     $scope.doSave = function () {

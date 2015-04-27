@@ -2,7 +2,7 @@
    <ion-content>
        <section>
            <ion-list>
-               <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" style="height:45px;padding:0px; margin-top:2px; margin-left:2px; margin-bottom:0px; margin-right:0px;" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
+               <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
                        {{metadata.attributes.label}}
@@ -17,7 +17,7 @@
                        </div>
                        <div ng-switch-when="autocomplete">
                            <textarea rows="5" class="metadata-autocomplete-value" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)"></textarea>
-                        </div>
+                       </div>
 
                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
                        <input ng-switch-when="number" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />

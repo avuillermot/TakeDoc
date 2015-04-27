@@ -101,7 +101,7 @@ documentService.SetIncomplete = function (document, onSuccess, onError) {
 }
 
 documentService.getMetaData = function (document, onSuccess, onError) {
-    metas = new Metadatas();
+    metas = new MetaDatas();
     var fn = function (collection) {
        document.Metadatas = collection;
        onSuccess();

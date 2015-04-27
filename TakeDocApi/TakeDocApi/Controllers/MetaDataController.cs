@@ -48,6 +48,7 @@ namespace TakeDocApi.Controllers
                               type = metadata.DataField.DataFieldType.DataFieldInputType,
                               label = metadata.DataField.DataFieldLabel,
                               htmlType = metadata.HtmlType,
+                              entityId = metadata.EntityId,
                               valueList = from value in metadata.DataFieldValues
                                           select new
                                           {

@@ -52,7 +52,7 @@ form {
 .tk-modal {
     position:absolute;
     display:none;
-    top:40%;
+    top:15%;
     left:0%;
 }
 
@@ -141,6 +141,10 @@ form {
         vertical-align: top;
 }
 
+.inbox-item-selected {
+    background-color:red;
+}
+
 .cell-inbox-item {
     height:50px !important;
 }
@@ -170,8 +174,9 @@ form {
     font-size: 10px;
 }
 
-.inbox-item-CREATE {
-    color:#D358F7;
+.inboxActiveItem {
+    font-style:italic;
+    color:#2E2EFE;
 }
 
 /* inbox - display */
@@ -188,16 +193,29 @@ form {
     font-size:18px;
 }
 
+.inbox-item-input {
+    width: 25%;
+}
+
 .form-group.required .control-label:after {
   content:"*";
   color:red;
 }
 
+.autocomplete-list-choice {
+    background-color: #F2F2F2;
+    border-bottom:1px;
+    border-bottom-style:solid; 
+    border-bottom-width:thin;
+    list-style-type: none;
+}
+
 .inbox-thumbnail {
     width:50px;
     height: 50px;
-    padding-right: 5px;
+    padding-left: 5px;
     padding-top: 5px;
+    cursor: pointer;
 }
 
 .inbox-thumbnail-rotate000 {
@@ -219,6 +237,7 @@ form {
     -moz-transform: rotate(180deg);
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
+
 }
 
 .inbox-thumbnail-rotate270 {

@@ -2,7 +2,7 @@
 backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
     var myDocuments = new DocumentsExtended();
-    var myMetas = new Metadatas();
+    var myMetas = new MetaDatas();
 
     // subscribe to displayController that it can update list currently display
     $scope.$watch(function () { return documentsDirectory.data.calls; }, function () {
@@ -16,7 +16,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     // document grid display
-    var cellTitle = '<div ng-click="grid.appScope.showMe(row)"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
+    var cellTitle = '<div ng-click="grid.appScope.showMe(row)" ng-class="{inboxActiveItem : grid.appScope.isSelectedItem(row)}"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
     var cellDate = '<div ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.formatDate}}</div>';
 
     $scope.gridDocuments = {
@@ -27,10 +27,19 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         paginationPageSizes:  [20, 50, 100, 500],
         data: []
     };
+
+    // set css for selected item
+    $scope.isSelectedItem = function () {
+       return $scope.selectedItem === arguments[0].entity;
+    };
     
     // display detail of this document in the display module
     $scope.showMe = function () {
+        
         var toShow = arguments[0].entity;
+        // store selected item
+        $scope.selectedItem = toShow;
+        $scope.$apply();
 
         var success = function () {
             documentDisplay.data.metadatas = arguments[0];
@@ -48,7 +57,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             success: success, 
             error: error
         };
-        myMetas = new Metadatas();
+        myMetas = new MetaDatas();
         myMetas.load(param);
     };
 

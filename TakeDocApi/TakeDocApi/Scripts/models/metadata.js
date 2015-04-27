@@ -42,6 +42,7 @@ var MetaData = Backbone.Model.extend({
         type: null,
         label: null,
         htmlType: null,
+        entityId: null,
         valueList: null,
         autoCompleteId: null,
         autoCompleteTitle: null,
@@ -59,6 +60,7 @@ var MetaData = Backbone.Model.extend({
         this.set("type", current.type);
         this.set("label", current.label);
         this.set("htmlType", current.htmlType);
+        this.set("entityId", current.entityId);
         this.set("autoCompleteId", current.autoCompleteId);
         this.set("autoCompleteTitle", current.autoCompleteTitle);
         this.set("autoCompletePlaceHolder", current.autoCompletePlaceHolder);
@@ -72,7 +74,7 @@ var MetaData = Backbone.Model.extend({
 });
 
 
-var Metadatas = Backbone.Collection.extend({
+var MetaDatas = Backbone.Collection.extend({
     model: MetaData,
     parse: function () {
         var data = arguments[0];
