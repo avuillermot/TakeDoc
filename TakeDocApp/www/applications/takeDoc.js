@@ -11,7 +11,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         }
     });
 
-    $rootScope.isApp = false;
+    $rootScope.isApp = true;
     $rootScope.PopupHelper = new popupHelper($ionicPopup, $rootScope);
     $rootScope.Scenario = new scenario();
     $rootScope.Dashboards = new Dashboards();

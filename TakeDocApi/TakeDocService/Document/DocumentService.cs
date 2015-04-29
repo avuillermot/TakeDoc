@@ -15,7 +15,6 @@ namespace TakeDocService.Document
         TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
 
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
-        Interface.IMetaDataService servMeta = UnityHelper.Resolve<Interface.IMetaDataService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
                 
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
@@ -45,6 +44,7 @@ namespace TakeDocService.Document
             }
         }
 
+        // TODO : positionner à un autre endroit car en doublon avec setStatus dans basevalidation.cs
         public void SetStatus(Guid documentId, string status, Guid userId, bool updateStatusVersion)
         {
             using (TransactionScope transaction = new TransactionScope())
@@ -110,17 +110,24 @@ namespace TakeDocService.Document
             using (TransactionScope transaction = new TransactionScope())
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
-
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
-                servMeta.SetMetaData(userId, entityId, versionId, metadatas);
 
                 //***********************************
                 // update status of document
                 //***********************************
                 TakeDocModel.Type_Validation validation = version.Document.Type_Document.Type_Validation;
 
-                TakeDocService.Workflow.Document.Interface.IValidation wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
-                wfValidation.Execute(document, userId);
+                TakeDocService.Workflow.Document.Interface.IValidation wfValidation = null;
+                if (validation.TypeValidationReference == "AUTO")
+                {
+                    wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
+                    wfValidation.Execute(document, userId, metadatas);
+                }
+                else if (validation.TypeValidationReference == "NO")
+                {
+                    wfValidation = new TakeDocService.Workflow.Document.ValidationNo();
+                    wfValidation.Execute(document, userId, metadatas);
+                }
 
                 //***********************************
                 // end update status of document

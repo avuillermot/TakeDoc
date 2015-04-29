@@ -137,5 +137,26 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddEvent", typeParameter, fromParameter, infoParameter);
         }
+    
+        public virtual int AddDocumentStatus(Nullable<System.Guid> documentId, Nullable<System.Guid> statusId, Nullable<System.Guid> userId, Nullable<System.Guid> entityId)
+        {
+            var documentIdParameter = documentId.HasValue ?
+                new ObjectParameter("documentId", documentId) :
+                new ObjectParameter("documentId", typeof(System.Guid));
+    
+            var statusIdParameter = statusId.HasValue ?
+                new ObjectParameter("statusId", statusId) :
+                new ObjectParameter("statusId", typeof(System.Guid));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDocumentStatus", documentIdParameter, statusIdParameter, userIdParameter, entityIdParameter);
+        }
     }
 }

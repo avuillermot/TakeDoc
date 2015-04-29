@@ -1,6 +1,6 @@
 ﻿var environnement = {
-    UrlBase: "http://localhost/TakeDocApi/",
-    //UrlBase: "http://192.168.0.10/TakeDocApi/",
+    //UrlBase: "http://localhost/TakeDocApi/",
+    UrlBase: "http://192.168.0.10/TakeDocApi/",
     tokenAuthentification: null,
 };
 

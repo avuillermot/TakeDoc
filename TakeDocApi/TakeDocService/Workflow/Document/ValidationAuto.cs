@@ -8,14 +8,14 @@ namespace TakeDocService.Workflow.Document
 {
     public class ValidationAuto : BaseValidation, Interface.IValidation
     {
-        public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user, IDictionary<string, string> metadatas)
         {
-            return this.Execute(document, user.UserTkId);
+            return this.Execute(document, user.UserTkId, metadatas);
         }
 
-        public bool Execute(TakeDocModel.Document document, Guid userId)
+        public bool Execute(TakeDocModel.Document document, Guid userId, IDictionary<string, string> metadatas)
         {
-            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Approve, userId, true);
+            this.SetStatus(document, TakeDocModel.Status_Document.Approve, userId, metadatas);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;
         }
