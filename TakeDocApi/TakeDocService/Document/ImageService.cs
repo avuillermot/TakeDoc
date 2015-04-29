@@ -37,6 +37,8 @@ namespace TakeDocService.Document
 
         private PdfReader GetPdf(ICollection<byte[]> pages)
         {
+            if (pages == null || pages.Count() == 0) return null;
+
             MemoryStream streamOut = new MemoryStream();
             PdfReader reader = null;
             using (its.Document doc = new its.Document(iTextSharp.text.PageSize.A4, -70, -70, 0, 0))

@@ -1,10 +1,9 @@
 ﻿'use strict';
 var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute']);
 
-takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading) {
+takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading, $timeout) {
     
     $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
-
         $ionicLoading.hide();
 
         if ($location.$$path != "/login") {

@@ -56,7 +56,7 @@ var DocumentsExtended = Backbone.Collection.extend({
             this.length = this.models.length;
         }
     },
-    loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
+    loadOptions: "&$orderby=VersionDateCreateData desc&$top=10000",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");
@@ -73,7 +73,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
-        this.fetch({ success: param.success, error: param.error });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
@@ -81,7 +81,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
-        this.fetch({ success: param.success, error: param.error });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     loadIncomplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.incomplete + this.loadOptions;
@@ -89,11 +89,11 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
-        this.fetch({ success: param.success, error: param.error });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     loadAll: function (param) {
         this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
-        this.fetch({ success: param.success, error: param.error });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     delete: function (param) {
         var url = (environnement.UrlBase + "document/delete/<documentId/>/<entityId/>/<userId/>").replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
@@ -101,7 +101,8 @@ var DocumentsExtended = Backbone.Collection.extend({
             type: 'DELETE',
             url: url,
             success: param.success,
-            error: param.error
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
         });
     }
 });

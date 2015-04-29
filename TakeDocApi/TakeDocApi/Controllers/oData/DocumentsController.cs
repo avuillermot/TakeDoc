@@ -41,23 +41,5 @@ namespace TakeDocApi.Controllers.oData
 
            return Ok(document);
         }
-
-        // GET: odata/Documents
-        [EnableQuery]
-        public IHttpActionResult GetDocuments(ODataQueryOptions<Document> queryOptions)
-        {
-            ICollection<Document> items = null;
-            try
-            {
-                items = this.Get(queryOptions, _validationSettings);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok<IEnumerable<TakeDocModel.Document>>(items);
-        }
     }
 }

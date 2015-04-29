@@ -11,15 +11,13 @@ namespace TakeDocService.Document
 {
     public class DocumentService : BaseService, Interface.IDocumentService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
-
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
 
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IMetaDataService servMeta = UnityHelper.Resolve<Interface.IMetaDataService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
-        Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
-        
+                
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
             using (TransactionScope transaction = new TransactionScope())
@@ -116,14 +114,17 @@ namespace TakeDocService.Document
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
                 servMeta.SetMetaData(userId, entityId, versionId, metadatas);
 
+                //***********************************
+                // update status of document
+                //***********************************
                 TakeDocModel.Type_Validation validation = version.Document.Type_Document.Type_Validation;
-                                
-                if (TakeDocModel.Status_Document.Incomplete == document.Status_Document.StatusDocumentReference)  this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
-                if (validation.TypeValidationReference == "AUTO")
-                {
-                    this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Approve, userId, true);
-                    servReportVersion.Generate(versionId, entityId);
-                }
+
+                TakeDocService.Workflow.Document.Interface.IValidation wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
+                wfValidation.Execute(document, userId);
+
+                //***********************************
+                // end update status of document
+                //***********************************
 
                 transaction.Complete();
             }

@@ -16,23 +16,6 @@ namespace TakeDocApi.Controllers.oData
 {
     public class DocumentExtendedsController : oDataBase<View_DocumentExtended>
     {
-        private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        // GET: odata/DocumentExtendeds
-        public IHttpActionResult GetDocumentsExtended(ODataQueryOptions<View_DocumentExtended> queryOptions)
-        {
-            ICollection<View_DocumentExtended> items = null;
-            try
-            {
-                items = this.Get(queryOptions, _validationSettings);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok<IEnumerable<TakeDocModel.View_DocumentExtended>>(items);
-        }
     }
 }

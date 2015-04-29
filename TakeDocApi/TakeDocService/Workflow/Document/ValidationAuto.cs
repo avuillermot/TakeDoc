@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TakeDocService.Workflow.Document
+{
+    public class ValidationAuto : BaseValidation, Interface.IValidation
+    {
+        public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        {
+            return this.Execute(document, user.UserTkId);
+        }
+
+        public bool Execute(TakeDocModel.Document document, Guid userId)
+        {
+            this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Approve, userId, true);
+            servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
+            return true;
+        }
+    }
+}

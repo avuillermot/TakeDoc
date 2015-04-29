@@ -18,8 +18,7 @@ namespace UnitTestTakeDocService.Document
         IImageService servImage = UnityHelper.Resolve<IImageService>();
         IReportVersionService servReport = UnityHelper.Resolve<IReportVersionService>();
         TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument> daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.DaoBase<TakeDocModel.TypeDocument>>();
-        TakeDocService.Workflow.Document.Interface.IWorkflowStatus servTask = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IWorkflowStatus>();
-
+        
         TakeDocModel.Document MyDocument
         {
             get
@@ -57,8 +56,6 @@ namespace UnitTestTakeDocService.Document
             this.AddPage2();
             this.SetStatusIncomplete();
             this.SetStatusComplete();
-
-            this.GeneratePdfTest();
         }
         
         [TestMethod]
@@ -161,12 +158,6 @@ namespace UnitTestTakeDocService.Document
             Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true",true));
             Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
             Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
-        }
-
-        [TestMethod]
-        public void GeneratePdfTest()
-        {
-            servTask.Execute(userId);
         }
 
         [TestMethod]

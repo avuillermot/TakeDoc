@@ -60,12 +60,9 @@
     <Content Include="www\img\next.png" />
     <Content Include="www\img\page1.jpeg" />
     <Content Include="www\img\page1.png" />
-    <Content Include="www\img\page2.jpeg" />
     <Content Include="www\img\page2.png" />
+    <Content Include="www\img\page3.png" />
     <Content Include="www\img\photo.png" />
-    <Content Include="www\img\r1.jpeg" />
-    <Content Include="www\img\r1.png" />
-    <Content Include="www\img\r3.jpeg" />
     <Content Include="www\img\rotate.png" />
     <Content Include="www\img\save.png" />
     <Content Include="www\img\select.png" />
@@ -78,6 +75,7 @@
     <Content Include="www\lib\angular-route\angular-route.js" />
     <Content Include="www\lib\angular-route\angular-route.min.js" />
     <Content Include="www\lib\backbone-min.js" />
+    <Content Include="www\lib\backbone.js" />
     <Content Include="www\lib\ionic\css\ionic.css" />
     <Content Include="www\lib\ionic\css\ionic.min.css" />
     <Content Include="www\lib\ionic\fonts\ionicons.svg" />

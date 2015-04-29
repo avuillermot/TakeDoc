@@ -11,6 +11,8 @@
         this.Culture = user.UserTkCulture;
         this.Enable = user.UserTkEnable;
         this.Activate = user.UserTkActivate;
+        this.TokenAuthorization = user.TokenAuthorization;
+        environnement.tokenAuthentification = this.TokenAuthorization;
         if (user.GroupTk != null) {
             this.GroupId = user.GroupTk.GroupTkId;
             this.GroupLabel = user.GroupTk.GroupTkLabel;
@@ -43,7 +45,8 @@ userTkService.logon = function (login, pwd, success, error) {
         url: url,
         data: { '': JSON.stringify(data)},
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 };
 

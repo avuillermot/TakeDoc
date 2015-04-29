@@ -117,6 +117,7 @@
     <Compile Include="SearchUserTk_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Security\UserTk.cs" />
     <Compile Include="Status_Document.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Workflow.Document.Interface
 {
-    public interface IWorkflowStatus
+    public interface IValidation
     {
-        void Execute(Guid userId);
+        bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user);
+        bool Execute(TakeDocModel.Document document, Guid userId);
     }
 }

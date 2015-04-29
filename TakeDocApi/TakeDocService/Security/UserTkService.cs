@@ -62,6 +62,7 @@ namespace TakeDocService.Security
                 this.Logger.Info(msg);
                 throw new Exception(msg);
             }
+            user.TokenAuthorization = System.Guid.NewGuid();
             return user;
         }
 

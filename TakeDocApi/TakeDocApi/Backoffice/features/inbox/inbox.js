@@ -11,7 +11,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     });
 
     var resizeGridInbox = function () {
-        var h = ($(document).height() - 200);
+        var h = ($(document).height() - 100);
         $("#inbox-items").css('height', h + 'px');
     };
 

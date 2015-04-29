@@ -10,9 +10,11 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     $scope.$on("metadata$refreshPage", fRefresh);
     
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
+    });
+
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         if (metas.length == 0) $scope.doSave();
     });
 
@@ -25,8 +27,10 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         $ionicLoading.show({
             template: 'Enregistrement...'
         });
+        $scope.$on("metadata$refreshPage", fRefresh);
 
         var success = function () {
+            $ionicLoading.hide();
             $location.path($scope.nextUrl.replace("#/", ""));
             $scope.$broadcast("metadata$refreshPage");
         };

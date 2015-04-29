@@ -9,6 +9,7 @@
         this.Culture = user.UserTkCulture;
         this.Enable = user.UserTkEnable;
         this.Activate = user.UserTkActivate;
+        this.TokenAuthorization = user.TokenAuthorization;
         if (user.GroupTk != null) {
             this.GroupId = user.GroupTk.GroupTkId;
             this.GroupLabel = user.GroupTk.GroupTkLabel;
@@ -36,6 +37,7 @@ function userTkService() {
 userTkService.logon = function (login, pwd, success, error) {
     var url = environnement.UrlBase + "identity/logon";
     var data = { login: login, password: pwd };
+
     $.ajax({
         type: 'POST',
         url: url,

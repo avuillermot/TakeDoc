@@ -169,14 +169,17 @@ namespace TakeDocService.Print
                 copy.FreeReader(entetePdf);
                 entetePdf.Close();
 
-                // add page image to the pdf
-                for (int p = 1; p <= imagePdf.NumberOfPages; p++)
+                if (imagePdf != null)
                 {
-                    PdfImportedPage page = copy.GetImportedPage(imagePdf, p);
-                    copy.AddPage(page);
+                    // add page image to the pdf
+                    for (int p = 1; p <= imagePdf.NumberOfPages; p++)
+                    {
+                        PdfImportedPage page = copy.GetImportedPage(imagePdf, p);
+                        copy.AddPage(page);
+                    }
+                    copy.FreeReader(imagePdf);
+                    imagePdf.Close();
                 }
-                copy.FreeReader(imagePdf);
-                imagePdf.Close();
             }
 
             System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");

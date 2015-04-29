@@ -27,7 +27,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     $scope.openImage = function () {
         $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
-        $("#enlarge-page-modal-body").html('<img src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
+        $("#enlarge-page-modal-body").html('<img style="width:50px;height:50px" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
         $('#enlarge-page-modal').modal('show');
     };
 

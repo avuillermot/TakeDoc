@@ -16,23 +16,6 @@ namespace TakeDocApi.Controllers.oData
 {
     public class GroupTksController : oDataBase<TakeDocModel.GroupTk>
     {
-        private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        // GET: odata/GroupTks
-        public IHttpActionResult GetGroupTks(ODataQueryOptions<GroupTk> queryOptions)
-        {
-            ICollection<GroupTk> items = null;
-            try
-            {
-                items = this.Get(queryOptions, _validationSettings);
-
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-
-            return Ok<IEnumerable<TakeDocModel.GroupTk>>(items);
-        }
     }
 }

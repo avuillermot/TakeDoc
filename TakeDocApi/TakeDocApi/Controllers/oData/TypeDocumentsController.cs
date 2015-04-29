@@ -16,23 +16,6 @@ namespace TakeDocApi.Controllers.oData
 {
     public class TypeDocumentsController : oDataBase<TypeDocument>
     {
-        private static ODataValidationSettings _validationSettings = new ODataValidationSettings();
 
-        // GET: odata/TypeDocuments
-        //[Authorize]
-        public IHttpActionResult GetTypeDocuments(ODataQueryOptions<TypeDocument> queryOptions)
-        {
-            ICollection<TypeDocument> items = null;
-            try
-            {
-                items = this.Get(queryOptions, _validationSettings);
-                
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-            return Ok<IEnumerable<TypeDocument>>(items);
-        }
     }
 }
