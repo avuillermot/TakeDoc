@@ -23,7 +23,7 @@ namespace TakeDocService.Workflow.Document
         /// Check if new status is allow from the current status of document
         /// </summary>
         /// <returns></returns>
-        private bool CheckNewStatus(string oldStatus, string newStatus)
+        public bool CheckNewStatus(string oldStatus, string newStatus)
         {
             if (newStatus.Equals(TakeDocModel.Status_Document.Create)) return true;
 

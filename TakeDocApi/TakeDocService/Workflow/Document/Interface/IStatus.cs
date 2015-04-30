@@ -10,5 +10,12 @@ namespace TakeDocService.Workflow.Document.Interface
     {
         void SetStatus(Guid documentId, string status, Guid userId, bool updateStatusVersion);
         void SetStatus(TakeDocModel.Document document, string status, Guid userId, bool updateStatusVersion);
+        /// <summary>
+        /// Check if new status is allow
+        /// </summary>
+        /// <param name="oldStatus"></param>
+        /// <param name="newStatus"></param>
+        /// <returns></returns>
+        bool CheckNewStatus(string oldStatus, string newStatus);
     }
 }

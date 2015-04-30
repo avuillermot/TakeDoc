@@ -121,8 +121,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             current[0].set("value", elemMetaValue);
         });
 
-        $rootScope.showLoader("Enregistrement....");
-        documentDisplay.data.metadatas.save(param, success, error);
+        if (hasChanged()) {
+            $rootScope.showLoader("Enregistrement....");
+            documentDisplay.data.metadatas.save(param, success, error);
+        }
     };
 
     var generatePdf = function () {

@@ -6,11 +6,11 @@ form {
     padding-left:5px;
 }
 .btn-toolbar {
-    padding-left:10px;
-    margin-bottom: 5px;
-    background-color: #D8D8D8;
-    height:40px;
-    border-radius: 25px;
+    /*padding-left:10px;
+    margin-bottom: 5px;*/
+    /*background-color: #D8D8D8;*/
+    height:30px;
+    /*border-radius: 25px;*/
 }
 
 .form-tk-item {
@@ -92,7 +92,7 @@ form {
 
 /* module user entity*/
 #divAccountEntity {
-    padding-top:40px;
+    padding-top:50px;
 }
 
 /* select in grid */
@@ -105,13 +105,12 @@ form {
     background-size: 50%;
     background-position:center;
     background-repeat: no-repeat;
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
 }
 
 .glyphicon-keys {
     background-image: url('../../Content/glyphicons_free/glyphicons/png/glyphicons-45-keys.png');
-   
 }
 
 /* inbox - directoy*/

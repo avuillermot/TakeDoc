@@ -56,7 +56,7 @@ var DocumentsExtended = Backbone.Collection.extend({
             this.length = this.models.length;
         }
     },
-    loadOptions: "&$orderby=VersionDateCreateData desc&$top=10000",
+    loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");

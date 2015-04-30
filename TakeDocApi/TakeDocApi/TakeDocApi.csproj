@@ -1437,7 +1437,7 @@
     <Content Include="Scripts\models\metadata.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
-    <Content Include="Scripts\utils\environnnement.js" />
+    <Content Include="Scripts\utils\environnement.js" />
     <Content Include="Scripts\utils\fileHelper.js" />
     <Content Include="Scripts\utils\utils.js" />
     <Content Include="Temp\Pdf\info.txt" />

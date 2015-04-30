@@ -4,11 +4,17 @@ backOffice.controller('resultUserController', ['$scope', '$rootScope', '$locatio
     $scope.$watch(function () { return usersResult.data.calls; }, function () {
         $rootScope.hideLoader();
         $scope.gridResultSearchUser.data = usersResult.data.users;
+        resizeGridInbox();
     });
 
     $scope.showMe = function () {
         var toShow = arguments[0].entity;
         $location.path("/account/" + toShow.Id);
+    };
+
+    var resizeGridInbox = function () {
+        var h = ($(document).height() - 150);
+        $("#gridResultSearchUser").css('height', h + 'px');
     };
 
     $scope.deleteMe = function () {

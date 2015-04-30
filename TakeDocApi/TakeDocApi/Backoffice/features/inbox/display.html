@@ -1,31 +1,45 @@
-﻿<div id="divInboxDisplay">
-    <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar" ng-show="title != null">
-        <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
-    </div>
-    
-    <div class="inbox-item-title">{{title}}</div>
-    <form class="form-horizontal">
-        <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] " class="form-group" ng-switch on="metadata.attributes.htmlType">
-            <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}</label>
+﻿<div id="divInboxDisplay" class="panel panel-default" style="padding:5px;" ng-show="title != null">
 
-            <div class="col-sm-10 inbox-metadata">
-                <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="inbox-item-input">
-                    <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
-                </select>
-
-                <input ng-switch-when="date" name="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" />
-                <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
-                <textarea ng-switch-when="textarea"  class="form-control" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3"></textarea>
-                <input ng-switch-when="autocomplete" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
-                <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" />
-            </div>
+    <div class="panel panel-default">
+        <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         </div>
-    </form>
-    <div>
-        <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">{{title}}</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal">
+                <div ng-repeat="metadata in metadatas | orderBy:['attributes.index'] " class="form-group" ng-switch on="metadata.attributes.htmlType">
+                    <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}</label>
+
+                    <div class="col-sm-10 inbox-metadata">
+                        <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="inbox-item-input">
+                            <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
+                        </select>
+
+                        <input ng-switch-when="date" name="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" />
+                        <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
+                        <textarea ng-switch-when="textarea" class="form-control" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3"></textarea>
+                        <input ng-switch-when="autocomplete" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
+                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" />
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Page</h3>
+        </div>
+        <div class="panel-body">
+            <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+        </div>
     </div>
 </div>
-
 

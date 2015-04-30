@@ -1,12 +1,15 @@
-﻿<div>
-    <div id="toolbarTakeDoc" class="btn-toolbar" role="toolbar">
-        <button class="btn btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser"  data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
-        <button class="btn btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
-    </div>
+﻿<div class="panel panel-default">
 
+    <div class="panel panel-default">
+        <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+            <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser" data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+        </div>
+    </div>
+    <div class="panel-body">
     <form class="tk-form" id="divAccountInfo">
         <div class="form-group" id="divinputFirstName">
             <label for="inputFirstName" class="form-tk-label">Prénom</label>
@@ -55,6 +58,7 @@
         </div>
     </form>
 </div>
+</div>
 
 <!-- Modal entity -->
 <div class="modal fade tk-modal" id="modalAccountAddEntity" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -70,7 +74,7 @@
                         {{selectedEntity.Label}}
                         <span class="caret"></span>
                     </button>
-                    <ul class="dropdown-menu" role="menu" >
+                    <ul class="dropdown-menu" role="menu">
                         <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntityToAdd();" onclick="return false" ng-repeat="entity in addEntitysList | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
                     </ul>
                 </div>

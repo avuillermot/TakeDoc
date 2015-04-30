@@ -21,7 +21,11 @@ namespace TakeDocService.Workflow.Document
 
         protected void SetStatus(TakeDocModel.Document document, string status, Guid userId)
         {
-            servStatus.SetStatus(document, status, userId, true);
+            // we update only if status are different
+            bool ok = (document.Status_Document.StatusDocumentReference.Equals(status) == false);
+            // we update only if the new status is allow
+            if (ok == true) ok = servStatus.CheckNewStatus(document.Status_Document.StatusDocumentReference, status);
+            if (ok == true) servStatus.SetStatus(document, status, userId, true);
         }
     }
 }
