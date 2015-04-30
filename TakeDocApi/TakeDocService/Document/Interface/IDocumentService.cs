@@ -12,7 +12,6 @@ namespace TakeDocService.Document.Interface
         void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation);
         void AddVersionMajor(Guid userId, Guid entityId, Guid documentId);
         void AddVersionMinor(Guid userId, Guid entityId, Guid documentId);
-        void SetStatus(Guid document, string status, Guid userId, bool updateStatusVersion);
         TakeDocModel.Document GetById(Guid documentId, params Expression<Func<TakeDocModel.Document, object>>[] properties);
         void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas);
         /// <summary>

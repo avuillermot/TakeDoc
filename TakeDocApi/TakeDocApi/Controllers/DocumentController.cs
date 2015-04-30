@@ -15,10 +15,10 @@ namespace TakeDocApi.Controllers
         [Route("SetIncomplete/{documentId}/{userId}")]
         public HttpResponseMessage SetSend(Guid documentId, Guid userId)
         {
-            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
+            TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
             try
             {
-                servDocument.SetStatus(documentId, TakeDocModel.Status_Document.Incomplete, userId, true);
+                servStatus.SetStatus(documentId, TakeDocModel.Status_Document.Incomplete, userId, true);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

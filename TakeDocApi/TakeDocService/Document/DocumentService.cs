@@ -12,10 +12,11 @@ namespace TakeDocService.Document
     public class DocumentService : BaseService, Interface.IDocumentService
     {
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
-
+        
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
+        TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
+        Interface.IMetaDataService servMeta = UnityHelper.Resolve<Interface.IMetaDataService>();
                 
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
@@ -44,38 +45,13 @@ namespace TakeDocService.Document
             }
         }
 
-        // TODO : positionner à un autre endroit car en doublon avec setStatus dans basevalidation.cs
-        public void SetStatus(Guid documentId, string status, Guid userId, bool updateStatusVersion)
-        {
-            using (TransactionScope transaction = new TransactionScope())
-            {
-                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-                TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == x.EntityId).First();
-
-                // mise à jour du statut de la version à recu
-                if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
-                {
-                    TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
-                    servVersion.SetStatus(version, status, userId);
-                }
-
-                // mise à jour du statut du document à recu
-                document.DocumentStatusId = stDocument.StatusDocumentId;
-                document.UserUpdateData = userId;
-                document.DateUpdateData = System.DateTimeOffset.UtcNow;
-                daoDocument.Update(document);
-
-                transaction.Complete();
-            }
-        }
-
         public void AddVersionMajor(Guid userId, Guid entityId, Guid documentId)
         {
             using (TransactionScope transaction = new TransactionScope())
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
                 TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
+                servStatus.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
                 document.DocumentCurrentVersionId = version.VersionId;
                 daoDocument.Update(document);
 
@@ -89,7 +65,7 @@ namespace TakeDocService.Document
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
                 TakeDocModel.Version version = servVersion.CreateMinor(userId, entityId, System.Guid.NewGuid(), documentId, document.DocumentTypeId);
-                this.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
+                servStatus.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Create, userId, false);
                 document.DocumentCurrentVersionId = version.VersionId;
                 daoDocument.Update(document);
 
@@ -112,6 +88,7 @@ namespace TakeDocService.Document
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
 
+                servMeta.SetMetaData(userId, entityId, versionId, metadatas);
                 //***********************************
                 // update status of document
                 //***********************************
@@ -121,12 +98,12 @@ namespace TakeDocService.Document
                 if (validation.TypeValidationReference == "AUTO")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
-                    wfValidation.Execute(document, userId, metadatas);
+                    wfValidation.Execute(document, userId);
                 }
                 else if (validation.TypeValidationReference == "NO")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationNo();
-                    wfValidation.Execute(document, userId, metadatas);
+                    wfValidation.Execute(document, userId);
                 }
 
                 //***********************************

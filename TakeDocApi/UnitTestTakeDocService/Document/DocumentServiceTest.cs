@@ -12,6 +12,7 @@ namespace UnitTestTakeDocService.Document
     [TestClass]
     public class DocumentServiceTest : UnitTestTakeDocService.BaseServiceTest
     {
+        TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
         IDocumentService servDocument = UnityHelper.Resolve<IDocumentService>();
         IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
         IMetaDataService servMetaData = UnityHelper.Resolve<IMetaDataService>();
@@ -115,7 +116,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void SetStatusIncomplete()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Incomplete, userId, true);
+            servStatus.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Incomplete, userId, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Incomplete), "Statut du document DataSend");
         }
@@ -123,7 +124,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void SetStatusComplete()
         {
-            servDocument.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
+            servStatus.SetStatus(MyDocument.DocumentId, TakeDocModel.Status_Document.Complete, userId, true);
             MyDocument = servDocument.GetById(MyDocument.DocumentId, x => x.Status_Document);
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Complete), "Statut du document MetaSend");
         }
