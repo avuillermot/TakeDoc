@@ -13,7 +13,7 @@ namespace TakeDocService.Workflow.Document
             return this.Execute(document, user.UserTkId);
         }
 
-        public bool Execute(TakeDocModel.Document document, Guid userId)
+        private bool Execute(TakeDocModel.Document document, Guid userId)
         {
             this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, userId);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);

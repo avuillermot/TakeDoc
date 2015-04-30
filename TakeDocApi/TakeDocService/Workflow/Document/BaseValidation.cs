@@ -12,8 +12,9 @@ namespace TakeDocService.Workflow.Document
 {
     public abstract class BaseValidation
     {
-        TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
+        protected TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
+        protected IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         protected Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
         protected IMetaDataService servMeta = UnityHelper.Resolve<IMetaDataService>();
         protected TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();

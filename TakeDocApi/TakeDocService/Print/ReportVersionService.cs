@@ -150,7 +150,6 @@ namespace TakeDocService.Print
 
         public byte[] Generate(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
-            byte[] back = null;
             byte[] data = this.GenerateStarterPdf(version, entity);
             if (data == null) return null;
             PdfReader entetePdf = new PdfReader(data);

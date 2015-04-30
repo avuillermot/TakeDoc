@@ -10,12 +10,10 @@ namespace TakeDocService.Workflow.Document
     {
         public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
         {
-            return this.Execute(document, user.UserTkId);
-        }
-
-        public bool Execute(TakeDocModel.Document document, Guid userId)
-        {
-            this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, userId);
+            this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
+            this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
+            document.DocumentValidateUserId = user.UserTkManagerId;
+            daoDocument.Update(document);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;
         }

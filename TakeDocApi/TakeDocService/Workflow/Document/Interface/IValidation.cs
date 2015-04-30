@@ -9,6 +9,5 @@ namespace TakeDocService.Workflow.Document.Interface
     public interface IValidation
     {
         bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user);
-        bool Execute(TakeDocModel.Document document, Guid userId);
     }
 }
