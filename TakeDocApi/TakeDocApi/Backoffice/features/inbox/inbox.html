@@ -4,7 +4,7 @@
            <div class="inbox-directory">Boîte de réception</div>
            <ul>
                <li ng-click="setSelectedDirectory('MYDOC')" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Mes documents</li>
-               <li ng-click="setSelectedDirectory('VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('VALIDATE')}">Valider</li>
+               <li ng-click="setSelectedDirectory('VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider</li>
                <li ng-click="setSelectedDirectory('REFUSE')" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser</li>
            </ul>
        </div>
@@ -18,6 +18,9 @@
        </div>
        <div>
            <div class="inbox-directory">A valider</div>
+           <ul>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">En attente</li>
+           </ul>
        </div>
    </div>
     <div id="inbox-items" ui-grid="gridDocuments" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pagination></div>

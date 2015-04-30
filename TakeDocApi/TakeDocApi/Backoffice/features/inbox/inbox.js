@@ -83,6 +83,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
 
         if ($scope.selectedDirectory === "MYDOC")
             myDocuments.loadAll(param);
+        if ($scope.selectedDirectory === "TO_VALIDATE") {
+            myDocuments.loadToValidate(param);
+        }
         else {
             documentsDirectory.data.documents = [];
             $scope.gridDocuments.data = [];

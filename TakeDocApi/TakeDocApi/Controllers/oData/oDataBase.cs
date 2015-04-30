@@ -31,6 +31,7 @@ namespace TakeDocApi.Controllers.oData
             }
             catch (ODataException ex)
             {
+                TakeDocService.LoggerService.CreateError(ex.Message);
                 retour = null;
             }
             return retour;

@@ -312,6 +312,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="DocumentOwnerReference" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentOwnerId" Type="uniqueidentifier" />
           <Property Name="DocumentOwnerFullName" Type="nvarchar" MaxLength="401" />
+          <Property Name="DocumentValidateUserId" Type="uniqueidentifier" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -614,6 +615,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_DocumentExtended].[DocumentOwnerReference] AS [DocumentOwnerReference], 
     [View_DocumentExtended].[DocumentOwnerId] AS [DocumentOwnerId], 
     [View_DocumentExtended].[DocumentOwnerFullName] AS [DocumentOwnerFullName], 
+    [View_DocumentExtended].[DocumentValidateUserId] AS [DocumentValidateUserId], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
     [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
     [View_DocumentExtended].[TypeDocumentReference] AS [TypeDocumentReference], 
@@ -1318,6 +1320,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="VersionId" Type="Guid" Nullable="false" />
           <Property Name="DocumentOwnerReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="DocumentValidateUserId" Type="Guid" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1721,6 +1724,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="TakeDocModel.View_DocumentExtended">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="DocumentValidateUserId" ColumnName="DocumentValidateUserId" />
                 <ScalarProperty Name="DocumentDateCreateData" ColumnName="DocumentDateCreateData" />
                 <ScalarProperty Name="DocumentOwnerReference" ColumnName="DocumentOwnerReference" />
                 <ScalarProperty Name="VersionId" ColumnName="VersionId" />

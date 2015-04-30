@@ -44,9 +44,10 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         }
         mode = states.stateParams.search;
 
+        debugger;
         if (mode === "COMPLETE") extDocuments.loadComplete(params);
         else if (mode === "INCOMPLETE") extDocuments.loadIncomplete(params);
-        else if (mode === "TO_VALIDATE") extDocuments.loadSend(params);
+        else if (mode === "TO_VALIDATE") extDocuments.toValidate(params);
 
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;

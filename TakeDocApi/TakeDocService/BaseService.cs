@@ -21,6 +21,22 @@ namespace TakeDocService
             this.Logger.Error(message);
             throw new Exception(message);
         }
-                    
+    }
+
+    public static class LoggerService
+    {
+        public static log4net.ILog Logger
+        {
+            get
+            {
+                return Utility.Logger.myLogger.getLogger("AdoNetAppender");
+            }
+        }
+
+        public static void CreateError(string message)
+        {
+            LoggerService.Logger.Error(message);
+            throw new Exception(message);
+        }
     }
 }
