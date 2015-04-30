@@ -83,7 +83,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
 
         if ($scope.selectedDirectory === "MYDOC")
             myDocuments.loadAll(param);
-        if ($scope.selectedDirectory === "TO_VALIDATE") {
+        else if ($scope.selectedDirectory === "TO_VALIDATE") {
             myDocuments.loadToValidate(param);
         }
         else {
@@ -106,7 +106,6 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $scope.selectedDirectory = id;
         loadDocument(id);
     };
-
 
     $scope.setSelectedDirectory("MYDOC");
 }]);

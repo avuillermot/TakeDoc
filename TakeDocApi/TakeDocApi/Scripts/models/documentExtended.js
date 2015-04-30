@@ -56,7 +56,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         }
         return arr;
     },
-    loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
+    loadOptions: "&$orderby=VersionDateCreateData desc&$top=10000",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");
@@ -70,7 +70,6 @@ var DocumentsExtended = Backbone.Collection.extend({
     loadToValidate: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
         this.replaceParameter("and DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.userId);
-
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },

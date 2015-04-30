@@ -37,7 +37,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectTypeDocument", to: "#/findDocument/search/COMPLETE" },
         { from: "#/findDocument", to: "#/menu" }
     ];
-    var scenarioFindSend = [
+    var scenarioFindWait = [
         { from: "#/menu", to: "#/selectEntity/status/TO_VALIDATE" },
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/TO_VALIDATE" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/TO_VALIDATE" },
@@ -52,7 +52,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     $rootScope.Scenario.init("findDocument", scenarioFindComplet);
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
-    $rootScope.Scenario.init("findSend", scenarioFindSend);
+    $rootScope.Scenario.init("findWait", scenarioFindWait);
     $rootScope.Scenario.init("detailIncomplet", scenarioDetailIncomplet);
     
     $ionicPlatform.ready(function() {
