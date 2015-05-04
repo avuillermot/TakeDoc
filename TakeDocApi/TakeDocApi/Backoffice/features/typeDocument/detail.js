@@ -50,6 +50,28 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     $scope.doSelectValidation = function() {
     }
 
+    $scope.mooveUp = function (id) {
+        var size = $scope.fields.length;
+        var field = $scope.fields.where({ id: id });
+        var currentIndex = field[0].get('index');
+        if (currentIndex > 1) {
+            var fieldToMove = $scope.fields.where({ index: currentIndex - 1 });
+            field[0].set('index', currentIndex - 1);
+            fieldToMove[0].set('index', currentIndex);
+        }
+    };
+    $scope.mooveDown = function (id) {
+        var size = $scope.fields.length;
+        var field = $scope.fields.where({ id: id });
+        var currentIndex = field[0].get('index');
+        if (currentIndex < size) {
+            var fieldToMove = $scope.fields.where({ index: currentIndex + 1 });
+            field[0].set('index', currentIndex + 1);
+            fieldToMove[0].set('index', currentIndex);
+        }
+    }
+
+    // display values for list
     $scope.onListValues = function () {
         var title = this.field.get("label");
         var param = {
@@ -67,8 +89,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         values.load(param);
     };
 
+    // display info for autocompletes
     $scope.onAutocomplete = function (id) {
-        debugger;
         var title = this.field.get("label");
         var param = {
             id: this.field.get("autoCompleteId"),
@@ -76,9 +98,11 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
                 if (!$scope.$$phase) $scope.$apply();
             },
             success: function () {
-                $scope.fielAutocompletes = arguments[0];
-                $("#modalFieldAutocompletes .modal-title").html(title)
-                $("#modalFieldAutocompletes").modal("show");
+                if (arguments.length > 0 && arguments[0].models != null) {
+                    $scope.fieldAutocomplete = arguments[0].models[0];
+                    $("#modalFieldAutocompletes .modal-title").html(title)
+                    $("#modalFieldAutocompletes").modal("show");
+                }
             },
             error: null
         };

@@ -367,6 +367,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_TypeDocumentDataField' n'a pa
           <Property Name="FieldId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteId" Type="uniqueidentifier" />
           <Property Name="IsList" Type="int" Nullable="false" />
           <Property Name="IsAutocomplete" Type="int" Nullable="false" />
         </EntityType>
@@ -654,6 +655,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_TypeDocumentDataField].[FieldId] AS [FieldId], 
     [View_TypeDocumentDataField].[EntityId] AS [EntityId], 
     [View_TypeDocumentDataField].[EtatDeleteData] AS [EtatDeleteData], 
+    [View_TypeDocumentDataField].[DataFieldAutoCompleteId] AS [DataFieldAutoCompleteId], 
     [View_TypeDocumentDataField].[IsList] AS [IsList], 
     [View_TypeDocumentDataField].[IsAutocomplete] AS [IsAutocomplete]
     FROM [dbo].[View_TypeDocumentDataField] AS [View_TypeDocumentDataField]</DefiningQuery>
@@ -1169,6 +1171,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EntityLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <Property Name="IsList" Type="Int32" Nullable="false" />
           <Property Name="IsAutocomplete" Type="Int32" Nullable="false" />
+          <Property Name="DataFieldAutoCompleteId" Type="Guid" />
         </EntityType>
         <EntityType Name="DataFieldValue">
           <Key>
@@ -1643,6 +1646,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_TypeDocumentDataField">
             <EntityTypeMapping TypeName="TakeDocModel.View_TypeDocumentDataField">
               <MappingFragment StoreEntitySet="View_TypeDocumentDataField">
+                <ScalarProperty Name="DataFieldAutoCompleteId" ColumnName="DataFieldAutoCompleteId" />
                 <ScalarProperty Name="IsAutocomplete" ColumnName="IsAutocomplete" />
                 <ScalarProperty Name="IsList" ColumnName="IsList" />
                 <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />

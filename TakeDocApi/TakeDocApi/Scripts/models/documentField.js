@@ -101,7 +101,6 @@ var fieldAutocompletes = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        alert(1);
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/DataFieldAutocompletes?$filter=DataFieldAutoCompleteId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
+        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/AutoCompletes?$filter=DataFieldAutoCompleteId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
     }
 });

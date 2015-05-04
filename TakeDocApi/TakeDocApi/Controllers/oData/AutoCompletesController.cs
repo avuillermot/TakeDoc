@@ -14,7 +14,7 @@ using Microsoft.Data.OData;
 
 namespace TakeDocApi.Controllers.oData
 {
-    public class DataFieldAutocompletesController : oDataBase<TakeDocModel.DataFieldAutoComplete>
+    public class AutoCompletesController : oDataBase<TakeDocModel.DataFieldAutoComplete>
     {
 
     }

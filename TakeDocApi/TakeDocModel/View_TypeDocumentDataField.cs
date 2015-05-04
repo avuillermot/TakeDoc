@@ -29,5 +29,6 @@ namespace TakeDocModel
         public string EntityLabel { get; set; }
         public int IsList { get; set; }
         public int IsAutocomplete { get; set; }
+        public Nullable<System.Guid> DataFieldAutoCompleteId { get; set; }
     }
 }

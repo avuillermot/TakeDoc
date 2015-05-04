@@ -190,7 +190,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
-    <Compile Include="Controllers\oData\DataFieldAutocompletesController.cs" />
+    <Compile Include="Controllers\oData\AutoCompletesController.cs" />
     <Compile Include="Controllers\oData\DataFieldValuesController.cs" />
     <Compile Include="Controllers\oData\GroupTksController.cs" />
     <Compile Include="Controllers\oData\TypeDocumentDataFieldsController.cs" />
