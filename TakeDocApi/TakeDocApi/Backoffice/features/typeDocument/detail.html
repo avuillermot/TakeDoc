@@ -1,0 +1,39 @@
+﻿<div class="panel panel-default">
+
+    <div class="panel panel-default">
+        <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+            <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser" data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+        </div>
+    </div>
+    <div class="panel-body">
+        <form class="tk-form" id="divTypeDocInfo">
+            <div class="form-group" id="divinputLabel">
+                <label for="inputLabel" class="form-tk-label">Libellé</label>
+                <input type="text" class="form-control form-tk-item" id="inputLabel" mandatory="true" ng-model="selectedItem.attributes.label">
+            </div>
+            <div class="form-group" id="divinputValidation">
+                <label for="inputLabel" class="form-tk-label">Type de validation</label>
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedValidation.attributes.label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="validation.attributes.id" ng-click="doSelectValidation();" onclick="return false" ng-repeat="validation in validations.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{validation.attributes.label}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="form-group" id="divinputPageNeed">
+                <label>
+                    <input type="checkbox" ng-checked="selectedItem.attributes.pageNeed" onclick="return true;" ng-model="selectedItem.attributes.pageNeed">&#160;Photographie requise
+                </label>
+            </div>
+        </form>
+    </div>
+</div>
+
+

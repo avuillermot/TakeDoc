@@ -182,6 +182,24 @@ backOffice.factory('documentsDirectory', function () {
     }
 });
 
+/* contain type document result after search */
+backOffice.factory('typeDocumentResult', function () {
+    var data = { typeDocuments: null, calls: 0 };
+
+    return {
+        set: function () {
+            data.typeDocuments = arguments[0];
+            data.calls = data.calls + 1;
+        },
+        data: data
+    }
+
+    return {
+        data: data
+    }
+});
+
+/* contain cpt for refreh detail view */
 backOffice.factory('refreshDetail', function () {
     var data = { calls: 0 };
     

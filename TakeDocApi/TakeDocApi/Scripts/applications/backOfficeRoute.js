@@ -88,6 +88,37 @@
             }
         }
     });
+    $stateProvider.state('searchTypeDocument', {
+        url: "/searchTypeDocument",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/typedocument/search.html",
+                controller: 'searchTypeDocumentController'
+            },
+            "viewDetail": {
+                templateUrl: "features/typeDocument/result.html",
+                controller: 'resultTypeDocumentController'
+            }
+        }
+    });
+    $stateProvider.state('typeDocument', {
+        url: "/typeDocument/:typeDocument",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewGrid": {
+                templateUrl: "features/typedocument/detail.html",
+                controller: 'detailTypeDocumentController'
+            }
+        }
+    });
+
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

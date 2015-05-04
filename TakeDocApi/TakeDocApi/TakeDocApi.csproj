@@ -222,6 +222,12 @@
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.js" />
+    <Content Include="Backoffice\features\typeDocument\result.html" />
+    <Content Include="Backoffice\features\typeDocument\result.js" />
+    <Content Include="Backoffice\features\typeDocument\search.html" />
+    <Content Include="Backoffice\features\typeDocument\search.js" />
+    <Content Include="Backoffice\features\typeDocument\detail.html" />
+    <Content Include="Backoffice\features\typeDocument\detail.js" />
     <Content Include="Backoffice\features\users\resultUser.html" />
     <Content Include="Backoffice\features\users\resultUser.js" />
     <Content Include="Backoffice\features\users\searchUser.html" />
@@ -904,7 +910,7 @@
     <Content Include="Content\glyphicons_free\glyphicons_social\png\social-9-tumblr.png" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\applications\babckOfficeRoute.js" />
+    <Content Include="Scripts\applications\backOfficeRoute.js" />
     <Content Include="Scripts\applications\backOffice.js" />
     <Content Include="Scripts\bower_components\angular-ui-bootstrap\.gitattributes" />
     <Content Include="Scripts\bower_components\angular-ui-bootstrap\.gitignore" />
@@ -1435,6 +1441,7 @@
     <Content Include="Scripts\models\entity.js" />
     <Content Include="Scripts\models\groupTk.js" />
     <Content Include="Scripts\models\metadata.js" />
+    <Content Include="Scripts\models\typeDocument.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
     <Content Include="Scripts\utils\environnement.js" />
