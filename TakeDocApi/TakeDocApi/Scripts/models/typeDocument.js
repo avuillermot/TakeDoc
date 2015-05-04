@@ -33,11 +33,12 @@ var TypeDocuments = Backbone.Collection.extend({
     },
     load: function (param) {
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'" + param.entityId + "'";
-        this.fetch({ success: param.success, error: param.error, url: url });
+        if (param.label != null && param.label != "") url = url + " and startswith(TypeDocumentLabel,'"+ param.label +"')"
+        this.fetch({ success: param.success, error: param.error, url: url, reset: true });
     },
     loadById: function (param) {
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=TypeDocumentId eq guid'" + param.id + "'";
-        this.fetch({ success: param.success, error: param.error, url: url });
+        this.fetch({ success: param.success, error: param.error, url: url, reset: true });
     }
 });
 

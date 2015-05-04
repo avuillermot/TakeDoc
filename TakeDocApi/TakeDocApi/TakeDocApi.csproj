@@ -190,7 +190,10 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
+    <Compile Include="Controllers\oData\DataFieldAutocompletesController.cs" />
+    <Compile Include="Controllers\oData\DataFieldValuesController.cs" />
     <Compile Include="Controllers\oData\GroupTksController.cs" />
+    <Compile Include="Controllers\oData\TypeDocumentDataFieldsController.cs" />
     <Compile Include="Controllers\PrintController.cs" />
     <Compile Include="Controllers\MetaDataController.cs" />
     <Compile Include="Controllers\oData\DocumentExtendedsController.cs" />
@@ -1436,6 +1439,7 @@
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.css" />
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\models\documentField.js" />
     <Content Include="Scripts\models\page.js" />
     <Content Include="Scripts\models\documentExtended.js" />
     <Content Include="Scripts\models\entity.js" />

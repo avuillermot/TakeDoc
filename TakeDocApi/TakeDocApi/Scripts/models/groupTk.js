@@ -17,7 +17,6 @@ var GroupTks = Backbone.Collection.extend({
     model: GroupTk,
     parse: function () {
         var data = arguments[0].value;
-        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new GroupTk();
             this.models.push(current.parse(data[i]));

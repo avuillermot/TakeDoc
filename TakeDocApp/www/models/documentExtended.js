@@ -56,7 +56,7 @@ var DocumentsExtended = Backbone.Collection.extend({
             this.length = this.models.length;
         }
     },
-    loadOptions: "&$orderby=VersionDateCreateData desc&$top=100",
+    loadOptions: "&$orderby=VersionDateCreateData desc&$top=10000",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");
@@ -65,13 +65,11 @@ var DocumentsExtended = Backbone.Collection.extend({
     clauses: {
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
-        send: " and DocumentStatusReference eq 'TO_VALIDATE'",
+        toValidate: " DocumentValidateUserId eq guid'<documentValidateUserId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
     },
-    loadSend: function (param) {
-        this.url = this.urlBase + this.loadBase + this.clauses.send + this.loadOptions;
-        this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
-        this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
-        this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+    loadToValidate: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
+        this.replaceParameter("and DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.userId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },

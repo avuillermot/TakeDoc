@@ -15,11 +15,5 @@ var Pages = Backbone.Collection.extend({
             success: param.success,
             error: param.error
         });
-        /*$.ajax({
-            type: 'GET',
-            url: url,
-            success: param.success,
-            error: param.error
-        });*/
     }
 });

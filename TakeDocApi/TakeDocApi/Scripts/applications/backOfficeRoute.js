@@ -6,7 +6,7 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/myDocument/myDocument.html",
                 controller: 'myDocumentController'
             }
@@ -15,10 +15,10 @@
     $stateProvider.state('login', {
         url: "/login",
         views: {
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/welcome/welcome.html"
             },
-            "viewDetail": {
+            "viewRight": {
                 templateUrl: "features/login/login.html",
                 controller: 'loginController'
             }
@@ -31,11 +31,11 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/account/accountInfo.html",
                 controller: 'accountController'
             },
-            "viewDetail": {
+            "viewRight": {
                 templateUrl: "features/account/entity.html",
                 controller: 'entityController'
             }
@@ -48,7 +48,7 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/passwordUpdate/passwordUpdate.html",
                 controller: 'passwordController'
             }
@@ -61,11 +61,11 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/users/searchUser.html",
                 controller: 'searchUserController'
             },
-            "viewDetail": {
+            "viewRight": {
                 templateUrl: "features/users/resultUser.html",
                 controller: 'resultUserController'
             }
@@ -78,11 +78,11 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/inbox/inbox.html",
                 controller: 'inboxController'
             },
-            "viewDetail": {
+            "viewRight": {
                 templateUrl: "features/inbox/display.html",
                 controller: 'displayController'
             }
@@ -95,11 +95,11 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/typedocument/search.html",
                 controller: 'searchTypeDocumentController'
             },
-            "viewDetail": {
+            "viewRight": {
                 templateUrl: "features/typeDocument/result.html",
                 controller: 'resultTypeDocumentController'
             }
@@ -112,7 +112,7 @@
                 templateUrl: "features/menu/menu.html",
                 controller: 'menuController'
             },
-            "viewGrid": {
+            "viewLeft": {
                 templateUrl: "features/typedocument/detail.html",
                 controller: 'detailTypeDocumentController'
             }

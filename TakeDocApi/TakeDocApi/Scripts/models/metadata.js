@@ -23,7 +23,6 @@ var MetaDataValues = Backbone.Collection.extend({
     model: MetaDataValue,
     parse: function () {
         var data = arguments[0];
-        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new MetaDataValue();
             this.models.push(current.parse(data[i]));
@@ -78,7 +77,6 @@ var MetaDatas = Backbone.Collection.extend({
     model: MetaData,
     parse: function () {
         var data = arguments[0];
-        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new MetaData();
             this.models.push(current.parse(data[i]));

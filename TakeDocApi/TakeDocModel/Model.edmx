@@ -351,6 +351,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_TypeDocumentDataField' n'a pa
             <PropertyRef Name="FieldId" />
             <PropertyRef Name="EntityId" />
             <PropertyRef Name="EtatDeleteData" />
+            <PropertyRef Name="IsList" />
+            <PropertyRef Name="IsAutocomplete" />
           </Key>
           <Property Name="TypeDocumentLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="EntityReference" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -365,6 +367,8 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_TypeDocumentDataField' n'a pa
           <Property Name="FieldId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="IsList" Type="int" Nullable="false" />
+          <Property Name="IsAutocomplete" Type="int" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -649,7 +653,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_TypeDocumentDataField].[TypeDocumentId] AS [TypeDocumentId], 
     [View_TypeDocumentDataField].[FieldId] AS [FieldId], 
     [View_TypeDocumentDataField].[EntityId] AS [EntityId], 
-    [View_TypeDocumentDataField].[EtatDeleteData] AS [EtatDeleteData]
+    [View_TypeDocumentDataField].[EtatDeleteData] AS [EtatDeleteData], 
+    [View_TypeDocumentDataField].[IsList] AS [IsList], 
+    [View_TypeDocumentDataField].[IsAutocomplete] AS [IsAutocomplete]
     FROM [dbo].[View_TypeDocumentDataField] AS [View_TypeDocumentDataField]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="View_UserEntity" EntityType="Self.View_UserEntity" store:Type="Views" store:Schema="dbo">
@@ -1145,6 +1151,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <PropertyRef Name="TypeDocumentLabel" />
             <PropertyRef Name="EntityReference" />
             <PropertyRef Name="EntityLabel" />
+            <PropertyRef Name="IsList" />
+            <PropertyRef Name="IsAutocomplete" />
           </Key>
           <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
           <Property Name="FieldId" Type="Guid" Nullable="false" />
@@ -1159,6 +1167,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="TypeDocumentLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="EntityReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="IsList" Type="Int32" Nullable="false" />
+          <Property Name="IsAutocomplete" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="DataFieldValue">
           <Key>
@@ -1633,6 +1643,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_TypeDocumentDataField">
             <EntityTypeMapping TypeName="TakeDocModel.View_TypeDocumentDataField">
               <MappingFragment StoreEntitySet="View_TypeDocumentDataField">
+                <ScalarProperty Name="IsAutocomplete" ColumnName="IsAutocomplete" />
+                <ScalarProperty Name="IsList" ColumnName="IsList" />
                 <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />
                 <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
                 <ScalarProperty Name="TypeDocumentLabel" ColumnName="TypeDocumentLabel" />

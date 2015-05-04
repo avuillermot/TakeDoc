@@ -27,5 +27,7 @@ namespace TakeDocModel
         public string TypeDocumentLabel { get; set; }
         public string EntityReference { get; set; }
         public string EntityLabel { get; set; }
+        public int IsList { get; set; }
+        public int IsAutocomplete { get; set; }
     }
 }

@@ -2,15 +2,12 @@
 
     <div class="panel panel-default">
         <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-            <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Retour à la recherche" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSaveUser();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-tower" ng-click="addEntity();" data-toggle="tooltip" ng-show="isBackofficeUser" title="Ajouter une entité" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon tk-glyphicon glyphicon-keys" ng-click="doGeneratePassword();" ng-show="isBackofficeUser" data-toggle="tooltip" title="Générer nouveau mot de passe" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
         </div>
     </div>
     <div class="panel-body">
-        <form class="tk-form" id="divTypeDocInfo">
+        <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
             <div class="form-group" id="divinputLabel">
                 <label for="inputLabel" class="form-tk-label">Libellé</label>
                 <input type="text" class="form-control form-tk-item" id="inputLabel" mandatory="true" ng-model="selectedItem.attributes.label">
@@ -33,7 +30,50 @@
                 </label>
             </div>
         </form>
+        <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
+            <div class="form-group" id="divinputLabel">
+                <label for="inputLabel" class="form-tk-label">Champs</label>
+
+                <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container">
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="doUp();" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="doDown();" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+
+                    <div class="document-field-label">{{field.attributes.label}}</div><span style="padding-left:20px;display:none">{{field.attributes.inputType}}-{{field.attributes.index}}</span>
+                    <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; width:50px; cursor:pointer" ng-click="onListValues()"></div>
+                    <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block" ng-click="onAutocomplete()"></div>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
 
+<!-- Modal field values -->
+<div class="modal fade tk-modal" id="modalFieldValues" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Valeur</h4>
+            </div>
+            <div class="modal-body">
+                <div ng-repeat="fieldValue in fieldValues.models | orderBy:['attributes.index']">{{fieldValue.attributes.text}}</div>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal field autocompletes values -->
+<div class="modal fade tk-modal" id="modalFieldAutocompletes" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Valeur</h4>
+            </div>
+            <div class="modal-body">
+                mm
+            </div>
+        </div>
+    </div>
+</div>
