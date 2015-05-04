@@ -7,7 +7,8 @@
         inputType: null,
         isList: null,
         isAutocomplete: null,
-        autoCompleteId: null
+        autoCompleteId: null,
+        mandatory: null
     },
     parse: function () {
         var current = arguments[0];
@@ -19,6 +20,7 @@
         this.set("isList", current.IsList);
         this.set("isAutocomplete", current.IsAutocomplete);
         this.set("autoCompleteId", current.DataFieldAutoCompleteId);
+        this.set("mandatory", current.Mandatory);
         return this;
     }
 });
@@ -36,6 +38,14 @@ var documentFields = Backbone.Collection.extend({
     load: function (param) {
         this.url = this.urlBase;
         this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
+    },
+    remove: function (key, value) {
+        var arr = new Array();
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i].get(key) != value) arr.push(this.models[i]);
+        }
+        this.models = arr;
+        this.length = arr.length;
     }
 });
 

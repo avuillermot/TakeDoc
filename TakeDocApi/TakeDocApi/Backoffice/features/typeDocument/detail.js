@@ -22,32 +22,19 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         fields.load(param)
     };
 
-    $scope.validations = typeValidations;
-    $("#viewRight").css("width", "0%");
-    $("#viewLeft").css("width", "100%");
-
-    // if datasource is empty, we call api
-    if (typeDocumentResult.data.typeDocuments != null) {
-        $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
-        $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
-        loadDocumentField($scope.selectedItem.get("id"));
-    }
-    else {
-        var param = {
-            id: $stateParams.typeDocument,
-            success: function () {
-                $scope.selectedItem = arguments[0].at(0);
-                $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
-                loadDocumentField($scope.selectedItem.get("id"));
-            },
-            error: function () {
-                $rootScope.showError("Une erreur est survenue lors du chargement du type document.");
+    var numeroter = function (startIndex, size) {
+        var index = startIndex;
+        var nb = startIndex;
+        while (index <= size) {
+            var field = $scope.fields.where({ index: index });
+            if (field.length > 0) {
+                field[0].set('index', nb++);
             }
-        };
-        typeDocuments.loadById(param);
-    }
+            index++;
+        }
+    };
 
-    $scope.doSelectValidation = function() {
+    $scope.doSelectValidation = function () {
     }
 
     $scope.mooveUp = function (id) {
@@ -70,6 +57,14 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             fieldToMove[0].set('index', currentIndex);
         }
     }
+    $scope.doRemove = function (id) {
+        $scope.fields.remove("id", id);
+        numeroter(1, $scope.fields.length+1);
+    };
+
+    $scope.doSave = function () {
+
+    };
 
     // display values for list
     $scope.onListValues = function () {
@@ -108,4 +103,29 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         };
         autocompletes.load(param);
     };
+
+    $scope.validations = typeValidations;
+    $("#viewRight").css("width", "0%");
+    $("#viewLeft").css("width", "100%");
+
+    // if datasource is empty, we call api
+    if (typeDocumentResult.data.typeDocuments != null) {
+        $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
+        $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
+        loadDocumentField($scope.selectedItem.get("id"));
+    }
+    else {
+        var param = {
+            id: $stateParams.typeDocument,
+            success: function () {
+                $scope.selectedItem = arguments[0].at(0);
+                $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
+                loadDocumentField($scope.selectedItem.get("id"));
+            },
+            error: function () {
+                $rootScope.showError("Une erreur est survenue lors du chargement du type document.");
+            }
+        };
+        typeDocuments.loadById(param);
+    }
 }]);

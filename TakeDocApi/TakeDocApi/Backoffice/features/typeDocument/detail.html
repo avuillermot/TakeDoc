@@ -37,11 +37,19 @@
                 <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container">
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="mooveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="mooveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
-                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
-                    <div class="document-field-label">{{field.attributes.label}}</div><span style="padding-left:20px;display:inline-block">{{field.attributes.inputType}}-{{field.attributes.index}}</span>
-                    <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="onListValues()"></div>
-                    <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="onAutocomplete()"></div>
+                    <div class="document-field-label">{{field.attributes.label}}
+                        <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="onListValues()"></div>
+                        <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="onAutocomplete()"></div>
+                    </div>
+                    
+                    <label style="font-weight:normal; padding-left:15px">
+                        (Obligatoire&#160;<input type="checkbox" ng-checked="field.attributes.mandatory" onclick="return true;" ng-model="field.attributes.mandatory">)
+                    </label>
+
+                    <span style="padding-left:20px;display:inline-block">{{field.attributes.inputType}}-{{field.attributes.index}}</span>
+
                 </div>
             </div>
         </form>
