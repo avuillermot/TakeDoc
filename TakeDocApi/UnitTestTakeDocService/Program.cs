@@ -17,10 +17,12 @@ namespace UnitTestTakeDocService
             Document.DocumentServiceTest documentTest = new Document.DocumentServiceTest();
             Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
             Security.UserRequestAcountTest requestAccountTest = new Security.UserRequestAcountTest();
+            Document.TypeDocumentServiceTest typeDocumentTest = new Document.TypeDocumentServiceTest();
 
-            documentTest.TestOrdered();
+            /*documentTest.TestOrdered();
             metaDataTest.TestOrdered();
-            requestAccountTest.TestOrdered();
+            requestAccountTest.TestOrdered();*/
+            typeDocumentTest.TestOrdered();
 
             /*ULibre.Drivers.Interface.IDriver driver = new ULibre.Drivers.Implementation.OdtDriver();
             System.IO.File.Copy(@"D:\Projets\TakeDoc\Library\MASTER\Model\NOTE_DE_FRAIS_entete.odt", @"D:\Projets\TakeDoc\Library\test.odt",true);

@@ -158,5 +158,34 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDocumentStatus", documentIdParameter, statusIdParameter, userIdParameter, entityIdParameter);
         }
+    
+        public virtual int AddFieldToDocumentType(string typeDocumentRef, string fieldRef, Nullable<bool> mandatory, Nullable<int> index, string entityRef, string userRef)
+        {
+            var typeDocumentRefParameter = typeDocumentRef != null ?
+                new ObjectParameter("typeDocumentRef", typeDocumentRef) :
+                new ObjectParameter("typeDocumentRef", typeof(string));
+    
+            var fieldRefParameter = fieldRef != null ?
+                new ObjectParameter("fieldRef", fieldRef) :
+                new ObjectParameter("fieldRef", typeof(string));
+    
+            var mandatoryParameter = mandatory.HasValue ?
+                new ObjectParameter("mandatory", mandatory) :
+                new ObjectParameter("mandatory", typeof(bool));
+    
+            var indexParameter = index.HasValue ?
+                new ObjectParameter("index", index) :
+                new ObjectParameter("index", typeof(int));
+    
+            var entityRefParameter = entityRef != null ?
+                new ObjectParameter("entityRef", entityRef) :
+                new ObjectParameter("entityRef", typeof(string));
+    
+            var userRefParameter = userRef != null ?
+                new ObjectParameter("userRef", userRef) :
+                new ObjectParameter("userRef", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddFieldToDocumentType", typeDocumentRefParameter, fieldRefParameter, mandatoryParameter, indexParameter, entityRefParameter, userRefParameter);
+        }
     }
 }

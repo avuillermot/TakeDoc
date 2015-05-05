@@ -10,5 +10,6 @@ namespace TakeDocService.Document.Interface
     public interface ITypeDocumentService
     {
         ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId);
+        void AddDataField(string typeDocumentRef, string dataFieldRef, bool mandatory, int? index, string entityRef, string userRef);
     }
 }

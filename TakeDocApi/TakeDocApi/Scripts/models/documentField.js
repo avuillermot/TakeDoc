@@ -10,9 +10,10 @@
         isAutocomplete: null,
         autoCompleteId: null,
         mandatory: null,
-        delete: null
+        delete: null,
+        entityId: null
     },
-    create: function (id, reference, label, inputType, index) {
+    create: function (id, reference, entityId, label, inputType, index) {
         this.set("id", id);
         this.set("reference", reference);
         this.set("label", label);
@@ -24,6 +25,7 @@
         this.set("autoCompleteId", false);
         this.set("mandatory", false);
         this.set("delete", false);
+        this.set("entityId", entityId);
         return this;
     },
     getInputTypeLabel: function() {
@@ -48,6 +50,7 @@
         this.set("autoCompleteId", current.DataFieldAutoCompleteId);
         this.set("mandatory", current.Mandatory);
         this.set("delete", current.EtatDeleteData);
+        this.set("entityId", current.EntityId);
         return this;
     }
 });

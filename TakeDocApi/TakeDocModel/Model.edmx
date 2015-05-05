@@ -566,6 +566,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="from" Type="nvarchar" Mode="In" />
           <Parameter Name="info" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="AddFieldToDocumentType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="typeDocumentRef" Type="nvarchar" Mode="In" />
+          <Parameter Name="fieldRef" Type="nvarchar" Mode="In" />
+          <Parameter Name="mandatory" Type="bit" Mode="In" />
+          <Parameter Name="index" Type="int" Mode="In" />
+          <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
+          <Parameter Name="userRef" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="AddUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
           <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
@@ -855,6 +863,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="statusId" Mode="In" Type="Guid" />
             <Parameter Name="userId" Mode="In" Type="Guid" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="AddFieldToDocumentType">
+            <Parameter Name="typeDocumentRef" Mode="In" Type="String" />
+            <Parameter Name="fieldRef" Mode="In" Type="String" />
+            <Parameter Name="mandatory" Mode="In" Type="Boolean" />
+            <Parameter Name="index" Mode="In" Type="Int32" />
+            <Parameter Name="entityRef" Mode="In" Type="String" />
+            <Parameter Name="userRef" Mode="In" Type="String" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1818,6 +1834,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddDocumentStatus" FunctionName="TakeDocModel.Store.AddDocumentStatus" />
+          <FunctionImportMapping FunctionImportName="AddFieldToDocumentType" FunctionName="TakeDocModel.Store.AddFieldToDocumentType" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

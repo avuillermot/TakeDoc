@@ -112,8 +112,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         $scope.fieldsToAdd = new Array();
 
         // we propose field that is not delete and not already add in document type
-        $.each(dataFields.where({delete: false}), function (index, value) {
-            var already = fields.where({ id: value.get("id"), delete: false });
+        $.each(dataFields.where({ delete: false }), function (index, value) {
+            var already = fields.where({ id: value.get("id"), delete: false, entityId: $scope.selectedItem.get("entityId") });
             if (already.length == 0) $scope.fieldsToAdd.push(value);
         });
         if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
@@ -128,7 +128,12 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         var newIndex = fields.getLastIndex() + 1;
 
         var newField = new DocumentField();
-        newField.create(this.fieldsToAdd.get("id"), this.fieldsToAdd.get("reference"), this.fieldsToAdd.get("label"), currentInputType[0].get("inputType"), newIndex);
+        newField.create(
+            this.fieldsToAdd.get("id"),
+            this.fieldsToAdd.get("reference"),
+            this.fieldsToAdd.get("entityId"),
+            this.fieldsToAdd.get("label"),
+            currentInputType[0].get("inputType"), newIndex);
         newField.set("isList", this.fieldsToAdd.get("isList"));
         newField.set("isAutocomplete", this.fieldsToAdd.get("isAutocomplete"));
         newField.set("autoCompleteId", this.fieldsToAdd.get("autoCompleteId"));
