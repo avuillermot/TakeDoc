@@ -14,6 +14,12 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     $("#viewRight").css("width", "0%");
     $("#viewLeft").css("width", "100%");
 
+    var setCurrentEntity = function () {
+        $.each($rootScope.getUser().Entitys, function (index, value) {
+            if (value.Id == $scope.selectedItem.get("entityId")) $scope.currentEntity = value;
+        });
+    };
+
     var loadDocumentFields = function (typeDocumentId) {
         var param = {
             id: typeDocumentId,
@@ -103,13 +109,15 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     };
 
     $scope.doAddField = function () {
-        var toPropose = new Array();
+        $scope.fieldsToAdd = new Array();
 
         // we propose field that is not delete and not already add in document type
         $.each(dataFields.where({delete: false}), function (index, value) {
             var already = fields.where({ id: value.get("id") });
-            if (already.length == 0) toPropose.push(fields[0]);
+            if (already.length == 0) $scope.fieldsToAdd.push(value);
         });
+        if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
+        else $rootScope.showModal("Informations","Tous les champs disponibles ont été ajoutés.")
     };
 
     $scope.doSave = function () {
@@ -122,6 +130,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
             loadDocumentFields($scope.selectedItem.get("id"));
             loadDataFields($scope.selectedItem.get("entityId"));
+            setCurrentEntity($scope.selectedItem.get("entityId"));
         }
         else {
             var param = {
@@ -130,6 +139,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
                     $scope.selectedItem = arguments[0].at(0);
                     loadDocumentFields($scope.selectedItem.get("id"));
                     loadDataFields($scope.selectedItem.get("entityId"));
+                    setCurrentEntity($scope.selectedItem.get("entityId"));
                 },
                 error: function () {
                     $rootScope.showError("Une erreur est survenue lors du chargement du type document.");
@@ -137,6 +147,13 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             };
             typeDocuments.loadById(param);
         }
+    };
+
+    $scope.doAddDataField = function (dataFieldId) {
+        var newField = new DocumentField();
+        newField.create(this.fieldsToAdd.get("id"), this.fieldsToAdd.get("reference"), this.fieldsToAdd.get("label"));
+        fields.add(newField);
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     // display values for list

@@ -254,3 +254,12 @@ form {
     margin: 0px !important;
     height: 30px;
 }
+
+.datafield-add {
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.datafield-add:hover {
+    text-decoration: underline;
+}

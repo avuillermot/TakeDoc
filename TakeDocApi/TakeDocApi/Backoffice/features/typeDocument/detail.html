@@ -9,6 +9,10 @@
     </div>
     <div class="panel-body">
         <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
+            <div class="form-group" id="divinputEntity">
+                <label for="inputLabel" class="form-tk-label">Entité</label>
+                <input type="text" class="form-control form-tk-item" id="inputEntity" readonly ng-model="currentEntity.Label">
+            </div>
             <div class="form-group" id="divinputLabel">
                 <label for="inputLabel" class="form-tk-label">Libellé</label>
                 <input type="text" class="form-control form-tk-item" id="inputLabel" mandatory="true" ng-model="selectedItem.attributes.label">
@@ -98,6 +102,21 @@
                     <label>Aide à la saisie</label>
                     {{fieldAutocomplete.attributes.placeHolder}}
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal add field to document type -->
+<div class="modal fade tk-modal" id="modalAddFieldToDocumentType" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Valeur</h4>
+            </div>
+            <div class="modal-body">
+                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}</div>
             </div>
         </div>
     </div>

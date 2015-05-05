@@ -12,6 +12,20 @@
         mandatory: null,
         delete: null
     },
+    create: function(id, reference, label) {
+        this.set("id", id);
+        this.set("reference", reference);
+        this.set("label", label);
+        this.set("index", 99);
+        this.set("inputType", "");
+        this.set("inputTypeLabel", "");
+        this.set("isList", false);
+        this.set("isAutocomplete", false);
+        this.set("autoCompleteId", false);
+        this.set("mandatory", false);
+        this.set("delete", false);
+        return this;
+    },
     getInputTypeLabel: function() {
         if (this.get("inputType") == "textarea") return "Texte long";
         else if (this.get("inputType") == "text") return "Texte court";
