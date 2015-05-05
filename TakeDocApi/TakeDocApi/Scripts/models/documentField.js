@@ -1,14 +1,25 @@
-﻿var documentField = Backbone.Model.extend({
+﻿var DocumentField = Backbone.Model.extend({
     defaults: {
-        //id: null,
+        id: null,
         reference: null,
         label: null,
         index: null,
         inputType: null,
+        inputTypeLabel: null,
         isList: null,
         isAutocomplete: null,
         autoCompleteId: null,
-        mandatory: null
+        mandatory: null,
+        delete: null
+    },
+    getInputTypeLabel: function() {
+        if (this.get("inputType") == "textarea") return "Texte long";
+        else if (this.get("inputType") == "text") return "Texte court";
+        else if (this.get("inputType") == "number") return "Nombre";
+        else if (this.get("inputType") == "number") return "Nombre";
+        else if (this.get("inputType") == "date") return "Date";
+        else if (this.get("inputType") == "ion-toggle") return "Oui/Non";
+        else return "(Inconnu)";
     },
     parse: function () {
         var current = arguments[0];
@@ -17,20 +28,22 @@
         this.set("label", current.Label);
         this.set("index", current.DisplayIndex);
         this.set("inputType", current.InputType);
+        this.set("inputTypeLabel", this.getInputTypeLabel(current.InputType));
         this.set("isList", current.IsList);
         this.set("isAutocomplete", current.IsAutocomplete);
         this.set("autoCompleteId", current.DataFieldAutoCompleteId);
         this.set("mandatory", current.Mandatory);
+        this.set("delete", current.EtatDeleteData);
         return this;
     }
 });
 
-var documentFields = Backbone.Collection.extend({
-    model: documentField,
+var DocumentFields = Backbone.Collection.extend({
+    model: DocumentField,
     parse: function () {
         var data = arguments[0].value;
         for (var i = 0; i < data.length; i++) {
-            var current = new documentField();
+            var current = new DocumentField();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
@@ -49,7 +62,7 @@ var documentFields = Backbone.Collection.extend({
     }
 });
 
-var fieldValue = Backbone.Model.extend({
+var FieldValue = Backbone.Model.extend({
     defaults: {
         id: null,
         index: null,
@@ -68,12 +81,12 @@ var fieldValue = Backbone.Model.extend({
     }
 });
 
-var fieldValues = Backbone.Collection.extend({
-    model: fieldValue,
+var FieldValues = Backbone.Collection.extend({
+    model: FieldValue,
     parse: function () {
         var data = arguments[0].value;
         for (var i = 0; i < data.length; i++) {
-            var current = new fieldValue();
+            var current = new FieldValue();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
@@ -83,7 +96,7 @@ var fieldValues = Backbone.Collection.extend({
     }
 });
 
-var fieldAutocomplete = Backbone.Model.extend({
+var FieldAutocomplete = Backbone.Model.extend({
     defaults: {
         id: null,
         url: null,
@@ -100,12 +113,12 @@ var fieldAutocomplete = Backbone.Model.extend({
     }
 });
 
-var fieldAutocompletes = Backbone.Collection.extend({
-    model: fieldAutocomplete,
+var FieldAutocompletes = Backbone.Collection.extend({
+    model: FieldAutocomplete,
     parse: function () {
         var data = arguments[0].value;
         for (var i = 0; i < data.length; i++) {
-            var current = new fieldAutocomplete();
+            var current = new FieldAutocomplete();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }

@@ -31,6 +31,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.TypeDocument>("TypeDocuments");
             builder.EntitySet<TakeDocModel.MetaData>("MetaDatas");
             builder.EntitySet<TakeDocModel.DataField>("DataFields");
+            builder.EntitySet<TakeDocModel.DataFieldType>("DataFieldTypes");
             builder.EntitySet<TakeDocModel.DataFieldValue>("DataFieldValues");
             builder.EntitySet<TakeDocModel.DataFieldAutoComplete>("AutoCompletes");
             builder.EntitySet<TakeDocModel.View_DocumentExtended>("DocumentExtendeds");

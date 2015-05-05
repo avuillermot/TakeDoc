@@ -2,15 +2,23 @@
 backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '$location', '$stateParams', 'typeDocumentResult', function ($scope, $rootScope, $location, $stateParams, typeDocumentResult) {
     var typeDocuments = new TypeDocuments();
     var typeValidations = new TypeValidations();
-    var fields = new documentFields();
-    var values = new fieldValues();
-    var autocompletes = new fieldAutocompletes();
+    // field link to document type
+    var fields = new DocumentFields();
+    // value link to fields
+    var values = new FieldValues();
+    // autocomplete configuraton link to field
+    var autocompletes = new FieldAutocompletes();
+    // all field allow for link to document type
+    var dataFields = new DataFields();
+       
+    $("#viewRight").css("width", "0%");
+    $("#viewLeft").css("width", "100%");
 
-    var loadDocumentField = function (typeDocumentId) {
+    var loadDocumentFields = function (typeDocumentId) {
         var param = {
             id: typeDocumentId,
             always: function () {
-                if (!$scope.$$phase) $scope.$apply();
+                loadTypeValidations();
             },
             error: function () {
                 $rootScope.showError("Une erreur est survenue lors du chargement des champs pour ce type document.")
@@ -19,14 +27,44 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
                 $scope.fields = arguments[0];
             }
         };
-        fields.load(param)
+        fields.load(param);
+
     };
+    var loadTypeValidations = function () {
+        var param = {
+            always: function () {
+                if (!$scope.$$phase) $scope.$apply();
+            },
+            error: function () {
+                $rootScope.showError("Une erreur est survenue lors du chargement des types de validations.")
+            },
+            success: function () {
+                $scope.validations = arguments[0];
+                $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
+
+            }
+        };
+        typeValidations.load(param);
+    }
+    var loadDataFields = function (entityId) {
+        var param = {
+            entityId: entityId,
+            always:null,
+            error: function () {
+                $rootScope.showError("Une erreur est survenue lors du chargement des champs disponibles.")
+            },
+            success: function () {
+                $scope.dataFields = arguments[0];
+            }
+        };
+        dataFields.load(param);
+    }
 
     var numeroter = function (startIndex, size) {
         var index = startIndex;
         var nb = startIndex;
         while (index <= size) {
-            var field = $scope.fields.where({ index: index });
+            var field = $scope.fields.where({ index: index, delete: false });
             if (field.length > 0) {
                 field[0].set('index', nb++);
             }
@@ -58,12 +96,47 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         }
     }
     $scope.doRemove = function (id) {
-        $scope.fields.remove("id", id);
-        numeroter(1, $scope.fields.length+1);
+        var toDel = $scope.fields.where({ id: id })[0]
+        toDel.set("delete", true);
+        toDel.set("index", -1);
+        numeroter(1, $scope.fields.length + 1);
+    };
+
+    $scope.doAddField = function () {
+        var toPropose = new Array();
+
+        // we propose field that is not delete and not already add in document type
+        $.each(dataFields.where({delete: false}), function (index, value) {
+            var already = fields.where({ id: value.get("id") });
+            if (already.length == 0) toPropose.push(fields[0]);
+        });
     };
 
     $scope.doSave = function () {
 
+    };
+
+    $scope.doReset = function () {
+        // if datasource is empty, we call api
+        if (typeDocumentResult.data.typeDocuments != null) {
+            $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
+            loadDocumentFields($scope.selectedItem.get("id"));
+            loadDataFields($scope.selectedItem.get("entityId"));
+        }
+        else {
+            var param = {
+                id: $stateParams.typeDocument,
+                success: function () {
+                    $scope.selectedItem = arguments[0].at(0);
+                    loadDocumentFields($scope.selectedItem.get("id"));
+                    loadDataFields($scope.selectedItem.get("entityId"));
+                },
+                error: function () {
+                    $rootScope.showError("Une erreur est survenue lors du chargement du type document.");
+                }
+            };
+            typeDocuments.loadById(param);
+        }
     };
 
     // display values for list
@@ -83,7 +156,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         };
         values.load(param);
     };
-
     // display info for autocompletes
     $scope.onAutocomplete = function (id) {
         var title = this.field.get("label");
@@ -104,28 +176,5 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         autocompletes.load(param);
     };
 
-    $scope.validations = typeValidations;
-    $("#viewRight").css("width", "0%");
-    $("#viewLeft").css("width", "100%");
-
-    // if datasource is empty, we call api
-    if (typeDocumentResult.data.typeDocuments != null) {
-        $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
-        $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
-        loadDocumentField($scope.selectedItem.get("id"));
-    }
-    else {
-        var param = {
-            id: $stateParams.typeDocument,
-            success: function () {
-                $scope.selectedItem = arguments[0].at(0);
-                $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
-                loadDocumentField($scope.selectedItem.get("id"));
-            },
-            error: function () {
-                $rootScope.showError("Une erreur est survenue lors du chargement du type document.");
-            }
-        };
-        typeDocuments.loadById(param);
-    }
+    $scope.doReset();
 }]);

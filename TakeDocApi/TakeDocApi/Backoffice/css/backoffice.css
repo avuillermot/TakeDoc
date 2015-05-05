@@ -250,4 +250,7 @@ form {
 .document-field-label {
     display: inline-block;
     width: 150px;
+    padding: 0px !important;
+    margin: 0px !important;
+    height: 30px;
 }

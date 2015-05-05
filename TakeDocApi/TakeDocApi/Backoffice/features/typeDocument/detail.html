@@ -3,6 +3,7 @@
     <div class="panel panel-default">
         <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-plus" ng-click="doAddField();" data-toggle="tooltip" title="Ajouter un champ" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
         </div>
     </div>
@@ -34,21 +35,26 @@
             <div class="form-group" id="divinputLabel">
                 <label for="inputLabel" class="form-tk-label">Champs</label>
 
-                <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container">
+                <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.delete">
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="mooveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="mooveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
-                    <div class="document-field-label">{{field.attributes.label}}
+                    <div class="document-field-label">
+                        {{field.attributes.label}}
                         <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="onListValues()"></div>
                         <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="onAutocomplete()"></div>
                     </div>
-                    
+
+                    <label class="document-field-label" style="font-weight: normal; width:100px">
+                        {{field.attributes.inputTypeLabel}}
+                    </label>
+
                     <label style="font-weight:normal; padding-left:15px">
                         (Obligatoire&#160;<input type="checkbox" ng-checked="field.attributes.mandatory" onclick="return true;" ng-model="field.attributes.mandatory">)
                     </label>
 
-                    <span style="padding-left:20px;display:inline-block">{{field.attributes.inputType}}-{{field.attributes.index}}</span>
+                    <span style="padding-left:20px;display:inline-block">{{field.attributes.inputType}}-{{field.attributes.index}}-{{field.attributes.delete}}</span>
 
                 </div>
             </div>
