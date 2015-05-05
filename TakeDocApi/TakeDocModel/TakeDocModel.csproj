@@ -73,6 +73,7 @@
     <Compile Include="Document.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Document\DataField.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\MetaData.cs" />
     <Compile Include="Document\Status_Document.cs" />

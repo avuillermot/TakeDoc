@@ -12,13 +12,13 @@
         mandatory: null,
         delete: null
     },
-    create: function(id, reference, label) {
+    create: function (id, reference, label, inputType, index) {
         this.set("id", id);
         this.set("reference", reference);
         this.set("label", label);
-        this.set("index", 99);
-        this.set("inputType", "");
-        this.set("inputTypeLabel", "");
+        this.set("index", index);
+        this.set("inputType", inputType);
+        this.set("inputTypeLabel", this.getInputTypeLabel(inputType));
         this.set("isList", false);
         this.set("isAutocomplete", false);
         this.set("autoCompleteId", false);
@@ -61,6 +61,14 @@ var DocumentFields = Backbone.Collection.extend({
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
+    },
+    getLastIndex: function () {
+        var back = -1;
+        for (var i = 0; i < this.models.length; i++) {
+            if (this.models[i].get("index") > back) back = this.models[i].get("index");
+        }
+        if (back < 0) back = 0;
+        return back;
     },
     load: function (param) {
         this.url = this.urlBase;

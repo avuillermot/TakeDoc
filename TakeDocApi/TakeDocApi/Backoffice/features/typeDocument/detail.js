@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '$location', '$stateParams', 'typeDocumentResult', function ($scope, $rootScope, $location, $stateParams, typeDocumentResult) {
+backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '$location', '$stateParams', 'typeDocumentResult', 'inputTypes', function ($scope, $rootScope, $location, $stateParams, typeDocumentResult, inputTypes) {
     var typeDocuments = new TypeDocuments();
     var typeValidations = new TypeValidations();
     // field link to document type
@@ -108,16 +108,33 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         numeroter(1, $scope.fields.length + 1);
     };
 
-    $scope.doAddField = function () {
+    $scope.doOpenModalAddField = function () {
         $scope.fieldsToAdd = new Array();
 
         // we propose field that is not delete and not already add in document type
         $.each(dataFields.where({delete: false}), function (index, value) {
-            var already = fields.where({ id: value.get("id") });
+            var already = fields.where({ id: value.get("id"), delete: false });
             if (already.length == 0) $scope.fieldsToAdd.push(value);
         });
         if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
         else $rootScope.showModal("Informations","Tous les champs disponibles ont été ajoutés.")
+    };
+
+    $scope.doAddDataField = function (dataFieldId) {
+        $("#modalAddFieldToDocumentType").modal("hide");
+        // get type of this field
+        var currentInputType = inputTypes.data.inputTypes.where({ id: this.fieldsToAdd.get("typeId") });
+        // get index of this field, set has last field of document type
+        var newIndex = fields.getLastIndex() + 1;
+
+        var newField = new DocumentField();
+        newField.create(this.fieldsToAdd.get("id"), this.fieldsToAdd.get("reference"), this.fieldsToAdd.get("label"), currentInputType[0].get("inputType"), newIndex);
+        newField.set("isList", this.fieldsToAdd.get("isList"));
+        newField.set("isAutocomplete", this.fieldsToAdd.get("isAutocomplete"));
+        newField.set("autoCompleteId", this.fieldsToAdd.get("autoCompleteId"));
+
+        fields.add(newField);
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     $scope.doSave = function () {
@@ -147,13 +164,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             };
             typeDocuments.loadById(param);
         }
-    };
-
-    $scope.doAddDataField = function (dataFieldId) {
-        var newField = new DocumentField();
-        newField.create(this.fieldsToAdd.get("id"), this.fieldsToAdd.get("reference"), this.fieldsToAdd.get("label"));
-        fields.add(newField);
-        if (!$scope.$$phase) $scope.$apply();
     };
 
     // display values for list

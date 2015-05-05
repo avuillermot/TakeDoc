@@ -148,6 +148,24 @@ backOffice.factory('groups', function () {
     }
 });
 
+backOffice.factory('inputTypes', function () {
+    var data = { inputTypes: [], calls: 0 };
+
+    var types = new DataFieldTypes();
+    var success = function () {
+        data.inputTypes = arguments[0];
+        data.calls = data.calls + 1;
+    };
+    var error = function () {
+        alert("Error in factory inputTypes");
+    };
+    types.load({ success: success, error: error });
+
+    return {
+        data: data
+    }
+});
+
 backOffice.factory('documentDisplay', function () {
     var data = { document: null, metadatas: [], calls: 0 };
 
