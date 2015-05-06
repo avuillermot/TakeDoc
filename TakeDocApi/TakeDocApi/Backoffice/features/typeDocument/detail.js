@@ -20,6 +20,9 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         });
     };
 
+    //************************************
+    // load data context
+    //************************************
     var loadDocumentFields = function (typeDocumentId) {
         var param = {
             id: typeDocumentId,
@@ -78,6 +81,12 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         }
     };
 
+    //************************************
+    // ihm function event
+    //************************************
+    $scope.doGoSeach = function () {
+        $location.path("/searchTypeDocument");
+    };
     $scope.doSelectValidation = function () {
     }
 
@@ -107,7 +116,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         toDel.set("index", -1);
         numeroter(1, $scope.fields.length + 1);
     };
-
     $scope.doOpenModalAddField = function () {
         $scope.fieldsToAdd = new Array();
 
@@ -119,7 +127,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
         else $rootScope.showModal("Informations","Tous les champs disponibles ont été ajoutés.")
     };
-
     $scope.doAddDataField = function (dataFieldId) {
         $("#modalAddFieldToDocumentType").modal("hide");
         // get type of this field
@@ -141,11 +148,12 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         fields.add(newField);
         if (!$scope.$$phase) $scope.$apply();
     };
-
     $scope.doSave = function () {
-
+        var param = {
+            data: fields.toJSON()
+        };
+        fields.update(param);
     };
-
     $scope.doReset = function () {
         // if datasource is empty, we call api
         if (typeDocumentResult.data.typeDocuments != null) {

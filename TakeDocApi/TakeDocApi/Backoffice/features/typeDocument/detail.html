@@ -2,6 +2,7 @@
 
     <div class="panel panel-default">
         <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+            <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" title="Retour à la recherche" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-plus" ng-click="doOpenModalAddField();" data-toggle="tooltip" title="Ajouter un champ" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
@@ -113,10 +114,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Valeur</h4>
+                <h4 class="modal-title">Champs disponibles</h4>
             </div>
             <div class="modal-body">
-                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}</div>
+                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}&#160;-&#160;({{fieldsToAdd.attributes.reference}})</div>
             </div>
         </div>
     </div>
