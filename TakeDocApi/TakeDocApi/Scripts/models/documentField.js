@@ -77,18 +77,6 @@ var DocumentFields = Backbone.Collection.extend({
         this.url = this.urlBase;
         this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
     },
-    update: function (param) {
-        debugger;
-        $.ajax({
-            type: 'POST',
-            url: environnement.UrlBase + "TypeDocument/Update",
-            data: { '': JSON.stringify(param.data) },
-            success: null,
-            error: null,
-            beforeSend: requestHelper.beforeSend()
-        });
-        alert("go");
-    },
     remove: function (key, value) {
         var arr = new Array();
         for (var i = 0; i < this.models.length; i++) {

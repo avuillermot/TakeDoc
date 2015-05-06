@@ -33,7 +33,7 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
        columnDefs: [
           { name: ' ', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-pencil" ng-click="grid.appScope.showMe(row)"></button>&#160;&#160;&#160;&#160;&#160;<button class="btn btn-danger btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.deleteMe(row)"></button>' },
           { name: 'Libelle', field: 'attributes.label' },
-          { name: 'Photographie requise requise', field: '', cellTemplate: '<input type="checkbox" ng-checked="grid.appScope.pageNeed(row)" onclick="return false"/>' }
+          { name: 'Photographie requise', field: '', cellTemplate: '<input type="checkbox" ng-checked="grid.appScope.pageNeed(row)" onclick="return false"/>' }
        ],
        data: []
     };

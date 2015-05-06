@@ -66,10 +66,24 @@ var DocumentsExtended = Backbone.Collection.extend({
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
         toValidate: " DocumentValidateUserId eq guid'<documentValidateUserId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
+        toValidate: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
     },
-    loadToValidate: function (param) {
+    //************************************************************************
+    // load my document that wait a validation, i'm owner of this document
+    //************************************************************************
+    loadWaitValidate: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
-        this.replaceParameter("and DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.userId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+    },
+    //************************************************************************
+    // load document that i must validate - i'm not owner of this document
+    //************************************************************************
+    loadToValidate: function (param) {
+        debugger;
+        this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
+        this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },

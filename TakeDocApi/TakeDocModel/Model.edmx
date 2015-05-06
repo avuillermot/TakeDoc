@@ -570,6 +570,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="typeDocumentRef" Type="nvarchar" Mode="In" />
           <Parameter Name="fieldRef" Type="nvarchar" Mode="In" />
           <Parameter Name="mandatory" Type="bit" Mode="In" />
+          <Parameter Name="delete" Type="bit" Mode="In" />
           <Parameter Name="index" Type="int" Mode="In" />
           <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
@@ -868,6 +869,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="typeDocumentRef" Mode="In" Type="String" />
             <Parameter Name="fieldRef" Mode="In" Type="String" />
             <Parameter Name="mandatory" Mode="In" Type="Boolean" />
+            <Parameter Name="delete" Mode="In" Type="Boolean" />
             <Parameter Name="index" Mode="In" Type="Int32" />
             <Parameter Name="entityRef" Mode="In" Type="String" />
             <Parameter Name="userRef" Mode="In" Type="String" />

@@ -28,7 +28,7 @@ namespace UnitTestTakeDocService.Document
         public void AddDataField()
         {
             ITypeDocumentService servTypeDocument = UnityHelper.Resolve<ITypeDocumentService>();
-            servTypeDocument.AddDataField("EMPTY", "DATE_NOTE_FRAIS", true, null, "MASTER", "ROOT");
+            servTypeDocument.AddDataField("EMPTY", "DATE_NOTE_FRAIS", true, false, null, "MASTER", "ROOT");
         }
     }
 }

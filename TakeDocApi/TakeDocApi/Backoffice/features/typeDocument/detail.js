@@ -88,6 +88,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         $location.path("/searchTypeDocument");
     };
     $scope.doSelectValidation = function () {
+        $scope.selectedValidation = this.validation;
+        $scope.selectedItem.set("typeValidationId", this.validation.get("id"));
     }
 
     $scope.mooveUp = function (id) {
@@ -150,9 +152,17 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     };
     $scope.doSave = function () {
         var param = {
-            data: fields.toJSON()
+            fields: fields.toJSON(),
+            userId: $rootScope.getUser().Id,
+            typeDocument: $scope.selectedItem.toJSON(),
+            error: function () {
+                $rootScope.showError(arguments[0]);
+            },
+            success: function () {
+
+            }
         };
-        fields.update(param);
+        typeDocuments.update(param);
     };
     $scope.doReset = function () {
         // if datasource is empty, we call api

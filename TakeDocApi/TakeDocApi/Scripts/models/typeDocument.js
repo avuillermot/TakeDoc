@@ -2,7 +2,6 @@
     defaults: {
         id: null,
         reference: null,
-        entityRefence: null,
         label: null,
         delete: null,
         pageNeed: null,
@@ -39,7 +38,32 @@ var TypeDocuments = Backbone.Collection.extend({
     loadById: function (param) {
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=TypeDocumentId eq guid'" + param.id + "'";
         this.fetch({ success: param.success, error: param.error, url: url, reset: true });
-    }
+    },
+    update: function (param) {
+        var fn1 = function () {
+            $.ajax({
+                type: 'POST',
+                url: environnement.UrlBase + "TypeDocument/Update/"+param.userId,
+                data: { '': JSON.stringify(param.typeDocument) },
+                success: fn2,
+                error: param.error,
+                beforeSend: requestHelper.beforeSend()
+            });
+        };
+
+        var fn2 = function () {
+            $.ajax({
+                type: 'POST',
+                url: environnement.UrlBase + "TypeDocument/Update/DataField/" + param.typeDocument.id + "/" + param.userId + "/" + param.typeDocument.entityId,
+                data: { '': JSON.stringify(param.fields) },
+                success: param.success,
+                error: param.error,
+                beforeSend: requestHelper.beforeSend()
+            });
+        };
+
+        fn1();
+    },
 });
 
 var TypeValidation = Backbone.Model.extend({

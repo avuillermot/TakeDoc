@@ -11,8 +11,34 @@ namespace TakeDocApi.Controllers
     public class TypeDocumentController : ApiController
     {
         [HttpPost]
-        [Route("Update")]
-        public HttpResponseMessage Update([FromBody]string value)
+        [Route("Update/{userId}")]
+        public HttpResponseMessage Update(Guid userId, [FromBody]string value)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+                Guid typeDocumentId = new Guid(data.Value<string>("id"));
+                Guid entityId =  new Guid(data.Value<string>("entityId"));
+                TakeDocModel.TypeDocument type = servTypeDocument.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId).First();
+                type.TypeDocumentLabel = data.Value<string>("label");
+                type.TypeDocumentPageNeed = data.Value<bool>("pageNeed");
+                type.TypeDocumentValidationId =  new Guid(data.Value<string>("typeValidationId"));
+
+                servTypeDocument.Update(type, userId);
+
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Update/DataField/{typeDocumentId}/{userId}/{entityId}")]
+        public HttpResponseMessage Update(Guid typeDocumentId, Guid userId, Guid entityId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
             try
@@ -20,34 +46,17 @@ namespace TakeDocApi.Controllers
                 Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(value);
                 foreach (Newtonsoft.Json.Linq.JObject obj in data)
                 {
-                    string typeDocumentRef = "";
-                    string dataFieldRef = "";
-                    bool mandatory = true;
-                    int index = 1;
-                    string entityRef = "";
-                    string userRef = "";
-                    /*this.set("id", id);
-        this.set("reference", reference);
-        this.set("label", label);
-        this.set("index", index);
-        this.set("inputType", inputType);
-        this.set("inputTypeLabel", this.getInputTypeLabel(inputType));
-        this.set("isList", false);
-        this.set("isAutocomplete", false);
-        this.set("autoCompleteId", false);
-        this.set("mandatory", false);
-        this.set("delete", false);
-        this.set("entityId", entityId);*/
-
-
-                    servTypeDocument.AddDataField(typeDocumentRef, dataFieldRef, mandatory, index, entityRef, userRef);
+                    string dataFieldRef = obj.Value<string>("reference");
+                    bool mandatory = obj.Value<bool>("mandatory");
+                    int index = obj.Value<int>("index");
+                    bool delete = obj.Value<bool>("delete");
+                    servTypeDocument.AddDataField(typeDocumentId, dataFieldRef, mandatory, delete, index, entityId, userId);
                 }
-
-                
                 return Request.CreateResponse();
             }
             catch (Exception ex)
             {
+                TakeDocService.LoggerService.CreateError(ex.Message);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
