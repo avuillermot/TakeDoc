@@ -69,8 +69,11 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         var all = documentsDirectory.data.documents.length;
         var toValidate = documentsDirectory.data.documents.where({ statusReference: "TO_VALIDATE" }).length;
         var approve = documentsDirectory.data.documents.where({ statusReference: "APPROVE" }).length;
-        $("#badge-all").html(approve);
+        var archive = documentsDirectory.data.documents.where({ statusReference: "ARCHIVE" }).length;
+        $("#badge-all").html(all);
         $("#badge-approve").html(approve);
+        $("#badge-to-validate").html(toValidate);
+        $("#badge-archive").html(archive);
 
     };
 
