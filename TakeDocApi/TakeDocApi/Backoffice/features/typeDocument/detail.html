@@ -35,12 +35,17 @@
                     <input type="checkbox" ng-checked="selectedItem.attributes.pageNeed" onclick="return true;" ng-model="selectedItem.attributes.pageNeed">&#160;Photographie requise
                 </label>
             </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" ng-checked="selectedItem.attributes.deleted" onclick="return true;" ng-model="selectedItem.attributes.deleted">&#160;Supprimé/Désactivé
+                </label>
+            </div>
         </form>
         <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
             <div class="form-group" id="divinputLabel">
                 <label for="inputLabel" class="form-tk-label">Champs</label>
 
-                <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.delete">
+                <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.deleted">
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="mooveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="mooveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
@@ -59,7 +64,7 @@
                         (Obligatoire&#160;<input type="checkbox" ng-checked="field.attributes.mandatory" onclick="return true;" ng-model="field.attributes.mandatory">)
                     </label>
 
-                    <span style="padding-left:20px;display:none">{{field.attributes.inputType}}-{{field.attributes.index}}-{{field.attributes.delete}}</span>
+                    <span style="padding-left:20px;display:none">{{field.attributes.inputType}}-{{field.attributes.index}}-{{field.attributes.deleted}}</span>
 
                 </div>
             </div>

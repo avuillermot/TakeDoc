@@ -21,6 +21,7 @@ backOffice.controller('searchTypeDocumentController', ['$scope', '$rootScope', '
         userId: $rootScope.getUser().Id,
         label: null,
         entityId: null,
+        deleted: false,
         success: onSuccess,
         error: onError
     };

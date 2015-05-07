@@ -45,6 +45,15 @@ namespace TakeDocService.Document
             daoTypeDocument.Update(typeDocument);
         }
 
+        public void Delete(Guid typeDocumentId, Guid userId, Guid entityId)
+        {
+            TakeDocModel.TypeDocument current = daoTypeDocument.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId).First();
+            current.EtatDeleteData = true;
+            current.DateDeleteData = System.DateTimeOffset.UtcNow;
+            current.UserDeleteData = userId;
+            daoTypeDocument.Update(current);
+        }
+
         public ICollection<TakeDocModel.TypeDocument> GetBy(Expression<Func<TakeDocModel.TypeDocument, bool>> where, params Expression<Func<TakeDocModel.TypeDocument, object>>[] properties)
         {
             return daoTypeDocument.GetBy(where, properties);

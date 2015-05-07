@@ -3,7 +3,7 @@
         id: null,
         reference: null,
         label: null,
-        delete: null,
+        deleted: null,
         pageNeed: null,
         typeValidationId: null
     },
@@ -13,7 +13,7 @@
         this.set("reference", current.TypeDocumentReference);
         this.set("label", current.TypeDocumentLabel);
         this.set("entityId", current.EntityId);
-        this.set("delete", current.EtatDeleteData);
+        this.set("deleted", current.EtatDeleteData);
         this.set("pageNeed", current.TypeDocumentPageNeed);
         this.set("typeValidationId", current.TypeDocumentValidationId);
         return this;
@@ -31,7 +31,8 @@ var TypeDocuments = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'" + param.entityId + "'";
+        if (param.deleted == null) param.deleted = true;
+        var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq "+param.deleted;
         if (param.label != null && param.label != "") url = url + " and startswith(TypeDocumentLabel,'"+ param.label +"')"
         this.fetch({ success: param.success, error: param.error, url: url, reset: true });
     },
@@ -68,6 +69,15 @@ var TypeDocuments = Backbone.Collection.extend({
         $.ajax({
             type: 'PUT',
             url: environnement.UrlBase + "TypeDocument/Add/" + param.label + "/" + param.userId + "/" + param.entityId,
+            success: param.success,
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
+        }).always(param.always);
+    },
+    delete: function (param) {
+        $.ajax({
+            type: 'DELETE',
+            url: environnement.UrlBase + "TypeDocument/Delete/" + param.typeDocumentId + "/" + param.userId + "/" + param.entityId,
             success: param.success,
             error: param.error,
             beforeSend: requestHelper.beforeSend()

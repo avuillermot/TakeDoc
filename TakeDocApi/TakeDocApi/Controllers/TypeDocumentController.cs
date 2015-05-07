@@ -27,6 +27,23 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpDelete]
+        [Route("Delete/{typeDocumentId}/{userId}/{entityId}")]
+        public HttpResponseMessage Delete(Guid typeDocumentId, Guid userId, Guid entityId)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                servTypeDocument.Delete(typeDocumentId, userId, entityId);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Update/{userId}")]
         public HttpResponseMessage Update(Guid userId, [FromBody]string value)
@@ -40,6 +57,13 @@ namespace TakeDocApi.Controllers
                 TakeDocModel.TypeDocument type = servTypeDocument.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId).First();
                 type.TypeDocumentLabel = data.Value<string>("label");
                 type.TypeDocumentPageNeed = data.Value<bool>("pageNeed");
+                bool deleted = data.Value<bool>("deleted");
+                if (type.EtatDeleteData != deleted)
+                {
+                    type.EtatDeleteData = deleted;
+                    type.UserDeleteData = userId;
+                    type.DateDeleteData = System.DateTimeOffset.UtcNow;
+                }
                 type.TypeDocumentValidationId =  new Guid(data.Value<string>("typeValidationId"));
 
                 servTypeDocument.Update(type, userId);

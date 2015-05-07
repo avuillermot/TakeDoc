@@ -1,6 +1,8 @@
 ﻿'use strict';
 backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '$location', 'typeDocumentResult', function ($scope, $rootScope, $location, typeDocumentResult) {
 
+    var typeDocuments = new TypeDocuments();
+
     $scope.$watch(function () { return typeDocumentResult.data.calls; }, function () {
         $rootScope.hideLoader();
         if (typeDocumentResult.data.typeDocuments != null) {
@@ -24,8 +26,22 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
     };
 
     $scope.deleteMe = function () {
+        debugger;
         var toDel = arguments[0].entity;
-        alert(toDel.id);
+        var param = {
+            typeDocumentId: toDel.get("id"),
+            entityId: toDel.get("entityId"),
+            userId: $rootScope.getUser().Id,
+            always: null,
+            success: function () {
+                alert("ok");
+            },
+            error: function () {
+                $rootScope.showError({ message: "Erreur lors de la suppression du type de document." });
+            }
+        }
+        typeDocuments.delete(param);
+
     };
 
     $scope.gridResultSearchTypeDoc = {
