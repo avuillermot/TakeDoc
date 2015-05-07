@@ -196,7 +196,7 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
         try {
             navigator.camera.getPicture(this.onSuccess, this.onFail, 
                 { 
-                    quality: 100,
+                    quality: 50,
                     destinationType : Camera.DestinationType.DATA_URL,
                     sourceType : Camera.PictureSourceType.CAMERA,
                     encodingType: Camera.EncodingType.PNG,

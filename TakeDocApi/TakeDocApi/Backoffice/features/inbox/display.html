@@ -1,14 +1,11 @@
-﻿<div id="divInboxDisplay" class="panel panel-default" style="padding:5px;" ng-show="title != null">
-
-    <div class="panel panel-default">
-        <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="title != null">
+    <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
-        </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">{{title}}</h3>
         </div>
@@ -33,7 +30,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+    <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">Page</h3>
         </div>

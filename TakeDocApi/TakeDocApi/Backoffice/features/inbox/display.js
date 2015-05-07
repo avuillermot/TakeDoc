@@ -27,7 +27,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     $scope.openImage = function () {
         $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
-        $("#enlarge-page-modal-body").html('<img style="width:50px;height:50px" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
+        $("#enlarge-page-modal-body").html('<img style="" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
         $('#enlarge-page-modal').modal('show');
     };
 
@@ -38,7 +38,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             || documentDisplay.data.document.get("statusReference") == "INCOMPLETE") return false;
         return true;
     }
-
 
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
