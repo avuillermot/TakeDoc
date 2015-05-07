@@ -82,8 +82,4 @@ backOffice.controller('searchTypeDocumentController', ['$scope', '$rootScope', '
         $("#modalAddTypeDocument").modal("hide");
         typeDoc.insert(param);
     };
-
-    //***********************************************
-    // delete new document type
-    //***********************************************
 }]);

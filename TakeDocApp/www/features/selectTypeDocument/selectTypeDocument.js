@@ -28,7 +28,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
     });
 
     var success = function () {
-        var types = typeDocuments.where({ delete: false });
+        var types = typeDocuments.where({ deleted: false });
         if (types.length == 0) {
             $rootScope.PopupHelper.show("Type de documents", "Aucun type de document disponible");
             $location.path("menu");
@@ -42,7 +42,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             all.set("reference", "");
             all.set("label", "(Tous)");
             all.set("entityId", $rootScope.User.CurrentEntity.Id);
-            all.set("delete", false);
+            all.set("deleted", false);
 
             types.push(all);
         }
@@ -64,7 +64,7 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
             all.set("reference", "");
             all.set("label", "(Tous)");
             all.set("entityId", $rootScope.User.CurrentEntity.Id);
-            all.set("delete", false);
+            all.set("deleted", false);
             $rootScope.User.CurrentTypeDocument = all;
         }
         else {

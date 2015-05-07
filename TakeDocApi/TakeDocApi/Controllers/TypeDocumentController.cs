@@ -90,7 +90,7 @@ namespace TakeDocApi.Controllers
                     string dataFieldRef = obj.Value<string>("reference");
                     bool mandatory = obj.Value<bool>("mandatory");
                     int index = obj.Value<int>("index");
-                    bool delete = obj.Value<bool>("delete");
+                    bool delete = obj.Value<bool>("deleted");
                     servTypeDocument.AddDataField(typeDocumentId, dataFieldRef, mandatory, delete, index, entityId, userId);
                 }
                 return Request.CreateResponse();

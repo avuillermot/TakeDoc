@@ -2,6 +2,7 @@
     defaults: {
         id: null,
         reference: null,
+        entityRefence: null,
         label: null,
         deleted: null,
         pageNeed: null,
@@ -31,7 +32,7 @@ var TypeDocuments = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        if (param.deleted == null) param.deleted = true;
+        if (param.deleted == null) param.deleted = false;
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq "+param.deleted;
         if (param.label != null && param.label != "") url = url + " and startswith(TypeDocumentLabel,'"+ param.label +"')"
         this.fetch({ success: param.success, error: param.error, url: url, reset: true });

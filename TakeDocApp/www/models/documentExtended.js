@@ -66,13 +66,13 @@ var DocumentsExtended = Backbone.Collection.extend({
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
         toValidate: " DocumentValidateUserId eq guid'<documentValidateUserId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
-        toValidate: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
+        waitValidate: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
     },
     //************************************************************************
     // load my document that wait a validation, i'm owner of this document
     //************************************************************************
     loadWaitValidate: function (param) {
-        this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
+        this.url = this.urlBase + "?$filter=" + this.clauses.waitValidate + this.loadOptions;
         this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });

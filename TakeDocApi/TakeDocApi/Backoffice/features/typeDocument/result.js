@@ -25,8 +25,20 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
         $("#gridResultSearchTypeDoc").css('height', h + 'px');
     };
 
+    $scope.gridResultSearchTypeDoc = {
+       enableSorting: true,
+       columnDefs: [
+          { name: ' ', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-pencil" ng-click="grid.appScope.showMe(row)"></button>&#160;&#160;&#160;&#160;&#160;<button class="btn btn-danger btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.deleteMe(row)"></button>' },
+          { name: 'Libelle', field: 'attributes.label' },
+          { name: 'Photographie requise', field: '', cellTemplate: '<input type="checkbox" ng-checked="grid.appScope.pageNeed(row)" onclick="return false"/>' }
+       ],
+       data: []
+    };
+
+    //***********************************************
+    // delete document type
+    //***********************************************
     $scope.deleteMe = function () {
-        debugger;
         var toDel = arguments[0].entity;
         var param = {
             typeDocumentId: toDel.get("id"),
@@ -41,17 +53,6 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
             }
         }
         typeDocuments.delete(param);
-
-    };
-
-    $scope.gridResultSearchTypeDoc = {
-       enableSorting: true,
-       columnDefs: [
-          { name: ' ', field: '', cellTemplate: '<button class="btn btn-info btn-xs glyphicon glyphicon-pencil" ng-click="grid.appScope.showMe(row)"></button>&#160;&#160;&#160;&#160;&#160;<button class="btn btn-danger btn-xs glyphicon glyphicon-remove" ng-click="grid.appScope.deleteMe(row)"></button>' },
-          { name: 'Libelle', field: 'attributes.label' },
-          { name: 'Photographie requise', field: '', cellTemplate: '<input type="checkbox" ng-checked="grid.appScope.pageNeed(row)" onclick="return false"/>' }
-       ],
-       data: []
     };
 
 }]);

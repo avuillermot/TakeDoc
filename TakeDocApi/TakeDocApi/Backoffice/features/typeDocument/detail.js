@@ -73,7 +73,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         var index = startIndex;
         var nb = startIndex;
         while (index <= size) {
-            var field = $scope.fields.where({ index: index, delete: false });
+            var field = $scope.fields.where({ index: index, deleted: false });
             if (field.length > 0) {
                 field[0].set('index', nb++);
             }
@@ -114,7 +114,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     }
     $scope.doRemove = function (id) {
         var toDel = $scope.fields.where({ id: id })[0]
-        toDel.set("delete", true);
+        toDel.set("deleted", true);
         toDel.set("index", -1);
         numeroter(1, $scope.fields.length + 1);
     };
@@ -165,7 +165,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         typeDocuments.update(param);
     };
     $scope.doReset = function () {
-        debugger;
         // if datasource is empty, we call api or not contains the document type we want to display
         if (typeDocumentResult.data.typeDocuments != null && typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument }).length > 0) {
             $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];

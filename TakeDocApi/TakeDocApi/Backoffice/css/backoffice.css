@@ -96,16 +96,11 @@ form {
     background-color: bisque
 }
 
-.tk-glyphicon {
+.glyphicon-keys {
+    background-image: url('../../Content/glyphicons_free/glyphicons/png/glyphicons-45-keys.png');
     background-size: 50%;
     background-position:center;
     background-repeat: no-repeat;
-    width: 25px;
-    height: 25px;
-}
-
-.glyphicon-keys {
-    background-image: url('../../Content/glyphicons_free/glyphicons/png/glyphicons-45-keys.png');
 }
 
 /* inbox - directoy*/

@@ -65,6 +65,14 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         myMetas = new MetaDatas();
         myMetas.load(param);
     };
+    var setDashBoard = function () {
+        var all = documentsDirectory.data.documents.length;
+        var toValidate = documentsDirectory.data.documents.where({ statusReference: "TO_VALIDATE" }).length;
+        var approve = documentsDirectory.data.documents.where({ statusReference: "APPROVE" }).length;
+        $("#badge-all").html(approve);
+        $("#badge-approve").html(approve);
+
+    };
 
     var loadDocument = function () {
         // load documents
@@ -75,6 +83,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
                 $scope.gridDocuments.data = documentsDirectory.data.documents.models;
                 if (!$scope.$$phase) $scope.$apply();
                 resizeGridInbox();
+                setDashBoard();
             },
             error: function () {
                 $rootScope.showError(arguments[0]);
@@ -84,6 +93,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         if ($scope.selectedDirectory === "MYDOC")
             myDocuments.loadAll(param);
         else if ($scope.selectedDirectory === "TO_VALIDATE") {
+            myDocuments.loadToValidate(param);
+        }
+        else if ($scope.selectedDirectory === "APPROVE") {
             myDocuments.loadToValidate(param);
         }
         else {

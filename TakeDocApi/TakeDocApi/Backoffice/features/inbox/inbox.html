@@ -3,8 +3,8 @@
        <div>
            <div class="inbox-directory">Boîte de réception</div>
            <ul>
-               <li ng-click="setSelectedDirectory('MYDOC')" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Mes documents</li>
-               <li ng-click="setSelectedDirectory('VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider</li>
+               <li ng-click="setSelectedDirectory('MYDOC')" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Mes documents&#160;<span class="badge" id="badge-all">0</span></li>
+               <li ng-click="setSelectedDirectory('APPROVE')" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider&#160;&#160;<span class="badge" id="badge-approve">0</span></li>
                <li ng-click="setSelectedDirectory('REFUSE')" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser</li>
            </ul>
        </div>
@@ -19,7 +19,7 @@
        <div>
            <div class="inbox-directory">A valider</div>
            <ul>
-               <li ng-click="setSelectedDirectory('TO_VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">En attente</li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE')" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">En attente&#160;<span class="badge">42</span></li>
            </ul>
        </div>
    </div>
