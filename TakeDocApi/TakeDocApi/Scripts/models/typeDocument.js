@@ -64,6 +64,15 @@ var TypeDocuments = Backbone.Collection.extend({
 
         fn1();
     },
+    insert: function (param) {
+        $.ajax({
+            type: 'PUT',
+            url: environnement.UrlBase + "TypeDocument/Add/" + param.label + "/" + param.userId + "/" + param.entityId,
+            success: param.success,
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
+        }).always(param.always);
+    }
 });
 
 var TypeValidation = Backbone.Model.extend({

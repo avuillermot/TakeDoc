@@ -14,5 +14,6 @@ namespace TakeDocService.Document.Interface
         void AddDataField(string typeDocumentRef, string dataFieldRef, bool mandatory, bool delete, int? index, string entityRef, string userRef);
         void AddDataField(Guid typeDocumentId, string dataFieldRef, bool mandatory, bool delete, int? index, Guid entityId, Guid userId);
         void Update(TakeDocModel.TypeDocument type, Guid userId);
+        TakeDocModel.TypeDocument Add(string label, Guid entityId, Guid userId);
     }
 }

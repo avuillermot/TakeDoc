@@ -3,6 +3,7 @@
         <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
             <button class="btn-xs btn-default glyphicon glyphicon glyphicon-search" ng-click="doSearch();" data-toggle="tooltip" title="Rechercher" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-plus" ng-click="doOpenModalAddTypeDocument();" ng-show="showAddTypeDocument" data-toggle="tooltip" title="Ajouter un type de document" data-placement="bottom"></button>
         </div>
     </div>
 
@@ -25,6 +26,39 @@
                 </div>
             </div>
         </form>
+    </div>
+</div>
+
+<!-- Modal entity -->
+<div class="modal fade tk-modal" id="modalAddTypeDocument" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Ajouter une un type de document</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="inputEntityNewTypeDoc" class="form-tk-label">Entité</label>
+                    <div class="dropdown" style="display:inline-block">
+                        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true" id="inputEntityNewTypeDoc">
+                            {{toAddEntity.Label}}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li role="presentation" ng-model="entity.Id" ng-click="doAddTypeDocumentSelectEntity();" onclick="return false" ng-repeat="entity in entitysList | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-group" id="divinputFirstName">
+                    <label for="inputLabelNewTypeDoc" class="form-tk-label">Libellé</label>
+                    <input type="text" class="form-control form-tk-item" id="inputLabelNewTypeDoc" ng-model="toAdd.label">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doAddTypeDocument()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            </div>
+        </div>
     </div>
 </div>
 

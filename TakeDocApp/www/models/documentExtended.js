@@ -81,7 +81,6 @@ var DocumentsExtended = Backbone.Collection.extend({
     // load document that i must validate - i'm not owner of this document
     //************************************************************************
     loadToValidate: function (param) {
-        debugger;
         this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
         this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.ownerId);
 

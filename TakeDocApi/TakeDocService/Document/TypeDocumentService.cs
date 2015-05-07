@@ -15,7 +15,8 @@ namespace TakeDocService.Document
 
         private IDaoTypeDocument daoTypeDocument = UnityHelper.Resolve<IDaoTypeDocument>();
         private TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
-        private TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>(); 
+        private TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
+        private TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation> daoTypeValidation = new TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation>();
 
         public ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId)
         {
@@ -47,6 +48,34 @@ namespace TakeDocService.Document
         public ICollection<TakeDocModel.TypeDocument> GetBy(Expression<Func<TakeDocModel.TypeDocument, bool>> where, params Expression<Func<TakeDocModel.TypeDocument, object>>[] properties)
         {
             return daoTypeDocument.GetBy(where, properties);
+        }
+
+        public TakeDocModel.TypeDocument Add(string label, Guid entityId, Guid userId)
+        {
+            string normalized = label.Normalize(NormalizationForm.FormD);
+            StringBuilder resultBuilder = new StringBuilder();
+            foreach (var character in normalized)
+            {
+                System.Globalization.UnicodeCategory category = System.Globalization.CharUnicodeInfo.GetUnicodeCategory(character);
+                if (category == System.Globalization.UnicodeCategory.LowercaseLetter
+                    || category == System.Globalization.UnicodeCategory.UppercaseLetter
+                    || category == System.Globalization.UnicodeCategory.SpaceSeparator)
+                    resultBuilder.Append(character);
+            }
+            string reference = System.Text.RegularExpressions.Regex.Replace(resultBuilder.ToString(), @"\s+", "-");
+
+            TakeDocModel.TypeDocument toAdd = new TakeDocModel.TypeDocument();
+            toAdd.TypeDocumentId = System.Guid.NewGuid();
+            toAdd.TypeDocumentLabel = label;
+            toAdd.TypeDocumentReference = reference.ToUpper();
+            toAdd.TypeDocumentPageNeed = false;
+            toAdd.TypeDocumentValidationId = daoTypeValidation.GetBy(x => x.TypeValidationReference == "NO").First().TypeValidationId;
+            toAdd.UserCreateData = userId;
+            toAdd.DateCreateData = System.DateTimeOffset.UtcNow;
+            toAdd.EntityId = entityId;
+            toAdd.EtatDeleteData = false;
+            return daoTypeDocument.Add(toAdd);
+
         }
     }
 }

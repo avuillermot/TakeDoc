@@ -10,6 +10,23 @@ namespace TakeDocApi.Controllers
     [RoutePrefix("TypeDocument")]
     public class TypeDocumentController : ApiController
     {
+        [HttpPut]
+        [Route("Add/{label}/{userId}/{entityId}")]
+        public HttpResponseMessage Update(string label, Guid userId, Guid entityId)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                TakeDocModel.TypeDocument back = servTypeDocument.Add(label, entityId, userId);
+                return Request.CreateResponse(back.TypeDocumentId);
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpPost]
         [Route("Update/{userId}")]
         public HttpResponseMessage Update(Guid userId, [FromBody]string value)

@@ -165,8 +165,9 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         typeDocuments.update(param);
     };
     $scope.doReset = function () {
-        // if datasource is empty, we call api
-        if (typeDocumentResult.data.typeDocuments != null) {
+        debugger;
+        // if datasource is empty, we call api or not contains the document type we want to display
+        if (typeDocumentResult.data.typeDocuments != null && typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument }).length > 0) {
             $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
             loadDocumentFields($scope.selectedItem.get("id"));
             loadDataFields($scope.selectedItem.get("entityId"));
@@ -225,6 +226,5 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         };
         autocompletes.load(param);
     };
-
     $scope.doReset();
 }]);
