@@ -146,8 +146,8 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPatch]
-        [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}/{enable}/{activate}/{groupId}")]
-        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId) {
+        [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}/{enable}/{activate}/{groupId}/{managerId}")]
+        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId, Guid managerId) {
             try
             {
                 TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
@@ -161,6 +161,7 @@ namespace TakeDocApi.Controllers
                 user.UserTkEnable = enable;
                 user.UserTkActivate = activate;
                 user.UserTkGroupId = groupId;
+                user.UserTkManagerId = managerId;
                 servUser.Update(user);
                 return Request.CreateResponse(HttpStatusCode.OK, true);
             }
@@ -211,6 +212,22 @@ namespace TakeDocApi.Controllers
                 TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
                 servUser.Delete(userId, currentUserId);
                 return Request.CreateResponse(HttpStatusCode.OK, true);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("name/{userId}")]
+        public HttpResponseMessage GetById(Guid userId)
+        {
+            try
+            {
+                TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
+                TakeDocModel.UserTk user = servUser.GetBy(x => x.UserTkId == userId).First();
+                return Request.CreateResponse(HttpStatusCode.OK, string.Concat(user.UserTkFirstName, " ", user.UserTkLastName));
             }
             catch (Exception ex)
             {

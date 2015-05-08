@@ -203,22 +203,6 @@ namespace TakeDocService.Security
             }
         }
 
-        public ICollection<TakeDocModel.UserTk> Search(TakeDocModel.UserTk search, TakeDocModel.Entity entity)
-        {
-            ICollection<TakeDocModel.UserTk> users = new List<TakeDocModel.UserTk>();
-            if (search != null) {
-                users = daoUserTk.GetBy(x => x.UserTkFirstName.StartsWith(search.UserTkFirstName)
-                && x.UserTkLastName.StartsWith(search.UserTkLastName)
-                && x.UserTkEmail.StartsWith(search.UserTkEmail));
-            }
-            else
-            {
-                users = daoUserTk.GetAll();
-            }
-
-            return users;
-        }
-
         public string GenerateNewPassword(Guid userId)
         {
             string newPassWord = System.Web.Security.Membership.GeneratePassword(7, 0);
@@ -257,6 +241,13 @@ namespace TakeDocService.Security
                 context.AddEvent("REMOVE_USER", "UserTkService.Delete", string.Format("userId : {0} login : {1} by currentUserId {2}", userId, user.UserTkLogin, currentUserId));
                 tr.Complete();
             }
+        }
+
+        public ICollection<TakeDocModel.UserTk> GetByName(Guid userId, string name)
+        {
+            TakeDocModel.UserTk user = daoUserTk.GetBy(x => x.UserTkId == userId).First();
+            ICollection<TakeDocModel.UserTk> users = this.GetBy(x => x.UserTkLastName.StartsWith(name) || x.UserTkFirstName.StartsWith(name));
+            return users;
         }
     }
 }

@@ -66,6 +66,52 @@ backOffice.directive('tdLogout', function ($rootScope, $location) {
     };
 });
 
+backOffice.directive('tkAutocompleteManager', ['$http', '$rootScope', function ($http, $rootScope) {
+    return {
+        link: function (scope, elem, attr) {
+            function highLightData(text, term) {
+                var matcher = new RegExp('(' + $.ui.autocomplete.escapeRegex(term) + ')', 'gi');
+                return text.replace(matcher, '<strong>$1</strong>');
+            }
+
+            // elem is a jquery lite object if jquery is not present, but with jquery and jquery ui, it will be a full jquery object.
+            elem.autocomplete({
+                source: function (request, response) {
+                    var url = environnement.UrlBase + "UserTk/ByName/<USERID/>/<VALUE/>";
+                    url = url.toUpperCase().replace("<USERID/>", scope.user.Id);
+                    url = url.toUpperCase().replace("<VALUE/>", scope.user.ManagerName);
+                    $http.get(url).success(function (data) {
+                        response(data);
+                    });
+                },
+                minLength: 3,
+                focus: function (event, ui) {
+                    // on ne fait rien au survol de la souris sur les choix de la liste proposée
+                    return false;
+                },
+                select: function (event, ui) {
+                    //$('#item-' + scope.$parent.metadata.get("id")).height("");
+                    // lors de la sélection d'un choix dans la liste, on affiche le libellé de la carte et on déclenche la recherche
+                    scope.user.ManagerName = ui.item.text;
+                    scope.user.ManagerId = ui.item.key;
+                    scope.$apply();
+                    return false;
+                },
+                appendTo: attr.appendTo
+            }).data("ui-autocomplete")._renderItem = function (ul, item) {
+                // set du label pour récupération dans la méthode select
+                item.label = item.text;
+                var highLighted = highLightData(item.text, scope.user.ManagerName);
+
+                // construction de l'affichage d'une ligne
+                var line = $("<div>").html(highLighted);
+                // sortie pour jquery-ui
+                return $("<li z-index='999' class='autocomplete-list-choice'>").append("<a>" + $("<div>").append(line).html() + "</a>").appendTo(ul);
+            };
+        }
+    }
+}]);
+
 backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, $rootScope) {
     return {
         link: function (scope, elem, attr) {
@@ -77,7 +123,6 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
         // elem is a jquery lite object if jquery is not present, but with jquery and jquery ui, it will be a full jquery object.
         elem.autocomplete({
             source: function (request, response) {
-                //if (scope.$parent.metadata.get("value").length >= 3) {
                     var url = environnement.UrlBase + scope.$parent.metadata.get("autoCompleteUrl");
                     url = url.toUpperCase().replace("<ENTITYID/>", scope.$parent.metadata.get("entityId"));
                     url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
@@ -85,7 +130,6 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
                     $http.get(url).success(function (data) {
                         response(data);
                     });
-                //}
             },
             minLength: 3,
             focus: function (event, ui) {
@@ -94,7 +138,7 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
             },
             select: function (event, ui) {
                 $('#item-' + scope.$parent.metadata.get("id")).height("");
-                // lors de la sélection d'un choix dans la liste, on affiche le libellé de la carte et on déclenche la recherche
+                // lors de la sélection d'un choix dans la liste, on affiche le libellé et on déclenche la recherche
                 scope.$parent.metadata.set("value", ui.item.text);
                 scope.$apply();
                 return false;
@@ -103,7 +147,6 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             // set du label pour récupération dans la méthode select
             item.label = item.text;
-            // nom de carte highlighted
             var highLighted = highLightData(item.text, scope.$parent.metadata.get("value"));
 
             // construction de l'affichage d'une ligne

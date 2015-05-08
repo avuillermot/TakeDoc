@@ -17,6 +17,7 @@
             this.GroupReference = user.GroupTk.GroupTkReference;
         }
         this.ExternalAccount = user.UserTkExternalAccount;
+        this.ManagerId = user.UserTkManagerId;
 
         that = this;
         if (user.View_UserEntity != null && user.View_UserEntity.length > 0) {
@@ -70,14 +71,30 @@ userTkService.get = function (userId, success, error) {
     });
 };
 
-userTkService.update = function (user, success, error) {
-    var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>/<enable/>/<activate/>/<groupId/>";
+userTkService.getName = function (userId, success, error) {
+    var url = environnement.UrlBase + "identity/name/<userId/>";
+    url = url.replace("<userId/>", userId);
     $.ajax({
-        type: 'PATCH',
-        url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName).replace("<email/>", user.email).replace("<culture/>", user.culture).replace("<enable/>", user.enable).replace("<activate/>", user.activate).replace("<groupId/>", user.groupId),
+        type: 'GET',
+        url: url,
         success: success,
         error: error
     });
+};
+
+userTkService.update = function (user, success, error) {
+    if (user.userId != user.managerId) {
+        var url = environnement.UrlBase + "identity/update/<userId/>/<firstName/>/<lastName/>/<email/>/<culture/>/<enable/>/<activate/>/<groupId/>/<managerId/>";
+        $.ajax({
+            type: 'PATCH',
+            url: url.replace("<userId/>", user.userId).replace("<firstName/>", user.firstName).replace("<lastName/>", user.lastName)
+                .replace("<email/>", user.email).replace("<culture/>", user.culture).replace("<enable/>", user.enable)
+                .replace("<activate/>", user.activate).replace("<groupId/>", user.groupId).replace("<managerId/>", user.managerId),
+            success: success,
+            error: error
+        });
+    }
+    else error({ message: "Un utilisateur ne peut pas être son propre manager." });
 }
 
 userTkService.changePassword = function (param, success, error) {

@@ -11,6 +11,16 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         // if external account, all input are readonly
         if ($scope.user.ExternalAccount == true) $("#divAccountInfo div input").attr("readonly", "");
         if ($scope.isBackofficeUser == false) $("#divAccountInfo div #inputEmail").attr("readonly", "");
+
+        var success = function () {
+            debugger;
+            $scope.user.ManagerName = arguments[0];
+        };
+        var error = function () {
+
+        };
+        userTkService.getName($scope.user.ManagerId, success, error);
+
     }
 
     // init group list from combo
@@ -64,7 +74,6 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
             var success = function () {
                 $rootScope.hideLoader();
                 if (userToDisplay == "current") {
-
                     var userToUpdate = $rootScope.getUser();
                     userToUpdate.Id = $scope.user.Id;
                     userToUpdate.FirstName = $scope.user.FirstName;
@@ -73,6 +82,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                     userToUpdate.Culture = $scope.user.Culture;
                     userToUpdate.Enable = $scope.user.Enable;
                     userToUpdate.Activate = $scope.user.Activate;
+                    userToUpdate.ManagerId = $scope.user.ManagerId;
                     $rootScope.setUser(userToUpdate);
                 }
             };
@@ -91,7 +101,8 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                 culture: $scope.user.Culture,
                 enable: $scope.user.Enable,
                 activate: $scope.user.Activate,
-                groupId: $scope.user.GroupId
+                groupId: $scope.user.GroupId,
+                managerId: $scope.user.ManagerId
             };
             $rootScope.showLoader("Mise à jour....");
             userTkService.update(user, success, error);
