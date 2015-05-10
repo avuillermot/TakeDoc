@@ -13,12 +13,13 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         if ($scope.isBackofficeUser == false) $("#divAccountInfo div #inputEmail").attr("readonly", "");
 
         var success = function () {
-            $scope.user.ManagerName = arguments[0];
+            $scope.searchUserName = arguments[0];
             if (!$scope.$$phase) $scope.$apply();
         };
         var error = function () {
 
         };
+        $scope.searchUserId = $scope.user.ManagerId
         userTkService.getName($scope.user.ManagerId, success, error);
 
     }
@@ -82,7 +83,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                     userToUpdate.Culture = $scope.user.Culture;
                     userToUpdate.Enable = $scope.user.Enable;
                     userToUpdate.Activate = $scope.user.Activate;
-                    userToUpdate.ManagerId = ($scope.user.ManagerName != null && $scope.user.ManagerName != "") ? $scope.user.ManagerId : null;
+                    userToUpdate.ManagerId = ($scope.searchUserName != null && $scope.searchUserName != "") ? $scope.searchUserId : null;
                     $rootScope.setUser(userToUpdate);
                 }
             };
@@ -102,7 +103,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                 enable: $scope.user.Enable,
                 activate: $scope.user.Activate,
                 groupId: $scope.user.GroupId,
-                managerId: ($scope.user.ManagerName != null && $scope.user.ManagerName != "") ? $scope.user.ManagerId : null
+                managerId: ($scope.searchUserName != null && $scope.searchUserName != "") ? $scope.searchUserId : null
             };
             $rootScope.showLoader("Mise à jour....");
             userTkService.update(user, success, error);

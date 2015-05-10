@@ -79,7 +79,7 @@ backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($
                 source: function (request, response) {
                     var url = environnement.UrlBase + "UserTk/ByName/<USERID/>/<VALUE/>";
                     url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
-                    url = url.toUpperCase().replace("<VALUE/>", scope.user.ManagerName);
+                    url = url.toUpperCase().replace("<VALUE/>", scope.searchUserName);
                     $http.get(url).success(function (data) {
                         response(data);
                     });
@@ -92,8 +92,8 @@ backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($
                 select: function (event, ui) {
                     //$('#item-' + scope.$parent.metadata.get("id")).height("");
                     // lors de la sélection d'un choix dans la liste, on affiche le libellé de la carte et on déclenche la recherche
-                    scope.user.ManagerName = ui.item.text;
-                    scope.user.ManagerId = ui.item.key;
+                    scope.searchUserName = ui.item.text;
+                    scope.searchUserId = ui.item.key;
                     scope.$apply();
                     return false;
                 },
@@ -101,7 +101,7 @@ backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($
             }).data("ui-autocomplete")._renderItem = function (ul, item) {
                 // set du label pour récupération dans la méthode select
                 item.label = item.text;
-                var highLighted = highLightData(item.text, scope.user.ManagerName);
+                var highLighted = highLightData(item.text, scope.searchUserName);
 
                 // construction de l'affichage d'une ligne
                 var line = $("<div>").html(highLighted);
