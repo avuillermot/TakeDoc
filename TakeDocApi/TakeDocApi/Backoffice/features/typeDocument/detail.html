@@ -67,10 +67,10 @@
             </div>
         </form>
         <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
-            <div class="form-group" id="divinputManager">
-                <label for="inputBackofficeId" class="form-tk-label">Manager</label>
-                <input type="text" style="display:none" id="inputBackofficeId" mandatory="false">
-                <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false">
+            <div class="form-group" id="inputBackofficeId">
+                <label for="inputBackofficeId" class="form-tk-label">Gestionnaire</label>
+                <input type="text" style="display:none" id="inputBackofficeId" mandatory="false" ng-model="searhUserId">
+                <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searhUserName">
             </div>
         </form>
     </div>

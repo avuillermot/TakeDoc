@@ -30,6 +30,7 @@ backOffice.controller('searchTypeDocumentController', ['$scope', '$rootScope', '
         $scope.selectedEntity = $scope.entitys[0];
         $scope.search.entityId = $scope.entitys[0].Id;
         $scope.search.label = "";
+        onSuccess({models: []});
     }
 
     $scope.doSelectEntity = function () {
@@ -61,25 +62,31 @@ backOffice.controller('searchTypeDocumentController', ['$scope', '$rootScope', '
     };
 
     $scope.doAddTypeDocument = function () {
-        var param = {
-            label: $scope.toAdd.label,
-            entityId: $scope.toAddEntity.Id,
-            userId: $rootScope.getUser().Id,
-            always: null,
-            success: function () {
-                var id = arguments[0];
-                var fn = function () {
-                    // display the document type that we just add
-                    $location.path("/typeDocument/" + id);
-                    if (!$scope.$$phase) $scope.$apply();
-                };
-                $timeout(fn, 300);
-            },
-            error: function () {
-                $rootScope.showError({message:"Erreur lors de l'ajout du type de document."});
-            }
+        if ($scope.toAdd.label == null || $scope.toAdd.label == "") {
+            $("#modalAddTypeDocument").modal("hide");
+            $rootScope.showError({ message: "Le nom du type de document est obligatoire." });
         }
-        $("#modalAddTypeDocument").modal("hide");
-        typeDoc.insert(param);
+        else {
+            var param = {
+                label: $scope.toAdd.label,
+                entityId: $scope.toAddEntity.Id,
+                userId: $rootScope.getUser().Id,
+                always: null,
+                success: function () {
+                    var id = arguments[0];
+                    var fn = function () {
+                        // display the document type that we just add
+                        $location.path("/typeDocument/" + id);
+                        if (!$scope.$$phase) $scope.$apply();
+                    };
+                    $timeout(fn, 300);
+                },
+                error: function () {
+                    $rootScope.showError({ message: "Erreur lors de l'ajout du type de document." });
+                }
+            }
+            $("#modalAddTypeDocument").modal("hide");
+            typeDoc.insert(param);
+        }
     };
 }]);
