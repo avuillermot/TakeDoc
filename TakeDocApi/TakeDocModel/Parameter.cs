@@ -17,5 +17,13 @@ namespace TakeDocModel
         public string ParameterReference { get; set; }
         public string ParameterValue { get; set; }
         public string ParameterDescription { get; set; }
+        public System.Guid EntityId { get; set; }
+        public System.Guid UserCreateData { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
+        public Nullable<System.Guid> UserUpdateData { get; set; }
+        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
+        public Nullable<System.Guid> UserDeleteData { get; set; }
+        public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
+        public bool EtatDeleteData { get; set; }
     }
 }

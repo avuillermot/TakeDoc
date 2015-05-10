@@ -17,6 +17,7 @@ namespace TakeDocService.Document
         private TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         private TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         private TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation> daoTypeValidation = new TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation>();
+        private TakeDocDataAccess.DaoBase<TakeDocModel.BackOfficeTypeDocument> daoBackofficeUser = new TakeDocDataAccess.DaoBase<TakeDocModel.BackOfficeTypeDocument>();
 
         public ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId)
         {
@@ -84,6 +85,32 @@ namespace TakeDocService.Document
             toAdd.EntityId = entityId;
             toAdd.EtatDeleteData = false;
             return daoTypeDocument.Add(toAdd);
+        }
+
+        public void AddBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId)
+        {
+            ICollection<TakeDocModel.BackOfficeTypeDocument> bos = daoBackofficeUser.GetBy(x => x.UserTkId == userId && x.TypeDocumentId == typeDocumentId && x.EntityId == entityId);
+            TakeDocModel.BackOfficeTypeDocument bo = null;
+            if (bos.Count() > 0)
+            {
+                bo = bos.First();
+                bo.UserUpdateData = userId;
+                bo.DateUpdateData = System.DateTimeOffset.UtcNow;
+                if (bo.EtatDeleteData) bo.EtatDeleteData = false;
+                daoBackofficeUser.Update(bo);
+            }
+            else
+            {
+                bo = new TakeDocModel.BackOfficeTypeDocument();
+                bo.UserCreateData = userId;
+                bo.DateCreateData = System.DateTimeOffset.UtcNow;
+                daoBackofficeUser.Context.BackOfficeTypeDocument.Add(bo);
+            }
+            daoBackofficeUser.Context.SaveChanges();
+        }
+
+        public void DeleteBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId)
+        {
 
         }
     }

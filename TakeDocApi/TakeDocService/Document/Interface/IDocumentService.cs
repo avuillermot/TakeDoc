@@ -8,7 +8,24 @@ namespace TakeDocService.Document.Interface
 {
     public interface IDocumentService
     {
+        /// <summary>
+        /// Create a document type
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="entityId"></param>
+        /// <param name="typeDocumentId"></param>
+        /// <param name="documentLabel"></param>
+        /// <returns></returns>
         TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel);
+        /// <summary>
+        /// Add page to an document
+        /// </summary>
+        /// <param name="userId">user who create page</param>
+        /// <param name="entityId">entity of the document/page</param>
+        /// <param name="documentId"></param>
+        /// <param name="imageString">image in base64 string format</param>
+        /// <param name="extension">extension og image (ie : png)</param>
+        /// <param name="rotation">rotation in degree to have image in good direction</param>
         void AddPage(Guid userId, Guid entityId, Guid documentId, string imageString, string extension, int rotation);
         void AddVersionMajor(Guid userId, Guid entityId, Guid documentId);
         void AddVersionMinor(Guid userId, Guid entityId, Guid documentId);

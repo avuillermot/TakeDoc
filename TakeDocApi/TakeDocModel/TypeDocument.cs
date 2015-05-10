@@ -17,6 +17,7 @@ namespace TakeDocModel
         public TypeDocument()
         {
             this.Document = new HashSet<Document>();
+            this.BackOfficeTypeDocument = new HashSet<BackOfficeTypeDocument>();
         }
     
         public System.Guid TypeDocumentId { get; set; }
@@ -35,5 +36,6 @@ namespace TakeDocModel
     
         public virtual ICollection<Document> Document { get; set; }
         public virtual Type_Validation Type_Validation { get; set; }
+        public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
     }
 }

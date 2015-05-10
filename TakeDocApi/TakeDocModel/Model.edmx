@@ -5,6 +5,22 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TakeDocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BackOfficeTypeDocument">
+          <Key>
+            <PropertyRef Name="UserTkId" />
+            <PropertyRef Name="TypeDocumentId" />
+          </Key>
+          <Property Name="UserTkId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="Counter">
           <Key>
             <PropertyRef Name="counterName" />
@@ -170,6 +186,14 @@
           <Property Name="ParameterReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ParameterValue" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="ParameterDescription" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="Status_Document">
           <Key>
@@ -239,6 +263,14 @@
           <Property Name="TypeValidationReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="TypeValidationLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EtatDataDelete" Type="bit" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserTk">
           <Key>
@@ -396,6 +428,30 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
           <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
+        <Association Name="FK_BackOfficeTypeDocument_Type_Document">
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="1" />
+          <End Role="BackOfficeTypeDocument" Type="Self.BackOfficeTypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="BackOfficeTypeDocument">
+              <PropertyRef Name="TypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackOfficeTypeDocument_UserTk">
+          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
+          <End Role="BackOfficeTypeDocument" Type="Self.BackOfficeTypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="BackOfficeTypeDocument">
+              <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Client_Entity">
           <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
           <End Role="Customer" Type="Self.Customer" Multiplicity="*" />
@@ -602,6 +658,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
         </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
+          <EntitySet Name="BackOfficeTypeDocument" EntityType="Self.BackOfficeTypeDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataField" EntityType="Self.DataField" Schema="dbo" store:Type="Tables" />
@@ -688,6 +745,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_VersionStoreLocator].[StreamLocator] AS [StreamLocator]
     FROM [dbo].[View_VersionStoreLocator] AS [View_VersionStoreLocator]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="Self.FK_BackOfficeTypeDocument_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackOfficeTypeDocument_UserTk" Association="Self.FK_BackOfficeTypeDocument_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
+          </AssociationSet>
           <AssociationSet Name="FK_Client_Entity" Association="Self.FK_Client_Entity">
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Customer" EntitySet="Customer" />
@@ -882,6 +947,15 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="currentUserId" Mode="In" Type="Guid" />
             <Parameter Name="value" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="BackOfficeTypeDocument" EntityType="TakeDocModel.BackOfficeTypeDocument" />
+          <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document">
+            <End Role="TypeDocument" EntitySet="Type_Document" />
+            <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BackOfficeTypeDocument_UserTk" Association="TakeDocModel.FK_BackOfficeTypeDocument_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1016,6 +1090,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="TypeDocumentPageNeed" Type="Boolean" Nullable="false" />
           <Property Name="TypeDocumentValidationId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Validation" Relationship="TakeDocModel.FK_Type_Document_Type_Validation" FromRole="TypeDocument" ToRole="Type_Validation" />
+          <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" FromRole="TypeDocument" ToRole="BackOfficeTypeDocument" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -1107,6 +1182,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_UserTk_GroupTk" FromRole="UserTk" ToRole="GroupTk" />
           <Property Name="UserTkDateFirstEnable" Type="DateTimeOffset" Precision="7" />
           <Property Name="UserTkManagerId" Type="Guid" />
+          <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="UserTk" ToRole="BackOfficeTypeDocument" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1391,6 +1467,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="ParameterReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="UserTkView_UserEntity">
           <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
@@ -1439,6 +1523,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="TypeValidationLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EtatDataDelete" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Type_Document_Type_Validation" FromRole="Type_Validation" ToRole="TypeDocument" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Type_Document_Type_Validation">
           <End Type="TakeDocModel.Type_Validation" Role="Type_Validation" Multiplicity="1" />
@@ -1458,6 +1550,48 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
         </ComplexType>
+        <EntityType Name="BackOfficeTypeDocument">
+          <Key>
+            <PropertyRef Name="UserTkId" />
+            <PropertyRef Name="TypeDocumentId" />
+          </Key>
+          <Property Name="UserTkId" Type="Guid" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" FromRole="BackOfficeTypeDocument" ToRole="TypeDocument" />
+          <NavigationProperty Name="UserTk" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="BackOfficeTypeDocument" ToRole="UserTk" />
+        </EntityType>
+        <Association Name="FK_BackOfficeTypeDocument_Type_Document">
+          <End Type="TakeDocModel.TypeDocument" Role="TypeDocument" Multiplicity="1" />
+          <End Type="TakeDocModel.BackOfficeTypeDocument" Role="BackOfficeTypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeDocument">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="BackOfficeTypeDocument">
+              <PropertyRef Name="TypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BackOfficeTypeDocument_UserTk">
+          <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
+          <End Type="TakeDocModel.BackOfficeTypeDocument" Role="BackOfficeTypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="BackOfficeTypeDocument">
+              <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1810,6 +1944,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Parameter">
             <EntityTypeMapping TypeName="TakeDocModel.Parameter">
               <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />
@@ -1842,6 +1984,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Type_Validation">
             <EntityTypeMapping TypeName="TakeDocModel.Type_Validation">
               <MappingFragment StoreEntitySet="Type_Validation">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="EtatDataDelete" ColumnName="EtatDataDelete" />
                 <ScalarProperty Name="TypeValidationLabel" ColumnName="TypeValidationLabel" />
                 <ScalarProperty Name="TypeValidationReference" ColumnName="TypeValidationReference" />
@@ -1861,6 +2011,22 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="BackOfficeTypeDocument">
+            <EntityTypeMapping TypeName="TakeDocModel.BackOfficeTypeDocument">
+              <MappingFragment StoreEntitySet="BackOfficeTypeDocument">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

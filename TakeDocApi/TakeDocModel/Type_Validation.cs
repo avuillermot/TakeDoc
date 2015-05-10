@@ -23,6 +23,14 @@ namespace TakeDocModel
         public string TypeValidationReference { get; set; }
         public string TypeValidationLabel { get; set; }
         public bool EtatDataDelete { get; set; }
+        public System.Guid EntityId { get; set; }
+        public System.Guid UserCreateData { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
+        public Nullable<System.Guid> UserUpdateData { get; set; }
+        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
+        public Nullable<System.Guid> UserDeleteData { get; set; }
+        public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
+        public bool EtatDeleteData { get; set; }
     
         public virtual ICollection<TypeDocument> Type_Document { get; set; }
     }

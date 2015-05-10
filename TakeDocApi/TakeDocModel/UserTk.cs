@@ -17,6 +17,7 @@ namespace TakeDocModel
         public UserTk()
         {
             this.View_UserEntity = new HashSet<View_UserEntity>();
+            this.BackOfficeTypeDocument = new HashSet<BackOfficeTypeDocument>();
         }
     
         public System.Guid UserTkId { get; set; }
@@ -38,5 +39,6 @@ namespace TakeDocModel
     
         public virtual ICollection<View_UserEntity> View_UserEntity { get; set; }
         public virtual GroupTk GroupTk { get; set; }
+        public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
     }
 }
