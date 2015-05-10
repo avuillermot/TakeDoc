@@ -3,13 +3,16 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
 
     var typeDocuments = new TypeDocuments();
 
-    $scope.$watch(function () { return typeDocumentResult.data.calls; }, function () {
+    var refreshResult = function () {
         $rootScope.hideLoader();
         if (typeDocumentResult.data.typeDocuments != null) {
             $scope.gridResultSearchTypeDoc.data = typeDocumentResult.data.typeDocuments.models;
+            if (!$scope.$$phase) $scope.$apply();
         }
         resizeGridInbox();
-    });
+    };
+
+    $scope.$watch(function () { return typeDocumentResult.data.calls; }, refreshResult);
 
     $scope.showMe = function () {
         var toShow = arguments[0].entity;
@@ -46,8 +49,8 @@ backOffice.controller('resultTypeDocumentController', ['$scope', '$rootScope', '
             userId: $rootScope.getUser().Id,
             always: null,
             success: function () {
-                debugger;
-                alert("ok");
+                typeDocumentResult.data.typeDocuments.remove({ id: toDel.get("id") });
+                refreshResult()
             },
             error: function () {
                 $rootScope.showError({ message: "Erreur lors de la suppression du type de document." });

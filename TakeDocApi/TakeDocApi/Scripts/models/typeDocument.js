@@ -25,11 +25,14 @@ var TypeDocuments = Backbone.Collection.extend({
     model: TypeDocument,
     parse: function () {
         var data = arguments[0].value;
+        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new TypeDocument();
-            this.models.push(current.parse(data[i]));
-            this.length = this.models.length;
+            /*this.models.push(current.parse(data[i]));
+            this.length = this.models.length;*/
+            arr.push(current.parse(data[i]));
         }
+        return arr;
     },
     load: function (param) {
         if (param.deleted == null) param.deleted = false;
