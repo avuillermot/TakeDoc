@@ -191,5 +191,18 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddFieldToDocumentType", typeDocumentRefParameter, fieldRefParameter, mandatoryParameter, deleteParameter, indexParameter, entityRefParameter, userRefParameter);
         }
+    
+        public virtual ObjectResult<SearchUserTkFullText_Result> SearchUserTkFullText(Nullable<System.Guid> currentUserId, string value)
+        {
+            var currentUserIdParameter = currentUserId.HasValue ?
+                new ObjectParameter("currentUserId", currentUserId) :
+                new ObjectParameter("currentUserId", typeof(System.Guid));
+    
+            var valueParameter = value != null ?
+                new ObjectParameter("value", value) :
+                new ObjectParameter("value", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter);
+        }
     }
 }

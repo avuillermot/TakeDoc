@@ -9,5 +9,6 @@ namespace TakeDocService.Search.Interface
     public interface ISearch
     {
         ICollection<TakeDocModel.SearchUserTk_Result> SearchUser(Guid currentUserId, string firstName, string lastName, string email, Guid entityId);
+        ICollection<TakeDocModel.SearchUserTkFullText_Result> SearchUserFullText(Guid currentUserId, string value);
     }
 }

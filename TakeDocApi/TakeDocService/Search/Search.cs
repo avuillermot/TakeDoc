@@ -18,5 +18,12 @@ namespace TakeDocService.Search
             ICollection<SearchUserTk_Result> back = results.ToList();
             return back;
         }
+
+        public ICollection<TakeDocModel.SearchUserTkFullText_Result> SearchUserFullText(Guid currentUserId, string value)
+        {
+            ObjectResult<TakeDocModel.SearchUserTkFullText_Result> results = context.SearchUserTkFullText(currentUserId, value);
+            ICollection<TakeDocModel.SearchUserTkFullText_Result> back = results.ToList();
+            return back;
+        }
     }
 }

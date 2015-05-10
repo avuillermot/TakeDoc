@@ -147,7 +147,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPatch]
         [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}/{enable}/{activate}/{groupId}/{managerId}")]
-        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId, Guid managerId) {
+        public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId, Guid? managerId) {
             try
             {
                 TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();

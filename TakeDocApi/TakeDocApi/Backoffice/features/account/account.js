@@ -7,14 +7,14 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
 
     $scope.isBackofficeUser = $rootScope.isBackofficeUser();
 
-    var displayUser = function () {
+    var displayContext = function () {
         // if external account, all input are readonly
         if ($scope.user.ExternalAccount == true) $("#divAccountInfo div input").attr("readonly", "");
         if ($scope.isBackofficeUser == false) $("#divAccountInfo div #inputEmail").attr("readonly", "");
 
         var success = function () {
-            debugger;
             $scope.user.ManagerName = arguments[0];
+            if (!$scope.$$phase) $scope.$apply();
         };
         var error = function () {
 
@@ -32,14 +32,14 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
     var fetchUser = function () {
         if (userToDisplay == "current") {
             $scope.user = $rootScope.getUser();
-            displayUser();
+            displayContext();
         }
         else {
             var success = function () {
                 var current = new userTk(arguments[0]);
                 $scope.user = current;
-                displayUser();
-                $scope.$apply();
+                displayContext();
+                if (!$scope.$$phase) $scope.$apply();
             };
             var error = function () {
                 $rootScope.showModal("Erreur", "Utilisateur indisponible ou inconnu.")
@@ -82,7 +82,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                     userToUpdate.Culture = $scope.user.Culture;
                     userToUpdate.Enable = $scope.user.Enable;
                     userToUpdate.Activate = $scope.user.Activate;
-                    userToUpdate.ManagerId = $scope.user.ManagerId;
+                    userToUpdate.ManagerId = ($scope.user.ManagerName != null && $scope.user.ManagerName != "") ? $scope.user.ManagerId : null;
                     $rootScope.setUser(userToUpdate);
                 }
             };
@@ -102,7 +102,7 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
                 enable: $scope.user.Enable,
                 activate: $scope.user.Activate,
                 groupId: $scope.user.GroupId,
-                managerId: $scope.user.ManagerId
+                managerId: ($scope.user.ManagerName != null && $scope.user.ManagerName != "") ? $scope.user.ManagerId : null
             };
             $rootScope.showLoader("Mise à jour....");
             userTkService.update(user, success, error);

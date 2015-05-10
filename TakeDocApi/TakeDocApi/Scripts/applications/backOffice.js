@@ -66,7 +66,7 @@ backOffice.directive('tdLogout', function ($rootScope, $location) {
     };
 });
 
-backOffice.directive('tkAutocompleteManager', ['$http', '$rootScope', function ($http, $rootScope) {
+backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($http, $rootScope) {
     return {
         link: function (scope, elem, attr) {
             function highLightData(text, term) {
@@ -78,7 +78,7 @@ backOffice.directive('tkAutocompleteManager', ['$http', '$rootScope', function (
             elem.autocomplete({
                 source: function (request, response) {
                     var url = environnement.UrlBase + "UserTk/ByName/<USERID/>/<VALUE/>";
-                    url = url.toUpperCase().replace("<USERID/>", scope.user.Id);
+                    url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
                     url = url.toUpperCase().replace("<VALUE/>", scope.user.ManagerName);
                     $http.get(url).success(function (data) {
                         response(data);

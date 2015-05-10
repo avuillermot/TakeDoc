@@ -115,6 +115,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchUserTkFullText_Result.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="SearchUserTk_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
