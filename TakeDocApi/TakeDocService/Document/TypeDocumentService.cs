@@ -14,10 +14,11 @@ namespace TakeDocService.Document
         private TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
         private IDaoTypeDocument daoTypeDocument = UnityHelper.Resolve<IDaoTypeDocument>();
+        private IDaoBackOfficeTypeDocument daoBackOffice = UnityHelper.Resolve<IDaoBackOfficeTypeDocument>();
+
         private TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         private TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         private TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation> daoTypeValidation = new TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation>();
-        private TakeDocDataAccess.DaoBase<TakeDocModel.BackOfficeTypeDocument> daoBackofficeUser = new TakeDocDataAccess.DaoBase<TakeDocModel.BackOfficeTypeDocument>();
 
         public ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId)
         {
@@ -87,31 +88,20 @@ namespace TakeDocService.Document
             return daoTypeDocument.Add(toAdd);
         }
 
-        public void AddBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId)
+        public void AddBackOfficeUser(Guid userIdToAdd, Guid typeDocumentId, Guid entityId, Guid userIdUpdater)
         {
-            ICollection<TakeDocModel.BackOfficeTypeDocument> bos = daoBackofficeUser.GetBy(x => x.UserTkId == userId && x.TypeDocumentId == typeDocumentId && x.EntityId == entityId);
-            TakeDocModel.BackOfficeTypeDocument bo = null;
-            if (bos.Count() > 0)
-            {
-                bo = bos.First();
-                bo.UserUpdateData = userId;
-                bo.DateUpdateData = System.DateTimeOffset.UtcNow;
-                if (bo.EtatDeleteData) bo.EtatDeleteData = false;
-                daoBackofficeUser.Update(bo);
-            }
-            else
-            {
-                bo = new TakeDocModel.BackOfficeTypeDocument();
-                bo.UserCreateData = userId;
-                bo.DateCreateData = System.DateTimeOffset.UtcNow;
-                daoBackofficeUser.Context.BackOfficeTypeDocument.Add(bo);
-            }
-            daoBackofficeUser.Context.SaveChanges();
+            daoBackOffice.Add(userIdToAdd, typeDocumentId, entityId, userIdUpdater);
         }
 
-        public void DeleteBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId)
+        public void DeleteBackOfficeUser(Guid userIdToDel, Guid typeDocumentId, Guid entityId, Guid userIdUpdater)
         {
+            daoBackOffice.Delete(userIdToDel, typeDocumentId, entityId, userIdUpdater);
+        }
 
+        public ICollection<TakeDocModel.UserTk> GetBackOfficeUser(Guid typeDocumentId, Guid entityId)
+        {
+            ICollection<TakeDocModel.BackOfficeTypeDocument> bos = daoBackOffice.GetBy(x => x.EntityId == entityId && x.TypeDocumentId == typeDocumentId && x.EtatDeleteData == false);
+            return null;
         }
     }
 }

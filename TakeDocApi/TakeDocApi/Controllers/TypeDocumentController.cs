@@ -101,5 +101,39 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("add/backofficeuser/{typeDocumentId}/{backOfficerUserId}/{entityId}/{userIdUpdater}")]
+        public HttpResponseMessage AddBackOfficeUser(Guid typeDocumentId, Guid backOfficerUserId, Guid entityId, Guid userIdUpdater)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                servTypeDocument.AddBackOfficeUser(backOfficerUserId, typeDocumentId, entityId, userIdUpdater);
+                return Request.CreateResponse(true);
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete/backofficeuser/{typeDocumentId}/{backOfficerUserId}/{entityId}/{userIdUpdater}")]
+        public HttpResponseMessage DeleteBackOfficeUser(Guid typeDocumentId, Guid backOfficerUserId, Guid entityId, Guid userIdUpdater)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                servTypeDocument.DeleteBackOfficeUser(backOfficerUserId, typeDocumentId, entityId, userIdUpdater);
+                return Request.CreateResponse(true);
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

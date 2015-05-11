@@ -68,6 +68,8 @@
     <Compile Include="Document\DaoPage.cs" />
     <Compile Include="Document\DaoPageStoreLocator.cs" />
     <Compile Include="Document\DaoTypeDocument.cs" />
+    <Compile Include="Document\DaoBackOfficeTypeDocument.cs" />
+    <Compile Include="Document\Interface\IDaoBackOfficeTypeDocument.cs" />
     <Compile Include="Security\DaoUserTk.cs" />
     <Compile Include="Document\DaoVersion.cs" />
     <Compile Include="Document\DaoVersionStoreLocator.cs" />

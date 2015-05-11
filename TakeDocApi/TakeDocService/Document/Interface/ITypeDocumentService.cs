@@ -23,7 +23,7 @@ namespace TakeDocService.Document.Interface
         /// <param name="userRef"></param>
         void AddDataField(string typeDocumentRef, string dataFieldRef, bool mandatory, bool delete, int? index, string entityRef, string userRef);
         /// <summary>
-        /// Add data field to a document type with properties
+        /// Add/Update data field with properties for a document type
         /// </summary>
         /// <param name="typeDocumentId"></param>
         /// <param name="dataFieldRef"></param>
@@ -33,22 +33,38 @@ namespace TakeDocService.Document.Interface
         /// <param name="entityId"></param>
         /// <param name="userId"></param>
         void AddDataField(Guid typeDocumentId, string dataFieldRef, bool mandatory, bool delete, int? index, Guid entityId, Guid userId);
+        /// <summary>
+        /// Update document type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="userId"></param>
         void Update(TakeDocModel.TypeDocument type, Guid userId);
+        /// <summary>
+        /// Add new document type
+        /// </summary>
+        /// <param name="label"></param>
+        /// <param name="entityId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
         TakeDocModel.TypeDocument Add(string label, Guid entityId, Guid userId);
+        // Delete document type
         void Delete(Guid typeDocumentId, Guid userId, Guid entityId);
         /// <summary>
         /// Add backoffice user (administrator) for a document type
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="param name="userIdToAdd"">user id to add backoffice role</param>
         /// <param name="typeDocumentId"></param>
         /// <param name="entityId"></param>
-        void AddBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId);
+        /// <param name="userIdUpdater">user id who update data</param>
+        void AddBackOfficeUser(Guid userIdToAdd, Guid typeDocumentId, Guid entityId, Guid userIdUpdater);
         /// <summary>
         /// Delete backoffice user (administrator) for a document type
         /// </summary>
-        /// <param name="userId"></param>
+        /// <param name="param name="userIdToDel"">user id to remove backoffice role</param>
         /// <param name="typeDocumentId"></param>
         /// <param name="entityId"></param>
-        void DeleteBackofficeUser(Guid userId, Guid typeDocumentId, Guid entityId);
+        /// <param name="userIdUpdater">user id who update data</param>
+        void DeleteBackOfficeUser(Guid userIdToDel, Guid typeDocumentId, Guid entityId, Guid userIdUpdater);
+        ICollection<TakeDocModel.UserTk> GetBackOfficeUser(Guid typeDocumentId, Guid entityId);
     }
 }

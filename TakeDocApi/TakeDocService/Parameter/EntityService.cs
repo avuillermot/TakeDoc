@@ -12,9 +12,9 @@ namespace TakeDocService.Parameter
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
 
-        public void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
+        public void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity, bool isAccountCreation)
         {
-            daoEntity.AddUser(user, entity);
+            daoEntity.AddUser(user, entity, isAccountCreation);
         }
 
         public void RemoveUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
@@ -22,12 +22,12 @@ namespace TakeDocService.Parameter
             daoEntity.RemoveUser(user, entity);
         }
 
-        public void AddUser(Guid userId, Guid entityId)
+        public void AddUser(Guid userId, Guid entityId, bool isAccountCreation)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
             TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
 
-            daoEntity.AddUser(user, entity);
+            this.AddUser(user, entity, isAccountCreation);
         }
         public void RemoveUser(Guid userId, Guid entityId)
         {

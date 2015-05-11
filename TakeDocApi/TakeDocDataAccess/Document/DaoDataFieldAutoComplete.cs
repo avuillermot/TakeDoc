@@ -9,7 +9,7 @@ namespace TakeDocDataAccess.Document
 {
     public class DaoDataFieldAutoComplete : DaoBase<TakeDocModel.DataFieldAutoComplete>, Interface.IDaoDataFieldAutoComplete
     {
-        public ICollection<TakeDocModel.DataFieldAutoComplete> GetBy(Expression<Func<TakeDocModel.DataFieldAutoComplete, bool>> where, params Expression<Func<TakeDocModel.DataFieldAutoComplete, object>>[] properties)
+        public new ICollection<TakeDocModel.DataFieldAutoComplete> GetBy(Expression<Func<TakeDocModel.DataFieldAutoComplete, bool>> where, params Expression<Func<TakeDocModel.DataFieldAutoComplete, object>>[] properties)
         {
             return base.GetBy(where, properties);
         }

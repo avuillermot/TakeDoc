@@ -38,6 +38,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.GroupTk>("GroupTks");
             builder.EntitySet<TakeDocModel.Type_Validation>("TypeValidations");
             builder.EntitySet<TakeDocModel.View_TypeDocumentDataField>("TypeDocumentDataFields");
+            builder.EntitySet<TakeDocModel.BackOfficeTypeDocument>("BackOfficeTypeDocuments");
             
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }

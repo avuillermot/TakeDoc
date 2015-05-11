@@ -10,7 +10,7 @@ namespace TakeDocDataAccess.Parameter.Interface
     public interface IDaoEntity
     {
         ICollection<TakeDocModel.Entity> GetBy(Expression<Func<TakeDocModel.Entity, bool>> where, params Expression<Func<TakeDocModel.Entity, object>>[] properties);
-        void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
+        void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity, bool createAccount);
         void RemoveUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
     }
 }

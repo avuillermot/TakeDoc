@@ -19,8 +19,10 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
         var error = function () {
 
         };
-        $scope.searchUserId = $scope.user.ManagerId
-        userTkService.getName($scope.user.ManagerId, success, error);
+        if ($scope.user.ManagerId != null) {
+            $scope.searchUserId = $scope.user.ManagerId
+            userTkService.getName($scope.user.ManagerId, success, error);
+        }
 
     }
 
