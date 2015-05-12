@@ -8,9 +8,9 @@ namespace TakeDocService.Parameter.Interface
 {
     public interface IEntityService
     {
-        void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity, bool isAccountCreation);
+        void AddUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
         void RemoveUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity);
-        void AddUser(Guid userId, Guid entityId, bool isAccountCreation);
+        void AddUser(Guid userId, Guid entityId);
         void RemoveUser(Guid userId, Guid entityId);
     }
 }

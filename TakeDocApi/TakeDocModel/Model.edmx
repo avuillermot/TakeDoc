@@ -611,12 +611,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Function Name="AddDocumentStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-          <Parameter Name="documentId" Type="uniqueidentifier" Mode="In" />
-          <Parameter Name="statusId" Type="uniqueidentifier" Mode="In" />
-          <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
-          <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
-        </Function>
         <Function Name="AddEvent" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="type" Type="nvarchar" Mode="In" />
           <Parameter Name="from" Type="nvarchar" Mode="In" />
@@ -634,7 +628,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <Function Name="AddUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
           <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
-          <Parameter Name="isAccountCreation" Type="bit" Mode="In" />
         </Function>
         <Function Name="DeleteEntityUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
@@ -904,7 +897,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="AddUserToEntity">
             <Parameter Name="userRef" Mode="In" Type="String" />
             <Parameter Name="entityRef" Mode="In" Type="String" />
-            <Parameter Name="isAccountCreation" Mode="In" Type="Boolean" />
           </FunctionImport>
           <FunctionImport Name="DeleteUserToEntity">
             <Parameter Name="userRef" Mode="In" Type="String" />
@@ -2001,7 +1993,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="AddDocumentStatus" FunctionName="TakeDocModel.Store.AddDocumentStatus" />
           <FunctionImportMapping FunctionImportName="AddFieldToDocumentType" FunctionName="TakeDocModel.Store.AddFieldToDocumentType" />
           <FunctionImportMapping FunctionImportName="SearchUserTkFullText" FunctionName="TakeDocModel.Store.SearchUserTkFullText">
             <ResultMapping>

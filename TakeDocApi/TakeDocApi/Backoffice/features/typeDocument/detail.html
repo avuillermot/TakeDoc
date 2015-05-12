@@ -45,12 +45,12 @@
                 <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.deleted">
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="mooveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="mooveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
-                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemoveDataField(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
                     <div class="document-field-label">
                         {{field.attributes.label}}
-                        <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="onListValues()"></div>
-                        <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="onAutocomplete()"></div>
+                        <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="displayListValuesInfo()"></div>
+                        <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="displayAutocompleteInfo()"></div>
                     </div>
 
                     <label class="document-field-label" style="font-weight: normal; width:100px">
@@ -69,6 +69,13 @@
                 <label for="inputBackofficeName" class="form-tk-label">Gestionnaire</label>
                 <input type="text" style="display:none" id="inputBackofficeId" mandatory="false" ng-model="searchUserId">
                 <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
+                <div ng-repeat="manager in managersTypeDoc.models | orderBy:['attributes.fullName']" ng-hide="manager.attributes.deleted">
+                    <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+
+                    <label style="font-weight: normal; width:100px">
+                        {{manager.attributes.fullName}}
+                    </label>
+                </div>
             </div>
         </form>
     </div>

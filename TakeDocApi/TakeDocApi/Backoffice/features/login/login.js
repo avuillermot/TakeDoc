@@ -15,7 +15,6 @@ backOffice.controller('loginController', ['$scope', '$rootScope', '$location', '
         $rootScope.showLoader('Connexion...');
 
         var error = function () {
-            debugger;
             var data = arguments[0].responseJSON;
             $rootScope.hideLoader();
             $rootScope.setUser(null);

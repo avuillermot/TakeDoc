@@ -230,6 +230,7 @@
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.html" />
     <Content Include="Backoffice\features\myDocument\myDocument.js" />
+    <Content Include="Backoffice\features\typeDocument\managersTypeDoc.html" />
     <Content Include="Backoffice\features\typeDocument\result.html" />
     <Content Include="Backoffice\features\typeDocument\result.js" />
     <Content Include="Backoffice\features\typeDocument\search.html" />

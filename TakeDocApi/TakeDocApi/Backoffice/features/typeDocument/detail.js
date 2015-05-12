@@ -22,6 +22,19 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         });
     };
 
+    // set field index after update list of field
+    var numeroter = function (startIndex, size) {
+        var index = startIndex;
+        var nb = startIndex;
+        while (index <= size) {
+            var field = $scope.fields.where({ index: index, deleted: false });
+            if (field.length > 0) {
+                field[0].set('index', nb++);
+            }
+            index++;
+        }
+    };
+
     //************************************
     // load data context
     //************************************
@@ -74,41 +87,19 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         var param = {
             typeDocumentId: typeDocumentId,
             entityId: entityId,
-            always: null,
             error: function () {
                 $rootScope.showError("Une erreur est survenue lors du chargement des gestionnaires.")
             },
             success: function () {
-                alert("ok");
-                //$scope.dataFields = arguments[0];
+                $scope.managersTypeDoc = arguments[0];
             }
         };
         managerTypeDocuments.load(param);
     }
 
-    var numeroter = function (startIndex, size) {
-        var index = startIndex;
-        var nb = startIndex;
-        while (index <= size) {
-            var field = $scope.fields.where({ index: index, deleted: false });
-            if (field.length > 0) {
-                field[0].set('index', nb++);
-            }
-            index++;
-        }
-    };
-
     //************************************
-    // ihm function event
+    // function for datafield admin
     //************************************
-    $scope.doGoSeach = function () {
-        $location.path("/searchTypeDocument");
-    };
-    $scope.doSelectValidation = function () {
-        $scope.selectedValidation = this.validation;
-        $scope.selectedItem.set("typeValidationId", this.validation.get("id"));
-    }
-
     $scope.mooveUp = function (id) {
         var size = $scope.fields.length;
         var field = $scope.fields.where({ id: id });
@@ -129,7 +120,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             fieldToMove[0].set('index', currentIndex);
         }
     }
-    $scope.doRemove = function (id) {
+    $scope.doRemoveDataField = function (id) {
         var toDel = $scope.fields.where({ id: id })[0]
         toDel.set("deleted", true);
         toDel.set("index", -1);
@@ -144,7 +135,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             if (already.length == 0) $scope.fieldsToAdd.push(value);
         });
         if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
-        else $rootScope.showModal("Informations","Tous les champs disponibles ont été ajoutés.")
+        else $rootScope.showModal("Informations", "Tous les champs disponibles ont été ajoutés.")
     };
     $scope.doAddDataField = function (dataFieldId) {
         $("#modalAddFieldToDocumentType").modal("hide");
@@ -167,6 +158,36 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         fields.add(newField);
         if (!$scope.$$phase) $scope.$apply();
     };
+
+    //******************************************
+    // function for manager type document admin
+    //******************************************
+    var doAddManagerTypeDoc = function () {
+        if ($scope.managersTypeDoc != null && $scope.searchUserId != null) {
+            var m = new ManagerTypeDocumnent();
+            m.set("id", $scope.searchUserId);
+            m.set("fullName", $scope.searchUserName);
+            m.set("deleted", false);
+            m.set("entityId", $scope.selectedItem.get("entityId"));
+            $scope.managersTypeDoc.add(m);
+        }
+    };
+
+    $scope.$watch(function () { return $scope.searchUserId; }, function () {
+        doAddManagerTypeDoc();
+    });   
+
+    //************************************
+    // ihm function event
+    //************************************
+    $scope.doGoSeach = function () {
+        $location.path("/searchTypeDocument");
+    };
+    $scope.doSelectValidation = function () {
+        $scope.selectedValidation = this.validation;
+        $scope.selectedItem.set("typeValidationId", this.validation.get("id"));
+    }
+        
     $scope.doSave = function () {
         var param = {
             fields: fields.toJSON(),
@@ -209,7 +230,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     };
 
     // display values for list
-    $scope.onListValues = function () {
+    $scope.displayListValuesInfo = function () {
         var title = this.field.get("label");
         var param = {
             id: this.field.get("id"),
@@ -226,7 +247,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         values.load(param);
     };
     // display info for autocompletes
-    $scope.onAutocomplete = function (id) {
+    $scope.displayAutocompleteInfo = function (id) {
         var title = this.field.get("label");
         var param = {
             id: this.field.get("autoCompleteId"),

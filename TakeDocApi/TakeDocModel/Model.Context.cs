@@ -62,7 +62,7 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetNewReference", tableParameter, reference);
         }
     
-        public virtual int AddUserToEntity(string userRef, string entityRef, Nullable<bool> isAccountCreation)
+        public virtual int AddUserToEntity(string userRef, string entityRef)
         {
             var userRefParameter = userRef != null ?
                 new ObjectParameter("userRef", userRef) :
@@ -72,11 +72,7 @@ namespace TakeDocModel
                 new ObjectParameter("entityRef", entityRef) :
                 new ObjectParameter("entityRef", typeof(string));
     
-            var isAccountCreationParameter = isAccountCreation.HasValue ?
-                new ObjectParameter("isAccountCreation", isAccountCreation) :
-                new ObjectParameter("isAccountCreation", typeof(bool));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserToEntity", userRefParameter, entityRefParameter, isAccountCreationParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddUserToEntity", userRefParameter, entityRefParameter);
         }
     
         public virtual int DeleteUserToEntity(string userRef, string entityRef)

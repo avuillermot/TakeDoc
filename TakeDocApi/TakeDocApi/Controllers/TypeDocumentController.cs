@@ -148,8 +148,7 @@ namespace TakeDocApi.Controllers
                           select new
                           {
                               id = user.UserTkId,
-                              firstName = user.UserTkFirstName,
-                              lastName = user.UserTkLastName,
+                              fullName = string.Concat(user.UserTkFirstName," ", user.UserTkLastName),
                               deleted = false,
                               entityId = entityId
                           };

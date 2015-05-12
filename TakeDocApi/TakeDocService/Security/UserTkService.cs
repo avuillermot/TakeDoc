@@ -84,7 +84,7 @@ namespace TakeDocService.Security
 
         public TakeDocModel.UserTk Create(TakeDocModel.UserTk user, TakeDocModel.Entity entity) {
             this.Create(user);
-            servEntity.AddUser(user, entity, true);
+            servEntity.AddUser(user, entity);
             return user;
         }
 

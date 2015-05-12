@@ -36,7 +36,7 @@ namespace TakeDocService.Communication
             mail.Subject = subject;
             mail.Body = this.FillField(body, user);
             mail.IsBodyHtml = true;
-            client.Send(mail);
+            //client.Send(mail);
         }
 
         private string FillField(string body, TakeDocModel.UserTk user)

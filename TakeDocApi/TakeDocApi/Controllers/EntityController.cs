@@ -17,7 +17,7 @@ namespace TakeDocApi.Controllers
             try
             {
                 TakeDocService.Parameter.Interface.IEntityService servEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Parameter.Interface.IEntityService>();
-                servEntity.AddUser(userId, entityId, false);
+                servEntity.AddUser(userId, entityId);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
             catch (Exception ex)
