@@ -10,6 +10,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     var autocompletes = new FieldAutocompletes();
     // all field allow for link to document type
     var dataFields = new DataFields();
+    // manager who can administrate this document type
+    var managerTypeDocuments = new ManagerTypeDocumnents();
        
     $("#viewRight").css("width", "0%");
     $("#viewLeft").css("width", "100%");
@@ -67,6 +69,21 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             }
         };
         dataFields.load(param);
+    }
+    var loadManagerTypeDocument = function (typeDocumentId, entityId) {
+        var param = {
+            typeDocumentId: typeDocumentId,
+            entityId: entityId,
+            always: null,
+            error: function () {
+                $rootScope.showError("Une erreur est survenue lors du chargement des gestionnaires.")
+            },
+            success: function () {
+                alert("ok");
+                //$scope.dataFields = arguments[0];
+            }
+        };
+        managerTypeDocuments.load(param);
     }
 
     var numeroter = function (startIndex, size) {
@@ -170,6 +187,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
             loadDocumentFields($scope.selectedItem.get("id"));
             loadDataFields($scope.selectedItem.get("entityId"));
+            loadManagerTypeDocument($scope.selectedItem.get("id"), $scope.selectedItem.get("entityId"));
             setCurrentEntity($scope.selectedItem.get("entityId"));
         }
         else {
@@ -179,6 +197,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
                     $scope.selectedItem = arguments[0].at(0);
                     loadDocumentFields($scope.selectedItem.get("id"));
                     loadDataFields($scope.selectedItem.get("entityId"));
+                    loadManagerTypeDocument($scope.selectedItem.get("id"), $scope.selectedItem.get("entityId"));
                     setCurrentEntity($scope.selectedItem.get("entityId"));
                 },
                 error: function () {

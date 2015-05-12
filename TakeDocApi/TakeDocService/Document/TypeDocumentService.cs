@@ -100,8 +100,9 @@ namespace TakeDocService.Document
 
         public ICollection<TakeDocModel.UserTk> GetBackOfficeUser(Guid typeDocumentId, Guid entityId)
         {
-            ICollection<TakeDocModel.BackOfficeTypeDocument> bos = daoBackOffice.GetBy(x => x.EntityId == entityId && x.TypeDocumentId == typeDocumentId && x.EtatDeleteData == false);
-            return null;
+            ICollection<Guid> bos = daoBackOffice.GetBy(x => x.EntityId == entityId && x.TypeDocumentId == typeDocumentId && x.EtatDeleteData == false).Select(x => x.UserTkId).ToArray();
+            ICollection<TakeDocModel.UserTk> users = daoUser.GetBy(x => bos.Contains(x.UserTkId));
+            return users;
         }
     }
 }

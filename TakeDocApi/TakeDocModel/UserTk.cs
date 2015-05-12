@@ -39,6 +39,6 @@ namespace TakeDocModel
     
         public virtual ICollection<View_UserEntity> View_UserEntity { get; set; }
         public virtual GroupTk GroupTk { get; set; }
-        public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
+        private ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
     }
 }

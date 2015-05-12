@@ -135,5 +135,31 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("get/backofficeuser/{typeDocumentId}/{entityId}")]
+        public HttpResponseMessage DeleteBackOfficeUser(Guid typeDocumentId, Guid entityId)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                ICollection<TakeDocModel.UserTk> users = servTypeDocument.GetBackOfficeUser(typeDocumentId, entityId);
+                var req = from user in users
+                          select new
+                          {
+                              id = user.UserTkId,
+                              firstName = user.UserTkFirstName,
+                              lastName = user.UserTkLastName,
+                              deleted = false,
+                              entityId = entityId
+                          };
+                return Request.CreateResponse(req);
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

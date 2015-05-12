@@ -1446,6 +1446,7 @@
     <Content Include="Scripts\lib\underscore-min.js" />
     <Content Include="Scripts\models\dataField.js" />
     <Content Include="Scripts\models\documentField.js" />
+    <Content Include="Scripts\models\managerTypeDocument.js" />
     <Content Include="Scripts\models\page.js" />
     <Content Include="Scripts\models\documentExtended.js" />
     <Content Include="Scripts\models\entity.js" />

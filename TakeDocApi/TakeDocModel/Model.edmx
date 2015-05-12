@@ -1184,7 +1184,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_UserTk_GroupTk" FromRole="UserTk" ToRole="GroupTk" />
           <Property Name="UserTkDateFirstEnable" Type="DateTimeOffset" Precision="7" />
           <Property Name="UserTkManagerId" Type="Guid" />
-          <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="UserTk" ToRole="BackOfficeTypeDocument" />
+          <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="UserTk" ToRole="BackOfficeTypeDocument" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>

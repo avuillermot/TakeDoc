@@ -26,11 +26,6 @@ namespace TakeDocApi.Controllers
             try
             {
                 TakeDocModel.UserTk user = servUser.Logon(data.Value<string>("login"), data.Value<string>("password"));
-
-                ClaimsPrincipal cp = servUser.GetClaimsPrincipal(user);
-
-                SetPrincipal(cp);
-
                 return Request.CreateResponse(HttpStatusCode.OK, user);
             }
             catch (Exception ex)
@@ -90,15 +85,6 @@ namespace TakeDocApi.Controllers
             catch (Exception ex)
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
-        private void SetPrincipal(IPrincipal principal)
-        {
-            Thread.CurrentPrincipal = principal;
-            if (HttpContext.Current != null)
-            {
-                HttpContext.Current.User = principal;
             }
         }
 
