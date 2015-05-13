@@ -12,7 +12,6 @@ namespace TakeDocService.Workflow.Document
         {
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
             this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
-            document.DocumentValidateUserId = user.UserTkManagerId;
             daoDocument.Update(document);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;

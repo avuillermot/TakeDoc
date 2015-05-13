@@ -176,9 +176,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
                 m.set("entityId", $scope.selectedItem.get("entityId"));
                 $scope.managersTypeDoc.add(m);
             }
-            else {
-                toAdd[0].set("deleted", false);
-            }
+            else toAdd[0].set("deleted", false);
 
             $scope.searchUserId = null;
             $scope.searchUserName = null;
