@@ -79,7 +79,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("Update/DataField/{typeDocumentId}/{userId}/{entityId}")]
-        public HttpResponseMessage Update(Guid typeDocumentId, Guid userId, Guid entityId, [FromBody]string value)
+        public HttpResponseMessage UpdateDataField(Guid typeDocumentId, Guid userId, Guid entityId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
             try
@@ -90,8 +90,32 @@ namespace TakeDocApi.Controllers
                     string dataFieldRef = obj.Value<string>("reference");
                     bool mandatory = obj.Value<bool>("mandatory");
                     int index = obj.Value<int>("index");
-                    bool delete = obj.Value<bool>("deleted");
-                    servTypeDocument.AddDataField(typeDocumentId, dataFieldRef, mandatory, delete, index, entityId, userId);
+                    bool deleted = obj.Value<bool>("deleted");
+                    servTypeDocument.AddDataField(typeDocumentId, dataFieldRef, mandatory, deleted, index, entityId, userId);
+                }
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                TakeDocService.LoggerService.CreateError(ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("Update/Manager/{typeDocumentId}/{userIdUpdater}/{entityId}")]
+        public HttpResponseMessage UpdateManager(Guid typeDocumentId, Guid userIdUpdater, Guid entityId, [FromBody]string value)
+        {
+            TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
+            try
+            {
+                Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(value);
+                foreach (Newtonsoft.Json.Linq.JObject obj in data)
+                {
+                    Guid userIdToAdd = new Guid(obj.Value<string>("id"));
+                    bool deleted = obj.Value<bool>("deleted");
+                    if (deleted) servTypeDocument.DeleteBackOfficeUser(userIdToAdd, typeDocumentId, entityId, userIdUpdater);
+                    else servTypeDocument.AddBackOfficeUser(userIdToAdd, typeDocumentId, entityId, userIdUpdater);
                 }
                 return Request.CreateResponse();
             }

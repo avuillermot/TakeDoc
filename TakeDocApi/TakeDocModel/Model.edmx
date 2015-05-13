@@ -138,6 +138,7 @@
           <Property Name="GroupTkId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="GroupTkReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="GroupTkLabel" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="GroupTkLevel" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MetaData">
           <Key>
@@ -650,6 +651,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <Function Name="SearchUserTkFullText" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="currentUserId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
         </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
           <EntitySet Name="BackOfficeTypeDocument" EntityType="Self.BackOfficeTypeDocument" Schema="dbo" store:Type="Tables" />
@@ -940,6 +942,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="SearchUserTkFullText" ReturnType="Collection(TakeDocModel.SearchUserTkFullText_Result)">
             <Parameter Name="currentUserId" Mode="In" Type="Guid" />
             <Parameter Name="value" Mode="In" Type="String" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
           <EntitySet Name="BackOfficeTypeDocument" EntityType="TakeDocModel.BackOfficeTypeDocument" />
           <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document">
@@ -1489,6 +1492,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="GroupTkId" Type="Guid" Nullable="false" />
           <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GroupTkLevel" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_UserTk_GroupTk">
           <End Type="TakeDocModel.GroupTk" Role="GroupTk" Multiplicity="1" />
@@ -1955,6 +1959,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="GroupTk">
             <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
               <MappingFragment StoreEntitySet="GroupTk">
+                <ScalarProperty Name="GroupTkLevel" ColumnName="GroupTkLevel" />
                 <ScalarProperty Name="GroupTkLabel" ColumnName="GroupTkLabel" />
                 <ScalarProperty Name="GroupTkReference" ColumnName="GroupTkReference" />
                 <ScalarProperty Name="GroupTkId" ColumnName="GroupTkId" />

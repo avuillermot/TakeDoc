@@ -18,7 +18,10 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
 
     var setCurrentEntity = function () {
         $.each($rootScope.getUser().Entitys, function (index, value) {
-            if (value.Id == $scope.selectedItem.get("entityId")) $scope.currentEntity = value;
+            if (value.Id == $scope.selectedItem.get("entityId")) {
+                $scope.currentEntity = value;
+                $scope.searchEntityId = value.Id;
+            }
         });
     };
 
@@ -164,13 +167,26 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     //******************************************
     var doAddManagerTypeDoc = function () {
         if ($scope.managersTypeDoc != null && $scope.searchUserId != null) {
-            var m = new ManagerTypeDocumnent();
-            m.set("id", $scope.searchUserId);
-            m.set("fullName", $scope.searchUserName);
-            m.set("deleted", false);
-            m.set("entityId", $scope.selectedItem.get("entityId"));
-            $scope.managersTypeDoc.add(m);
+            var toAdd = $scope.managersTypeDoc.where({ id: $scope.searchUserId });
+            if (toAdd.length == 0) {
+                var m = new ManagerTypeDocumnent();
+                m.set("id", $scope.searchUserId);
+                m.set("fullName", $scope.searchUserName);
+                m.set("deleted", false);
+                m.set("entityId", $scope.selectedItem.get("entityId"));
+                $scope.managersTypeDoc.add(m);
+            }
+            else {
+                toAdd[0].set("deleted", false);
+            }
+
+            $scope.searchUserId = null;
+            $scope.searchUserName = null;
         }
+    };
+    $scope.doRemoveManagerTypeDoc = function (id) {
+        var toDel = $scope.managersTypeDoc.where({ id: id });
+        toDel[0].set("deleted", true);
     };
 
     $scope.$watch(function () { return $scope.searchUserId; }, function () {
@@ -189,15 +205,18 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     }
         
     $scope.doSave = function () {
+        $rootScope.showLoader("Enregistrement...");
         var param = {
             fields: fields.toJSON(),
+            managersTypeDoc: $scope.managersTypeDoc.toJSON(),
             userId: $rootScope.getUser().Id,
             typeDocument: $scope.selectedItem.toJSON(),
             error: function () {
+                $rootScope.hideLoader();
                 $rootScope.showError(arguments[0]);
             },
             success: function () {
-
+                $rootScope.hideLoader();
             }
         };
         typeDocuments.update(param);

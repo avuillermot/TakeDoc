@@ -17,5 +17,6 @@ namespace TakeDocModel
         public System.Guid GroupTkId { get; set; }
         public string GroupTkReference { get; set; }
         public string GroupTkLabel { get; set; }
+        public int GroupTkLevel { get; set; }
     }
 }

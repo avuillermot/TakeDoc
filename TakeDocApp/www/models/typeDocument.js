@@ -25,11 +25,12 @@ var TypeDocuments = Backbone.Collection.extend({
     model: TypeDocument,
     parse: function () {
         var data = arguments[0].value;
+        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new TypeDocument();
-            this.models.push(current.parse(data[i]));
-            this.length = this.models.length;
+            arr.push(current.parse(data[i]));
         }
+        return arr;
     },
     load: function (param) {
         if (param.deleted == null) param.deleted = false;
@@ -58,6 +59,17 @@ var TypeDocuments = Backbone.Collection.extend({
                 type: 'POST',
                 url: environnement.UrlBase + "TypeDocument/Update/DataField/" + param.typeDocument.id + "/" + param.userId + "/" + param.typeDocument.entityId,
                 data: { '': JSON.stringify(param.fields) },
+                success: fn3,
+                error: param.error,
+                beforeSend: requestHelper.beforeSend()
+            });
+        };
+
+        var fn3 = function () {
+            $.ajax({
+                type: 'POST',
+                url: environnement.UrlBase + "TypeDocument/Update/Manager/" + param.typeDocument.id + "/" + param.userId + "/" + param.typeDocument.entityId,
+                data: { '': JSON.stringify(param.managersTypeDoc) },
                 success: param.success,
                 error: param.error,
                 beforeSend: requestHelper.beforeSend()

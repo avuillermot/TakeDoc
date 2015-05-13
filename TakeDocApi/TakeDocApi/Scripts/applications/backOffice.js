@@ -77,9 +77,11 @@ backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($
             // elem is a jquery lite object if jquery is not present, but with jquery and jquery ui, it will be a full jquery object.
             elem.autocomplete({
                 source: function (request, response) {
-                    var url = environnement.UrlBase + "UserTk/ByName/<USERID/>/<VALUE/>";
-                    url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
-                    url = url.toUpperCase().replace("<VALUE/>", scope.searchUserName);
+                    var url = environnement.UrlBase + "UserTk/ByName/{CURRENTUSERID}/{VALUE}/{ENTITYID}";
+                    url = url.toUpperCase().replace("{CURRENTUSERID}", $rootScope.getUser().Id);
+                    url = url.toUpperCase().replace("{VALUE}", scope.searchUserName);
+                    if (scope.searchEntityId != null) url = url.toUpperCase().replace("{ENTITYID}", scope.searchEntityId);
+                    else url = url.toUpperCase().replace("{ENTITYID}", "");
                     $http.get(url).success(function (data) {
                         response(data);
                     });
@@ -173,7 +175,7 @@ backOffice.factory('usersResult', function () {
 
 /* contain all user group */
 backOffice.factory('groups', function () {
-    var data = { groups: [], calls: 0 };
+    var data = { groups: null, calls: 0 };
 
     var groups = new GroupTks();
     var success = function () {

@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('loginController', ['$scope', '$rootScope', '$location', 'inputTypes', function ($scope, $rootScope, $location, inputTypes) {
+backOffice.controller('loginController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.identity = {
         login: "avuillermot@gmail.com",

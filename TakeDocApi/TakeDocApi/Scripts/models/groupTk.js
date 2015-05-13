@@ -2,13 +2,15 @@
     defaults: {
         id: null,
         reference: null,
-        label: null
+        label: null,
+        level: null
     },
     parse: function () {
         var current = arguments[0];
         this.set("id", current.GroupTkId);
         this.set("reference", current.GroupTkReference);
         this.set("label", current.GroupTkLabel);
+        this.set("level", current.GroupTkLevel);
         return this;
     }
 });

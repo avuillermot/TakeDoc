@@ -52,9 +52,9 @@ var DocumentsExtended = Backbone.Collection.extend({
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new DocumentExtended();
-            this.models.push(current.parse(data[i]));
-            this.length = this.models.length;
+            arr.push(current.parse(data[i]));
         }
+        return arr;
     },
     loadOptions: "&$orderby=VersionDateCreateData desc&$top=10000",
     loadBase: "?$filter=EntityReference eq '<entityReference/>' and TypeDocumentReference eq '<typeDocumentReference/>' and DocumentOwnerId eq guid'<documentOwnerId/>'",

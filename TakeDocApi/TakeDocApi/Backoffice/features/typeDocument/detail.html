@@ -62,17 +62,17 @@
                     </label>
 
                     <span style="padding-left:20px;display:none">{{field.attributes.inputType}}-{{field.attributes.index}}-{{field.attributes.deleted}}</span>
-
                 </div>
             </div>
             <div class="form-group" id="inputBackofficeId">
                 <label for="inputBackofficeName" class="form-tk-label">Gestionnaire</label>
                 <input type="text" style="display:none" id="inputBackofficeId" mandatory="false" ng-model="searchUserId">
                 <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
-                <div ng-repeat="manager in managersTypeDoc.models | orderBy:['attributes.fullName']" ng-hide="manager.attributes.deleted">
-                    <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+                
+                <div ng-repeat="manager in managersTypeDoc.models | orderBy:['attributes.fullName']" ng-hide="manager.attributes.deleted" class="manager-typedoc-container">
+                    <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom" ng-click="doRemoveManagerTypeDoc(manager.attributes.id);"></button>
 
-                    <label style="font-weight: normal; width:100px">
+                    <label class="manager-typedoc-label">
                         {{manager.attributes.fullName}}
                     </label>
                 </div>

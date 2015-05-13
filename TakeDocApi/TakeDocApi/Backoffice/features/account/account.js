@@ -28,7 +28,15 @@ backOffice.controller('accountController', ['$scope', '$rootScope', '$stateParam
 
     // init group list from combo
     $scope.$watch(function () { return groups.data.calls; }, function () {
-        $scope.groups = groups.data.groups;
+        if (groups.data.groups != null) {
+            // we allow group with a level under or equal to current user level
+            var myLevel = groups.data.groups.where({ reference: $rootScope.getUser().GroupReference })[0].get("level");
+            var groupsAllow = new GroupTks();
+            $.each(groups.data.groups.models, function (index, value) {
+                if (value.get("level") <= myLevel) groupsAllow.add(value);
+            });
+            $scope.groups = groupsAllow;
+        }
     });
 
     // get data of current user

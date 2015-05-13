@@ -193,7 +193,7 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddFieldToDocumentType", typeDocumentRefParameter, fieldRefParameter, mandatoryParameter, deleteParameter, indexParameter, entityRefParameter, userRefParameter);
         }
     
-        public virtual ObjectResult<SearchUserTkFullText_Result> SearchUserTkFullText(Nullable<System.Guid> currentUserId, string value)
+        public virtual ObjectResult<SearchUserTkFullText_Result> SearchUserTkFullText(Nullable<System.Guid> currentUserId, string value, Nullable<System.Guid> entityId)
         {
             var currentUserIdParameter = currentUserId.HasValue ?
                 new ObjectParameter("currentUserId", currentUserId) :
@@ -203,7 +203,11 @@ namespace TakeDocModel
                 new ObjectParameter("value", value) :
                 new ObjectParameter("value", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter);
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter, entityIdParameter);
         }
     }
 }
