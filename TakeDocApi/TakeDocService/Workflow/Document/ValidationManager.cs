@@ -16,5 +16,15 @@ namespace TakeDocService.Workflow.Document
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;
         }
+
+        public void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

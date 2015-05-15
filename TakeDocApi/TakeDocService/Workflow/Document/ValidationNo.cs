@@ -16,9 +16,19 @@ namespace TakeDocService.Workflow.Document
         private bool Execute(TakeDocModel.Document document, Guid userId)
         {
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, userId );
-            this.SetStatus(document, TakeDocModel.Status_Document.Archive, userId);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
+            this.SetStatus(document, TakeDocModel.Status_Document.Archive, userId);
             return true;
+        }
+        
+        public void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        {
+            throw new NotImplementedException();
         }
     }
 }

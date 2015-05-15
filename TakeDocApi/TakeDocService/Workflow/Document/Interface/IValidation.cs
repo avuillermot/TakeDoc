@@ -9,5 +9,7 @@ namespace TakeDocService.Workflow.Document.Interface
     public interface IValidation
     {
         bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user);
+        void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user);
+        void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user);
     }
 }

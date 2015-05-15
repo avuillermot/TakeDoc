@@ -41,7 +41,7 @@ namespace TakeDocService.Workflow.Document
             else if (newStatus.Equals(TakeDocModel.Status_Document.ToValidate))
             {
                 if (oldStatus.Equals(TakeDocModel.Status_Document.Complete)) return true;
-                if (oldStatus.Equals(TakeDocModel.Status_Document.Approve)) return true;
+                //if (oldStatus.Equals(TakeDocModel.Status_Document.Approve)) return true;
                 return false;
             }
             else if (newStatus.Equals(TakeDocModel.Status_Document.Approve))
@@ -81,7 +81,7 @@ namespace TakeDocService.Workflow.Document
                     servVersion.SetStatus(version, status, userId);
                 }
 
-                context.AddDocumentStatus(document.DocumentId, document.DocumentStatusId, userId, document.EntityId);
+                context.AddDocumentStatusHisto(document.DocumentId, document.DocumentStatusId, userId, document.EntityId);
                 // mise à jour du statut du document à recu
                 document.DocumentStatusId = stDocument.StatusDocumentId;
                 document.UserUpdateData = userId;

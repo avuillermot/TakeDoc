@@ -18,11 +18,15 @@ namespace UnitTestTakeDocService
             Document.MetaDataServiceTest metaDataTest = new Document.MetaDataServiceTest();
             Security.UserRequestAcountTest requestAccountTest = new Security.UserRequestAcountTest();
             Document.TypeDocumentServiceTest typeDocumentTest = new Document.TypeDocumentServiceTest();
+            Workflow.WorkflowNoTest workflowNoTest = new Workflow.WorkflowNoTest();
+            Workflow.WorkflowAutoTest workflowAutoTest = new Workflow.WorkflowAutoTest();
 
             /*documentTest.TestOrdered();
             metaDataTest.TestOrdered();
-            requestAccountTest.TestOrdered();*/
+            requestAccountTest.TestOrdered();
             typeDocumentTest.TestOrdered();
+            workflowNoTest.TestOrdered();*/
+            workflowAutoTest.TestOrdered();
 
             Console.WriteLine("End");
 
