@@ -39,6 +39,9 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.Type_Validation>("TypeValidations");
             builder.EntitySet<TakeDocModel.View_TypeDocumentDataField>("TypeDocumentDataFields");
             builder.EntitySet<TakeDocModel.BackOfficeTypeDocument>("BackOfficeTypeDocuments");
+            builder.EntitySet<TakeDocModel.DocumentStatusHisto>("DocumentStatusHistos");
+            builder.EntitySet<TakeDocModel.Workflow>("Workflows");
+            builder.EntitySet<TakeDocModel.WorkflowType>("WorkflowTypes");
             
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }
