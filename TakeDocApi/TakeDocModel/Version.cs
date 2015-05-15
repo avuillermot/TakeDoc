@@ -18,6 +18,7 @@ namespace TakeDocModel
         {
             this.Page = new HashSet<Page>();
             this.MetaData = new HashSet<MetaData>();
+            this.Workflow = new HashSet<Workflow>();
         }
     
         public System.Guid VersionId { get; set; }
@@ -40,5 +41,6 @@ namespace TakeDocModel
         public virtual ICollection<Page> Page { get; set; }
         public virtual ICollection<MetaData> MetaData { get; set; }
         public virtual Status_Version Status_Version { get; set; }
+        public virtual ICollection<Workflow> Workflow { get; set; }
     }
 }

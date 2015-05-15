@@ -10,10 +10,11 @@ namespace TakeDocService.Workflow.Document
     {
         public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
         {
+            TakeDocModel.Version version = document.LastVersion;
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
             this.Approve(document, user);
-            servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
-            this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);
+            servReportVersion.Generate(version.VersionId, version.EntityId);
+            if (this.daoWorkflow.IsAllApprove(version.VersionId, version.EntityId)) this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);
             return true;
         }
 

@@ -121,6 +121,18 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="DocumentStatusHisto">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+            <PropertyRef Name="DocumentIndex" />
+          </Key>
+          <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DocumentIndex" Type="int" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Entity">
           <Key>
             <PropertyRef Name="EntityId" />
@@ -312,6 +324,30 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="WorkflowId" />
+            <PropertyRef Name="WorkFlowTypeId" />
+            <PropertyRef Name="WorkflowIndex" />
+          </Key>
+          <Property Name="WorkflowId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkFlowTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkflowIndex" Type="int" Nullable="false" />
+          <Property Name="WorkflowUserId" Type="uniqueidentifier" />
+          <Property Name="WorkflowTypeDocumentId" Type="uniqueidentifier" />
+          <Property Name="WorkflowRealize" Type="bit" Nullable="false" />
+          <Property Name="WorkflowDateRealize" Type="datetimeoffset" Precision="7" />
+          <Property Name="WorkflowVersionId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkflowEntityId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="WorkflowType">
+          <Key>
+            <PropertyRef Name="WorkflowTypeId" />
+          </Key>
+          <Property Name="WorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkflowReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WorkflowLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -523,6 +559,42 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DocumentStatus_Document">
+          <End Role="Document" Type="Self.Document" Multiplicity="1" />
+          <End Role="DocumentStatusHisto" Type="Self.DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentStatus_Entity">
+          <End Role="Entity" Type="Self.Entity" Multiplicity="1" />
+          <End Role="DocumentStatusHisto" Type="Self.DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="EntityId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="EntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentStatus_UserTk">
+          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
+          <End Role="DocumentStatusHisto" Type="Self.DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="UserCreateData" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MetaData_DataField">
           <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -610,6 +682,42 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Workflow_Type_Document">
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="0..1" />
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type_Document">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkflowTypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workflow_Version">
+          <End Role="Version" Type="Self.Version" Multiplicity="1" />
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Version">
+              <PropertyRef Name="VersionId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkflowVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workflow_WorkflowType">
+          <End Role="WorkflowType" Type="Self.WorkflowType" Multiplicity="1" />
+          <End Role="Workflow" Type="Self.Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowType">
+              <PropertyRef Name="WorkflowTypeId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkFlowTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Function Name="AddDocumentStatusHisto" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="documentId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="statusId" Type="uniqueidentifier" Mode="In" />
@@ -666,6 +774,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="DataFieldType" EntityType="Self.DataFieldType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DataFieldValue" EntityType="Self.DataFieldValue" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentStatusHisto" EntityType="Self.DocumentStatusHisto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupTk" EntityType="Self.GroupTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
@@ -678,6 +787,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="Type_Validation" EntityType="Self.Type_Validation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTk" EntityType="Self.UserTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Version" EntityType="Self.Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Workflow" EntityType="Self.Workflow" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkflowType" EntityType="Self.WorkflowType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="View_DocumentExtended" EntityType="Self.View_DocumentExtended" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [View_DocumentExtended].[EntityId] AS [EntityId], 
@@ -776,6 +887,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Type_Document" EntitySet="Type_Document" />
             <End Role="Document" EntitySet="Document" />
           </AssociationSet>
+          <AssociationSet Name="FK_DocumentStatus_Document" Association="Self.FK_DocumentStatus_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentStatus_Entity" Association="Self.FK_DocumentStatus_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentStatus_UserTk" Association="Self.FK_DocumentStatus_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
           <AssociationSet Name="FK_MetaData_DataField" Association="Self.FK_MetaData_DataField">
             <End Role="DataField" EntitySet="DataField" />
             <End Role="MetaData" EntitySet="MetaData" />
@@ -803,6 +926,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_Version_Status_Version" Association="Self.FK_Version_Status_Version">
             <End Role="Status_Version" EntitySet="Status_Version" />
             <End Role="Version" EntitySet="Version" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_Type_Document" Association="Self.FK_Workflow_Type_Document">
+            <End Role="Type_Document" EntitySet="Type_Document" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_Version" Association="Self.FK_Workflow_Version">
+            <End Role="Version" EntitySet="Version" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_WorkflowType" Association="Self.FK_Workflow_WorkflowType">
+            <End Role="WorkflowType" EntitySet="WorkflowType" />
+            <End Role="Workflow" EntitySet="Workflow" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -956,6 +1091,33 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="userId" Mode="In" Type="Guid" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="DocumentStatusHisto" EntityType="TakeDocModel.DocumentStatusHisto" />
+          <EntitySet Name="Workflow" EntityType="TakeDocModel.Workflow" />
+          <EntitySet Name="WorkflowType" EntityType="TakeDocModel.WorkflowType" />
+          <AssociationSet Name="FK_DocumentStatus_Document" Association="TakeDocModel.FK_DocumentStatus_Document">
+            <End Role="Document" EntitySet="Document" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentStatus_Entity" Association="TakeDocModel.FK_DocumentStatus_Entity">
+            <End Role="Entity" EntitySet="Entity" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentStatus_UserTk" Association="TakeDocModel.FK_DocumentStatus_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_Type_Document" Association="TakeDocModel.FK_Workflow_Type_Document">
+            <End Role="TypeDocument" EntitySet="Type_Document" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_Version" Association="TakeDocModel.FK_Workflow_Version">
+            <End Role="Version" EntitySet="Version" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Workflow_WorkflowType" Association="TakeDocModel.FK_Workflow_WorkflowType">
+            <End Role="WorkflowType" EntitySet="WorkflowType" />
+            <End Role="Workflow" EntitySet="Workflow" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -987,6 +1149,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Status_Document" Relationship="TakeDocModel.FK_Document_Status_Document" FromRole="Document" ToRole="Status_Document" />
           <Property Name="DocumentOwnerId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="DocumentStatusHisto" Relationship="TakeDocModel.FK_DocumentStatus_Document" FromRole="Document" ToRole="DocumentStatusHisto" />
           </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -1031,6 +1194,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaData_Version" FromRole="Version" ToRole="MetaData" />
           <Property Name="VersionStatusId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Status_Version" Relationship="TakeDocModel.FK_Version_Status_Version" FromRole="Version" ToRole="Status_Version" />
+          <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_Version" FromRole="Version" ToRole="Workflow" />
           </EntityType>
         <Association Name="FK_Version_Document">
           <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
@@ -1090,6 +1254,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="TypeDocumentValidationId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Validation" Relationship="TakeDocModel.FK_Type_Document_Type_Validation" FromRole="TypeDocument" ToRole="Type_Validation" />
           <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" FromRole="TypeDocument" ToRole="BackOfficeTypeDocument" />
+          <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_Type_Document" FromRole="TypeDocument" ToRole="Workflow" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -1182,6 +1347,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserTkDateFirstEnable" Type="DateTimeOffset" Precision="7" />
           <Property Name="UserTkManagerId" Type="Guid" />
           <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="UserTk" ToRole="BackOfficeTypeDocument" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
+          <NavigationProperty Name="DocumentStatusHisto" Relationship="TakeDocModel.FK_DocumentStatus_UserTk" FromRole="UserTk" ToRole="DocumentStatusHisto" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1206,6 +1372,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <Property Name="EntityLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Customer" Relationship="TakeDocModel.FK_Client_Entity" FromRole="Entity" ToRole="Customer" />
+          <NavigationProperty Name="DocumentStatusHisto" Relationship="TakeDocModel.FK_DocumentStatus_Entity" FromRole="Entity" ToRole="DocumentStatusHisto" />
         </EntityType>
         <Association Name="FK_MetaData_Version">
           <End Type="TakeDocModel.Version" Role="Version" Multiplicity="1" />
@@ -1588,6 +1755,121 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Principal>
             <Dependent Role="BackOfficeTypeDocument">
               <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DocumentStatusHisto">
+          <Key>
+            <PropertyRef Name="DocumentId" />
+            <PropertyRef Name="DocumentIndex" />
+          </Key>
+          <Property Name="DocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentIndex" Type="Int32" Nullable="false" />
+          <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_DocumentStatus_Document" FromRole="DocumentStatusHisto" ToRole="Document" />
+          <NavigationProperty Name="Entity" Relationship="TakeDocModel.FK_DocumentStatus_Entity" FromRole="DocumentStatusHisto" ToRole="Entity" />
+          <NavigationProperty Name="UserTk" Relationship="TakeDocModel.FK_DocumentStatus_UserTk" FromRole="DocumentStatusHisto" ToRole="UserTk" />
+        </EntityType>
+        <EntityType Name="Workflow">
+          <Key>
+            <PropertyRef Name="WorkflowId" />
+            <PropertyRef Name="WorkFlowTypeId" />
+            <PropertyRef Name="WorkflowIndex" />
+          </Key>
+          <Property Name="WorkflowId" Type="Guid" Nullable="false" />
+          <Property Name="WorkFlowTypeId" Type="Guid" Nullable="false" />
+          <Property Name="WorkflowIndex" Type="Int32" Nullable="false" />
+          <Property Name="WorkflowUserId" Type="Guid" />
+          <Property Name="WorkflowTypeDocumentId" Type="Guid" />
+          <Property Name="WorkflowRealize" Type="Boolean" Nullable="false" />
+          <Property Name="WorkflowDateRealize" Type="DateTimeOffset" Precision="7" />
+          <Property Name="WorkflowVersionId" Type="Guid" Nullable="false" />
+          <Property Name="WorkflowEntityId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Workflow_Type_Document" FromRole="Workflow" ToRole="TypeDocument" />
+          <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Workflow_Version" FromRole="Workflow" ToRole="Version" />
+          <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_Workflow_WorkflowType" FromRole="Workflow" ToRole="WorkflowType" />
+        </EntityType>
+        <EntityType Name="WorkflowType">
+          <Key>
+            <PropertyRef Name="WorkflowTypeId" />
+          </Key>
+          <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
+          <Property Name="WorkflowReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkflowLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_WorkflowType" FromRole="WorkflowType" ToRole="Workflow" />
+        </EntityType>
+        <Association Name="FK_DocumentStatus_Document">
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
+          <End Type="TakeDocModel.DocumentStatusHisto" Role="DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Document">
+              <PropertyRef Name="DocumentId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="DocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentStatus_Entity">
+          <End Type="TakeDocModel.Entity" Role="Entity" Multiplicity="1" />
+          <End Type="TakeDocModel.DocumentStatusHisto" Role="DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Entity">
+              <PropertyRef Name="EntityId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="EntityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentStatus_UserTk">
+          <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
+          <End Type="TakeDocModel.DocumentStatusHisto" Role="DocumentStatusHisto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="DocumentStatusHisto">
+              <PropertyRef Name="UserCreateData" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workflow_Type_Document">
+          <End Type="TakeDocModel.TypeDocument" Role="TypeDocument" Multiplicity="0..1" />
+          <End Type="TakeDocModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TypeDocument">
+              <PropertyRef Name="TypeDocumentId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkflowTypeDocumentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workflow_Version">
+          <End Type="TakeDocModel.Version" Role="Version" Multiplicity="1" />
+          <End Type="TakeDocModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Version">
+              <PropertyRef Name="VersionId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkflowVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Workflow_WorkflowType">
+          <End Type="TakeDocModel.WorkflowType" Role="WorkflowType" Multiplicity="1" />
+          <End Type="TakeDocModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowType">
+              <PropertyRef Name="WorkflowTypeId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkFlowTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2025,6 +2307,42 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="AddDocumentStatusHisto" FunctionName="TakeDocModel.Store.AddDocumentStatusHisto" />
+          <EntitySetMapping Name="DocumentStatusHisto">
+            <EntityTypeMapping TypeName="TakeDocModel.DocumentStatusHisto">
+              <MappingFragment StoreEntitySet="DocumentStatusHisto">
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
+                <ScalarProperty Name="DocumentIndex" ColumnName="DocumentIndex" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workflow">
+            <EntityTypeMapping TypeName="TakeDocModel.Workflow">
+              <MappingFragment StoreEntitySet="Workflow">
+                <ScalarProperty Name="WorkflowEntityId" ColumnName="WorkflowEntityId" />
+                <ScalarProperty Name="WorkflowVersionId" ColumnName="WorkflowVersionId" />
+                <ScalarProperty Name="WorkflowDateRealize" ColumnName="WorkflowDateRealize" />
+                <ScalarProperty Name="WorkflowRealize" ColumnName="WorkflowRealize" />
+                <ScalarProperty Name="WorkflowTypeDocumentId" ColumnName="WorkflowTypeDocumentId" />
+                <ScalarProperty Name="WorkflowUserId" ColumnName="WorkflowUserId" />
+                <ScalarProperty Name="WorkflowIndex" ColumnName="WorkflowIndex" />
+                <ScalarProperty Name="WorkFlowTypeId" ColumnName="WorkFlowTypeId" />
+                <ScalarProperty Name="WorkflowId" ColumnName="WorkflowId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkflowType">
+            <EntityTypeMapping TypeName="TakeDocModel.WorkflowType">
+              <MappingFragment StoreEntitySet="WorkflowType">
+                <ScalarProperty Name="WorkflowLabel" ColumnName="WorkflowLabel" />
+                <ScalarProperty Name="WorkflowReference" ColumnName="WorkflowReference" />
+                <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

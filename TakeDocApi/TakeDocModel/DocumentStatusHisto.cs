@@ -12,20 +12,17 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Entity
+    public partial class DocumentStatusHisto
     {
-        public Entity()
-        {
-            this.Customer = new HashSet<Customer>();
-            this.DocumentStatusHisto = new HashSet<DocumentStatusHisto>();
-        }
-    
+        public System.Guid DocumentId { get; set; }
+        public int DocumentIndex { get; set; }
+        public System.Guid DocumentStatusId { get; set; }
         public System.Guid EntityId { get; set; }
-        public string EntityReference { get; set; }
-        public bool EtatDeleteData { get; set; }
-        public string EntityLabel { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
+        public System.Guid UserCreateData { get; set; }
     
-        public virtual ICollection<Customer> Customer { get; set; }
-        public virtual ICollection<DocumentStatusHisto> DocumentStatusHisto { get; set; }
+        public virtual Document Document { get; set; }
+        public virtual Entity Entity { get; set; }
+        public virtual UserTk UserTk { get; set; }
     }
 }

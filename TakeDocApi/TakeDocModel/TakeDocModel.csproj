@@ -76,6 +76,9 @@
     <Compile Include="Document.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocumentStatusHisto.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Document\DataField.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\MetaData.cs" />
@@ -160,6 +163,12 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_VersionStoreLocator.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Workflow.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkflowType.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
   </ItemGroup>

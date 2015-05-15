@@ -24,8 +24,8 @@ namespace UnitTestTakeDocService
             /*documentTest.TestOrdered();
             metaDataTest.TestOrdered();
             requestAccountTest.TestOrdered();
-            typeDocumentTest.TestOrdered();
-            workflowNoTest.TestOrdered();*/
+            typeDocumentTest.TestOrdered();*/
+            workflowNoTest.TestOrdered();
             workflowAutoTest.TestOrdered();
 
             Console.WriteLine("End");

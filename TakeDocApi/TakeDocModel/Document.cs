@@ -17,6 +17,7 @@ namespace TakeDocModel
         public Document()
         {
             this.Version = new HashSet<Version>();
+            this.DocumentStatusHisto = new HashSet<DocumentStatusHisto>();
         }
     
         public System.Guid DocumentId { get; set; }
@@ -38,5 +39,6 @@ namespace TakeDocModel
         public virtual ICollection<Version> Version { get; set; }
         public virtual TypeDocument Type_Document { get; set; }
         public virtual Status_Document Status_Document { get; set; }
+        public virtual ICollection<DocumentStatusHisto> DocumentStatusHisto { get; set; }
     }
 }

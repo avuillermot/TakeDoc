@@ -12,20 +12,17 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class Entity
+    public partial class WorkflowType
     {
-        public Entity()
+        public WorkflowType()
         {
-            this.Customer = new HashSet<Customer>();
-            this.DocumentStatusHisto = new HashSet<DocumentStatusHisto>();
+            this.Workflow = new HashSet<Workflow>();
         }
     
-        public System.Guid EntityId { get; set; }
-        public string EntityReference { get; set; }
-        public bool EtatDeleteData { get; set; }
-        public string EntityLabel { get; set; }
+        public System.Guid WorkflowTypeId { get; set; }
+        public string WorkflowReference { get; set; }
+        public string WorkflowLabel { get; set; }
     
-        public virtual ICollection<Customer> Customer { get; set; }
-        public virtual ICollection<DocumentStatusHisto> DocumentStatusHisto { get; set; }
+        public virtual ICollection<Workflow> Workflow { get; set; }
     }
 }
