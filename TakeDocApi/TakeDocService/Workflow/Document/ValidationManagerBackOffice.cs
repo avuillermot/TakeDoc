@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Workflow.Document
 {
-    public class ValidationBackOffice : BaseValidation, Interface.IValidation
+    public class ValidationManagerBackOffice : BaseValidation, Interface.IValidation
     {
         public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
         {
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
-            base.SetTypeDocumentValidation(document, 0);
+            base.SetManagerValidation(document, user, 0);
+            base.SetTypeDocumentValidation(document, 1);
             this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
             daoDocument.Update(document);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);

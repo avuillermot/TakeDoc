@@ -20,13 +20,19 @@ namespace UnitTestTakeDocService
             Document.TypeDocumentServiceTest typeDocumentTest = new Document.TypeDocumentServiceTest();
             Workflow.WorkflowNoTest workflowNoTest = new Workflow.WorkflowNoTest();
             Workflow.WorkflowAutoTest workflowAutoTest = new Workflow.WorkflowAutoTest();
+            Workflow.WorkflowManagerTest workflowManagerTest = new Workflow.WorkflowManagerTest();
+            Workflow.WorkflowBackofficeTest workflowBoTest = new Workflow.WorkflowBackofficeTest();
+            Workflow.WorkflowManagerBackofficeTest workflowMaBoTest = new Workflow.WorkflowManagerBackofficeTest();
 
-            /*documentTest.TestOrdered();
+            documentTest.TestOrdered();
             metaDataTest.TestOrdered();
             requestAccountTest.TestOrdered();
-            typeDocumentTest.TestOrdered();*/
+            typeDocumentTest.TestOrdered();
             workflowNoTest.TestOrdered();
             workflowAutoTest.TestOrdered();
+            workflowManagerTest.TestOrdered();
+            workflowBoTest.TestOrdered();
+            workflowMaBoTest.TestOrdered();
 
             Console.WriteLine("End");
 

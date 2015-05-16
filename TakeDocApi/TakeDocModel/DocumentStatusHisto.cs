@@ -20,9 +20,5 @@ namespace TakeDocModel
         public System.Guid EntityId { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
         public System.Guid UserCreateData { get; set; }
-    
-        public virtual Document Document { get; set; }
-        public virtual Entity Entity { get; set; }
-        public virtual UserTk UserTk { get; set; }
     }
 }

@@ -114,6 +114,7 @@
     <Compile Include="Workflow\Document\Interface\IStatus.cs" />
     <Compile Include="Workflow\Document\Interface\IValidation.cs" />
     <Compile Include="Workflow\Document\Status.cs" />
+    <Compile Include="Workflow\Document\ValidationManagerBackOffice.cs" />
     <Compile Include="Workflow\Document\ValidationBackOffice.cs" />
     <Compile Include="Workflow\Document\ValidationManager.cs" />
     <Compile Include="Workflow\Document\ValidationNo.cs" />

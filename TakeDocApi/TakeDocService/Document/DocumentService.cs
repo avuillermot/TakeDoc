@@ -117,6 +117,11 @@ namespace TakeDocService.Document
                     wfValidation = new TakeDocService.Workflow.Document.ValidationBackOffice();
                     wfValidation.Execute(document, user);
                 }
+                else if (validation.TypeValidationReference == "MANAGER-BACKOFFICE")
+                {
+                    wfValidation = new TakeDocService.Workflow.Document.ValidationManagerBackOffice();
+                    wfValidation.Execute(document, user);
+                }
 
                 //***********************************
                 // end update status of document

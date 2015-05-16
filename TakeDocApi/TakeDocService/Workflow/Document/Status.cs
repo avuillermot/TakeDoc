@@ -14,10 +14,11 @@ namespace TakeDocService.Workflow.Document
     {
         TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
-        IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
+        private IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
+        private TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
+        private TakeDocDataAccess.DaoBase<TakeDocModel.DocumentStatusHisto> daoDocHisto = new TakeDocDataAccess.DaoBase<TakeDocModel.DocumentStatusHisto>();
 
-        IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
+        private IVersionService servVersion = UnityHelper.Resolve<IVersionService>();
 
         /// <summary>
         /// Check if new status is allow from the current status of document
@@ -72,7 +73,7 @@ namespace TakeDocService.Workflow.Document
             if (okStatus == false) throw new Exception("Erreur workflow");
             using (TransactionScope transaction = new TransactionScope())
             {
-                TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == x.EntityId).First();
+                TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == document.EntityId).First();
 
                 // mise à jour du statut de la version à recu
                 if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
@@ -90,6 +91,21 @@ namespace TakeDocService.Workflow.Document
 
                 transaction.Complete();
             }
+        }
+
+        public ICollection<TakeDocModel.DocumentStatusHisto> GetStatus(Guid documentId, Guid entityId)
+        {
+            return daoDocHisto.GetBy(x => x.DocumentId == documentId && x.EntityId == entityId).OrderBy(x => x.DateCreateData).ToList();
+        }
+
+        public ICollection<TakeDocModel.DocumentStatusHisto> GetStatus(TakeDocModel.Document document)
+        {
+            return this.GetStatus(document.DocumentId, document.EntityId);
+        }
+
+        public ICollection<TakeDocModel.Status_Document> GetStatus(Guid entityId)
+        {
+            return daoStDocument.GetBy(x => x.EntityId == entityId && x.EtatDeleteData == false).ToList();
         }
     }
 }

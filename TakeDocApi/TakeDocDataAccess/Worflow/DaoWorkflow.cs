@@ -12,5 +12,11 @@ namespace TakeDocDataAccess.Workflow
         {
             return !this.Context.Workflow.Any(x => x.WorkflowVersionId == versionId && x.WorkflowEntityId == entityId && x.WorkflowRealize == false);
         }
+        
+        public void Add(TakeDocModel.Workflow workflow)
+        {
+            this.Context.Workflow.Add(workflow);
+            this.Context.SaveChanges();
+        }
     }
 }

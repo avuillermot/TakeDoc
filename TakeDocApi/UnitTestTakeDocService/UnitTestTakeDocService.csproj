@@ -90,6 +90,9 @@
     <Compile Include="Document\DocumentServiceTest.cs" />
     <Compile Include="Security\UserRequestAcountTest.cs" />
     <Compile Include="Security\UserTkLogonTest.cs" />
+    <Compile Include="Wokflow\WorkflowManagerBackOffice.cs" />
+    <Compile Include="Wokflow\WorkflowBackOffice.cs" />
+    <Compile Include="Wokflow\WorkflowManager.cs" />
     <Compile Include="Wokflow\WorkflowAutoTest.cs" />
     <Compile Include="Wokflow\WorkflowNoTest.cs" />
   </ItemGroup>

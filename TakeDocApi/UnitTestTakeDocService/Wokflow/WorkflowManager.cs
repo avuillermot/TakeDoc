@@ -10,7 +10,7 @@ using System.Linq;
 namespace UnitTestTakeDocService.Workflow
 {
     [TestClass]
-    public class WorkflowAutoTest : UnitTestTakeDocService.BaseServiceTest
+    public class WorkflowManagerTest : UnitTestTakeDocService.BaseServiceTest
     {
         TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
         IDocumentService servDocument = UnityHelper.Resolve<IDocumentService>();
@@ -49,8 +49,8 @@ namespace UnitTestTakeDocService.Workflow
         public void CreateDocument()
         {
             TakeDocModel.Environnement.Init(System.Configuration.ConfigurationManager.AppSettings);
-            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "TEST-INTEGRATION-AUTO-VALIDATION").First();
-            MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test intégration auto validation");
+            TakeDocModel.TypeDocument typeDocument = daoTypeDocument.GetBy(x => x.TypeDocumentReference == "TEST-INTEGRATION-MANAGER-VALIDATION").First();
+            MyDocument = servDocument.Create(userId, entityId, typeDocument.TypeDocumentId, "Test intégration manager validation");
 
             Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference.Equals(TakeDocModel.Status_Document.Create), "Statut du document CREATE");
             Assert.IsTrue(MyDocument.Version.Count() == 1);
@@ -62,8 +62,8 @@ namespace UnitTestTakeDocService.Workflow
             Assert.AreNotEqual(MyDocument.DateCreateData, System.DateTimeOffset.MinValue);
             Assert.IsFalse(MyDocument.EtatDeleteData);
             Assert.IsFalse(MyDocument.LastVersion.EtatDeleteData);
-            Assert.IsTrue(MyDocument.Type_Document.TypeDocumentReference == "TEST-INTEGRATION-AUTO-VALIDATION");
-            Assert.IsTrue(MyDocument.DocumentLabel == "Test intégration auto validation");
+            Assert.IsTrue(MyDocument.Type_Document.TypeDocumentReference == "TEST-INTEGRATION-MANAGER-VALIDATION");
+            Assert.IsTrue(MyDocument.DocumentLabel == "Test intégration manager validation");
             Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
             Assert.IsTrue(MyDocument.LastVersionMetadata.Any(x => x.MetaDataName == "REFACTURABLE") == true);
             Assert.IsTrue(MyDocument.LastVersionMetadata.Any(x => x.MetaDataName == "MONTANT") == true);
@@ -113,12 +113,11 @@ namespace UnitTestTakeDocService.Workflow
             servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, metas);
 
             ICollection<TakeDocModel.DocumentStatusHisto> histos = servStatus.GetStatus(MyDocument);
-            Assert.IsTrue(histos.Count() == 3, "create, complete, approve in this order");
+            Assert.IsTrue(histos.Count() == 2, "create, complete in this order");
             Assert.IsTrue(histos.ToArray()[0].DocumentStatusId == status.First(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Create).StatusDocumentId, "first must be create");
             Assert.IsTrue(histos.ToArray()[1].DocumentStatusId == status.First(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Complete).StatusDocumentId, "second must be complete");
-            Assert.IsTrue(histos.ToArray()[2].DocumentStatusId == status.First(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Approve).StatusDocumentId, "third must be approve");
-            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive, "must be archive");
-            Assert.IsTrue(MyDocument.LastVersion.Status_Version.StatusVersionReference == TakeDocModel.Status_Version.Archive);
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate, "must be to validate");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate);
         }
     }
 }

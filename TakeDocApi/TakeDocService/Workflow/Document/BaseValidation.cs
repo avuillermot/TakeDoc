@@ -13,11 +13,12 @@ namespace TakeDocService.Workflow.Document
 {
     public abstract class BaseValidation
     {
-        protected TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
+        private TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
         protected IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         protected IDaoWorkflow daoWorkflow = UnityHelper.Resolve<IDaoWorkflow>();
-
+        protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType> daoWorkflowType = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType>();
+        
         protected Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
         protected IMetaDataService servMeta = UnityHelper.Resolve<IMetaDataService>();
         protected TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
@@ -29,6 +30,43 @@ namespace TakeDocService.Workflow.Document
             // we update only if the new status is allow
             if (ok == true) ok = servStatus.CheckNewStatus(document.Status_Document.StatusDocumentReference, status);
             if (ok == true) servStatus.SetStatus(document, status, userId, true);
+        }
+
+        /// <summary>
+        /// Add/enable manager validation for this document
+        /// </summary>
+        /// <param name="user"></param>
+        protected void SetManagerValidation(TakeDocModel.Document document, TakeDocModel.UserTk currentUser, int step)
+        {
+            if (document.DocumentCurrentVersionId.Value == Guid.Empty || document.DocumentCurrentVersionId.Value == null) throw new Exception("Version can't be empty.");
+            if (currentUser.UserTkManagerId == Guid.Empty || currentUser.UserTkManagerId == null) throw new Exception("Manager can't be empty.");
+            TakeDocModel.Workflow workflow = new TakeDocModel.Workflow();
+            workflow.WorkflowId = Guid.NewGuid();
+            workflow.WorkflowEntityId = document.EntityId;
+            workflow.WorkflowVersionId = document.DocumentCurrentVersionId.Value;
+            workflow.WorkflowIndex = step;
+            workflow.WorkflowRealize = false;
+            workflow.WorkFlowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == "VALIDATION").First().WorkflowTypeId;
+            workflow.WorkflowUserId = currentUser.UserTkManagerId;
+            daoWorkflow.Add(workflow);
+        }
+
+        /// <summary>
+        /// Add/enable manager validation for this document
+        /// </summary>
+        /// <param name="user"></param>
+        protected void SetTypeDocumentValidation(TakeDocModel.Document document, int step)
+        {
+            if (document.DocumentCurrentVersionId.Value == Guid.Empty || document.DocumentCurrentVersionId.Value == null) throw new Exception("Version can't be empty.");
+            TakeDocModel.Workflow workflow = new TakeDocModel.Workflow();
+            workflow.WorkflowId = Guid.NewGuid();
+            workflow.WorkflowEntityId = document.EntityId;
+            workflow.WorkflowVersionId = document.DocumentCurrentVersionId.Value;
+            workflow.WorkflowIndex = step;
+            workflow.WorkflowRealize = false;
+            workflow.WorkFlowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == "VALIDATION").First().WorkflowTypeId;
+            workflow.WorkflowTypeDocumentId = document.DocumentTypeId;
+            daoWorkflow.Add(workflow);
         }
     }
 }

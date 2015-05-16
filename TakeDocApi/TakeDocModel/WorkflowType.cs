@@ -20,8 +20,8 @@ namespace TakeDocModel
         }
     
         public System.Guid WorkflowTypeId { get; set; }
-        public string WorkflowReference { get; set; }
-        public string WorkflowLabel { get; set; }
+        public string WorkflowTypeReference { get; set; }
+        public string WorkflowTypeLabel { get; set; }
     
         public virtual ICollection<Workflow> Workflow { get; set; }
     }

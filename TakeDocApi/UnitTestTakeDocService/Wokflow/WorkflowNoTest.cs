@@ -67,7 +67,8 @@ namespace UnitTestTakeDocService.Workflow
             Assert.IsTrue(MyDocument.LastVersionMetadata.Count() == 2);
             Assert.IsTrue(MyDocument.LastVersionMetadata.Any(x => x.MetaDataName == "REFACTURABLE") == true);
             Assert.IsTrue(MyDocument.LastVersionMetadata.Any(x => x.MetaDataName == "MONTANT") == true);
-            // TODO : test  histo is equal 0
+            ICollection<TakeDocModel.DocumentStatusHisto> histos = servStatus.GetStatus(MyDocument);
+            Assert.IsTrue(histos.Count() == 0, "no histo for the moment");
         }
 
         [TestMethod]
@@ -104,13 +105,19 @@ namespace UnitTestTakeDocService.Workflow
 
         public void SetMetaData()
         {
+            ICollection<TakeDocModel.Status_Document> status = servStatus.GetStatus(MyDocument.EntityId);
+
             IDictionary<string, string> metas = new Dictionary<string, string>();
             metas.Add("REFACTURABLE", "true");
             metas.Add("MONTANT", "20");
             servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, metas);
-
+            
+            ICollection<TakeDocModel.DocumentStatusHisto> histos = servStatus.GetStatus(MyDocument);
+            Assert.IsTrue(histos.Count() == 2, "create, complete in this order");
+            Assert.IsTrue(histos.ToArray()[0].DocumentStatusId == status.First(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Create).StatusDocumentId, "first must be create");
+            Assert.IsTrue(histos.ToArray()[1].DocumentStatusId == status.First(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Complete).StatusDocumentId, "second must be complete");
+            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive, "must be archive");
             Assert.IsTrue(MyDocument.LastVersion.Status_Version.StatusVersionReference == TakeDocModel.Status_Version.Archive);
-            Assert.IsTrue(MyDocument.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive);
         }
     }
 }

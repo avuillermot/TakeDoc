@@ -14,6 +14,7 @@ namespace TakeDocDataAccess.Workflow.Interface
         /// <param name="VersionId"></param>
         /// <returns></returns>
         bool IsAllApprove(Guid VersionId, Guid entityId);
+        void Add(TakeDocModel.Workflow workflow);
        
     }
 }

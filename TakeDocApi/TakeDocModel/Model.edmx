@@ -346,8 +346,8 @@
             <PropertyRef Name="WorkflowTypeId" />
           </Key>
           <Property Name="WorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="WorkflowReference" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="WorkflowLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WorkflowTypeReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="WorkflowTypeLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
@@ -1769,9 +1769,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
-          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_DocumentStatus_Document" FromRole="DocumentStatusHisto" ToRole="Document" />
-          <NavigationProperty Name="Entity" Relationship="TakeDocModel.FK_DocumentStatus_Entity" FromRole="DocumentStatusHisto" ToRole="Entity" />
-          <NavigationProperty Name="UserTk" Relationship="TakeDocModel.FK_DocumentStatus_UserTk" FromRole="DocumentStatusHisto" ToRole="UserTk" />
         </EntityType>
         <EntityType Name="Workflow">
           <Key>
@@ -1797,9 +1794,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <PropertyRef Name="WorkflowTypeId" />
           </Key>
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
-          <Property Name="WorkflowReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="WorkflowLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_WorkflowType" FromRole="WorkflowType" ToRole="Workflow" />
+          <Property Name="WorkflowTypeReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WorkflowTypeLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_DocumentStatus_Document">
           <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
@@ -2337,8 +2334,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="WorkflowType">
             <EntityTypeMapping TypeName="TakeDocModel.WorkflowType">
               <MappingFragment StoreEntitySet="WorkflowType">
-                <ScalarProperty Name="WorkflowLabel" ColumnName="WorkflowLabel" />
-                <ScalarProperty Name="WorkflowReference" ColumnName="WorkflowReference" />
+                <ScalarProperty Name="WorkflowTypeLabel" ColumnName="WorkflowTypeLabel" />
+                <ScalarProperty Name="WorkflowTypeReference" ColumnName="WorkflowTypeReference" />
                 <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
               </MappingFragment>
             </EntityTypeMapping>
