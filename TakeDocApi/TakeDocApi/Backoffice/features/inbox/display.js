@@ -105,7 +105,9 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         };
         var error = function () {
             $rootScope.hideLoader();
-            $rootScope.showError(arguments[0]);
+            var err = arguments[0];
+            if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
+            $rootScope.showError(err);
         };
         var param = {
             userId: $rootScope.getUser().Id,

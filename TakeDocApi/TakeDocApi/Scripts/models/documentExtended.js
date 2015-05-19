@@ -67,25 +67,53 @@ var DocumentsExtended = Backbone.Collection.extend({
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
         toValidate: " DocumentValidateUserId eq guid'<documentValidateUserId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
         waitValidate: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
+        approve: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'APPROVE'",
+        archive: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'ARCHIVE'",
+        refuse: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'REFUSE'",
+    },
+    loadAll: function (param) {
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     //************************************************************************
     // load my document that wait a validation, i'm owner of this document
     //************************************************************************
     loadWaitValidate: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.waitValidate + this.loadOptions;
-        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    loadApprove: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.approve + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    loadArchive: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.archive + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    loadRefuse: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.refuse + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     //************************************************************************
     // load document that i must validate - i'm not owner of this document
     //************************************************************************
     loadToValidate: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
-        this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.ownerId);
+        this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.userId);
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
+    //************************************************************************
+    // ????
+    //************************************************************************
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
@@ -100,10 +128,6 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
-    },
-    loadAll: function (param) {
-        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     delete: function (param) {

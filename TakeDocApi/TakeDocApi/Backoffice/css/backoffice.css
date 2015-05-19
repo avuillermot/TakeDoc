@@ -110,17 +110,21 @@ form {
 
 /* inbox - directoy*/
 #inbox-directories {
-    padding-left: 5px;
     padding-top: 5px;
     display:inline-block; 
-    width:30%;
     height:100%;
     vertical-align:top;
 }
 
-.inbox-directory {
+.inbox-group-directory {
     font-weight: 800;
-    cursor:pointer;
+}
+.inbox-directory {
+    height: 30px;
+    width: 150px;
+}
+.badge-inbox {
+    float: right;
 }
 
 #inbox-directories div ul
@@ -130,57 +134,16 @@ form {
 }
 
 #inbox-items {
+        margin-left: 5px;
         padding-top: 5px;
         display: inline-block;
         width: 68%;
         vertical-align: top;
 }
 
-.inbox-item-ARCHIVE {
-    padding-left:5px;
-    color: red;
-}
-
-.inbox-item-selected {
-    background-color:red;
-}
-
-.cell-inbox-item {
-    height:50px !important;
-}
-
-.cell-inbox-item div {
-    cursor:pointer;
-}
-
-.cell-inbox-item-title {
-    font-weight: 600;
-    font-size: 12px;
-    width:100%;
-}
-
-.cell-inbox-item-title div {
-    display: inline-block;
-    padding-right: 10px;
-    float: right;
-}
-
-.cell-inbox-item-title:hover {
-    font-style:italic;
-    color: #0404B4;
-}
-
-.cell-inbox-item-entity {
-    font-size: 10px;
-}
-
 .inboxActiveItem {
     font-style:italic;
     color:#2E2EFE;
-}
-
-.inbox-item {
-    padding-bottom: 5px;
 }
 
 /* inbox - display */

@@ -1,18 +1,24 @@
 ﻿<div>
    <div id="inbox-directories">
        <div>
-           <div class="inbox-directory">Boîte de réception</div>
+           <div class="inbox-group-directory">Mes documents</div>
            <ul>
-               <li ng-click="setSelectedDirectory('MYDOC')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Mes documents&#160;<span class="badge" id="badge-all">0</span></li>
-               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">Attente validation&#160;<span class="badge" id="badge-to-validate">0</span></li>
-               <li ng-click="setSelectedDirectory('APPROVE')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider&#160;&#160;<span class="badge" id="badge-approve">0</span></li>
-               <li ng-click="setSelectedDirectory('REFUSE')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser</li>
-               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">A valider&#160;<span class="badge" id="badge-to-validate">0</span></li>
-               <li ng-click="setSelectedDirectory('ARCHIVE')" class="inbox-item" ng-class="{inboxActiveItem : isSelectedDirectory('ARCHIVE')}">Archiver&#160;<span class="badge" id="badge-archive">0</span></li>
+               <li ng-click="setSelectedDirectory('MYDOC')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Tous&#160;<span class="badge badge-inbox" id="badge-all">0</span></li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">Attente validation&#160;<span class="badge badge-inbox" id="badge-to-validate">0</span></li>
+               <li ng-click="setSelectedDirectory('APPROVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider&#160;&#160;<span class="badge badge-inbox" id="badge-approve">0</span></li>
+               <li ng-click="setSelectedDirectory('REFUSE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser&#160;<span class="badge badge-inbox" id="badge-refuse">0</span></li>
+               <li ng-click="setSelectedDirectory('ARCHIVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('ARCHIVE')}">Archiver&#160;<span class="badge badge-inbox" id="badge-archive">0</span></li>
+           </ul>
+       </div>
+       <div>
+           <div class="inbox-group-directory">A valider</div>
+           <ul>
+               <li ng-click="setSelectedDirectory('MYDOC')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('MYDOC')}">Manager&#160;<span class="badge badge-inbox" id="badge-all">0</span></li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">Gestionnaire&#160;<span class="badge badge-inbox" id="badge-to-validate">0</span></li>
            </ul>
        </div>
    </div>
-    <div id="inbox-items" ui-grid="gridDocuments" ui-grid-resize-columns ui-grid-auto-resize ui-grid-pagination></div>
+    <div id="inbox-items" ui-grid="gridDocuments" ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize ui-grid-pagination></div>
 </div>
 
 

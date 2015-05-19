@@ -20,51 +20,50 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     display/use item list and item to display
     ***************************************************
     ***************************************************/
-    // document grid display
-    var cellTitle = '<div ng-click="grid.appScope.showMe(row)" ng-class="{inboxActiveItem : grid.appScope.isSelectedItem(row)}"><div class="cell-inbox-item-title">{{row.entity.attributes.label}}<div id="divStatus" class="inbox-item-{{row.entity.attributes.statusReference}}">{{row.entity.attributes.statusLabel}}</div></div><div class="cell-inbox-item-entity">({{row.entity.attributes.entityLabel}} - {{row.entity.attributes.typeLabel}})</div></div>';
-    var cellDate = '<div ng-click="grid.appScope.showMe(row)">{{row.entity.attributes.formatDate}}</div>';
-
     $scope.gridDocuments = {
         columnDefs: [
-           { name: 'Titre', field: '', cellTemplate: cellTitle, cellClass: "cell-inbox-item" },
-           { name: 'Date', field: 'attributes.formatDate', cellTemplate: cellDate, cellClass: "cell-inbox-item" }
+           { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 180 },
+           { name: 'Type', field: 'attributes.typeLabel', cellClass: "cell-inbox-item", width: 150 },
+           { name: 'Entité', field: 'attributes.entityLabel', cellClass: "cell-inbox-item", width: 100 },
+           //{ name: 'Status', field: 'attributes.statusLabel', cellClass: "cell-inbox-item", width: 80 },
+           { name: 'Date', field: 'attributes.formatDate', cellClass: "cell-inbox-item", width: 80 }
         ],
+        enableRowHeaderSelection: false,
+        enableRowSelection: true,
+        multiSelect: false,
+        modifierKeysToMultiSelect: false,
+        noUnselect : true,
         paginationPageSizes:  [20, 50, 100, 500],
         data: []
     };
 
-    // set css for selected item
-    $scope.isSelectedItem = function () {
-       return $scope.selectedItem === arguments[0].entity;
-    };
-    
     // display detail of this document in the display module
-    $scope.showMe = function () {
-        
-        var toShow = arguments[0].entity;
-        // store selected item
-        $scope.selectedItem = toShow;
-        $scope.$apply();
+    $scope.gridDocuments.onRegisterApi = function (gridApi) {
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope, function () {
+            var toShow = arguments[0].entity;
+            var success = function () {
+                documentDisplay.data.metadatas = arguments[0];
+                documentDisplay.data.document = toShow;
+                documentDisplay.data.calls = documentDisplay.data.calls + 1;
+                if (!$scope.$$phase) $scope.$apply();
+            };
+            var error = function () {
+                $rootScope.showError(arguments[0]);
+            };
 
-        var success = function () {
-            documentDisplay.data.metadatas = arguments[0];
-            documentDisplay.data.document = toShow;
-            documentDisplay.data.calls = documentDisplay.data.calls + 1;
-            if(!$scope.$$phase) $scope.$apply();
-        };
-        var error = function () {
-            $rootScope.showError(arguments[0]);
-        };
-
-        var param = {
-            versionId: toShow.get("versionId"),
-            entityId: toShow.get("entityId"),
-            success: success, 
-            error: error
-        };
-        myMetas = new MetaDatas();
-        myMetas.load(param);
+            var param = {
+                versionId: toShow.get("versionId"),
+                entityId: toShow.get("entityId"),
+                success: success,
+                error: error
+            };
+            myMetas = new MetaDatas();
+            myMetas.load(param);
+        });
     };
+
     var setDashBoard = function () {
         var all = documentsDirectory.data.documents.length;
         var toValidate = documentsDirectory.data.documents.where({ statusReference: "TO_VALIDATE" }).length;
@@ -96,10 +95,16 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         if ($scope.selectedDirectory === "MYDOC")
             myDocuments.loadAll(param);
         else if ($scope.selectedDirectory === "TO_VALIDATE") {
-            myDocuments.loadToValidate(param);
+             myDocuments.loadWaitValidate(param);
         }
         else if ($scope.selectedDirectory === "APPROVE") {
-            myDocuments.loadToValidate(param);
+            myDocuments.loadApprove(param);
+        }
+        else if ($scope.selectedDirectory === "ARCHIVE") {
+            myDocuments.loadArchive(param);
+        }
+        else if ($scope.selectedDirectory === "REFUSE") {
+            myDocuments.loadRefuse(param);
         }
         else {
             documentsDirectory.data.documents = [];
