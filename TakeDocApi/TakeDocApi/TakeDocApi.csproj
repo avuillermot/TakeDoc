@@ -187,6 +187,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AutoComplete\UserTk.cs" />
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
+    <Compile Include="Controllers\DocumentToValidateController.cs" />
     <Compile Include="Controllers\DashboardController.cs" />
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\EntityController.cs" />

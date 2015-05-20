@@ -212,5 +212,14 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDocumentStatusHisto", documentIdParameter, statusIdParameter, userIdParameter, entityIdParameter);
         }
+    
+        public virtual ObjectResult<DocumentToValidate> GetDocumentToValidate(Nullable<System.Guid> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentToValidate>("GetDocumentToValidate", userIdParameter);
+        }
     }
 }

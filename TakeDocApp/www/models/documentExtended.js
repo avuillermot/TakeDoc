@@ -77,15 +77,6 @@ var DocumentsExtended = Backbone.Collection.extend({
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
-    //************************************************************************
-    // load document that i must validate - i'm not owner of this document
-    //************************************************************************
-    loadToValidate: function (param) {
-        this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
-        this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.ownerId);
-
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
-    },
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);

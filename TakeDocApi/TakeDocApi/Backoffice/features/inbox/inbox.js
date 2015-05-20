@@ -25,7 +25,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
            { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 180 },
            { name: 'Type', field: 'attributes.typeLabel', cellClass: "cell-inbox-item", width: 150 },
            { name: 'Entité', field: 'attributes.entityLabel', cellClass: "cell-inbox-item", width: 100 },
-           //{ name: 'Status', field: 'attributes.statusLabel', cellClass: "cell-inbox-item", width: 80 },
+           { name: 'Propriétaire', field: 'attributes.ownerFullName', cellClass: "cell-inbox-item", width: 80 },
            { name: 'Date', field: 'attributes.formatDate', cellClass: "cell-inbox-item", width: 80 }
         ],
         enableRowHeaderSelection: false,
@@ -105,6 +105,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         }
         else if ($scope.selectedDirectory === "REFUSE") {
             myDocuments.loadRefuse(param);
+        }
+        else if ($scope.selectedDirectory === "TO_VALIDATE_MANAGER") {
+            myDocuments.loadToValidateAsManager(param);
         }
         else {
             documentsDirectory.data.documents = [];

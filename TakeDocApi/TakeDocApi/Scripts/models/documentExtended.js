@@ -103,15 +103,6 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     //************************************************************************
-    // load document that i must validate - i'm not owner of this document
-    //************************************************************************
-    loadToValidate: function (param) {
-        this.url = this.urlBase + "?$filter=" + this.clauses.toValidate + this.loadOptions;
-        this.replaceParameter("DocumentValidateUserId eq guid'<documentValidateUserId/>'", "documentValidateUserId", param.userId);
-
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
-    },
-    //************************************************************************
     // ????
     //************************************************************************
     loadComplete: function (param) {
@@ -139,5 +130,9 @@ var DocumentsExtended = Backbone.Collection.extend({
             error: param.error,
             beforeSend: requestHelper.beforeSend()
         });
-    }
+    },
+    loadToValidateAsManager: function (param) {
+        var url = (environnement.UrlBase + "tovalidate/manager/7C9BD942-6CD9-41E1-86EE-6D92C67C134B");
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
+    },
 });

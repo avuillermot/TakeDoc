@@ -79,6 +79,9 @@
     <Compile Include="DocumentStatusHisto.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocumentToValidate.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Document\DataField.cs" />
     <Compile Include="Document\Document.cs" />
     <Compile Include="Document\MetaData.cs" />

@@ -111,6 +111,8 @@
     <Compile Include="External\CustomerService.cs" />
     <Compile Include="External\Interface\ICustomerService.cs" />
     <Compile Include="Workflow\Document\BaseValidation.cs" />
+    <Compile Include="Workflow\Document\DocumentToValidate.cs" />
+    <Compile Include="Workflow\Document\Interface\IDocumentToValidate.cs" />
     <Compile Include="Workflow\Document\Interface\IStatus.cs" />
     <Compile Include="Workflow\Document\Interface\IValidation.cs" />
     <Compile Include="Workflow\Document\Status.cs" />
