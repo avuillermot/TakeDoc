@@ -13,6 +13,7 @@ namespace TakeDocModel
         public static string Complete { get { return "COMPLETE"; } }
         public static string ToValidate { get { return "TO_VALIDATE"; } }
         public static string Approve { get { return "APPROVE"; } }
+        public static string Refuse { get { return "REFUSE"; } }
         public static string Archive { get { return "ARCHIVE"; } }
     }
 }

@@ -1453,6 +1453,7 @@
     <Content Include="Scripts\models\entity.js" />
     <Content Include="Scripts\models\groupTk.js" />
     <Content Include="Scripts\models\metadata.js" />
+    <Content Include="Scripts\models\status\statusDocument.js" />
     <Content Include="Scripts\models\typeDocument.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />

@@ -3,7 +3,32 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
 
     var myDocuments = new DocumentsExtended();
     var myMetas = new MetaDatas();
+    var myDashBoards = new Dashboards();
+    
+    var displayInbox = function () {
+        $("#viewRight").css("width", "0%");
+        $("#viewRight").hide();
+        $("#viewLeft").css("width", "98%");
+        
+        documentDisplay.data.metadatas = [];
+        documentDisplay.data.document = null;
+        documentDisplay.data.viewType = null;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
+        if (!$scope.$$phase) $scope.$apply();
+    }
 
+    var displayDocument = function (document, metas, viewType) {
+        $("#viewRight").css("width", "49%");
+        $("#viewRight").show();
+        $("#viewLeft").css("width", "49%");
+
+        documentDisplay.data.metadatas = metas;
+        documentDisplay.data.document = document;
+        documentDisplay.data.viewType = viewType;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
+        if (!$scope.$$phase) $scope.$apply();
+    }
+    
     // subscribe to displayController that it can update list currently display
     $scope.$watch(function () { return documentsDirectory.data.calls; }, function () {
         if (documentsDirectory.data.documents != null)
@@ -22,10 +47,11 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     ***************************************************/
     $scope.gridDocuments = {
         columnDefs: [
-           { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 180 },
-           { name: 'Type', field: 'attributes.typeLabel', cellClass: "cell-inbox-item", width: 150 },
+           { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 280 },
+           { name: 'Type', field: 'attributes.typeLabel', cellClass: "cell-inbox-item", width: 250 },
            { name: 'Entité', field: 'attributes.entityLabel', cellClass: "cell-inbox-item", width: 100 },
-           { name: 'Propriétaire', field: 'attributes.ownerFullName', cellClass: "cell-inbox-item", width: 80 },
+           { name: 'Proprietaire', field: 'attributes.ownerFullName', cellClass: "cell-inbox-item", width: 110 },
+           { name: 'Status', field: 'attributes.statusLabel', cellClass: "cell-inbox-item", width: 110 },
            { name: 'Date', field: 'attributes.formatDate', cellClass: "cell-inbox-item", width: 80 }
         ],
         enableRowHeaderSelection: false,
@@ -44,15 +70,11 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         gridApi.selection.on.rowSelectionChanged($scope, function () {
             var toShow = arguments[0].entity;
             var success = function () {
-                documentDisplay.data.metadatas = arguments[0];
-                documentDisplay.data.document = toShow;
-                documentDisplay.data.calls = documentDisplay.data.calls + 1;
-                if (!$scope.$$phase) $scope.$apply();
+                displayDocument(toShow, arguments[0], $scope.selectedDirectory);
             };
             var error = function () {
                 $rootScope.showError(arguments[0]);
             };
-
             var param = {
                 versionId: toShow.get("versionId"),
                 entityId: toShow.get("entityId"),
@@ -65,15 +87,20 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     var setDashBoard = function () {
-        var all = documentsDirectory.data.documents.length;
-        var toValidate = documentsDirectory.data.documents.where({ statusReference: "TO_VALIDATE" }).length;
-        var approve = documentsDirectory.data.documents.where({ statusReference: "APPROVE" }).length;
-        var archive = documentsDirectory.data.documents.where({ statusReference: "ARCHIVE" }).length;
-        $("#badge-all").html(all);
-        $("#badge-approve").html(approve);
-        $("#badge-to-validate").html(toValidate);
-        $("#badge-archive").html(archive);
-
+        var success = function () {
+            var badges = $(".badge.badge-inbox");
+            $.each(badges, function (index, value) {
+                var status = value.id.replace("badge-", "");
+                if (status === "all") $("#badge-all").html(myDashBoards.count());
+                else {
+                    $("#badge-" + status).html(myDashBoards.countStatus(status));
+                }
+            });
+        };
+        var error = function () {
+            $rootScope.showError("Impossible d'obtenir les indicateurs.")
+        };
+        myDashBoards.load($rootScope.getUser().Id, success, error);
     };
 
     var loadDocument = function () {
@@ -85,7 +112,6 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
                 $scope.gridDocuments.data = documentsDirectory.data.documents.models;
                 if (!$scope.$$phase) $scope.$apply();
                 resizeGridInbox();
-                setDashBoard();
             },
             error: function () {
                 $rootScope.showError(arguments[0]);
@@ -126,7 +152,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     $scope.setSelectedDirectory = function (id) {
+        displayInbox();
         $scope.selectedDirectory = id;
+        setDashBoard();
         loadDocument(id);
     };
 

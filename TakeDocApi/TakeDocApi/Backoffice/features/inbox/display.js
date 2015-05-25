@@ -27,7 +27,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     $scope.openImage = function () {
         $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
-        $("#enlarge-page-modal-body").html('<img style="" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
+        $("#enlarge-page-modal-body").html('<img style="width:100%" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
         $('#enlarge-page-modal').modal('show');
     };
 
@@ -42,9 +42,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();
+        debugger;
         if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
+            //alert(documentDisplay.data.viewType);
             $scope.title = $scope.document.get("label") + " - (" + $scope.document.get("entityLabel") + ")";
 
             loadImage();

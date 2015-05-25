@@ -24,7 +24,10 @@ namespace TakeDocService.Stats
                     (x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete
                     || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete
-                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate)
+                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate
+                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Approve
+                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Refuse
+                    || x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive)
                     && x.EntityId == vue.EntityId && x.DocumentOwnerId == vue.UserTkId && x.EtatDeleteData == false).ToList();
 
                 foreach (TakeDocModel.TypeDocument type in types.Where(x => x.EntityId == vue.EntityId && x.EtatDeleteData == false))
@@ -33,7 +36,8 @@ namespace TakeDocService.Stats
                     int nbCreate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Create && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     int nbIncomplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     int nbComplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
-                    int nbSend = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int toValidate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int archive = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
 
                     back.Add(new TakeDocModel.Dto.Stats.StatusDocument()
                     {
@@ -73,7 +77,17 @@ namespace TakeDocService.Stats
                         TypeDocumentReference = type.TypeDocumentReference,
                         TypeDocumentLabel = type.TypeDocumentLabel,
                         StatusReference = TakeDocModel.Status_Document.ToValidate,
-                        Count = nbSend
+                        Count = toValidate
+                    });
+                    back.Add(new TakeDocModel.Dto.Stats.StatusDocument()
+                    {
+                        EntityId = vue.EntityId,
+                        EntityReference = vue.EntityReference,
+                        TypeDocumentId = type.TypeDocumentId,
+                        TypeDocumentReference = type.TypeDocumentReference,
+                        TypeDocumentLabel = type.TypeDocumentLabel,
+                        StatusReference = TakeDocModel.Status_Document.Archive,
+                        Count = archive
                     });
                 }
             }

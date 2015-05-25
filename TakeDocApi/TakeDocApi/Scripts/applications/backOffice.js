@@ -218,6 +218,7 @@ backOffice.factory('documentDisplay', function () {
         set: function () {
             data.document = arguments[0];
             data.metadatas = arguments[1];
+            data.viewType = arguments[2];
             data.calls = data.calls + 1;
         },
         data: data
