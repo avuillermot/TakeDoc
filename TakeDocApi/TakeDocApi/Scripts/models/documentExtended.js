@@ -72,7 +72,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         refuse: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'REFUSE'",
     },
     loadAll: function (param) {
-        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.ownerId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     //************************************************************************
@@ -80,19 +80,19 @@ var DocumentsExtended = Backbone.Collection.extend({
     //************************************************************************
     loadWaitValidate: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.waitValidate + this.loadOptions;
-        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     loadApprove: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.approve + this.loadOptions;
-        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     loadArchive: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.archive + this.loadOptions;
-        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },

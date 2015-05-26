@@ -106,7 +106,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     var loadDocument = function () {
         // load documents
         var param = {
-            userId: $rootScope.getUser().Id,
+            ownerId: $rootScope.getUser().Id,
             success: function () {
                 documentsDirectory.data.documents = arguments[0];
                 $scope.gridDocuments.data = documentsDirectory.data.documents.models;
@@ -120,6 +120,10 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
 
         if ($scope.selectedDirectory === "MYDOC")
             myDocuments.loadAll(param);
+        else if ($scope.selectedDirectory === "INCOMPLETE")
+            myDocuments.loadIncomplete(param);
+        else if ($scope.selectedDirectory === "COMPLETE")
+            myDocuments.loadComplete(param);
         else if ($scope.selectedDirectory === "TO_VALIDATE") {
              myDocuments.loadWaitValidate(param);
         }
@@ -154,9 +158,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     $scope.setSelectedDirectory = function (id) {
         displayInbox();
         $scope.selectedDirectory = id;
-        setDashBoard();
         loadDocument(id);
     };
 
     $scope.setSelectedDirectory("MYDOC");
+    setDashBoard();
 }]);
