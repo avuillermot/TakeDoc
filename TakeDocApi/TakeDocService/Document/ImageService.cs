@@ -30,7 +30,8 @@ namespace TakeDocService.Document
             foreach (TakeDocModel.Page page in version.Page.Where(x => x.EtatDeleteData == false).OrderBy(x => x.PageNumber))
             {
                 byte[] img = servPage.GetBinary(page.PageId);
-                data.Add(img);
+                Bitmap bitmap = new Bitmap(Image.FromStream(new MemoryStream(img)));
+                data.Add(Rotate(bitmap, page.PageRotation));
             }
             return data;
         }

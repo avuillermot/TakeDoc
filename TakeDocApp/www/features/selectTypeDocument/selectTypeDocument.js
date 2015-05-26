@@ -76,7 +76,9 @@ takeDoc.controller('selectTypeDocumentController', ['$scope', '$rootScope', '$lo
 
     $scope.countStatus = function (typeDocumentId, entityId) {
         if (status != null && status != "" && typeDocumentId != "" && typeDocumentId != null) {
-            return  "("+ $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, status) + ")";
+            var count = $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, status);
+            if (status == "INCOMPLETE") count = count + $rootScope.Dashboards.countTypeStatusEntity(typeDocumentId, entityId, "CREATE");
+            return  "("+ count + ")";
         }
         else return "";
     };

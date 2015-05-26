@@ -25,7 +25,9 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location
 
     $scope.countStatus = function (entityId) {
         if (status != null && status != "") {
-            return "("+ $rootScope.Dashboards.countStatusEntity(entityId, status) + ")";
+            var count = $rootScope.Dashboards.countStatusEntity(entityId, status);
+            if (status == "INCOMPLETE") count = count + $rootScope.Dashboards.countStatusEntity(entityId, "CREATE");
+            return "("+ count + ")";
         }
         else return "";
     };

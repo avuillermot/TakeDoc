@@ -188,14 +188,14 @@ form {
     cursor: pointer;
 }
 
-.inbox-thumbnail-rotate000 {
+.inbox-thumbnail-rotate0 {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
 }
 
-.inbox-thumbnail-rotate090 {
+.inbox-thumbnail-rotate90 {
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);

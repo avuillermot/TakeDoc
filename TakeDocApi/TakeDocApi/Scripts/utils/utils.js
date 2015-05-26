@@ -5,7 +5,6 @@
 
         var i = 0;
         $.each(elems, function (index, value) {
-            debugger;
             if (value.value == "") {
                 $("#div" + value.id).addClass("has-error");
                 i++;

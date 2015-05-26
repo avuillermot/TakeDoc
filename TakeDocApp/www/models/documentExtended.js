@@ -113,17 +113,16 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
         while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     loadIncomplete: function (param) {
-        debugger;
         this.url = this.urlBase + this.loadBase + this.clauses.incomplete + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
         while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     delete: function (param) {
         var url = (environnement.UrlBase + "document/delete/<documentId/>/<entityId/>/<userId/>").replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId);
@@ -136,7 +135,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         });
     },
     loadToValidateAsManager: function (param) {
-        var url = (environnement.UrlBase + "tovalidate/manager/7C9BD942-6CD9-41E1-86EE-6D92C67C134B");
+        var url = (environnement.UrlBase + "tovalidate/manager/{managerId}").replace("{managerId}", param.managerId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
 });

@@ -92,9 +92,8 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             $.each(badges, function (index, value) {
                 var status = value.id.replace("badge-", "");
                 if (status === "all") $("#badge-all").html(myDashBoards.count());
-                else {
-                    $("#badge-" + status).html(myDashBoards.countStatus(status));
-                }
+                else if (status === "INCOMPLETE") $("#badge-" + status).html(myDashBoards.countStatus(status) + myDashBoards.countStatus("CREATE"));
+                else $("#badge-" + status).html(myDashBoards.countStatus(status));
             });
         };
         var error = function () {
@@ -107,6 +106,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         // load documents
         var param = {
             ownerId: $rootScope.getUser().Id,
+            managerId: null,
             success: function () {
                 documentsDirectory.data.documents = arguments[0];
                 $scope.gridDocuments.data = documentsDirectory.data.documents.models;
@@ -124,21 +124,16 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             myDocuments.loadIncomplete(param);
         else if ($scope.selectedDirectory === "COMPLETE")
             myDocuments.loadComplete(param);
-        else if ($scope.selectedDirectory === "TO_VALIDATE") {
+        else if ($scope.selectedDirectory === "TO_VALIDATE") 
              myDocuments.loadWaitValidate(param);
-        }
-        else if ($scope.selectedDirectory === "APPROVE") {
+        else if ($scope.selectedDirectory === "APPROVE") 
             myDocuments.loadApprove(param);
-        }
-        else if ($scope.selectedDirectory === "ARCHIVE") {
+        else if ($scope.selectedDirectory === "ARCHIVE") 
             myDocuments.loadArchive(param);
-        }
-        else if ($scope.selectedDirectory === "REFUSE") {
+        else if ($scope.selectedDirectory === "REFUSE") 
             myDocuments.loadRefuse(param);
-        }
-        else if ($scope.selectedDirectory === "TO_VALIDATE_MANAGER") {
+        else if ($scope.selectedDirectory === "TO_VALIDATE_MANAGER")
             myDocuments.loadToValidateAsManager(param);
-        }
         else {
             documentsDirectory.data.documents = [];
             $scope.gridDocuments.data = [];
