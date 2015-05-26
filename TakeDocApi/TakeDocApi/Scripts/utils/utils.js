@@ -5,11 +5,19 @@
 
         var i = 0;
         $.each(elems, function (index, value) {
+            debugger;
             if (value.value == "") {
                 $("#div" + value.id).addClass("has-error");
                 i++;
             }
         });
         return !(i > 0);
-    } 
+    },
+
+    setStateFormField: function () {
+        var elems = $("input[mandatory='true']");
+        $.each(elems, function (index, value) {
+            utils.setStateInputField("div"+value.id);
+        });
+    }
 }

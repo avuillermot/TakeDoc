@@ -135,10 +135,10 @@ var MetaDatas = Backbone.Collection.extend({
             url: myUrl,
             data: { '': data },
             success: function () {
-                onSucces();
+                onSucces.apply(this, arguments);
             },
             error: function () {
-                onError();
+                onError.apply(this, arguments);
             }
         });
     },

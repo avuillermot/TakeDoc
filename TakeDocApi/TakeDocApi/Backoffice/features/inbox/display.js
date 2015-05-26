@@ -42,7 +42,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();
-        debugger;
         if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
@@ -100,6 +99,9 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doSave = function () {
+
+        var ok = utils.setStateFormField();
+        //alert(ok);
         var success = function () {
             $rootScope.hideLoader();
             if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
