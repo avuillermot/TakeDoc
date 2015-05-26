@@ -61,12 +61,20 @@ var DocumentsExtended = Backbone.Collection.extend({
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");
         else this.url = this.url.replace("<" + field + "/>", value);
+        while (this.url.indexOf("?$filter= ") > -1) this.url = this.url.replace("?$filter= ", "?$filter=");
     },
     clauses: {
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
         incomplete: " and (DocumentStatusReference eq 'INCOMPLETE' or DocumentStatusReference eq 'CREATE')",
         toValidate: " DocumentValidateUserId eq guid'<documentValidateUserId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
         waitValidate: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'TO_VALIDATE'",
+        approve: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'APPROVE'",
+        archive: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'ARCHIVE'",
+        refuse: " DocumentOwnerId eq guid'<documentOwnerId/>' and DocumentStatusReference eq 'REFUSE'",
+    },
+    loadAll: function (param) {
+        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.ownerId);
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     //************************************************************************
     // load my document that wait a validation, i'm owner of this document
@@ -75,26 +83,46 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.url = this.urlBase + "?$filter=" + this.clauses.waitValidate + this.loadOptions;
         this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
+    loadApprove: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.approve + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    loadArchive: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.archive + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    loadRefuse: function (param) {
+        this.url = this.urlBase + "?$filter=" + this.clauses.refuse + this.loadOptions;
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
+    },
+    //************************************************************************
+    // ????
+    //************************************************************************
     loadComplete: function (param) {
         this.url = this.urlBase + this.loadBase + this.clauses.complete + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+        while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     loadIncomplete: function (param) {
+        debugger;
         this.url = this.urlBase + this.loadBase + this.clauses.incomplete + this.loadOptions;
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+        while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
-        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
-    },
-    loadAll: function (param) {
-        this.url = this.urlBase + ("?$filter=DocumentOwnerId eq guid'<documentOwnerId/>'&$orderby=VersionDateCreateData desc").replace("<documentOwnerId/>", param.userId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
     delete: function (param) {
@@ -106,5 +134,9 @@ var DocumentsExtended = Backbone.Collection.extend({
             error: param.error,
             beforeSend: requestHelper.beforeSend()
         });
-    }
+    },
+    loadToValidateAsManager: function (param) {
+        var url = (environnement.UrlBase + "tovalidate/manager/7C9BD942-6CD9-41E1-86EE-6D92C67C134B");
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
+    },
 });

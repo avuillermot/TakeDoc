@@ -6,7 +6,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
         { title: '', id: 2, scenario: null, url: null, cssClassName: "menu-empty" },
         { title: 'Incomplet', id: 3, scenario: "findIncomplet", url: null, cssClassName: "ion-alert-circled", count: "INCOMPLETE" },
         { title: 'Complet', id: 4, scenario: "findDocument", url: null, cssClassName: "ion-android-search", count: "COMPLETE" },
-        { title: 'Attente validation', id: 5, scenario: "findWait", url: null, cssClassName: "ion-android-search menu-small", count: "TO_VALIDATE" },
+        { title: 'Attente', id: 5, scenario: "findWait", url: null, cssClassName: "ion-android-search", count: "TO_VALIDATE" },
         { title: 'Validé', id: 6, scenario: null, url: null, cssClassName: "ion-paperclip" },
         { title: 'Refusé', id: 7, scenario: null, url: null, cssClassName: "ion-heart-broken" },
         { title: '', id: 8, scenario: null, url: null, cssClassName: "menu-empty" },
@@ -29,7 +29,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
         var success = function () {
             $rootScope.Dashboards = arguments[0];
 
-            var count = $rootScope.Dashboards.countStatus("INCOMPLETE");
+            var count = $rootScope.Dashboards.countStatus("INCOMPLETE") + $rootScope.Dashboards.countStatus("CREATE");
             angular.element("#span-INCOMPLETE").html("(" + count + ")");
 
             count = $rootScope.Dashboards.countStatus("COMPLETE");

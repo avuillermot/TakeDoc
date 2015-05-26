@@ -61,6 +61,7 @@ var DocumentsExtended = Backbone.Collection.extend({
     replaceParameter: function(clause, field, value) {
         if (value == null) this.url = this.url.replace(clause, "");
         else this.url = this.url.replace("<" + field + "/>", value);
+        while (this.url.indexOf("?$filter= ") > -1) this.url = this.url.replace("?$filter= ", "?$filter=");
     },
     clauses: {
         complete: " and DocumentStatusReference eq 'COMPLETE' ",
@@ -110,6 +111,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+        while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
@@ -118,6 +120,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.replaceParameter("EntityReference eq '<entityReference/>'", "entityReference", param.entityReference);
         this.replaceParameter("and DocumentOwnerId = guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
         this.replaceParameter("and TypeDocumentReference eq '<typeDocumentReference/>'", "typeDocumentReference", param.typeDocumentReference);
+        while (this.url.indexOf("?$filter=and") > -1) this.url = this.url.replace("?$filter=and", "?$filter=");
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend() });
     },
