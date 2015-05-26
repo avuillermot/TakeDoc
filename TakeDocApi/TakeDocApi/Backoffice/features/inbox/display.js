@@ -38,7 +38,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             || documentDisplay.data.document.get("statusReference") == "INCOMPLETE") return false;
         return true;
     }
-
+    
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();

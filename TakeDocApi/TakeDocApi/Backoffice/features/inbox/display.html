@@ -4,10 +4,9 @@
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="document.attributes.statusReference != 'TO_VALIDATE'" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="document.attributes.statusReference != 'TO_VALIDATE'" data-placement="bottom"></button>
     </div>
-
     <div class="panel panel-info">
         <div class="panel-heading">
             <h3 class="panel-title">{{title}}</h3>
