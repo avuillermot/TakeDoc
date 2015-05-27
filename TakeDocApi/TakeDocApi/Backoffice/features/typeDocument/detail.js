@@ -203,21 +203,25 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     }
         
     $scope.doSave = function () {
-        $rootScope.showLoader("Enregistrement...");
-        var param = {
-            fields: fields.toJSON(),
-            managersTypeDoc: $scope.managersTypeDoc.toJSON(),
-            userId: $rootScope.getUser().Id,
-            typeDocument: $scope.selectedItem.toJSON(),
-            error: function () {
-                $rootScope.hideLoader();
-                $rootScope.showError(arguments[0]);
-            },
-            success: function () {
-                $rootScope.hideLoader();
-            }
-        };
-        typeDocuments.update(param);
+        var ok = utils.setStateInputField("divDetailTypeDocument");
+
+        if (ok == true) {
+            $rootScope.showLoader("Enregistrement...");
+            var param = {
+                fields: fields.toJSON(),
+                managersTypeDoc: $scope.managersTypeDoc.toJSON(),
+                userId: $rootScope.getUser().Id,
+                typeDocument: $scope.selectedItem.toJSON(),
+                error: function () {
+                    $rootScope.hideLoader();
+                    $rootScope.showError(arguments[0]);
+                },
+                success: function () {
+                    $rootScope.hideLoader();
+                }
+            };
+            typeDocuments.update(param);
+        }
     };
     $scope.doReset = function () {
         // if datasource is empty, we call api or not contains the document type we want to display

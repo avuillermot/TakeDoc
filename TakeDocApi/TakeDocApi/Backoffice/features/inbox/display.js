@@ -37,6 +37,12 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             || documentDisplay.data.document.get("statusReference") == "COMPLETE"
             || documentDisplay.data.document.get("statusReference") == "INCOMPLETE") return false;
         return true;
+    };
+
+    $scope.workflowIsEnable = function () {
+        if (documentDisplay.data.viewType == null) return false;
+        if (documentDisplay.data.viewType == "TO_VALIDATE") return false;
+        return documentDisplay.data.document.get("statusReference") == "TO_VALIDATE";
     }
     
     // subscribe to event for display the current document
@@ -99,38 +105,38 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doSave = function () {
+        var ok = utils.setStateInputField("divDetailDocument");
+        if (ok) {
+            var success = function () {
+                $rootScope.hideLoader();
+                if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
+                clone();
+            };
+            var error = function () {
+                $rootScope.hideLoader();
+                var err = arguments[0];
+                if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
+                $rootScope.showError(err);
+            };
+            var param = {
+                userId: $rootScope.getUser().Id,
+                entityId: $scope.document.get("entityId"),
+                versionId: $scope.document.get("versionId")
+            };
 
-        var ok = utils.setStateFormField();
-        //alert(ok);
-        var success = function () {
-            $rootScope.hideLoader();
-            if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
-            clone();
-        };
-        var error = function () {
-            $rootScope.hideLoader();
-            var err = arguments[0];
-            if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
-            $rootScope.showError(err);
-        };
-        var param = {
-            userId: $rootScope.getUser().Id,
-            entityId: $scope.document.get("entityId"),
-            versionId: $scope.document.get("versionId")
-        };
-        
-        // data field are mapped to the model here because date picker cause problem
-        var elemsDate = $('#divInboxDisplay input[type="date"]');
-        $.each(elemsDate, function (index, value) {
-            var elemMetaId = value.name;
-            var elemMetaValue = value.value;
-            var current = documentDisplay.data.metadatas.where({ id: elemMetaId });
-            current[0].set("value", elemMetaValue);
-        });
+            // data field are mapped to the model here because date picker cause problem
+            var elemsDate = $('#divInboxDisplay input[type="date"]');
+            $.each(elemsDate, function (index, value) {
+                var elemMetaId = value.name;
+                var elemMetaValue = value.value;
+                var current = documentDisplay.data.metadatas.where({ id: elemMetaId });
+                current[0].set("value", elemMetaValue);
+            });
 
-        if (hasChanged()) {
-            $rootScope.showLoader("Enregistrement....");
-            documentDisplay.data.metadatas.save(param, success, error);
+            if (hasChanged()) {
+                $rootScope.showLoader("Enregistrement....");
+                documentDisplay.data.metadatas.save(param, success, error);
+            }
         }
     };
 
@@ -166,7 +172,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 $rootScope.showError("Les images ne sont pas disponibles");
             }
         };
-
         pages.load(param);
     };
 

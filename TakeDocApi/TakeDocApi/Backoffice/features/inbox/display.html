@@ -1,13 +1,13 @@
 ﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="title != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="document.attributes.statusReference != 'TO_VALIDATE'" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="document.attributes.statusReference != 'TO_VALIDATE'" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
     </div>
-    <div class="panel panel-info">
+    <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
             <h3 class="panel-title">{{title}}</h3>
         </div>
@@ -19,19 +19,19 @@
                         {{document.attributes.statusLabel}}
                     </div>
                 </div>
-                <div id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-repeat="metadata in metadatas | orderBy:['attributes.index'] " class="form-group" ng-switch on="metadata.attributes.htmlType">
-                    <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}</label>
+                <div ng-repeat="metadata in metadatas | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
+                    <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}-{{metadata.attributes.mandatory}}</label>
 
-                    <div class="col-sm-10 inbox-metadata">
-                        <select ng-switch-when="list" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="inbox-item-input">
+                    <div class="col-sm-10 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
+                        <select ng-switch-when="list" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
                             <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                         </select>
 
-                        <input ng-switch-when="date" name="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" />
-                        <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" />
-                        <textarea ng-switch-when="textarea" class="form-control" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3"></textarea>
-                        <input ng-switch-when="autocomplete" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
-                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="inbox-item-input" mandatory="true" />
+                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
+                        <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
+                        <textarea ng-switch-when="textarea" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
+                        <input ng-switch-when="autocomplete" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
+                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                     </div>
                 </div>
             </form>

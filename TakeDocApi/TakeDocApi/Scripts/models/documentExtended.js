@@ -38,6 +38,9 @@
         this.set("documentDateCreate", current.DocumentDateCreateData);
         this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
         return this;
+    },
+    isReadOnly: function () {
+        return this.get("statusReference") == "ARCHIVE" || this.get("statusReference") == "TO_VALIDATE" || this.get("statusReference") == "APPROVE" || this.get("statusReference") == "REFUSE";
     }
 });
 

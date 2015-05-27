@@ -118,9 +118,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             }
         };
 
-        if ($scope.selectedDirectory === "MYDOC")
-            myDocuments.loadAll(param);
-        else if ($scope.selectedDirectory === "INCOMPLETE")
+        if ($scope.selectedDirectory === "INCOMPLETE")
             myDocuments.loadIncomplete(param);
         else if ($scope.selectedDirectory === "COMPLETE")
             myDocuments.loadComplete(param);
@@ -156,6 +154,6 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         loadDocument(id);
     };
 
-    $scope.setSelectedDirectory("MYDOC");
+    $scope.setSelectedDirectory("COMPLETE");
     setDashBoard();
 }]);
