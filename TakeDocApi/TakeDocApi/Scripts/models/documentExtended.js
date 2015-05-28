@@ -141,4 +141,8 @@ var DocumentsExtended = Backbone.Collection.extend({
         var url = (environnement.UrlBase + "tovalidate/manager/{managerId}").replace("{managerId}", param.managerId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
+    loadToValidateAsBackOffice: function (param) {
+        var url = (environnement.UrlBase + "tovalidate/backoffice/{managerId}").replace("{managerId}", param.managerId);
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
+    }
 });

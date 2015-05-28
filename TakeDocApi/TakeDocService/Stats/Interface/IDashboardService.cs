@@ -8,6 +8,6 @@ namespace TakeDocService.Stats.Interface
 {
     public interface IDashboardService
     {
-        ICollection<TakeDocModel.Dto.Stats.StatusDocument> GetDashboard(Guid userId);
+        ICollection<TakeDocModel.Dto.Stats.StatsDocument> GetDashboard(Guid userId);
     }
 }

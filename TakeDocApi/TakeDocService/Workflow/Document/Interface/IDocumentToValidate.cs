@@ -10,5 +10,7 @@ namespace TakeDocService.Workflow.Document.Interface
     {
         ICollection<TakeDocModel.DocumentToValidate> GetByManager(Guid userId);
         ICollection<TakeDocModel.DocumentToValidate> GetByTypeDocument(Guid userId);
+        ICollection<TakeDocModel.DocumentToValidate> GetAll(Guid userId);
+        ICollection<object> GetHistorique(Guid documentId);
     }
 }

@@ -28,14 +28,32 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpGet]
-        [Route("typedocument/{userId}")]
+        [Route("backoffice/{userId}")]
         public HttpResponseMessage GetByTypeDocument(Guid userId)
         {
             TakeDocService.Workflow.Document.Interface.IDocumentToValidate servToValidate = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IDocumentToValidate>();
             try
             {
                 ICollection<TakeDocModel.DocumentToValidate> docs = servToValidate.GetByTypeDocument(userId);
-                return Request.CreateResponse(docs);
+                var req = new { value = docs };
+                return Request.CreateResponse(req);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("histo/{documentId}")]
+        public HttpResponseMessage GetHistorique(Guid documentId)
+        {
+            TakeDocService.Workflow.Document.Interface.IDocumentToValidate servToValidate = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IDocumentToValidate>();
+            try
+            {
+                ICollection<object> docs = servToValidate.GetHistorique(documentId);
+                var req = new { value = docs };
+                return Request.CreateResponse(req);
             }
             catch (Exception ex)
             {

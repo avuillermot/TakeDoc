@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TakeDocModel.Dto.Stats
 {
-    public class StatusDocument
+    public class StatsDocument
     {
         public Guid EntityId { get; set; }
         public string EntityReference { get; set; }

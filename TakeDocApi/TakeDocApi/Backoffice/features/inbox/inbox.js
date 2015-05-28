@@ -103,10 +103,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     var loadDocument = function () {
-        // load documents
         var param = {
             ownerId: $rootScope.getUser().Id,
-            managerId: null,
+            managerId: $rootScope.getUser().Id,
             success: function () {
                 documentsDirectory.data.documents = arguments[0];
                 $scope.gridDocuments.data = documentsDirectory.data.documents.models;
@@ -132,6 +131,8 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             myDocuments.loadRefuse(param);
         else if ($scope.selectedDirectory === "TO_VALIDATE_MANAGER")
             myDocuments.loadToValidateAsManager(param);
+        else if ($scope.selectedDirectory === "TO_VALIDATE_BACKOFFICE")
+            myDocuments.loadToValidateAsBackOffice(param);
         else {
             documentsDirectory.data.documents = [];
             $scope.gridDocuments.data = [];

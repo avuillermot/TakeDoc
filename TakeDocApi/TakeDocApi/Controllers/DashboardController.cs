@@ -17,7 +17,7 @@ namespace TakeDocApi.Controllers
             TakeDocService.Stats.Interface.IDashboardService servDashboard = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Stats.Interface.IDashboardService>();
             try
             {
-                ICollection<TakeDocModel.Dto.Stats.StatusDocument> stats = servDashboard.GetDashboard(userId);
+                ICollection<TakeDocModel.Dto.Stats.StatsDocument> stats = servDashboard.GetDashboard(userId);
                 return Request.CreateResponse(stats);
             }
             catch (Exception ex)

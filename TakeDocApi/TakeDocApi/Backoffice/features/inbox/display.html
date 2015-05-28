@@ -12,38 +12,59 @@
             <h3 class="panel-title">{{title}}</h3>
         </div>
         <div class="panel-body">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label" style="vertical-align:top">Status</label>
-                    <div class="col-sm-10 inbox-metadata">
-                        {{document.attributes.statusLabel}}
+            <div role="tabpanel">
+
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#detail" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Détails</a></li>
+                    <li role="presentation"><a href="#histo" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Historique</a></li>
+                    <li role="presentation"><a href="#validation" onclick="return false" aria-controls="messages" role="tab" data-toggle="tab">Validation</a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="detail">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label class="control-label">Status</label>
+                                <div class="inbox-metadata" style="display:inline-block;padding-left:5px">
+                                    {{document.attributes.statusLabel}}
+                                </div>
+                                <label class="control-label" style="padding-left:15px">Propriétaire</label>
+                                <div class="inbox-metadata" style="display:inline-block;padding-left:5px">
+                                    {{document.attributes.ownerFullName}}
+                                </div>
+                            </div>
+                            <div ng-repeat="metadata in metadatas | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
+                                <label class="col-md-3 control-label" style="text-align:left;padding-top:10px;padding-left:0px">{{metadata.attributes.label}}-{{metadata.attributes.mandatory}}</label>
+
+                                <div class="col-md-9 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
+                                    <select ng-switch-when="list" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
+                                        <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
+                                    </select>
+
+                                    <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <textarea ng-switch-when="textarea" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
+                                    <input ng-switch-when="autocomplete" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
+                                </div>
+                            </div>
+                        </form>
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">Page</h3>
+                            </div>
+                            <div class="panel-body">
+                                <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+                            </div>
+                        </div>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="histo">histo...</div>
+                    <div role="tabpanel" class="tab-pane" id="validation">validation...</div>
                 </div>
-                <div ng-repeat="metadata in metadatas | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
-                    <label class="col-sm-2 control-label" style="vertical-align:top">{{metadata.attributes.label}}-{{metadata.attributes.mandatory}}</label>
 
-                    <div class="col-sm-10 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
-                        <select ng-switch-when="list" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
-                            <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
-                        </select>
-
-                        <input ng-switch-when="date" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
-                        <input ng-switch-when="ion-toggle" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
-                        <textarea ng-switch-when="textarea" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
-                        <input ng-switch-when="autocomplete" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
-                        <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="panel panel-info">
-        <div class="panel-heading">
-            <h3 class="panel-title">Page</h3>
-        </div>
-        <div class="panel-body">
-            <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+            </div>
         </div>
     </div>
 </div>
