@@ -17,12 +17,23 @@ namespace TakeDocModel
         public WorkflowType()
         {
             this.Workflow = new HashSet<Workflow>();
+            this.Type_Document1 = new HashSet<TypeDocument>();
         }
     
         public System.Guid WorkflowTypeId { get; set; }
         public string WorkflowTypeReference { get; set; }
         public string WorkflowTypeLabel { get; set; }
+        public bool EtatDataDelete { get; set; }
+        public System.Guid EntityId { get; set; }
+        public System.Guid UserCreateData { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
+        public Nullable<System.Guid> UserUpdateData { get; set; }
+        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
+        public Nullable<System.Guid> UserDeleteData { get; set; }
+        public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
+        public bool EtatDeleteData { get; set; }
     
         public virtual ICollection<Workflow> Workflow { get; set; }
+        public virtual ICollection<TypeDocument> Type_Document1 { get; set; }
     }
 }

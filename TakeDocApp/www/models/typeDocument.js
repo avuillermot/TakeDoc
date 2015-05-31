@@ -6,7 +6,7 @@
         label: null,
         deleted: null,
         pageNeed: null,
-        typeValidationId: null
+        workflowTypeId: null
     },
     parse: function () {
         var current = arguments[0];
@@ -16,7 +16,7 @@
         this.set("entityId", current.EntityId);
         this.set("deleted", current.EtatDeleteData);
         this.set("pageNeed", current.TypeDocumentPageNeed);
-        this.set("typeValidationId", current.TypeDocumentValidationId);
+        this.set("workflowTypeId", current.WorkflowTypeId);
         return this;
     }
 });
@@ -98,7 +98,7 @@ var TypeDocuments = Backbone.Collection.extend({
     }
 });
 
-var TypeValidation = Backbone.Model.extend({
+var WorkflowType = Backbone.Model.extend({
     defaults: {
         id: null,
         reference: null,
@@ -106,25 +106,25 @@ var TypeValidation = Backbone.Model.extend({
     },
     parse: function () {
         var current = arguments[0];
-        this.set("id", current.TypeValidationId);
-        this.set("reference", current.TypeValidationReference);
-        this.set("label", current.TypeValidationLabel);
+        this.set("id", current.WorkflowTypeId);
+        this.set("reference", current.WorkflowTypeReference);
+        this.set("label", current.WorkflowTypeLabel);
         return this;
     }
 });
 
-var TypeValidations = Backbone.Collection.extend({
-    model: TypeValidation,
+var WorkflowTypes = Backbone.Collection.extend({
+    model: WorkflowType,
     parse: function () {
         var data = arguments[0].value;
         for (var i = 0; i < data.length; i++) {
-            var current = new TypeValidation();
+            var current = new WorkflowType();
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
     },
     load: function (param) {
-        var url = environnement.UrlBase + "odata/TypeValidations";
+        var url = environnement.UrlBase + "odata/WorkflowTypes";
         this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
     },
 });

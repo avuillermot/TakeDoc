@@ -15,7 +15,6 @@ namespace TakeDocModel
     public partial class Workflow
     {
         public System.Guid WorkflowId { get; set; }
-        public System.Guid WorkFlowTypeId { get; set; }
         public int WorkflowIndex { get; set; }
         public Nullable<System.Guid> WorkflowUserId { get; set; }
         public Nullable<System.Guid> WorkflowTypeDocumentId { get; set; }
@@ -23,9 +22,11 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> WorkflowDateRealize { get; set; }
         public System.Guid WorkflowVersionId { get; set; }
         public System.Guid EntityId { get; set; }
+        public System.Guid WorkflowStatusDocumentId { get; set; }
+        public System.Guid WorkflowTypeId { get; set; }
     
-        public virtual TypeDocument Type_Document { get; set; }
-        public virtual Version Version { get; set; }
         public virtual WorkflowType WorkflowType { get; set; }
+        public virtual Status_Document Status_Document { get; set; }
+        public virtual Version Version { get; set; }
     }
 }

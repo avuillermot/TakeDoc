@@ -18,7 +18,7 @@ namespace TakeDocService.Document
 
         private TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
         private TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
-        private TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation> daoTypeValidation = new TakeDocDataAccess.DaoBase<TakeDocModel.Type_Validation>();
+        private TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType> daoWorkflowType = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType>();
 
         public ICollection<TakeDocModel.TypeDocument> Get(Guid userId, Guid entityId)
         {
@@ -80,7 +80,7 @@ namespace TakeDocService.Document
             toAdd.TypeDocumentLabel = label;
             toAdd.TypeDocumentReference = reference.ToUpper();
             toAdd.TypeDocumentPageNeed = false;
-            toAdd.TypeDocumentValidationId = daoTypeValidation.GetBy(x => x.TypeValidationReference == "NO").First().TypeValidationId;
+            //toAdd.TypeDocumen
             toAdd.UserCreateData = userId;
             toAdd.DateCreateData = System.DateTimeOffset.UtcNow;
             toAdd.EntityId = entityId;

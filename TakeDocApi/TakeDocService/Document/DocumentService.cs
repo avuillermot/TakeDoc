@@ -94,30 +94,30 @@ namespace TakeDocService.Document
                 //***********************************
                 // update status of document
                 //***********************************
-                TakeDocModel.Type_Validation validation = version.Document.Type_Document.Type_Validation;
+                TakeDocModel.WorkflowType validation = version.Document.Type_Document.WorkflowType;
 
                 TakeDocService.Workflow.Document.Interface.IValidation wfValidation = null;
-                if (validation.TypeValidationReference == "AUTO")
+                if (validation.WorkflowTypeReference == "AUTO")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
                     wfValidation.Execute(document, user);
                 }
-                else if (validation.TypeValidationReference == "NO")
+                else if (validation.WorkflowTypeReference == "NO")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationNo();
                     wfValidation.Execute(document, user);
                 }
-                else if (validation.TypeValidationReference == "MANAGER")
+                else if (validation.WorkflowTypeReference == "MANAGER")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationManager();
                     wfValidation.Execute(document, user);
                 }
-                else if (validation.TypeValidationReference == "BACKOFFICE")
+                else if (validation.WorkflowTypeReference == "BACKOFFICE")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationBackOffice();
                     wfValidation.Execute(document, user);
                 }
-                else if (validation.TypeValidationReference == "MANAGER-BACKOFFICE")
+                else if (validation.WorkflowTypeReference == "MANAGER-BACKOFFICE")
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationManagerBackOffice();
                     wfValidation.Execute(document, user);

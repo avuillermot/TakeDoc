@@ -64,7 +64,7 @@ namespace TakeDocApi.Controllers
                     type.UserDeleteData = userId;
                     type.DateDeleteData = System.DateTimeOffset.UtcNow;
                 }
-                type.TypeDocumentValidationId =  new Guid(data.Value<string>("typeValidationId"));
+                type.TypeDocumentWorkflowTypeId = new Guid(data.Value<string>("workflowTypeId"));
 
                 servTypeDocument.Update(type, userId);
 

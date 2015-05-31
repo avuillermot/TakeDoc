@@ -36,7 +36,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.DataFieldAutoComplete>("AutoCompletes");
             builder.EntitySet<TakeDocModel.View_DocumentExtended>("DocumentExtendeds");
             builder.EntitySet<TakeDocModel.GroupTk>("GroupTks");
-            builder.EntitySet<TakeDocModel.Type_Validation>("TypeValidations");
+            builder.EntitySet<TakeDocModel.WorkflowType>("WorkflowTypes");
             builder.EntitySet<TakeDocModel.View_TypeDocumentDataField>("TypeDocumentDataFields");
             builder.EntitySet<TakeDocModel.BackOfficeTypeDocument>("BackOfficeTypeDocuments");
             builder.EntitySet<TakeDocModel.DocumentStatusHisto>("DocumentStatusHistos");

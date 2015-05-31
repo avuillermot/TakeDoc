@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3fe3ef94d1244635a36d73c688384101" Name="Diagram1" ZoomLevel="82">
+      <Diagram DiagramId="3fe3ef94d1244635a36d73c688384101" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="TakeDocModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TakeDocModel.Counter" Width="1.5" PointX="0.75" PointY="0.75" />
         <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="6" PointY="1" />
@@ -43,20 +43,20 @@
         <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />
         <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.875" />
         <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
-        <EntityTypeShape EntityType="TakeDocModel.Type_Validation" Width="1.5" PointX="3.875" PointY="0.625" />
-        <AssociationConnector Association="TakeDocModel.FK_Type_Document_Type_Validation" />
         <EntityTypeShape EntityType="TakeDocModel.BackOfficeTypeDocument" Width="1.5" PointX="13.125" PointY="7.75" />
         <AssociationConnector Association="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" />
         <AssociationConnector Association="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" />
-        <EntityTypeShape EntityType="TakeDocModel.DocumentStatusHisto" Width="1.5" PointX="15.625" PointY="16.25" />
-        <EntityTypeShape EntityType="TakeDocModel.Workflow" Width="1.5" PointX="13.125" PointY="0.75" />
-        <EntityTypeShape EntityType="TakeDocModel.WorkflowType" Width="1.5" PointX="10.875" PointY="23.25" />
+        <EntityTypeShape EntityType="TakeDocModel.DocumentStatusHisto" Width="1.5" PointX="9.875" PointY="17.875" />
         <AssociationConnector Association="TakeDocModel.FK_DocumentStatus_Document" />
         <AssociationConnector Association="TakeDocModel.FK_DocumentStatus_Entity" />
         <AssociationConnector Association="TakeDocModel.FK_DocumentStatus_UserTk" />
-        <AssociationConnector Association="TakeDocModel.FK_Workflow_Type_Document" />
-        <AssociationConnector Association="TakeDocModel.FK_Workflow_Version" />
+        <EntityTypeShape EntityType="TakeDocModel.Workflow" Width="1.5" PointX="15.875" PointY="12.625" />
+        <EntityTypeShape EntityType="TakeDocModel.WorkflowType" Width="1.5" PointX="16" PointY="17" />
+        <AssociationConnector Association="TakeDocModel.FK_Type_Document_Type_Validation" />
         <AssociationConnector Association="TakeDocModel.FK_Workflow_WorkflowType" />
+        <AssociationConnector Association="TakeDocModel.FK_Workflow_Status_Document" />
+        <AssociationConnector Association="TakeDocModel.FK_Workflow_Version" />
+        <AssociationConnector Association="TakeDocModel.FK_Type_Document_WorkflowType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

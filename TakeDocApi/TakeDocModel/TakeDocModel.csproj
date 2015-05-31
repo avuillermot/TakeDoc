@@ -144,9 +144,6 @@
     <Compile Include="TypeDocument.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Type_Validation.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="UserTk.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

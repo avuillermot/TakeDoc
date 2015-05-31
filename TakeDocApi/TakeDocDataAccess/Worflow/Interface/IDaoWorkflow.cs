@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,6 +16,6 @@ namespace TakeDocDataAccess.Workflow.Interface
         /// <returns></returns>
         bool IsAllApprove(Guid VersionId, Guid entityId);
         void Add(TakeDocModel.Workflow workflow);
-       
+        ICollection<TakeDocModel.Workflow> GetBy(Expression<Func<TakeDocModel.Workflow, bool>> where, params Expression<Func<TakeDocModel.Workflow, object>>[] properties);
     }
 }

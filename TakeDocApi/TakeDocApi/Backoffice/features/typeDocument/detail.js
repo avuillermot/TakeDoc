@@ -1,7 +1,7 @@
 ﻿'use strict';
 backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '$location', '$stateParams', 'typeDocumentResult', 'inputTypes', function ($scope, $rootScope, $location, $stateParams, typeDocumentResult, inputTypes) {
     var typeDocuments = new TypeDocuments();
-    var typeValidations = new TypeValidations();
+    var workflowTypes = new WorkflowTypes();
     // field link to document type
     var fields = new DocumentFields();
     // value link to fields
@@ -41,11 +41,11 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     //************************************
     // load data context
     //************************************
-    var loadDocumentFields = function (typeDocumentId) {
+    var loadDocumentFields = function (typeDocumentId, entityId) {
         var param = {
             id: typeDocumentId,
             always: function () {
-                loadTypeValidations();
+                loadWorkflowTypes(entityId);
             },
             error: function () {
                 $rootScope.showError("Une erreur est survenue lors du chargement des champs pour ce type document.")
@@ -57,8 +57,9 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         fields.load(param);
 
     };
-    var loadTypeValidations = function () {
+    var loadWorkflowTypes = function (entityId) {
         var param = {
+            entityId: entityId,
             always: function () {
                 if (!$scope.$$phase) $scope.$apply();
             },
@@ -67,11 +68,11 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             },
             success: function () {
                 $scope.validations = arguments[0];
-                $scope.selectedValidation = typeValidations.where({ id: $scope.selectedItem.get("typeValidationId") })[0];
+                $scope.selectedValidation = workflowTypes.where({ id: $scope.selectedItem.get("workflowTypeId") })[0];
 
             }
         };
-        typeValidations.load(param);
+        workflowTypes.load(param);
     }
     var loadDataFields = function (entityId) {
         var param = {
@@ -199,7 +200,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     };
     $scope.doSelectValidation = function () {
         $scope.selectedValidation = this.validation;
-        $scope.selectedItem.set("typeValidationId", this.validation.get("id"));
+        $scope.selectedItem.set("workflowTypeId", this.validation.get("id"));
     }
         
     $scope.doSave = function () {
@@ -227,7 +228,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         // if datasource is empty, we call api or not contains the document type we want to display
         if (typeDocumentResult.data.typeDocuments != null && typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument }).length > 0) {
             $scope.selectedItem = typeDocumentResult.data.typeDocuments.where({ id: $stateParams.typeDocument })[0];
-            loadDocumentFields($scope.selectedItem.get("id"));
+            loadDocumentFields($scope.selectedItem.get("id"), $scope.selectedItem.get("entityId"));
             loadDataFields($scope.selectedItem.get("entityId"));
             loadManagerTypeDocument($scope.selectedItem.get("id"), $scope.selectedItem.get("entityId"));
             setCurrentEntity($scope.selectedItem.get("entityId"));

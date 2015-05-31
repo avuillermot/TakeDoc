@@ -11,6 +11,6 @@ namespace TakeDocService.Workflow.Document.Interface
         bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user);
         void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user);
         void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user);
-        ICollection<object> GetHistory(Guid documentId, Guid entityId);
+        ICollection<object> GetStatusHistory(Guid documentId, Guid entityId);
     }
 }

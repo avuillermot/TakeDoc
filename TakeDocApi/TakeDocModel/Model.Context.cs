@@ -50,7 +50,6 @@ namespace TakeDocModel
         public virtual DbSet<Customer> Customer { get; set; }
         public virtual DbSet<Parameter> Parameter { get; set; }
         public virtual DbSet<GroupTk> GroupTk { get; set; }
-        public virtual DbSet<Type_Validation> Type_Validation { get; set; }
         public virtual DbSet<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
         public virtual DbSet<DocumentStatusHisto> DocumentStatusHisto { get; set; }
         public virtual DbSet<Workflow> Workflow { get; set; }

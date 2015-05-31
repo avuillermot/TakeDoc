@@ -18,7 +18,6 @@ namespace TakeDocModel
         {
             this.Document = new HashSet<Document>();
             this.BackOfficeTypeDocument = new HashSet<BackOfficeTypeDocument>();
-            this.Workflow = new HashSet<Workflow>();
         }
     
         public System.Guid TypeDocumentId { get; set; }
@@ -33,11 +32,10 @@ namespace TakeDocModel
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
         public bool TypeDocumentPageNeed { get; set; }
-        public System.Guid TypeDocumentValidationId { get; set; }
+        public System.Guid TypeDocumentWorkflowTypeId { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
-        public virtual Type_Validation Type_Validation { get; set; }
         public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
-        public virtual ICollection<Workflow> Workflow { get; set; }
+        public virtual WorkflowType WorkflowType { get; set; }
     }
 }

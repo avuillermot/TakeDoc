@@ -17,6 +17,7 @@ namespace TakeDocModel
         public Status_Document()
         {
             this.Document = new HashSet<Document>();
+            this.Workflow = new HashSet<Workflow>();
         }
     
         public System.Guid StatusDocumentId { get; set; }
@@ -32,5 +33,6 @@ namespace TakeDocModel
         public string StatusDocumentLabel { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
+        public virtual ICollection<Workflow> Workflow { get; set; }
     }
 }

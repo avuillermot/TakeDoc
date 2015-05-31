@@ -14,7 +14,7 @@ using Microsoft.Data.OData;
 
 namespace TakeDocApi.Controllers.oData
 {
-    public class TypeValidationsController : oDataBase<TakeDocModel.Type_Validation>
+    public class WorkflowTypesController : oDataBase<TakeDocModel.WorkflowType>
     {
 
     }
