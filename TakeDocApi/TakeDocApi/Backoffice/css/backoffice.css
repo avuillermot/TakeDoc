@@ -161,7 +161,7 @@ form {
 }
 
 .inbox-item-input {
-    width: 25%;
+    width: 50%;
 }
 
 .form-group.required .control-label:after {
