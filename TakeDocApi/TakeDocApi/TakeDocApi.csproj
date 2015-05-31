@@ -208,6 +208,7 @@
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\TypeDocumentController.cs" />
+    <Compile Include="Controllers\WorkflowController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -229,8 +230,8 @@
     <Content Include="Backoffice\features\inbox\inbox.html" />
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.js" />
     <Content Include="Backoffice\features\passwordUpdate\passwordUpdate.html" />
-    <Content Include="Backoffice\features\myDocument\myDocument.html" />
-    <Content Include="Backoffice\features\myDocument\myDocument.js" />
+    <Content Include="Backoffice\features\home\home.html" />
+    <Content Include="Backoffice\features\home\home.js" />
     <Content Include="Backoffice\features\typeDocument\result.html" />
     <Content Include="Backoffice\features\typeDocument\result.js" />
     <Content Include="Backoffice\features\typeDocument\search.html" />
@@ -1453,10 +1454,11 @@
     <Content Include="Scripts\models\entity.js" />
     <Content Include="Scripts\models\groupTk.js" />
     <Content Include="Scripts\models\metadata.js" />
-    <Content Include="Scripts\models\status\statusDocument.js" />
+    <Content Include="Scripts\models\dashboard.js" />
     <Content Include="Scripts\models\typeDocument.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
+    <Content Include="Scripts\models\workflow.js" />
     <Content Include="Scripts\utils\environnement.js" />
     <Content Include="Scripts\utils\fileHelper.js" />
     <Content Include="Scripts\utils\utils.js" />

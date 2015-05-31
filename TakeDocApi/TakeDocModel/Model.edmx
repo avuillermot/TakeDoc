@@ -128,6 +128,7 @@
           </Key>
           <Property Name="DocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentIndex" Type="int" Nullable="false" />
+          <Property Name="DocumentVersionId" Type="uniqueidentifier" />
           <Property Name="DocumentStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -339,7 +340,7 @@
           <Property Name="WorkflowRealize" Type="bit" Nullable="false" />
           <Property Name="WorkflowDateRealize" Type="datetimeoffset" Precision="7" />
           <Property Name="WorkflowVersionId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="WorkflowEntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkflowType">
           <Key>
@@ -1122,7 +1123,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Workflow" EntitySet="Workflow" />
           </AssociationSet>
           <FunctionImport Name="GetDocumentToValidate" ReturnType="Collection(TakeDocModel.DocumentToValidate)">
-            <Parameter Name="userId" Mode="In" Type="Guid" />
+          <Parameter Name="userId" Mode="In" Type="Guid" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1775,6 +1776,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DocumentVersionId" Type="Guid" />
         </EntityType>
         <EntityType Name="Workflow">
           <Key>
@@ -1790,10 +1792,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="WorkflowRealize" Type="Boolean" Nullable="false" />
           <Property Name="WorkflowDateRealize" Type="DateTimeOffset" Precision="7" />
           <Property Name="WorkflowVersionId" Type="Guid" Nullable="false" />
-          <Property Name="WorkflowEntityId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Workflow_Type_Document" FromRole="Workflow" ToRole="TypeDocument" />
           <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_Workflow_Version" FromRole="Workflow" ToRole="Version" />
           <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_Workflow_WorkflowType" FromRole="Workflow" ToRole="WorkflowType" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkflowType">
           <Key>
@@ -2338,6 +2340,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="DocumentStatusHisto">
             <EntityTypeMapping TypeName="TakeDocModel.DocumentStatusHisto">
               <MappingFragment StoreEntitySet="DocumentStatusHisto">
+                <ScalarProperty Name="DocumentVersionId" ColumnName="DocumentVersionId" />
                 <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
@@ -2350,7 +2353,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Workflow">
             <EntityTypeMapping TypeName="TakeDocModel.Workflow">
               <MappingFragment StoreEntitySet="Workflow">
-                <ScalarProperty Name="WorkflowEntityId" ColumnName="WorkflowEntityId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="WorkflowVersionId" ColumnName="WorkflowVersionId" />
                 <ScalarProperty Name="WorkflowDateRealize" ColumnName="WorkflowDateRealize" />
                 <ScalarProperty Name="WorkflowRealize" ColumnName="WorkflowRealize" />

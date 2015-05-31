@@ -25,14 +25,5 @@ namespace TakeDocService.Workflow.Document
         {
             return context.GetDocumentToValidate(userId).ToList();
         }
-
-        public ICollection<object> GetHistorique(Guid documentId)
-        {
-            var req = from w in context.Workflow
-                      join u in context.UserTk on w.WorkflowUserId equals u.UserTkId into wu
-                      from u in wu
-                      select new { fullName = u.UserTkFirstName + u.UserTkLastName };
-            return req.ToList<object>();
-        }
     }
 }

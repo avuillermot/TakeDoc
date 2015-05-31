@@ -257,7 +257,8 @@
     <Content Include="www\lib\moment\min\moment.min.js" />
     <Content Include="www\lib\moment\moment.js" />
     <Content Include="www\lib\underscore-min.js" />
-    <Content Include="www\models\stats\statusDocument.js" />
+    <Content Include="www\models\workflow.js" />
+    <Content Include="www\models\dashboard.js" />
     <Content Include="www\models\metadata.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />

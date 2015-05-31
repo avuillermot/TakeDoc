@@ -25,8 +25,6 @@ namespace UnitTestTakeDocService
             Workflow.WorkflowManagerBackofficeTest workflowMaBoTest = new Workflow.WorkflowManagerBackofficeTest();
             TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
 
-            servUser.Logon("avuillermot@hotmail.com", "");
-
             documentTest.TestOrdered();
             metaDataTest.TestOrdered();
             requestAccountTest.TestOrdered();

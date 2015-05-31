@@ -20,5 +20,6 @@ namespace TakeDocModel
         public System.Guid EntityId { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
         public System.Guid UserCreateData { get; set; }
+        public Nullable<System.Guid> DocumentVersionId { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace TakeDocDataAccess.Workflow
     {
         public bool IsAllApprove(Guid versionId, Guid entityId)
         {
-            return !this.Context.Workflow.Any(x => x.WorkflowVersionId == versionId && x.WorkflowEntityId == entityId && x.WorkflowRealize == false);
+            return !this.Context.Workflow.Any(x => x.WorkflowVersionId == versionId && x.EntityId == entityId && x.WorkflowRealize == false);
         }
         
         public void Add(TakeDocModel.Workflow workflow)

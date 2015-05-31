@@ -22,7 +22,7 @@ namespace TakeDocModel
         public bool WorkflowRealize { get; set; }
         public Nullable<System.DateTimeOffset> WorkflowDateRealize { get; set; }
         public System.Guid WorkflowVersionId { get; set; }
-        public System.Guid WorkflowEntityId { get; set; }
+        public System.Guid EntityId { get; set; }
     
         public virtual TypeDocument Type_Document { get; set; }
         public virtual Version Version { get; set; }

@@ -42,7 +42,7 @@ namespace TakeDocService.Workflow.Document
             if (currentUser.UserTkManagerId == Guid.Empty || currentUser.UserTkManagerId == null) throw new Exception("Manager can't be empty.");
             TakeDocModel.Workflow workflow = new TakeDocModel.Workflow();
             workflow.WorkflowId = Guid.NewGuid();
-            workflow.WorkflowEntityId = document.EntityId;
+            workflow.EntityId = document.EntityId;
             workflow.WorkflowVersionId = document.DocumentCurrentVersionId.Value;
             workflow.WorkflowIndex = step;
             workflow.WorkflowRealize = false;
@@ -60,13 +60,27 @@ namespace TakeDocService.Workflow.Document
             if (document.DocumentCurrentVersionId.Value == Guid.Empty || document.DocumentCurrentVersionId.Value == null) throw new Exception("Version can't be empty.");
             TakeDocModel.Workflow workflow = new TakeDocModel.Workflow();
             workflow.WorkflowId = Guid.NewGuid();
-            workflow.WorkflowEntityId = document.EntityId;
+            workflow.EntityId = document.EntityId;
             workflow.WorkflowVersionId = document.DocumentCurrentVersionId.Value;
             workflow.WorkflowIndex = step;
             workflow.WorkflowRealize = false;
             workflow.WorkFlowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == "VALIDATION").First().WorkflowTypeId;
             workflow.WorkflowTypeDocumentId = document.DocumentTypeId;
             daoWorkflow.Add(workflow);
+        }
+
+
+        public ICollection<object> GetHistory(Guid documentId, Guid entityId)
+        {
+            var req = from histo in context.DocumentStatusHisto
+                      join status in context.Status_Document on histo.DocumentStatusId equals status.StatusDocumentId
+                      join wo in context.Workflow on histo.DocumentVersionId equals wo.WorkflowVersionId into validate
+                      where histo.EntityId == entityId && status.EntityId == entityId && histo.DocumentId == documentId
+                      select new { 
+                          status = histo.DocumentStatusId, statusLabel = status.StatusDocumentLabel, date = histo.DateCreateData,
+                          validate = validate
+                      };
+            return req.ToList<object>();
         }
     }
 }

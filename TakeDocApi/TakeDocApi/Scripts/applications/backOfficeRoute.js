@@ -7,8 +7,8 @@
                 controller: 'menuController'
             },
             "viewLeft": {
-                templateUrl: "features/myDocument/myDocument.html",
-                controller: 'myDocumentController'
+                templateUrl: "features/home/home.html",
+                controller: 'homeController'
             }
         }
     });
