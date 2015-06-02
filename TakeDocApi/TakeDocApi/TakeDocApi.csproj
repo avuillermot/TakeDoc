@@ -1458,7 +1458,8 @@
     <Content Include="Scripts\models\typeDocument.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
-    <Content Include="Scripts\models\workflow.js" />
+    <Content Include="Scripts\models\workflowHistory.js" />
+    <Content Include="Scripts\models\workflowType.js" />
     <Content Include="Scripts\utils\environnement.js" />
     <Content Include="Scripts\utils\fileHelper.js" />
     <Content Include="Scripts\utils\utils.js" />

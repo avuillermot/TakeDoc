@@ -36,8 +36,8 @@ backOffice.run(function ($rootScope, $location) {
 
     $rootScope.showError = function (err) {
         if (err == null || err.responseJSON == null || err.responseJSON.Message == null) {
-            if (typeof (err.responseJSON)) $rootScope.showModal("Erreur", err.responseJSON);
-            else if (err.message != null) $rootScope.showModal("Erreur", err.message)
+            if (err.message != null) $rootScope.showModal("Erreur", err.message)
+            else if (typeof (err.responseJSON)) $rootScope.showModal("Erreur", err.responseJSON);
             else $rootScope.showModal("Erreur", "Une erreur est survenue.")
         }
         else $rootScope.showModal("Erreur", err.responseJSON.Message);

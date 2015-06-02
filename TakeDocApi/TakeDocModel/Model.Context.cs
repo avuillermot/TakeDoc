@@ -54,6 +54,7 @@ namespace TakeDocModel
         public virtual DbSet<DocumentStatusHisto> DocumentStatusHisto { get; set; }
         public virtual DbSet<Workflow> Workflow { get; set; }
         public virtual DbSet<WorkflowType> WorkflowType { get; set; }
+        public virtual DbSet<WorkflowAnswer> WorkflowAnswer { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {
@@ -219,6 +220,19 @@ namespace TakeDocModel
                 new ObjectParameter("userId", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentToValidate>("GetDocumentToValidate", userIdParameter);
+        }
+    
+        public virtual ObjectResult<GetWorkflowHistory_Result> GetWorkflowHistory(Nullable<System.Guid> documentId, Nullable<System.Guid> entityId)
+        {
+            var documentIdParameter = documentId.HasValue ?
+                new ObjectParameter("documentId", documentId) :
+                new ObjectParameter("documentId", typeof(System.Guid));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWorkflowHistory_Result>("GetWorkflowHistory", documentIdParameter, entityIdParameter);
         }
     }
 }

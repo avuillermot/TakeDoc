@@ -11,9 +11,9 @@ namespace TakeDocService.Workflow.Document
         public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
         {
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
+            this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
             base.SetManagerValidation(document, user, "MANAGER-BACKOFFICE", 0);
             base.SetTypeDocumentValidation(document, "MANAGER-BACKOFFICE", 1);
-            this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
             daoDocument.Update(document);
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;

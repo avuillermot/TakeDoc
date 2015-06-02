@@ -55,8 +55,11 @@
         <AssociationConnector Association="TakeDocModel.FK_Type_Document_Type_Validation" />
         <AssociationConnector Association="TakeDocModel.FK_Workflow_WorkflowType" />
         <AssociationConnector Association="TakeDocModel.FK_Workflow_Status_Document" />
-        <AssociationConnector Association="TakeDocModel.FK_Workflow_Version" />
         <AssociationConnector Association="TakeDocModel.FK_Type_Document_WorkflowType" />
+        <AssociationConnector Association="TakeDocModel.FK_Workflow_Version" />
+        <EntityTypeShape EntityType="TakeDocModel.WorkflowAnswer" Width="1.5" PointX="18.25" PointY="18.875" />
+        <AssociationConnector Association="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" />
+        <AssociationConnector Association="TakeDocModel.FK_Workflow_WorkflowAnswer" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -2,6 +2,7 @@
 backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', '$timeout', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, $timeout, documentDisplay, documentsDirectory) {
 
     var pages = new Pages();
+    var wfHistory = new WorkflowHistorys();
     var cloneData = new Array();
 
     // clone metadata to compare if data has changed before save
@@ -51,12 +52,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
-            //alert(documentDisplay.data.viewType);
             $scope.title = $scope.document.get("label") + " - (" + $scope.document.get("entityLabel") + ")";
 
             loadImage();
-
-            loadHistorique();
+            loadHistory();
         }
         else {
             $scope.document = {};
@@ -169,13 +168,27 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             versionId: $scope.document.get("versionId"),
             success: success,
             error: function () {
-                $rootScope.showError("Les images ne sont pas disponibles");
+                $rootScope.showError({ message: "Les images ne sont pas disponibles" });
             }
         };
         pages.load(param);
     };
 
-    var loadHistorique = function () {
+    var loadHistory = function () {
+        var success = function () {
+            debugger;
+            $scope.historys = arguments[0];
+            if (!$scope.$$phase) $scope.$apply();
+        };
 
+        var param = {
+            entityId: $scope.document.get("entityId"),
+            documentId: $scope.document.get("id"),
+            success: success,
+            error: function () {
+                $rootScope.showError({ message: "L'historique n'est pas disponible" });
+            }
+        };
+        wfHistory.load(param);
     };
 }]);

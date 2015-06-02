@@ -11,14 +11,14 @@ namespace TakeDocApi.Controllers
     public class WorkflowController : ApiController
     {
         [HttpGet]
-        [Route("history/status/{documentId}/{entityId}")]
+        [Route("history/{documentId}/{entityId}")]
         public object GetStatusHistory(Guid documentId, Guid entityId)
         {
             TakeDocService.Workflow.Document.ValidationAuto servValidate = new TakeDocService.Workflow.Document.ValidationAuto();
             try
             {
-                ICollection<object> docs = servValidate.GetStatusHistory(documentId, entityId);
-                var req = new { value = docs };
+                ICollection<object> histos = servValidate.GetStatusHistory(documentId, entityId);
+                var req = new { value = histos };
                 return Request.CreateResponse(req);
             }
             catch (Exception ex)

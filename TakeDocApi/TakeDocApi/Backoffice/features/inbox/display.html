@@ -17,8 +17,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Détails</a></li>
-                    <li role="presentation"><a href="#histo" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Historique</a></li>
-                    <li role="presentation"><a href="#validation" onclick="return false" aria-controls="messages" role="tab" data-toggle="tab">Validation</a></li>
+                    <li role="presentation"><a href="#history" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Historique</a></li>
                 </ul>
 
                 <!-- Tab panes -->
@@ -60,12 +59,17 @@
                             </div>
                         </div>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="histo">histo...</div>
-                    <div role="tabpanel" class="tab-pane" id="validation">validation...</div>
+                    <div role="tabpanel" class="tab-pane" id="history">
+                        <div ng-repeat="history in historys.models">
+                            {{history.attributes.statusLabel}}&#160;&#160;{{history.attributes.dateCreateData}}
+                            <div ng-repeat="action in history.actions">
+                                {{action.attributes.typeDocumentLabel}}-{{action.attributes.fullName}}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
             </div>
-        </div>
+       </div>
     </div>
 </div>
 
