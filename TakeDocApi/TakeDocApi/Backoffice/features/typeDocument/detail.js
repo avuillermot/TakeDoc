@@ -45,7 +45,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         var param = {
             id: typeDocumentId,
             always: function () {
-                loadWorkflowTypes(entityId);
+                loadWorkflowTypes();
             },
             error: function () {
                 $rootScope.showError("Une erreur est survenue lors du chargement des champs pour ce type document.")
@@ -57,9 +57,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         fields.load(param);
 
     };
-    var loadWorkflowTypes = function (entityId) {
+    var loadWorkflowTypes = function () {
         var param = {
-            entityId: entityId,
             always: function () {
                 if (!$scope.$$phase) $scope.$apply();
             },

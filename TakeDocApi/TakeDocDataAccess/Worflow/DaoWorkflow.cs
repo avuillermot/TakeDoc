@@ -11,8 +11,7 @@ namespace TakeDocDataAccess.Workflow
     {
         public bool IsAllApprove(Guid versionId, Guid entityId)
         {
-            throw new NotImplementedException();
-            //return !this.Context.Workflow.Any(x => x.WorkflowVersionId == versionId && x.EntityId == entityId && x.WorkflowRealize == false);
+            return !this.Context.Workflow.Any(x => x.WorkflowVersionId == versionId && x.EntityId == entityId && x.WorkflowAnswerId == null);
         }
         
         public void Add(TakeDocModel.Workflow workflow)
@@ -24,6 +23,16 @@ namespace TakeDocDataAccess.Workflow
         new public ICollection<TakeDocModel.Workflow> GetBy(Expression<Func<TakeDocModel.Workflow, bool>> where, params Expression<Func<TakeDocModel.Workflow, object>>[] properties)
         {
             return base.GetBy(where, properties);
+        }
+
+        public void SetAnswer(ICollection<TakeDocModel.Workflow> workflows, TakeDocModel.WorkflowAnswer answer, Guid userId) {
+            foreach (TakeDocModel.Workflow wf in workflows)
+            {
+                wf.WorkflowAnswerId = answer.WorkflowAnswerId;
+                if (wf.WorkflowUserId == null) wf.WorkflowUserId = userId;
+                wf.WorkflowDateRealize = System.DateTime.UtcNow;
+                this.Update(wf);
+            }
         }
     }
 }

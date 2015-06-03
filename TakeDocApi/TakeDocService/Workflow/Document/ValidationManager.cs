@@ -18,14 +18,9 @@ namespace TakeDocService.Workflow.Document
             return true;
         }
 
-        public void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        public void Answer(Guid versionId, Guid workflowId, Guid entityId, string answerRef, TakeDocModel.UserTk user)
         {
             throw new NotImplementedException();
         }
-
-        public void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user)
-        {
-            throw new NotImplementedException();
-        }
-    }
+     }
 }

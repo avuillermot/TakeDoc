@@ -24,8 +24,7 @@ var WorkflowTypes = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        var url = environnement.UrlBase + "odata/WorkflowTypes?$filter=EntityId eq guid'<entityId/>'";
-        url = url.replace("<entityId/>", param.entityId);
+        var url = environnement.UrlBase + "odata/WorkflowTypes";
         this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
     },
 });

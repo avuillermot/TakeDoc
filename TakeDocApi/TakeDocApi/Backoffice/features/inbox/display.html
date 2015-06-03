@@ -62,7 +62,7 @@
                     <div role="tabpanel" class="tab-pane" id="history">
                         <div ng-repeat="history in historys.models">
                             {{history.attributes.statusLabel}}&#160;&#160;{{history.attributes.dateCreateData}}
-                            <div ng-repeat="action in history.actions">
+                            <div ng-repeat="action in history.actions | orderBy:['attributes.index']">
                                 {{action.attributes.typeDocumentLabel}}-{{action.attributes.fullName}}
                             </div>
                         </div>

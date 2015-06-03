@@ -26,5 +26,22 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("answer/{workflowId}/{userId}/approve")]
+        public object SetAnswer(Guid workflowId, Guid userId)
+        {
+            TakeDocService.Workflow.Document.ValidationAuto servValidate = new TakeDocService.Workflow.Document.ValidationAuto();
+            try
+            {
+                /*ICollection<object> histos = servValidate.GetStatusHistory(documentId, entityId);
+                var req = new { value = histos };*/
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

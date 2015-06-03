@@ -14,15 +14,8 @@ namespace TakeDocModel
     
     public partial class WorkflowType
     {
-        public WorkflowType()
-        {
-            this.WorkflowAnswer = new HashSet<WorkflowAnswer>();
-        }
-    
         public System.Guid WorkflowTypeId { get; set; }
         public string WorkflowTypeReference { get; set; }
         public string WorkflowTypeLabel { get; set; }
-    
-        public virtual ICollection<WorkflowAnswer> WorkflowAnswer { get; set; }
     }
 }

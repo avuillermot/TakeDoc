@@ -19,9 +19,17 @@ namespace TakeDocService.Workflow.Document
             return true;
         }
 
-        public void Approve(TakeDocModel.Document document, TakeDocModel.UserTk user)
+        public void Answer(Guid versionId, Guid workflowId, Guid entityId, string answerRef, TakeDocModel.UserTk user)
         {
-            throw new NotImplementedException();
+            ICollection<TakeDocModel.Workflow> wfs = this.daoWorkflow.GetBy(x => x.WorkflowId == workflowId && x.EntityId == entityId && x.WorkflowAnswerId == null);
+            TakeDocModel.WorkflowAnswer answer = daoWfAnswer.GetBy(x => x.WorkflowAnswerReference == answerRef).First();
+
+            this.daoWorkflow.SetAnswer(wfs, answer, user.UserTkId);
+            if (this.daoWorkflow.IsAllApprove(versionId, entityId))
+            {
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId && x.EntityId == entityId).First();
+                this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);
+            }
         }
 
         public void Refuse(TakeDocModel.Document document, TakeDocModel.UserTk user)

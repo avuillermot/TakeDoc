@@ -11,12 +11,13 @@ using TakeDocService.Document.Interface;
 
 namespace TakeDocService.Workflow.Document
 {
-    public abstract class BaseValidation
+    public abstract class BaseValidation : BaseService
     {
         private TakeDocModel.TakeDocEntities1 context = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocModel.TakeDocEntities1>();
 
         protected IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         protected IDaoWorkflow daoWorkflow = UnityHelper.Resolve<IDaoWorkflow>();
+        protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer> daoWfAnswer = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType> daoWorkflowType = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
         
@@ -78,39 +79,50 @@ namespace TakeDocService.Workflow.Document
         {
             ICollection<object> back = new List<object>();
 
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId && x.EntityId == entityId).First();
-            ICollection<TakeDocModel.GetWorkflowHistory_Result> historyValidate = context.GetWorkflowHistory(documentId, entityId).ToList();
-            ICollection<TakeDocModel.DocumentStatusHisto> historyStatus = servStatus.GetStatus(documentId, entityId);
-            ICollection<TakeDocModel.Status_Document> statusDocument = daoStDocument.GetBy(x => x.EntityId == entityId);
-
-            TakeDocModel.DocumentStatusHisto historyToAdd = new TakeDocModel.DocumentStatusHisto();
-            historyToAdd.DateCreateData = document.DateUpdateData.Value;
-            historyToAdd.DocumentId = document.DocumentId;
-            historyToAdd.DocumentIndex = historyStatus.Count() + 1;
-            historyToAdd.DocumentStatusId = document.DocumentStatusId;
-            historyToAdd.DocumentVersionId = document.DocumentCurrentVersionId.Value;
-            historyToAdd.EntityId = document.EntityId;
-            historyToAdd.UserCreateData = document.UserUpdateData.Value;
-            historyStatus.Add(historyToAdd);
-
-            foreach (TakeDocModel.DocumentStatusHisto h in historyStatus)
+            try
             {
-                var actions = historyValidate.Where(x => x.StatusDocumentId == h.DocumentStatusId).ToList();
-                ICollection<TakeDocModel.Status_Document> myStatusDocument = statusDocument.Where(x => x.EntityId == entityId && x.StatusDocumentId == h.DocumentStatusId).ToList();
-                string statusLabel = (myStatusDocument.Count() == 0) ? "" : myStatusDocument.First().StatusDocumentLabel ; 
-                var toAdd = new
-                {
-                    DocumentId = h.DocumentId,
-                    DocumentIndex = h.DocumentIndex,
-                    DocumentStatusId = h.DocumentStatusId,
-                    DocumentStatusLabel = statusLabel,
-                    DocumentVersionId = h.DocumentVersionId,
-                    EntityId = h.EntityId,
-                    DateCreateData = h.DateCreateData,
-                    Actions = actions
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId && x.EntityId == entityId).First();
+                ICollection<TakeDocModel.GetWorkflowHistory_Result> historyValidate = context.GetWorkflowHistory(documentId, entityId).ToList();
+                ICollection<TakeDocModel.DocumentStatusHisto> historyStatus = servStatus.GetStatus(documentId, entityId);
+                ICollection<TakeDocModel.Status_Document> statusDocument = daoStDocument.GetBy(x => x.EntityId == entityId);
+                ICollection<TakeDocModel.WorkflowAnswer> answers = null;
 
-                };
-                back.Add(toAdd);
+                TakeDocModel.DocumentStatusHisto historyToAdd = new TakeDocModel.DocumentStatusHisto();
+                historyToAdd.DateCreateData = document.DateUpdateData.Value;
+                historyToAdd.DocumentId = document.DocumentId;
+                historyToAdd.DocumentIndex = historyStatus.Count() + 1;
+                historyToAdd.DocumentStatusId = document.DocumentStatusId;
+                historyToAdd.DocumentVersionId = document.DocumentCurrentVersionId.Value;
+                historyToAdd.EntityId = document.EntityId;
+                historyToAdd.UserCreateData = document.UserUpdateData.Value;
+                historyStatus.Add(historyToAdd);
+
+                foreach (TakeDocModel.DocumentStatusHisto h in historyStatus)
+                {
+                    var actions = historyValidate.Where(x => x.StatusDocumentId == h.DocumentStatusId).ToList();
+                    if (actions.Count() > 0 && answers == null) answers = daoWfAnswer.GetBy(x => x.WorkflowTypeId == actions.First().TypeDocumentId);
+                    ICollection<TakeDocModel.Status_Document> myStatusDocument = statusDocument.Where(x => x.EntityId == entityId && x.StatusDocumentId == h.DocumentStatusId).ToList();
+                    string statusLabel = (myStatusDocument.Count() == 0) ? "" : myStatusDocument.First().StatusDocumentLabel;
+                    var toAdd = new
+                    {
+                        DocumentId = h.DocumentId,
+                        DocumentIndex = h.DocumentIndex,
+                        DocumentStatusId = h.DocumentStatusId,
+                        DocumentStatusLabel = statusLabel,
+                        DocumentVersionId = h.DocumentVersionId,
+                        EntityId = h.EntityId,
+                        DateCreateData = h.DateCreateData,
+                        Actions = actions,
+                        Answers = answers
+
+                    };
+                    back.Add(toAdd);
+                }
+            }
+            catch (Exception ex)
+            {
+                base.Logger.Error(ex.Message, ex);
+                throw ex;
             }
             return back;
         }
