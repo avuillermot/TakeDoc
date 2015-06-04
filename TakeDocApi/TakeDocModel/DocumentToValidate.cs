@@ -25,6 +25,7 @@ namespace TakeDocModel
         public string DocumentOwnerReference { get; set; }
         public Nullable<System.Guid> DocumentOwnerId { get; set; }
         public string DocumentOwnerFullName { get; set; }
+        public System.Guid DocumentStatusId { get; set; }
         public string DocumentStatusReference { get; set; }
         public string DocumentStatusLabel { get; set; }
         public string TypeDocumentReference { get; set; }

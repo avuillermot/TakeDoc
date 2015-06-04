@@ -192,6 +192,7 @@
     <Compile Include="Controllers\DocumentController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\IdentityController.cs" />
+    <Compile Include="Controllers\oData\WorkflowAnswersController.cs" />
     <Compile Include="Controllers\oData\DataFieldTypesController.cs" />
     <Compile Include="Controllers\oData\DataFieldsController.cs" />
     <Compile Include="Controllers\oData\TypeValidationsController.cs" />
@@ -1459,6 +1460,7 @@
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
     <Content Include="Scripts\models\workflowHistory.js" />
+    <Content Include="Scripts\models\workflowAnswer.js" />
     <Content Include="Scripts\models\workflowType.js" />
     <Content Include="Scripts\utils\environnement.js" />
     <Content Include="Scripts\utils\fileHelper.js" />

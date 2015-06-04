@@ -8,6 +8,7 @@
         label: null,
         typeLabel: null,
         statusLabel: null,
+        statusId: null,
         statusReference: null,
         ownerId: null,
         ownerReference: null,
@@ -27,6 +28,7 @@
         this.set("entityReference", current.EntityReference);
         this.set("entityLabel", current.EntityLabel);
         this.set("typeLabel", current.DocumentTypeLabel);
+        this.set("statusId", current.DocumentStatusId);
         this.set("statusReference", current.DocumentStatusReference);
         this.set("statusLabel", current.DocumentStatusLabel);
         this.set("ownerId", current.DocumentOwnerId);

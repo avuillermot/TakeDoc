@@ -35,5 +35,6 @@ namespace TakeDocModel
         public System.Guid VersionId { get; set; }
         public string DocumentOwnerReference { get; set; }
         public System.DateTimeOffset DocumentDateCreateData { get; set; }
+        public System.Guid DocumentStatusId { get; set; }
     }
 }

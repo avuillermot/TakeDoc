@@ -3,6 +3,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     var pages = new Pages();
     var wfHistory = new WorkflowHistorys();
+    var answers = new WorkflowAnswers();
     var cloneData = new Array();
 
     // clone metadata to compare if data has changed before save
@@ -40,11 +41,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         return true;
     };
 
-    $scope.workflowIsEnable = function () {
-        if (documentDisplay.data.viewType == null) return false;
-        if (documentDisplay.data.viewType == "TO_VALIDATE") return false;
-        return documentDisplay.data.document.get("statusReference") == "TO_VALIDATE";
-    }
+    $scope.workflowIsEnable = false;
     
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
@@ -176,8 +173,14 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     var loadHistory = function () {
         var success = function () {
-            debugger;
             $scope.historys = arguments[0];
+            if ($scope.document.get("ownerId") == $rootScope.getUser().Id) $scope.workflowIsEnable = false;
+            else {
+                var steps = $scope.historys.where({ statusId: $scope.document.get("statusId") });
+                if (steps.length > 0) {
+                    $scope.workflowIsEnable = steps[0].actions.length > 0;
+                }
+            }
             if (!$scope.$$phase) $scope.$apply();
         };
 
@@ -190,5 +193,32 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
         };
         wfHistory.load(param);
+    };
+
+    $scope.showAnswer = function () {
+        var fDisplayModal = function () {
+            $("#modalAnswerWorkflow").modal("show");
+        };
+        
+        var param = {
+            success: function () {
+                debugger;
+                $scope.answers = arguments[0];
+                fDisplayModal();
+                if (!$scope.$$phase) $scope.$apply();
+            },
+            error: function () {
+
+            }
+        };
+        answers.load(param);
+    };
+
+    $scope.doSelectedAnswer = function () {
+        $scope.selectedAnswer = this.answer;
+    };
+
+    $scope.doValidSelectedAnswer = function () {
+        $("#modalAnswerWorkflow").modal("hide");
     };
 }]);

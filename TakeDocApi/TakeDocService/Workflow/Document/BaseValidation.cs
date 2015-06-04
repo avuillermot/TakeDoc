@@ -17,7 +17,6 @@ namespace TakeDocService.Workflow.Document
 
         protected IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         protected IDaoWorkflow daoWorkflow = UnityHelper.Resolve<IDaoWorkflow>();
-        protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer> daoWfAnswer = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType> daoWorkflowType = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
         
@@ -85,8 +84,7 @@ namespace TakeDocService.Workflow.Document
                 ICollection<TakeDocModel.GetWorkflowHistory_Result> historyValidate = context.GetWorkflowHistory(documentId, entityId).ToList();
                 ICollection<TakeDocModel.DocumentStatusHisto> historyStatus = servStatus.GetStatus(documentId, entityId);
                 ICollection<TakeDocModel.Status_Document> statusDocument = daoStDocument.GetBy(x => x.EntityId == entityId);
-                ICollection<TakeDocModel.WorkflowAnswer> answers = null;
-
+                
                 TakeDocModel.DocumentStatusHisto historyToAdd = new TakeDocModel.DocumentStatusHisto();
                 historyToAdd.DateCreateData = document.DateUpdateData.Value;
                 historyToAdd.DocumentId = document.DocumentId;
@@ -100,7 +98,6 @@ namespace TakeDocService.Workflow.Document
                 foreach (TakeDocModel.DocumentStatusHisto h in historyStatus)
                 {
                     var actions = historyValidate.Where(x => x.StatusDocumentId == h.DocumentStatusId).ToList();
-                    if (actions.Count() > 0 && answers == null) answers = daoWfAnswer.GetBy(x => x.WorkflowTypeId == actions.First().TypeDocumentId);
                     ICollection<TakeDocModel.Status_Document> myStatusDocument = statusDocument.Where(x => x.EntityId == entityId && x.StatusDocumentId == h.DocumentStatusId).ToList();
                     string statusLabel = (myStatusDocument.Count() == 0) ? "" : myStatusDocument.First().StatusDocumentLabel;
                     var toAdd = new
@@ -112,8 +109,7 @@ namespace TakeDocService.Workflow.Document
                         DocumentVersionId = h.DocumentVersionId,
                         EntityId = h.EntityId,
                         DateCreateData = h.DateCreateData,
-                        Actions = actions,
-                        Answers = answers
+                        Actions = actions
 
                     };
                     back.Add(toAdd);

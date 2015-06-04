@@ -333,7 +333,6 @@
           <Property Name="WorkflowAnswerReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WorkflowAnswerLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="WorkflowAnswerCss" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkflowType">
           <Key>
@@ -352,6 +351,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
             <PropertyRef Name="DocumentReference" />
             <PropertyRef Name="DocumentLabel" />
             <PropertyRef Name="DocumentDateCreateData" />
+            <PropertyRef Name="DocumentStatusId" />
             <PropertyRef Name="DocumentStatusReference" />
             <PropertyRef Name="DocumentStatusLabel" />
             <PropertyRef Name="TypeDocumentReference" />
@@ -374,6 +374,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="DocumentOwnerReference" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentOwnerId" Type="uniqueidentifier" />
           <Property Name="DocumentOwnerFullName" Type="nvarchar" MaxLength="401" />
+          <Property Name="DocumentStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -826,6 +827,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_DocumentExtended].[DocumentOwnerReference] AS [DocumentOwnerReference], 
     [View_DocumentExtended].[DocumentOwnerId] AS [DocumentOwnerId], 
     [View_DocumentExtended].[DocumentOwnerFullName] AS [DocumentOwnerFullName], 
+    [View_DocumentExtended].[DocumentStatusId] AS [DocumentStatusId], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
     [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
     [View_DocumentExtended].[TypeDocumentReference] AS [TypeDocumentReference], 
@@ -1132,9 +1134,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="UserTk" EntitySet="UserTk" />
             <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
           </AssociationSet>
-          <FunctionImport Name="GetDocumentToValidate" ReturnType="Collection(TakeDocModel.DocumentToValidate)">
-          <Parameter Name="userId" Mode="In" Type="Guid" />
-          </FunctionImport>
           <EntitySet Name="Workflow" EntityType="TakeDocModel.Workflow" />
           <EntitySet Name="WorkflowType" EntityType="TakeDocModel.WorkflowType" />
           <AssociationSet Name="FK_Workflow_WorkflowType" Association="TakeDocModel.FK_Workflow_WorkflowType">
@@ -1165,6 +1164,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="GetWorkflowHistory" ReturnType="Collection(TakeDocModel.GetWorkflowHistory_Result)">
             <Parameter Name="documentId" Mode="In" Type="Guid" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="GetDocumentToValidate" ReturnType="Collection(TakeDocModel.DocumentToValidate)">
+          <Parameter Name="userId" Mode="In" Type="Guid" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1627,6 +1629,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <PropertyRef Name="EntityId" />
             <PropertyRef Name="VersionId" />
             <PropertyRef Name="DocumentDateCreateData" />
+            <PropertyRef Name="DocumentStatusId" />
           </Key>
           <Property Name="EntityReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLabel" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1649,6 +1652,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="VersionId" Type="Guid" Nullable="false" />
           <Property Name="DocumentOwnerReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -1825,31 +1829,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="DocumentToValidate">
-          <Property Type="String" Name="TypeValidation" Nullable="false" MaxLength="13" />
-          <Property Type="Guid" Name="ValidateUser" Nullable="true" />
-          <Property Type="Guid" Name="EntityId" Nullable="false" />
-          <Property Type="String" Name="EntityReference" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="EntityLabel" Nullable="true" MaxLength="200" />
-          <Property Type="Guid" Name="DocumentId" Nullable="false" />
-          <Property Type="String" Name="DocumentReference" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="DocumentLabel" Nullable="false" />
-          <Property Type="DateTimeOffset" Name="DocumentDateCreateData" Nullable="false" />
-          <Property Type="String" Name="DocumentOwnerReference" Nullable="true" MaxLength="50" />
-          <Property Type="Guid" Name="DocumentOwnerId" Nullable="true" />
-          <Property Type="String" Name="DocumentOwnerFullName" Nullable="true" MaxLength="401" />
-          <Property Type="String" Name="DocumentStatusReference" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="DocumentStatusLabel" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="TypeDocumentReference" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="DocumentTypeLabel" Nullable="false" />
-          <Property Type="DateTimeOffset" Name="VersionDateCreateData" Nullable="false" />
-          <Property Type="Boolean" Name="VersionMajor" Nullable="false" />
-          <Property Type="Decimal" Name="VersionNumber" Nullable="false" Precision="18" Scale="2" />
-          <Property Type="Guid" Name="VersionId" Nullable="false" />
-          <Property Type="String" Name="VersionReference" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="StatusVersionReference" Nullable="false" MaxLength="50" />
-          <Property Type="String" Name="VersionStatusLabel" Nullable="false" MaxLength="200" />
-        </ComplexType>
         <EntityType Name="Workflow">
           <Key>
             <PropertyRef Name="WorkflowId" />
@@ -1932,7 +1911,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="WorkflowAnswerLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" FromRole="WorkflowAnswer" ToRole="WorkflowType" />
-          <Property Name="WorkflowAnswerCss" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_WorkfFlowAnswer_WorkflowType">
           <End Type="TakeDocModel.WorkflowType" Role="WorkflowType" Multiplicity="1" />
@@ -1972,6 +1950,32 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="Guid" Name="Id" Nullable="true" />
           <Property Type="Guid" Name="VersionId" Nullable="true" />
           <Property Type="Guid" Name="EntityId" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="DocumentToValidate">
+          <Property Type="String" Name="TypeValidation" Nullable="false" MaxLength="13" />
+          <Property Type="Guid" Name="ValidateUser" Nullable="true" />
+          <Property Type="Guid" Name="EntityId" Nullable="false" />
+          <Property Type="String" Name="EntityReference" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="EntityLabel" Nullable="true" MaxLength="200" />
+          <Property Type="Guid" Name="DocumentId" Nullable="false" />
+          <Property Type="String" Name="DocumentReference" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DocumentLabel" Nullable="false" />
+          <Property Type="DateTimeOffset" Name="DocumentDateCreateData" Nullable="false" />
+          <Property Type="String" Name="DocumentOwnerReference" Nullable="true" MaxLength="50" />
+          <Property Type="Guid" Name="DocumentOwnerId" Nullable="true" />
+          <Property Type="String" Name="DocumentOwnerFullName" Nullable="true" MaxLength="401" />
+          <Property Type="Guid" Name="DocumentStatusId" Nullable="false" />
+          <Property Type="String" Name="DocumentStatusReference" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DocumentStatusLabel" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="TypeDocumentReference" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="DocumentTypeLabel" Nullable="false" />
+          <Property Type="DateTimeOffset" Name="VersionDateCreateData" Nullable="false" />
+          <Property Type="Boolean" Name="VersionMajor" Nullable="false" />
+          <Property Type="Decimal" Name="VersionNumber" Nullable="false" Precision="18" Scale="2" />
+          <Property Type="Guid" Name="VersionId" Nullable="false" />
+          <Property Type="String" Name="VersionReference" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="StatusVersionReference" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="VersionStatusLabel" Nullable="false" MaxLength="200" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2286,6 +2290,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="IsTypeOf(TakeDocModel.View_DocumentExtended)">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
                 <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
@@ -2402,35 +2407,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetDocumentToValidate" FunctionName="TakeDocModel.Store.GetDocumentToValidate">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TakeDocModel.DocumentToValidate">
-                <ScalarProperty Name="TypeValidation" ColumnName="TypeValidation" />
-                <ScalarProperty Name="ValidateUser" ColumnName="ValidateUser" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-                <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
-                <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />
-                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
-                <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
-                <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
-                <ScalarProperty Name="DocumentDateCreateData" ColumnName="DocumentDateCreateData" />
-                <ScalarProperty Name="DocumentOwnerReference" ColumnName="DocumentOwnerReference" />
-                <ScalarProperty Name="DocumentOwnerId" ColumnName="DocumentOwnerId" />
-                <ScalarProperty Name="DocumentOwnerFullName" ColumnName="DocumentOwnerFullName" />
-                <ScalarProperty Name="DocumentStatusReference" ColumnName="DocumentStatusReference" />
-                <ScalarProperty Name="DocumentStatusLabel" ColumnName="DocumentStatusLabel" />
-                <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
-                <ScalarProperty Name="DocumentTypeLabel" ColumnName="DocumentTypeLabel" />
-                <ScalarProperty Name="VersionDateCreateData" ColumnName="VersionDateCreateData" />
-                <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
-                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
-                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
-                <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
-                <ScalarProperty Name="StatusVersionReference" ColumnName="StatusVersionReference" />
-                <ScalarProperty Name="VersionStatusLabel" ColumnName="VersionStatusLabel" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="Workflow">
             <EntityTypeMapping TypeName="TakeDocModel.Workflow">
               <MappingFragment StoreEntitySet="Workflow">
@@ -2459,7 +2435,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="WorkflowAnswer">
             <EntityTypeMapping TypeName="TakeDocModel.WorkflowAnswer">
               <MappingFragment StoreEntitySet="WorkflowAnswer">
-                <ScalarProperty Name="WorkflowAnswerCss" ColumnName="WorkflowAnswerCss" />
                 <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
                 <ScalarProperty Name="WorkflowAnswerLabel" ColumnName="WorkflowAnswerLabel" />
                 <ScalarProperty Name="WorkflowAnswerReference" ColumnName="WorkflowAnswerReference" />
@@ -2483,6 +2458,36 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="VersionId" ColumnName="VersionId" />
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetDocumentToValidate" FunctionName="TakeDocModel.Store.GetDocumentToValidate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TakeDocModel.DocumentToValidate">
+                <ScalarProperty Name="TypeValidation" ColumnName="TypeValidation" />
+                <ScalarProperty Name="ValidateUser" ColumnName="ValidateUser" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="EntityReference" ColumnName="EntityReference" />
+                <ScalarProperty Name="EntityLabel" ColumnName="EntityLabel" />
+                <ScalarProperty Name="DocumentId" ColumnName="DocumentId" />
+                <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
+                <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />
+                <ScalarProperty Name="DocumentDateCreateData" ColumnName="DocumentDateCreateData" />
+                <ScalarProperty Name="DocumentOwnerReference" ColumnName="DocumentOwnerReference" />
+                <ScalarProperty Name="DocumentOwnerId" ColumnName="DocumentOwnerId" />
+                <ScalarProperty Name="DocumentOwnerFullName" ColumnName="DocumentOwnerFullName" />
+                <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
+                <ScalarProperty Name="DocumentStatusReference" ColumnName="DocumentStatusReference" />
+                <ScalarProperty Name="DocumentStatusLabel" ColumnName="DocumentStatusLabel" />
+                <ScalarProperty Name="TypeDocumentReference" ColumnName="TypeDocumentReference" />
+                <ScalarProperty Name="DocumentTypeLabel" ColumnName="DocumentTypeLabel" />
+                <ScalarProperty Name="VersionDateCreateData" ColumnName="VersionDateCreateData" />
+                <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
+                <ScalarProperty Name="StatusVersionReference" ColumnName="StatusVersionReference" />
+                <ScalarProperty Name="VersionStatusLabel" ColumnName="VersionStatusLabel" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

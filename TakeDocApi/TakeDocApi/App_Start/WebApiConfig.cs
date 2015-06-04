@@ -42,6 +42,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.DocumentStatusHisto>("DocumentStatusHistos");
             builder.EntitySet<TakeDocModel.Workflow>("Workflows");
             builder.EntitySet<TakeDocModel.WorkflowType>("WorkflowTypes");
+            builder.EntitySet<TakeDocModel.WorkflowAnswer>("WorkflowAnswers");
                
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }

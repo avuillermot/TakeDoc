@@ -213,15 +213,6 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddDocumentStatusHisto", documentIdParameter, statusIdParameter, userIdParameter, entityIdParameter);
         }
     
-        public virtual ObjectResult<DocumentToValidate> GetDocumentToValidate(Nullable<System.Guid> userId)
-        {
-            var userIdParameter = userId.HasValue ?
-                new ObjectParameter("userId", userId) :
-                new ObjectParameter("userId", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentToValidate>("GetDocumentToValidate", userIdParameter);
-        }
-    
         public virtual ObjectResult<GetWorkflowHistory_Result> GetWorkflowHistory(Nullable<System.Guid> documentId, Nullable<System.Guid> entityId)
         {
             var documentIdParameter = documentId.HasValue ?
@@ -233,6 +224,15 @@ namespace TakeDocModel
                 new ObjectParameter("entityId", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWorkflowHistory_Result>("GetWorkflowHistory", documentIdParameter, entityIdParameter);
+        }
+    
+        public virtual ObjectResult<DocumentToValidate> GetDocumentToValidate(Nullable<System.Guid> userId)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("userId", userId) :
+                new ObjectParameter("userId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<DocumentToValidate>("GetDocumentToValidate", userIdParameter);
         }
     }
 }

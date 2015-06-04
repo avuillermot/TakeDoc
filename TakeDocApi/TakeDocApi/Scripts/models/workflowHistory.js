@@ -75,7 +75,6 @@ var WorkflowHistorys = Backbone.Collection.extend({
     model: WorkflowHistory,
     url: environnement.UrlBase + "workflow/history/<documentId/>/<entityId/>",
     parse: function () {
-        debugger;
         var data = arguments[0].value;
         var arr = new Array();
         for (var i = 0; i < data.length; i++) {
@@ -92,7 +91,6 @@ var WorkflowHistorys = Backbone.Collection.extend({
         return arr;
     },
     load: function (param) {
-        debugger;
         var myUrl = this.url.replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId);
         this.fetch({ success: param.success, error: param.error, url: myUrl, reset: true }).always(param.always);
     },

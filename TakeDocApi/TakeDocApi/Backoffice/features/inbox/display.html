@@ -4,9 +4,10 @@
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
-    </div>
+        <!--<button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>-->
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
+</div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
             <h3 class="panel-title">{{title}}</h3>
@@ -73,3 +74,28 @@
     </div>
 </div>
 
+<!-- Modal anwswer worfkfow -->
+<div class="modal fade tk-modal" id="modalAnswerWorkflow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Actions</h4>
+            </div>
+            <div class="modal-body">
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedAnswer.attributes.label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="answer.attributes.id" ng-click="doSelectedAnswer();" onclick="return false" ng-repeat="answer in answers.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{answer.attributes.label}}</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default glyphicon glyphicon-ok" ng-model="selectedAnswer.attributes.id" ng-click="doValidSelectedAnswer()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            </div>
+        </div>
+    </div>
+</div>
