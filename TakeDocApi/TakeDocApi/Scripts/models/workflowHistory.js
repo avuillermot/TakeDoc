@@ -7,11 +7,13 @@
         dateRealize: null,
         answerId: null,
         answerReference: null,
+        answerLabel: null,
         statusId: null,
         typeDocumentId: null,
         typeDocumentLabel: null,
         index: null,
         versionId: null,
+        typeWorkflowId: null,
         entityId: null
     },
     parse: function () {
@@ -23,11 +25,13 @@
         this.set("dateRealize", current.DateRealize);
         this.set("answerId", current.AnswerId);
         this.set("answerReference", current.AnswerReference);
+        this.set("answerLabel", current.AnswerLabel);
         this.set("statusId", current.StatusDocumentId);
         this.set("typeDocumentId", current.TypeDocumentId);
         this.set("typeDocumentLabel", current.TypeDocumentLabel);
         this.set("index", current.Index);
         this.set("versionId", current.VersionId);
+        this.set("typeWorkflowId", current.WorkflowTypeId);
         this.set("entityId", current.EntityId);
         return this;
     }
@@ -94,4 +98,31 @@ var WorkflowHistorys = Backbone.Collection.extend({
         var myUrl = this.url.replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId);
         this.fetch({ success: param.success, error: param.error, url: myUrl, reset: true }).always(param.always);
     },
+    //*************************************
+    // return current action to answer
+    //*************************************
+    getCurrentAction: function () {
+        var back = null;
+        var allActions = new Array();
+        $.each(this.models, function (iw, vw) {
+            $.each(vw.actions, function(ia, va) {
+                var current = va;
+                current.set("documentIndex", vw.get("documentIndex"));
+                allActions.push(current);
+            });
+        });
+
+        // we search first action with no answer
+        var indexDoc = 32000, indexAction = 32000;
+        $.each(allActions, function (index, value) {
+            if (value.get("documentIndex") <= indexDoc) {
+                if (value.get("index") < indexAction && value.get("answerId") == null) {
+                    back = value;
+                    indexDoc = value.get("documentIndex");
+                    indexAction = value.get("index");
+                }
+            }
+        });
+        return back;
+    }
 });

@@ -201,8 +201,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         };
         
         var param = {
+            action: wfHistory.getCurrentAction(),
             success: function () {
-                debugger;
                 $scope.answers = arguments[0];
                 fDisplayModal();
                 if (!$scope.$$phase) $scope.$apply();
@@ -214,11 +214,22 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         answers.load(param);
     };
 
-    $scope.doSelectedAnswer = function () {
-        $scope.selectedAnswer = this.answer;
-    };
-
     $scope.doValidSelectedAnswer = function () {
-        $("#modalAnswerWorkflow").modal("hide");
+        var param = {
+            workflowId: wfHistory.getCurrentAction().get("id"),
+            userId: $rootScope.getUser().Id,
+            answerId: this.answer.get("id"),
+            always: function () {
+                $("#modalAnswerWorkflow").modal("hide");
+            },
+            success: function() {
+                loadHistory();
+            },
+            error: function () {
+                $rootScope.showError({ message: "Votre réponse n'est pas prise en compte." })
+            }
+        };
+        answers.answer(param);
+       
     };
 }]);

@@ -28,14 +28,13 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPost]
-        [Route("answer/{workflowId}/{userId}/approve")]
-        public object SetAnswer(Guid workflowId, Guid userId)
+        [Route("answer/{workflowId}/{userId}/{answerId}")]
+        public object SetAnswer(Guid workflowId, Guid userId, Guid answerId)
         {
-            TakeDocService.Workflow.Document.ValidationAuto servValidate = new TakeDocService.Workflow.Document.ValidationAuto();
+            TakeDocService.Workflow.Document.Answer servAnswer = new TakeDocService.Workflow.Document.Answer();
             try
             {
-                /*ICollection<object> histos = servValidate.GetStatusHistory(documentId, entityId);
-                var req = new { value = histos };*/
+                servAnswer.SetAnswer(workflowId, userId, answerId);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

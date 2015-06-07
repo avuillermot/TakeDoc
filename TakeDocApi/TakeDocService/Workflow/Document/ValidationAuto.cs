@@ -17,10 +17,5 @@ namespace TakeDocService.Workflow.Document
             if (this.daoWorkflow.IsAllApprove(version.VersionId, version.EntityId)) this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);
             return true;
         }
-
-        public void Answer(Guid versionId, Guid workflowId, Guid entityId, string answerRef, TakeDocModel.UserTk user)
-        {
-            throw new NotImplementedException("not required in this worflow type");
-        }
     }
 }

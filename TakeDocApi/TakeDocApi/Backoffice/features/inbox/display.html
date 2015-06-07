@@ -64,7 +64,7 @@
                         <div ng-repeat="history in historys.models">
                             {{history.attributes.statusLabel}}&#160;&#160;{{history.attributes.dateCreateData}}
                             <div ng-repeat="action in history.actions | orderBy:['attributes.index']">
-                                {{action.attributes.typeDocumentLabel}}-{{action.attributes.fullName}}
+                                {{action.attributes.typeDocumentLabel}}-{{action.attributes.fullName}}-{{action.attributes.dateRealize}}-{{action.attributes.answerLabel}}
                             </div>
                         </div>
                     </div>
@@ -83,18 +83,9 @@
                 <h4 class="modal-title">Actions</h4>
             </div>
             <div class="modal-body">
-                <div class="dropdown" style="display:inline-block">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-                        {{selectedAnswer.attributes.label}}
-                        <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" ng-model="answer.attributes.id" ng-click="doSelectedAnswer();" onclick="return false" ng-repeat="answer in answers.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{answer.attributes.label}}</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-default glyphicon glyphicon-ok" ng-model="selectedAnswer.attributes.id" ng-click="doValidSelectedAnswer()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+                <ul ng-repeat="answer in answers.models | orderBy:['attributes.label']">
+                    <li style="padding-bottom:5px; cursor:pointer" ng-model="answer.attributes.id" ng-click="doValidSelectedAnswer()">{{answer.attributes.label}}</li>
+                </ul>
             </div>
         </div>
     </div>

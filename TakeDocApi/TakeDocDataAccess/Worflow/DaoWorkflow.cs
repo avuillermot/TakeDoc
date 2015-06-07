@@ -25,14 +25,11 @@ namespace TakeDocDataAccess.Workflow
             return base.GetBy(where, properties);
         }
 
-        public void SetAnswer(ICollection<TakeDocModel.Workflow> workflows, TakeDocModel.WorkflowAnswer answer, Guid userId) {
-            foreach (TakeDocModel.Workflow wf in workflows)
-            {
-                wf.WorkflowAnswerId = answer.WorkflowAnswerId;
-                if (wf.WorkflowUserId == null) wf.WorkflowUserId = userId;
-                wf.WorkflowDateRealize = System.DateTime.UtcNow;
-                this.Update(wf);
-            }
+        public void SetAnswer(TakeDocModel.Workflow workflow, Guid answerId, Guid userId) {
+            workflow.WorkflowAnswerId =answerId;
+            if (workflow.WorkflowUserId == null) workflow.WorkflowUserId = userId;
+            workflow.WorkflowDateRealize = System.DateTime.UtcNow;
+            this.Update(workflow);
         }
     }
 }

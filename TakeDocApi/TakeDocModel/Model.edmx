@@ -328,6 +328,7 @@
         <EntityType Name="WorkflowAnswer">
           <Key>
             <PropertyRef Name="WorkflowAnswerId" />
+            <PropertyRef Name="WorkflowTypeId" />
           </Key>
           <Property Name="WorkflowAnswerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkflowAnswerReference" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -719,9 +720,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <ReferentialConstraint>
             <Principal Role="WorkflowAnswer">
               <PropertyRef Name="WorkflowAnswerId" />
+              <PropertyRef Name="WorkflowTypeId" />
             </Principal>
             <Dependent Role="Workflow">
               <PropertyRef Name="WorkflowAnswerId" />
+              <PropertyRef Name="WorkflowTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1157,6 +1160,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="WorkflowType" EntitySet="WorkflowType" />
             <End Role="WorkflowAnswer" EntitySet="WorkflowAnswer" />
           </AssociationSet>
+          <FunctionImport Name="GetDocumentToValidate" ReturnType="Collection(TakeDocModel.DocumentToValidate)">
+          <Parameter Name="userId" Mode="In" Type="Guid" />
+          </FunctionImport>
           <AssociationSet Name="FK_Workflow_WorkflowAnswer" Association="TakeDocModel.FK_Workflow_WorkflowAnswer">
             <End Role="WorkflowAnswer" EntitySet="WorkflowAnswer" />
             <End Role="Workflow" EntitySet="Workflow" />
@@ -1164,9 +1170,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="GetWorkflowHistory" ReturnType="Collection(TakeDocModel.GetWorkflowHistory_Result)">
             <Parameter Name="documentId" Mode="In" Type="Guid" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
-          </FunctionImport>
-          <FunctionImport Name="GetDocumentToValidate" ReturnType="Collection(TakeDocModel.DocumentToValidate)">
-          <Parameter Name="userId" Mode="In" Type="Guid" />
           </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
@@ -1843,7 +1846,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="WorkflowStatusDocumentId" Type="Guid" Nullable="false" />
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
-          <Property Name="WorkflowAnswerId" Type="Guid" />
+          <Property Name="WorkflowAnswerId" Type="Guid" Nullable="true" />
           <NavigationProperty Name="WorkflowAnswer" Relationship="TakeDocModel.FK_Workflow_WorkflowAnswer" FromRole="Workflow" ToRole="WorkflowAnswer" />
         </EntityType>
         <EntityType Name="WorkflowType">
@@ -1905,12 +1908,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <EntityType Name="WorkflowAnswer">
           <Key>
             <PropertyRef Name="WorkflowAnswerId" />
+            <PropertyRef Name="WorkflowTypeId" />
           </Key>
           <Property Name="WorkflowAnswerId" Type="Guid" Nullable="false" />
           <Property Name="WorkflowAnswerReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkflowAnswerLabel" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" FromRole="WorkflowAnswer" ToRole="WorkflowType" />
+          <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_WorkflowAnswer" FromRole="WorkflowAnswer" ToRole="Workflow" />
         </EntityType>
         <Association Name="FK_WorkfFlowAnswer_WorkflowType">
           <End Type="TakeDocModel.WorkflowType" Role="WorkflowType" Multiplicity="1" />
@@ -1924,33 +1929,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Workflow_WorkflowAnswer">
-          <End Type="TakeDocModel.WorkflowAnswer" Role="WorkflowAnswer" Multiplicity="0..1" />
-          <End Type="TakeDocModel.Workflow" Role="Workflow" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="WorkflowAnswer">
-              <PropertyRef Name="WorkflowAnswerId" />
-            </Principal>
-            <Dependent Role="Workflow">
-              <PropertyRef Name="WorkflowAnswerId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="GetWorkflowHistory_Result">
-          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
-          <Property Type="DateTimeOffset" Name="DateRealize" Nullable="true" />
-          <Property Type="Guid" Name="AnswerId" Nullable="true" />
-          <Property Type="String" Name="AnswerReference" Nullable="true" MaxLength="50" />
-          <Property Type="Guid" Name="StatusDocumentId" Nullable="true" />
-          <Property Type="Guid" Name="TypeDocumentId" Nullable="true" />
-          <Property Type="String" Name="TypeDocumentLabel" Nullable="true" MaxLength="50" />
-          <Property Type="Int32" Name="Index" Nullable="true" />
-          <Property Type="Guid" Name="Id" Nullable="true" />
-          <Property Type="Guid" Name="VersionId" Nullable="true" />
-          <Property Type="Guid" Name="EntityId" Nullable="true" />
-        </ComplexType>
         <ComplexType Name="DocumentToValidate">
           <Property Type="String" Name="TypeValidation" Nullable="false" MaxLength="13" />
           <Property Type="Guid" Name="ValidateUser" Nullable="true" />
@@ -1976,6 +1954,37 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="String" Name="VersionReference" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="StatusVersionReference" Nullable="false" MaxLength="50" />
           <Property Type="String" Name="VersionStatusLabel" Nullable="false" MaxLength="200" />
+        </ComplexType>
+        <Association Name="FK_Workflow_WorkflowAnswer">
+          <End Type="TakeDocModel.WorkflowAnswer" Role="WorkflowAnswer" Multiplicity="0..1" />
+          <End Type="TakeDocModel.Workflow" Role="Workflow" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkflowAnswer">
+              <PropertyRef Name="WorkflowAnswerId" />
+              <PropertyRef Name="WorkflowTypeId" />
+            </Principal>
+            <Dependent Role="Workflow">
+              <PropertyRef Name="WorkflowAnswerId" />
+              <PropertyRef Name="WorkflowTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <ComplexType Name="GetWorkflowHistory_Result">
+          <Property Type="String" Name="LastName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FirstName" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="FullName" Nullable="true" MaxLength="200" />
+          <Property Type="DateTimeOffset" Name="DateRealize" Nullable="true" />
+          <Property Type="Guid" Name="AnswerId" Nullable="true" />
+          <Property Type="String" Name="AnswerReference" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="AnswerLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Guid" Name="StatusDocumentId" Nullable="true" />
+          <Property Type="Guid" Name="TypeDocumentId" Nullable="true" />
+          <Property Type="String" Name="TypeDocumentLabel" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Index" Nullable="true" />
+          <Property Type="Guid" Name="Id" Nullable="true" />
+          <Property Type="Guid" Name="VersionId" Nullable="true" />
+          <Property Type="Guid" Name="WorkflowTypeId" Nullable="true" />
+          <Property Type="Guid" Name="EntityId" Nullable="true" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2442,25 +2451,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetWorkflowHistory" FunctionName="TakeDocModel.Store.GetWorkflowHistory">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TakeDocModel.GetWorkflowHistory_Result">
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="FullName" ColumnName="FullName" />
-                <ScalarProperty Name="DateRealize" ColumnName="DateRealize" />
-                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
-                <ScalarProperty Name="AnswerReference" ColumnName="AnswerReference" />
-                <ScalarProperty Name="StatusDocumentId" ColumnName="StatusDocumentId" />
-                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
-                <ScalarProperty Name="TypeDocumentLabel" ColumnName="TypeDocumentLabel" />
-                <ScalarProperty Name="Index" ColumnName="Index" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="GetDocumentToValidate" FunctionName="TakeDocModel.Store.GetDocumentToValidate">
             <ResultMapping>
               <ComplexTypeMapping TypeName="TakeDocModel.DocumentToValidate">
@@ -2488,6 +2478,27 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
                 <ScalarProperty Name="StatusVersionReference" ColumnName="StatusVersionReference" />
                 <ScalarProperty Name="VersionStatusLabel" ColumnName="VersionStatusLabel" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="GetWorkflowHistory" FunctionName="TakeDocModel.Store.GetWorkflowHistory">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TakeDocModel.GetWorkflowHistory_Result">
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateRealize" ColumnName="DateRealize" />
+                <ScalarProperty Name="AnswerId" ColumnName="AnswerId" />
+                <ScalarProperty Name="AnswerReference" ColumnName="AnswerReference" />
+                <ScalarProperty Name="AnswerLabel" ColumnName="AnswerLabel" />
+                <ScalarProperty Name="StatusDocumentId" ColumnName="StatusDocumentId" />
+                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
+                <ScalarProperty Name="TypeDocumentLabel" ColumnName="TypeDocumentLabel" />
+                <ScalarProperty Name="Index" ColumnName="Index" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="VersionId" ColumnName="VersionId" />
+                <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

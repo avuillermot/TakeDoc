@@ -14,11 +14,17 @@ namespace TakeDocModel
     
     public partial class WorkflowAnswer
     {
+        public WorkflowAnswer()
+        {
+            this.Workflow = new HashSet<Workflow>();
+        }
+    
         public System.Guid WorkflowAnswerId { get; set; }
         public string WorkflowAnswerReference { get; set; }
         public string WorkflowAnswerLabel { get; set; }
         public System.Guid WorkflowTypeId { get; set; }
     
         public virtual WorkflowType WorkflowType { get; set; }
+        public virtual ICollection<Workflow> Workflow { get; set; }
     }
 }

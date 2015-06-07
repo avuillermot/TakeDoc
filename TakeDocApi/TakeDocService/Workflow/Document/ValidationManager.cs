@@ -17,10 +17,5 @@ namespace TakeDocService.Workflow.Document
             servReportVersion.Generate(document.DocumentCurrentVersionId.Value, document.EntityId);
             return true;
         }
-
-        public void Answer(Guid versionId, Guid workflowId, Guid entityId, string answerRef, TakeDocModel.UserTk user)
-        {
-            throw new NotImplementedException();
-        }
      }
 }

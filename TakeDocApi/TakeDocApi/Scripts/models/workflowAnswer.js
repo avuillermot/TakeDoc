@@ -26,7 +26,23 @@ var WorkflowAnswers = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        var url = environnement.UrlBase + "odata/WorkflowAnswers";
+        var url = environnement.UrlBase + "odata/WorkflowAnswers?$filter=WorkflowTypeId eq guid'{{workflowTypeId}}'";
+        url = url.replace("{{workflowTypeId}}", param.action.get("typeWorkflowId"));
         this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
     },
+    answer: function (param) {
+        var url = environnement.UrlBase + "workflow/answer/{{workflowId}}/{{userId}}/{{answerId}}";
+        url = url.replace("{{workflowId}}", param.workflowId);
+        url = url.replace("{{userId}}", param.userId);
+        url = url.replace("{{answerId}}", param.answerId);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: { '': JSON.stringify(param.fields) },
+            success: param.success,
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
+        }).always(param.always);
+    }
 });
