@@ -334,6 +334,8 @@
           <Property Name="WorkflowAnswerReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WorkflowAnswerLabel" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="WorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="WorkflowAnswerGoOn" Type="bit" Nullable="false" />
+          <Property Name="WorkflowAnswerCss" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="WorkflowType">
           <Key>
@@ -1916,6 +1918,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" FromRole="WorkflowAnswer" ToRole="WorkflowType" />
           <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_WorkflowAnswer" FromRole="WorkflowAnswer" ToRole="Workflow" />
+          <Property Name="WorkflowAnswerGoOn" Type="Boolean" Nullable="false" />
+          <Property Name="WorkflowAnswerCss" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_WorkfFlowAnswer_WorkflowType">
           <End Type="TakeDocModel.WorkflowType" Role="WorkflowType" Multiplicity="1" />
@@ -2444,6 +2448,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="WorkflowAnswer">
             <EntityTypeMapping TypeName="TakeDocModel.WorkflowAnswer">
               <MappingFragment StoreEntitySet="WorkflowAnswer">
+                <ScalarProperty Name="WorkflowAnswerCss" ColumnName="WorkflowAnswerCss" />
+                <ScalarProperty Name="WorkflowAnswerGoOn" ColumnName="WorkflowAnswerGoOn" />
                 <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
                 <ScalarProperty Name="WorkflowAnswerLabel" ColumnName="WorkflowAnswerLabel" />
                 <ScalarProperty Name="WorkflowAnswerReference" ColumnName="WorkflowAnswerReference" />

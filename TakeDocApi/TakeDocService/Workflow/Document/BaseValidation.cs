@@ -27,11 +27,7 @@ namespace TakeDocService.Workflow.Document
 
         protected void SetStatus(TakeDocModel.Document document, string status, Guid userId)
         {
-            // we update only if status are different
-            bool ok = (document.Status_Document.StatusDocumentReference.Equals(status) == false);
-            // we update only if the new status is allow
-            if (ok == true) ok = servStatus.CheckNewStatus(document.Status_Document.StatusDocumentReference, status);
-            if (ok == true) servStatus.SetStatus(document, status, userId, true);
+            servStatus.SetStatus(document, status, userId, true);
         }
 
         /// <summary>
@@ -81,7 +77,7 @@ namespace TakeDocService.Workflow.Document
             try
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId && x.EntityId == entityId).First();
-                ICollection<TakeDocModel.GetWorkflowHistory_Result> historyValidate = context.GetWorkflowHistory(documentId, entityId).ToList();
+                ICollection<TakeDocModel.GetWorkflowHistory_Result> steps = context.GetWorkflowHistory(documentId, entityId).ToList();
                 ICollection<TakeDocModel.DocumentStatusHisto> historyStatus = servStatus.GetStatus(documentId, entityId);
                 ICollection<TakeDocModel.Status_Document> statusDocument = daoStDocument.GetBy(x => x.EntityId == entityId);
                 
@@ -97,7 +93,7 @@ namespace TakeDocService.Workflow.Document
 
                 foreach (TakeDocModel.DocumentStatusHisto h in historyStatus)
                 {
-                    var actions = historyValidate.Where(x => x.StatusDocumentId == h.DocumentStatusId).ToList();
+                    var actions = steps.Where(x => x.StatusDocumentId == h.DocumentStatusId).ToList();
                     ICollection<TakeDocModel.Status_Document> myStatusDocument = statusDocument.Where(x => x.EntityId == entityId && x.StatusDocumentId == h.DocumentStatusId).ToList();
                     string statusLabel = (myStatusDocument.Count() == 0) ? "" : myStatusDocument.First().StatusDocumentLabel;
                     var toAdd = new
@@ -110,7 +106,6 @@ namespace TakeDocService.Workflow.Document
                         EntityId = h.EntityId,
                         DateCreateData = h.DateCreateData,
                         Actions = actions
-
                     };
                     back.Add(toAdd);
                 }

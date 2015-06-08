@@ -8,6 +8,6 @@ namespace TakeDocService.Workflow.Document.Interface
 {
     public interface IAnswer
     {
-        void SetAnswer(Guid workflowId, Guid userId, Guid answerId);
+        void SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId);
     }
 }

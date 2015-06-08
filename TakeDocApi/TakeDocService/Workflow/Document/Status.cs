@@ -51,6 +51,11 @@ namespace TakeDocService.Workflow.Document
                 if (oldStatus.Equals(TakeDocModel.Status_Document.ToValidate)) return true;
                 return false;
             }
+            else if (newStatus.Equals(TakeDocModel.Status_Document.Refuse))
+            {
+                if (oldStatus.Equals(TakeDocModel.Status_Document.ToValidate)) return true;
+                return false;
+            }
             else if (newStatus.Equals(TakeDocModel.Status_Document.Archive))
             {
                 if (oldStatus.Equals(TakeDocModel.Status_Document.Complete)) return true;
@@ -69,27 +74,31 @@ namespace TakeDocService.Workflow.Document
 
         public void SetStatus(TakeDocModel.Document document, string status, Guid userId, bool updateStatusVersion)
         {
-            bool okStatus = this.CheckNewStatus(document.Status_Document.StatusDocumentReference, status);
-            if (okStatus == false) throw new Exception("Erreur workflow");
-            using (TransactionScope transaction = new TransactionScope())
+            bool ok = (document.Status_Document.StatusDocumentReference.Equals(status) == false);
+            if (ok)
             {
-                TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == document.EntityId).First();
-
-                // mise à jour du statut de la version à recu
-                if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
+                bool okStatus = this.CheckNewStatus(document.Status_Document.StatusDocumentReference, status);
+                if (okStatus == false) throw new Exception("Erreur workflow");
+                using (TransactionScope transaction = new TransactionScope())
                 {
-                    TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
-                    servVersion.SetStatus(version, status, userId);
+                    TakeDocModel.Status_Document stDocument = daoStDocument.GetBy(x => x.StatusDocumentReference == status && x.EntityId == document.EntityId).First();
+
+                    // mise à jour du statut de la version à recu
+                    if (document.DocumentCurrentVersionId.HasValue && updateStatusVersion == true)
+                    {
+                        TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
+                        servVersion.SetStatus(version, status, userId);
+                    }
+
+                    context.AddDocumentStatusHisto(document.DocumentId, document.DocumentStatusId, userId, document.EntityId);
+                    // mise à jour du statut du document à recu
+                    document.DocumentStatusId = stDocument.StatusDocumentId;
+                    document.UserUpdateData = userId;
+                    document.DateUpdateData = System.DateTimeOffset.UtcNow;
+                    daoDocument.Update(document);
+
+                    transaction.Complete();
                 }
-
-                context.AddDocumentStatusHisto(document.DocumentId, document.DocumentStatusId, userId, document.EntityId);
-                // mise à jour du statut du document à recu
-                document.DocumentStatusId = stDocument.StatusDocumentId;
-                document.UserUpdateData = userId;
-                document.DateUpdateData = System.DateTimeOffset.UtcNow;
-                daoDocument.Update(document);
-
-                transaction.Complete();
             }
         }
 

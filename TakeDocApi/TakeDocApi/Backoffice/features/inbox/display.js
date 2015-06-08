@@ -215,8 +215,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doValidSelectedAnswer = function () {
+        var currentAction = wfHistory.getCurrentAction();
         var param = {
-            workflowId: wfHistory.getCurrentAction().get("id"),
+            workflowId: currentAction.get("id"),
+            versionId: currentAction.get("versionId"),
             userId: $rootScope.getUser().Id,
             answerId: this.answer.get("id"),
             always: function () {

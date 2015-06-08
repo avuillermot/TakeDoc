@@ -28,13 +28,13 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPost]
-        [Route("answer/{workflowId}/{userId}/{answerId}")]
-        public object SetAnswer(Guid workflowId, Guid userId, Guid answerId)
+        [Route("answer/{workflowId}/{versionId}/{userId}/{answerId}")]
+        public object SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId)
         {
             TakeDocService.Workflow.Document.Answer servAnswer = new TakeDocService.Workflow.Document.Answer();
             try
             {
-                servAnswer.SetAnswer(workflowId, userId, answerId);
+                servAnswer.SetAnswer(workflowId, versionId, userId, answerId);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

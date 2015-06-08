@@ -45,6 +45,8 @@ namespace TakeDocService.Stats
                     int nbIncomplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Incomplete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     int nbComplete = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Complete && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     int toValidate = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.ToValidate && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int approve = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Approve && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
+                    int refuse = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Refuse && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     int archive = documents.Where(x => x.Status_Document.StatusDocumentReference == TakeDocModel.Status_Document.Archive && x.Type_Document.TypeDocumentId == typeDocumentId).Count();
                     
                     back.Add(new TakeDocModel.Dto.Stats.StatsDocument()
@@ -86,6 +88,26 @@ namespace TakeDocService.Stats
                         TypeDocumentLabel = type.TypeDocumentLabel,
                         StatusReference = TakeDocModel.Status_Document.ToValidate,
                         Count = toValidate
+                    });
+                    back.Add(new TakeDocModel.Dto.Stats.StatsDocument()
+                    {
+                        EntityId = vue.EntityId,
+                        EntityReference = vue.EntityReference,
+                        TypeDocumentId = type.TypeDocumentId,
+                        TypeDocumentReference = type.TypeDocumentReference,
+                        TypeDocumentLabel = type.TypeDocumentLabel,
+                        StatusReference = TakeDocModel.Status_Document.Approve,
+                        Count = approve
+                    });
+                    back.Add(new TakeDocModel.Dto.Stats.StatsDocument()
+                    {
+                        EntityId = vue.EntityId,
+                        EntityReference = vue.EntityReference,
+                        TypeDocumentId = type.TypeDocumentId,
+                        TypeDocumentReference = type.TypeDocumentReference,
+                        TypeDocumentLabel = type.TypeDocumentLabel,
+                        StatusReference = TakeDocModel.Status_Document.Refuse,
+                        Count = refuse
                     });
                     back.Add(new TakeDocModel.Dto.Stats.StatsDocument()
                     {

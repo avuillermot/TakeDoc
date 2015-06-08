@@ -104,7 +104,7 @@ var DocumentsExtended = Backbone.Collection.extend({
     },
     loadRefuse: function (param) {
         this.url = this.urlBase + "?$filter=" + this.clauses.refuse + this.loadOptions;
-        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.userId);
+        this.replaceParameter("DocumentOwnerId eq guid'<documentOwnerId/>'", "documentOwnerId", param.ownerId);
 
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },

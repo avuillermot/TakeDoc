@@ -31,8 +31,10 @@ var WorkflowAnswers = Backbone.Collection.extend({
         this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
     },
     answer: function (param) {
-        var url = environnement.UrlBase + "workflow/answer/{{workflowId}}/{{userId}}/{{answerId}}";
+        debugger;
+        var url = environnement.UrlBase + "workflow/answer/{{workflowId}}/{{versionId}}/{{userId}}/{{answerId}}";
         url = url.replace("{{workflowId}}", param.workflowId);
+        url = url.replace("{{versionId}}", param.versionId);
         url = url.replace("{{userId}}", param.userId);
         url = url.replace("{{answerId}}", param.answerId);
 
