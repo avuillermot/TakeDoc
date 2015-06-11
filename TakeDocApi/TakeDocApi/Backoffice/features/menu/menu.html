@@ -1,46 +1,44 @@
-﻿<nav class="navbar navbar-default" style="padding-bottom:0px;margin-bottom:0px;background-color:#E3CEF6;font-weight:700">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#" onclick="return false;">TakeDoc</a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav" ng-hide="GroupReference != 'ADMIN'">
-                <li class=" dropdown">
-                    <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administrer<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown" ng-hide="GroupReference != 'ADMIN' && GroupReference != 'BACKOFFICE'">
-                    <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gérer<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#/searchUsers">Utilisateurs</a></li>
-                        <li><a href="#/searchTypeDocument">Type de document</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav">
-                <li class="dropdown">
-                    <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mes documents<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#/inbox">Boîte de réception</a></li>
-                    </ul>
-                </li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{UserFullName}}<span class="caret"></span></a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li><a href="#/account/current">Mon compte</a></li>
-                        <li><a href="#/updatePassword">Mot de passe</a></li>
-                        <li><a td-logout="" href="#">Déconnexion</a></li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
+﻿<nav class="navbar navbar-default" style="padding-bottom:0px;margin-bottom:0px;">
+    <div class=" container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+        <a class="navbar-brand" href="#" onclick="return false;">TakeDoc</a>
+    </div>
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav" ng-hide="GroupReference != 'ADMIN'">
+            <li class=" dropdown">
+                <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Administrer<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu"></ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li class="dropdown" ng-hide="GroupReference != 'ADMIN' && GroupReference != 'BACKOFFICE'">
+                <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Gérer<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#/searchUsers">Utilisateurs</a></li>
+                    <li><a href="#/searchTypeDocument">Type de document</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav">
+            <li class="dropdown">
+                <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Mes documents<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#/inbox">Boîte de réception</a></li>
+                </ul>
+            </li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+                <a href="#" onclick="return false;" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{UserFullName}}<span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#/account/current">Mon compte</a></li>
+                    <li><a href="#/updatePassword">Mot de passe</a></li>
+                    <li><a td-logout="" href="#">Déconnexion</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
 </nav>

@@ -919,6 +919,7 @@
     <Content Include="Content\glyphicons_free\glyphicons_social\png\social-7-picasa.png" />
     <Content Include="Content\glyphicons_free\glyphicons_social\png\social-8-amazon.png" />
     <Content Include="Content\glyphicons_free\glyphicons_social\png\social-9-tumblr.png" />
+    <Content Include="Content\welcome.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\applications\backOfficeRoute.js" />
