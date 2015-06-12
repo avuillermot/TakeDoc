@@ -15,7 +15,7 @@ namespace TakeDocService.Security
 
         public ICollection<TakeDocModel.View_UserEntity> GetByUser(Guid userId)
         {
-            return daoEntityUser.GetBy(x => x.UserTkId == userId);
+            return daoEntityUser.GetBy(x => x.UserTkId == userId && x.EtatDeleteData == false);
         }
     }
 }

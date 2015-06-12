@@ -13,8 +13,8 @@ namespace TakeDocService.Workflow.Document
         {
             TakeDocModel.Version version = document.LastVersion;
             this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
-            this.SetStatus(document, TakeDocModel.Status_Document.ToValidate, user.UserTkId);
             servReportVersion.Generate(version.VersionId, version.EntityId);
+            this.SetStatus(document, TakeDocModel.Status_Document.Approve, user.UserTkId);
             if (this.daoWorkflow.IsAllApprove(version.VersionId, version.EntityId)) this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);
             return true;
         }

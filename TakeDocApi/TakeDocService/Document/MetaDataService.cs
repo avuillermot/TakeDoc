@@ -72,16 +72,19 @@ namespace TakeDocService.Document
             if (string.IsNullOrEmpty(value) == true && required == true) throw new Exception("Bad data");
             if (typeName.StartsWith("System.String")) typeName = "System.String";
             Type myType = Type.GetType(typeName);
+            bool ok = true;
             try
             {
                 if (myType == typeof(System.String))
                 {
+                    if (value == null) value = string.Empty;
                     object o1 = Activator.CreateInstance(myType, new object[] { value.ToArray() });
                 }
-                if (myType == typeof(System.Int32))
+                else if (myType == typeof(System.Int32))
                 {
                     int inInt = int.MinValue;
-                    int.TryParse(value, out inInt);
+                    ok = int.TryParse(value, out inInt);
+                    if (ok == false) throw new Exception(typeName);
                 }
                 else if (myType == typeof(System.DateTimeOffset))
                 {

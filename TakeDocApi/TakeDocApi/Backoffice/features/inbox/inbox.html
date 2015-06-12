@@ -1,21 +1,21 @@
 ﻿<div>
    <div id="inbox-directories">
        <div>
-           <div class="inbox-group-directory text-success">Mes documents</div>
+           <div class="inbox-group-directory tk-text-green">Mes documents</div>
            <ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
-               <li ng-click="setSelectedDirectory('INCOMPLETE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('INCOMPLETE')}">Création/Incomplet&#160;<span class="badge pull-right" id="badge-INCOMPLETE">0</span></li>
-               <li ng-click="setSelectedDirectory('COMPLETE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('COMPLETE')}">Complet&#160;<span class="badge pull-right" id="badge-COMPLETE">0</span></li>
-               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">Attente validation&#160;<span class="badge pull-right" id="badge-TO_VALIDATE">0</span></li>
-               <li ng-click="setSelectedDirectory('APPROVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider&#160;&#160;<span class="badge pull-right" id="badge-APPROVE">0</span></li>
-               <li ng-click="setSelectedDirectory('REFUSE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser&#160;<span class="badge pull-right" id="badge-REFUSE">0</span></li>
-               <li ng-click="setSelectedDirectory('ARCHIVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('ARCHIVE')}">Archiver&#160;<span class="badge pull-right" id="badge-ARCHIVE">0</span></li>
+               <li ng-click="setSelectedDirectory('INCOMPLETE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('INCOMPLETE')}">Création/Incomplet&#160;<span class="badge badge-inbox pull-right" id="badge-INCOMPLETE">0</span></li>
+               <li ng-click="setSelectedDirectory('COMPLETE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('COMPLETE')}">Complet&#160;<span class="badge badge-inbox pull-right" id="badge-COMPLETE">0</span></li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE')}">Attente validation&#160;<span class="badge badge-inbox pull-right" id="badge-TO_VALIDATE">0</span></li>
+               <li ng-click="setSelectedDirectory('APPROVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('APPROVE')}">Valider&#160;&#160;<span class="badge badge-inbox pull-right" id="badge-APPROVE">0</span></li>
+               <li ng-click="setSelectedDirectory('REFUSE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('REFUSE')}">Refuser&#160;<span class="badge  badge-inbox pull-right" id="badge-REFUSE">0</span></li>
+               <li ng-click="setSelectedDirectory('ARCHIVE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('ARCHIVE')}">Archiver&#160;<span class="badge badge-inbox pull-right" id="badge-ARCHIVE">0</span></li>
            </ul>
        </div>
        <div>
-           <div class="inbox-group-directory text-danger">A valider</div>
+           <div class="inbox-group-directory tk-text-red">A valider</div>
            <ul class="nav nav-pills nav-stacked" style="max-width: 260px;">
-               <li ng-click="setSelectedDirectory('TO_VALIDATE_MANAGER')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE_MANAGER')}">Manager&#160;<span class="badge pull-right" id="badge-TO_VALIDATE_MANAGER">0</span></li>
-               <li ng-click="setSelectedDirectory('TO_VALIDATE_BACKOFFICE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE_BACKOFFICE')}">Gestionnaire&#160;<span class="badge pull-right" id="badge-TO_VALIDATE_BACKOFFICE">0</span></li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE_MANAGER')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE_MANAGER')}">Manager&#160;<span class="badge badge-inbox pull-right" id="badge-TO_VALIDATE_MANAGER">0</span></li>
+               <li ng-click="setSelectedDirectory('TO_VALIDATE_BACKOFFICE')" class="inbox-directory" ng-class="{inboxActiveItem : isSelectedDirectory('TO_VALIDATE_BACKOFFICE')}">Gestionnaire&#160;<span class="badge badge-inbox pull-right" id="badge-TO_VALIDATE_BACKOFFICE">0</span></li>
            </ul>
        </div>
    </div>

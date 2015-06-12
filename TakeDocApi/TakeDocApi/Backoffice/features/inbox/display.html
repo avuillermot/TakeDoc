@@ -24,7 +24,7 @@
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="detail">
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" style="padding-left:15px;">
                             <div class="form-group">
                                 <label class="control-label">Status</label>
                                 <div class="inbox-metadata" style="display:inline-block;padding-left:5px">
@@ -50,20 +50,19 @@
                                     <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label class="control-label">Page(s)</label>
+                                <div style="padding-top:3px">
+                                    <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+                                </div>
+                            </div>
                         </form>
-                        <div class="panel panel-info">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Page</h3>
-                            </div>
-                            <div class="panel-body">
-                                <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
-                            </div>
-                        </div>
+                        
                     </div>
                     <div role="tabpanel" class="tab-pane" id="history">
                         <div ng-repeat="history in historys.models">
-                            {{history.attributes.statusLabel}}&#160;&#160;{{history.attributes.dateCreateData}}
-                            <div ng-repeat="action in history.actions | orderBy:['attributes.index']">
+                            <label class="control-label" style="min-width:100px;max-width:150px;">{{history.attributes.statusLabel}}</label>&#160;&#160;{{history.attributes.dateCreateData}}
+                            <div ng-repeat="action in history.actions | orderBy:['attributes.index']" style="padding-left:30px;padding-bottom:10px">
                                 {{action.attributes.typeDocumentLabel}}-{{action.attributes.fullName}}-{{action.attributes.dateRealize}}-{{action.attributes.answerLabel}}
                             </div>
                         </div>

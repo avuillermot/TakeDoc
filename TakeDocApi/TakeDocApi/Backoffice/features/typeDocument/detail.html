@@ -1,9 +1,9 @@
-﻿<div class="panel panel-primary">
+﻿<div class="panel panel-info">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-            <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" title="Retour à la recherche" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-plus" ng-click="doOpenModalAddField();" data-toggle="tooltip" title="Ajouter un champ" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-search" ng-click="doGoSeach();" data-toggle="tooltip" title="Retour à la recherche" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-plus" ng-click="doOpenModalAddField();" data-toggle="tooltip" title="Ajouter un champ" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
     </div>
     <div class="panel-body" id="divDetailTypeDocument">
         <form class="tk-form" style="display:inline-block; width:49%; vertical-align:top">
@@ -68,7 +68,7 @@
                 <label for="inputBackofficeName" class="form-tk-label">Gestionnaire</label>
                 <input type="text" style="display:none" id="inputBackofficeId" mandatory="false" ng-model="searchUserId">
                 <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
-                
+
                 <div ng-repeat="manager in managersTypeDoc.models | orderBy:['attributes.fullName']" ng-hide="manager.attributes.deleted" class="manager-typedoc-container">
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom" ng-click="doRemoveManagerTypeDoc(manager.attributes.id);"></button>
 

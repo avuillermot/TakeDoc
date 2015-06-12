@@ -23,7 +23,7 @@ namespace TakeDocService.Stats
 
             ICollection<TakeDocModel.Dto.Stats.StatsDocument> back = new List<TakeDocModel.Dto.Stats.StatsDocument>();
             ICollection<TakeDocModel.View_UserEntity> userEntitys = daoViewUserEntity.GetBy(x => x.UserTkId == userId);
-            foreach (TakeDocModel.View_UserEntity vue in userEntitys.Where(x => x.EtatDeleteData == false))
+            foreach (TakeDocModel.View_UserEntity vue in userEntitys)
             {
                 //*******************************************
                 // my document
