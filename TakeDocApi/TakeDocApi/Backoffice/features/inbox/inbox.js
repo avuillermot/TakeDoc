@@ -87,11 +87,9 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     var setDashBoard = function () {
-        debugger;
         var success = function () {
             var badges = $(".badge.badge-inbox");
             $.each(badges, function (index, value) {
-                debugger;
                 var status = value.id.replace("badge-", "");
                 if (status === "all") $("#badge-all").html(myDashBoards.count());
                 else if (status === "INCOMPLETE") $("#badge-" + status).html(myDashBoards.countStatus(status) + myDashBoards.countStatus("CREATE"));
@@ -119,6 +117,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             }
         };
 
+        debugger;
         if ($scope.selectedDirectory === "INCOMPLETE")
             myDocuments.loadIncomplete(param);
         else if ($scope.selectedDirectory === "COMPLETE")

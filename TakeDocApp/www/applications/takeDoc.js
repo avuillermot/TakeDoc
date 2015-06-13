@@ -37,23 +37,40 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectTypeDocument", to: "#/findDocument/search/COMPLETE" },
         { from: "#/findDocument", to: "#/menu" }
     ];
+
     var scenarioFindWait = [
         { from: "#/menu", to: "#/selectEntity/status/TO_VALIDATE" },
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/TO_VALIDATE" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/TO_VALIDATE" },
         { from: "#/findDocument", to: "#/menu" }
     ];
-    var scenarioDetailIncomplet = [
+
+    var scenarioFindApprove = [
+            { from: "#/menu", to: "#/selectEntity/status/APPROVE" },
+            { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/APPROVE" },
+            { from: "#/selectTypeDocument", to: "#/findDocument/search/APPROVE" },
+            { from: "#/findDocument", to: "#/menu" }
+    ];
+
+    var scenarioFindRefuse = [
+                { from: "#/menu", to: "#/selectEntity/status/REFUSE" },
+                { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/REFUSE" },
+                { from: "#/selectTypeDocument", to: "#/findDocument/search/REFUSE" },
+                { from: "#/findDocument", to: "#/menu" }
+    ];
+
+    var scenarioDetailMetadata = [
         { from: "#/findDocument", to: "#/metadata/mode/UPDATE" },
-        //{ from: "#/autocomplete", to: "#/metadata/mode/UPDATE" },
         { from: "#/metadata", to: "#/menu" }
     ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
-    $rootScope.Scenario.init("findDocument", scenarioFindComplet);
+    $rootScope.Scenario.init("findComplet", scenarioFindComplet);
     $rootScope.Scenario.init("findIncomplet", scenarioFindIncomplet);
     $rootScope.Scenario.init("findWait", scenarioFindWait);
-    $rootScope.Scenario.init("detailIncomplet", scenarioDetailIncomplet);
+    $rootScope.Scenario.init("findApprove", scenarioFindApprove);
+    $rootScope.Scenario.init("findRefuse", scenarioFindRefuse);
+    $rootScope.Scenario.init("detailMetadata", scenarioDetailMetadata);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

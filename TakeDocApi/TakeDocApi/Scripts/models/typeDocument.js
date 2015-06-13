@@ -2,7 +2,6 @@
     defaults: {
         id: null,
         reference: null,
-        entityRefence: null,
         label: null,
         deleted: null,
         pageNeed: null,

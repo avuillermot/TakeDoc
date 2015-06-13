@@ -47,7 +47,8 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         if (mode === "COMPLETE") extDocuments.loadComplete(params);
         else if (mode === "INCOMPLETE") extDocuments.loadIncomplete(params);
         else if (mode === "TO_VALIDATE") extDocuments.loadWaitValidate(params);
-
+        else if (mode === "REFUSE") extDocuments.loadRefuse(params);
+        else if (mode === "APPROVE") extDocuments.loadApprove(params);
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
     });
@@ -56,7 +57,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
                 var onSuccess = function () {
-                    var step = $rootScope.Scenario.start("detailIncomplet");
+                    var step = $rootScope.Scenario.start("detailMetadata");
                     $location.path(step.to.substr(2));
                     $scope.$broadcast("findDocument$refreshPage");
                 };

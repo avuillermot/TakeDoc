@@ -4,11 +4,11 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
     $scope.items = [
         { title: 'Nouveau', id: 1, scenario: "addDocument", url: null, cssClassName: "ion-plus-circled" },
         { title: '', id: 2, scenario: null, url: null, cssClassName: "menu-empty" },
-        { title: 'Incomplet', id: 3, scenario: "findIncomplet", url: null, cssClassName: "ion-alert-circled", count: "INCOMPLETE" },
+        { title: 'Incomplet', id: 3, scenario: "findComplet", url: null, cssClassName: "ion-alert-circled", count: "INCOMPLETE" },
         { title: 'Complet', id: 4, scenario: "findDocument", url: null, cssClassName: "ion-android-search", count: "COMPLETE" },
         { title: 'Attente', id: 5, scenario: "findWait", url: null, cssClassName: "ion-android-search", count: "TO_VALIDATE" },
-        { title: 'Validé', id: 6, scenario: null, url: null, cssClassName: "ion-paperclip" },
-        { title: 'Refusé', id: 7, scenario: null, url: null, cssClassName: "ion-heart-broken" },
+        { title: 'Validé', id: 6, scenario: "findApprove", url: null, cssClassName: "ion-paperclip", count: "APPROVE" },
+        { title: 'Refusé', id: 7, scenario: "findRefuse", url: null, cssClassName: "ion-heart-broken", count: "REFUSE" },
         { title: '', id: 8, scenario: null, url: null, cssClassName: "menu-empty" },
         { title: 'Profil', id: 9, scenario: null, url: "#/profil", cssClassName: "ion-person" },
         { title: 'Informations', id: 10, scenario: null, url: "#/about", cssClassName: "ion-information-circled" }
@@ -38,6 +38,11 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
             count = $rootScope.Dashboards.countStatus("TO_VALIDATE");
             angular.element("#span-TO_VALIDATE").html("(" + count + ")");
 
+            count = $rootScope.Dashboards.countStatus("APPROVE");
+            angular.element("#span-APPROVE").html("(" + count + ")");
+
+            count = $rootScope.Dashboards.countStatus("REFUSE");
+            angular.element("#span-REFUSE").html("(" + count + ")");
           };
         var error = function () {
 
