@@ -1183,6 +1183,7 @@
     <Content Include="Scripts\bower_components\jquery\src\var\support.js" />
     <Content Include="Scripts\bower_components\jquery\src\var\toString.js" />
     <Content Include="Scripts\bower_components\jquery\src\wrap.js" />
+    <Content Include="Scripts\lib\angular-load.min.js" />
     <Content Include="Scripts\lib\backbone.js" />
     <Content Include="Scripts\lib\backbone-min.js" />
     <Content Include="AppSettings.config">

@@ -117,7 +117,6 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
             }
         };
 
-        debugger;
         if ($scope.selectedDirectory === "INCOMPLETE")
             myDocuments.loadIncomplete(param);
         else if ($scope.selectedDirectory === "COMPLETE")

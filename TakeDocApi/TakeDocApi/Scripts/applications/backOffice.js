@@ -1,18 +1,23 @@
 ﻿'use strict';
-var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection']);
+var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection','angularLoad']);
 
-backOffice.run(function ($rootScope, $location) {
+backOffice.run(function ($rootScope, $location, angularLoad) {
 
     $rootScope.getUser = function () {
         return JSON.parse(localStorage.getItem("TkUser"));
     };
     $rootScope.setUser = function () {
-        localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
-    };
+        if (arguments[0] != null) {
+            var culture = arguments[0].Culture;
+            angularLoad.loadScript('../Scripts/lib/moment/locale/' + culture + '.js').then(function () {
+                moment.locale(culture);
+            }).catch(function () {
+                alert("Culture can't be load");
+            });
 
-    if ($rootScope.getUser() != null && $rootScope.getUser().Culture != null)
-        $rootScope.currentUserCulture = $rootScope.getUser().Culture;
-    alert($rootScope.currentUserCulture);
+            localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
+        }
+    };
 
     $rootScope.isBackofficeUser = function () {
         if ($rootScope.getUser() == null) return false;
@@ -59,6 +64,20 @@ backOffice.run(function ($rootScope, $location) {
         })
     });
 });
+
+backOffice.directive('tkDate', function ($rootScope) {
+    var def = {
+        restrict: 'A',
+        terminal: true,
+        transclude: false,
+        link: function (scope, element, attrs) {
+            var cDate = scope.$eval(attrs.tkDate);
+            element[0].innerHTML = moment(cDate).format('llll');
+        }
+    };
+    return def;
+});
+
 
 backOffice.directive('tdLogout', function ($rootScope, $location) {
     return function (scope, element, attrs) {

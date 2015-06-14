@@ -64,7 +64,7 @@
                         <div class="container-fluid" style="padding-bottom:15px" ng-repeat="history in historys.models">
                             <div class="row">
                                 <div class="col-md-4" style="font-weight:bold">{{history.attributes.statusLabel}}</div>
-                                <div class="col-md-4">{{history.attributes.dateCreateData}}</div>
+                                <div class="col-md-4" tk-date="history.attributes.dateCreateData"></div>
                                 <div class="col-md-4"></div>
                             </div>
                             <div class="row" ng-hide="history.actions.length == 0">
@@ -79,7 +79,7 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-3 inbox-action">{{action.attributes.typeDocumentLabel}}</div>
                                 <div class="col-md-3 inbox-action">{{action.attributes.fullName}}</div>
-                                <div class="col-md-3 inbox-action">{{action.attributes.dateRealize}}</div>
+                                <div class="col-md-3 inbox-action" tk-date="action.attributes.dateRealize"></div>
                                 <div class="col-md-2 inbox-action">{{action.attributes.answerLabel}}</div>
                             </div>
                         </div>
