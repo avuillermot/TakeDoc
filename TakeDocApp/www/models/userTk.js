@@ -30,7 +30,7 @@
                 }
             });
         }
-        moment.locale('fr');
+        moment.locale(user.UserTkCulture);
     }
 };
 

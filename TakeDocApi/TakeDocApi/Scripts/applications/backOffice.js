@@ -10,6 +10,10 @@ backOffice.run(function ($rootScope, $location) {
         localStorage.setItem("TkUser", JSON.stringify(arguments[0]));
     };
 
+    if ($rootScope.getUser() != null && $rootScope.getUser().Culture != null)
+        $rootScope.currentUserCulture = $rootScope.getUser().Culture;
+    alert($rootScope.currentUserCulture);
+
     $rootScope.isBackofficeUser = function () {
         if ($rootScope.getUser() == null) return false;
         if ($rootScope.getUser().GroupReference == null) return false;
