@@ -132,33 +132,41 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     $scope.doOpenModalAddField = function () {
         $scope.fieldsToAdd = new Array();
 
-        // we propose field that is not delete and not already add in document type
-        $.each(dataFields.where({ delete: false }), function (index, value) {
-            var already = fields.where({ id: value.get("id"), delete: false, entityId: $scope.selectedItem.get("entityId") });
+        // we propose field that is not deleted and not already add in document type
+        $.each(dataFields.where({ deleted: false }), function (index, value) {
+            var already = fields.where({ id: value.get("id"), deleted: false, entityId: $scope.selectedItem.get("entityId")  });
             if (already.length == 0) $scope.fieldsToAdd.push(value);
         });
         if ($scope.fieldsToAdd.length > 0) $("#modalAddFieldToDocumentType").modal("show");
         else $rootScope.showModal("Informations", "Tous les champs disponibles ont été ajoutés.")
     };
-    $scope.doAddDataField = function (dataFieldId) {
+    $scope.doAddDataField = function () {
         $("#modalAddFieldToDocumentType").modal("hide");
-        // get type of this field
-        var currentInputType = inputTypes.data.inputTypes.where({ id: this.fieldsToAdd.get("typeId") });
         // get index of this field, set has last field of document type
         var newIndex = fields.getLastIndex() + 1;
 
-        var newField = new DocumentField();
-        newField.create(
-            this.fieldsToAdd.get("id"),
-            this.fieldsToAdd.get("reference"),
-            this.fieldsToAdd.get("entityId"),
-            this.fieldsToAdd.get("label"),
-            currentInputType[0].get("inputType"), newIndex);
-        newField.set("isList", this.fieldsToAdd.get("isList"));
-        newField.set("isAutocomplete", this.fieldsToAdd.get("isAutocomplete"));
-        newField.set("autoCompleteId", this.fieldsToAdd.get("autoCompleteId"));
+        var already = fields.where({ id: this.fieldsToAdd.get("id"), entityId: $scope.selectedItem.get("entityId") });
+        if (already.length == 1) {
+            already[0].set("deleted", false);
+            already[0].set("index", newIndex);
+        }
+        else {
+            // get type of this field
+            var currentInputType = inputTypes.data.inputTypes.where({ id: this.fieldsToAdd.get("typeId") });
 
-        fields.add(newField);
+            var newField = new DocumentField();
+            newField.create(
+                this.fieldsToAdd.get("id"),
+                this.fieldsToAdd.get("reference"),
+                this.fieldsToAdd.get("entityId"),
+                this.fieldsToAdd.get("label"),
+                currentInputType[0].get("inputType"), newIndex);
+            newField.set("isList", this.fieldsToAdd.get("isList"));
+            newField.set("isAutocomplete", this.fieldsToAdd.get("isAutocomplete"));
+            newField.set("autoCompleteId", this.fieldsToAdd.get("autoCompleteId"));
+
+            fields.add(newField);
+        }
         if (!$scope.$$phase) $scope.$apply();
     };
 

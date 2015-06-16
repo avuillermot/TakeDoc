@@ -72,7 +72,13 @@ backOffice.directive('tkDate', function ($rootScope) {
         transclude: false,
         link: function (scope, element, attrs) {
             var cDate = scope.$eval(attrs.tkDate);
-            element[0].innerHTML = moment(cDate).format('llll');
+            if (cDate == null || cDate == "") return "";
+            try {
+                element[0].innerHTML = moment(cDate).format('llll');
+            }
+            catch (ex) {
+                element[0].innerHTML = cDate;
+            }
         }
     };
     return def;

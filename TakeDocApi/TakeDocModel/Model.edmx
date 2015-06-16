@@ -324,6 +324,7 @@
           <Property Name="WorkflowStatusDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="WorkflowAnswerId" Type="uniqueidentifier" />
+          <Property Name="WorkflowComment" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="WorkflowAnswer">
           <Key>
@@ -1850,6 +1851,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="WorkflowTypeId" Type="Guid" Nullable="false" />
           <Property Name="WorkflowAnswerId" Type="Guid" Nullable="true" />
           <NavigationProperty Name="WorkflowAnswer" Relationship="TakeDocModel.FK_Workflow_WorkflowAnswer" FromRole="Workflow" ToRole="WorkflowAnswer" />
+          <Property Name="WorkflowComment" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="WorkflowType">
           <Key>
@@ -2423,6 +2425,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Workflow">
             <EntityTypeMapping TypeName="TakeDocModel.Workflow">
               <MappingFragment StoreEntitySet="Workflow">
+                <ScalarProperty Name="WorkflowComment" ColumnName="WorkflowComment" />
                 <ScalarProperty Name="WorkflowAnswerId" ColumnName="WorkflowAnswerId" />
                 <ScalarProperty Name="WorkflowTypeId" ColumnName="WorkflowTypeId" />
                 <ScalarProperty Name="WorkflowStatusDocumentId" ColumnName="WorkflowStatusDocumentId" />

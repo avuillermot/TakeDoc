@@ -24,6 +24,7 @@ namespace TakeDocModel
         public System.Guid WorkflowStatusDocumentId { get; set; }
         public System.Guid WorkflowTypeId { get; set; }
         public Nullable<System.Guid> WorkflowAnswerId { get; set; }
+        public string WorkflowComment { get; set; }
     
         public virtual WorkflowAnswer WorkflowAnswer { get; set; }
     }

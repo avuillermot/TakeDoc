@@ -80,11 +80,11 @@ namespace TakeDocService.Document
             toAdd.TypeDocumentLabel = label;
             toAdd.TypeDocumentReference = reference.ToUpper();
             toAdd.TypeDocumentPageNeed = false;
-            //toAdd.TypeDocumen
             toAdd.UserCreateData = userId;
             toAdd.DateCreateData = System.DateTimeOffset.UtcNow;
             toAdd.EntityId = entityId;
             toAdd.EtatDeleteData = false;
+            toAdd.TypeDocumentWorkflowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == "NO").First().WorkflowTypeId;
             return daoTypeDocument.Add(toAdd);
         }
 

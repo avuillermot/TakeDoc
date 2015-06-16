@@ -4,7 +4,7 @@
         reference: null,
         entityId: null,
         label: null,
-        delete: null,
+        deleted: null,
         typeId: null,
         isList: null,
         isAutocomplete: null,
@@ -16,7 +16,7 @@
         this.set("reference", current.DataFieldReference);
         this.set("entityId", current.EntityId);
         this.set("label", current.DataFieldLabel);
-        this.set("delete", current.EtatDeleteData);
+        this.set("deleted", current.EtatDeleteData);
         this.set("typeId", current.DataFieldTypeId);
         this.set("isList", current.IsList);
         this.set("isAutocomplete", current.IsAutocomplete);
@@ -29,11 +29,12 @@ var DataFields = Backbone.Collection.extend({
     model: DataField,
     parse: function () {
         var data = arguments[0].value;
+        var arr = new Array();
         for (var i = 0; i < data.length; i++) {
             var current = new DataField();
-            this.models.push(current.parse(data[i]));
-            this.length = this.models.length;
+            arr.push(current.parse(data[i]));
         }
+        return arr;
     },
     load: function (param) {
         this.url = this.urlBase;

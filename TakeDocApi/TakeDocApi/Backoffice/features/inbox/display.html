@@ -4,9 +4,7 @@
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
-        <!--<button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Approuver" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Refuser" ng-hide="workflowIsEnable() == false" data-placement="bottom"></button>-->
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-down" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
 </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
@@ -99,6 +97,16 @@
                 <h4 class="modal-title">Actions</h4>
             </div>
             <div class="modal-body">
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{myAnswer}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="answer.attributes.id" ng-init="myAnswer = answer.attributes.label" onclick="return false" ng-repeat="answer in answers.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{answer.attributes.label}}</a></li>
+                    </ul>{{myAnswer}}
+                </div>
+
                 <ul ng-repeat="answer in answers.models | orderBy:['attributes.label']">
                     <li style="padding-bottom:5px; cursor:pointer" ng-model="answer.attributes.id" ng-click="doValidSelectedAnswer()">{{answer.attributes.label}}</li>
                 </ul>
