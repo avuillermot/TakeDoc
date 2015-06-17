@@ -18,8 +18,8 @@ namespace TakeDocService.Workflow.Document
         TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer> daoAnswer = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowAnswer>();
 
         protected TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
-        
-        public void SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId)
+
+        public void SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId, string comment)
         {
             using (TransactionScope transaction = new TransactionScope())
             {
@@ -29,9 +29,13 @@ namespace TakeDocService.Workflow.Document
                     ICollection<TakeDocModel.Workflow> workflows = daoWf.GetBy(x => x.WorkflowVersionId == versionId, x => x.WorkflowAnswer);
                     TakeDocModel.Workflow workflow = workflows.Where(x => x.WorkflowId == workflowId && x.WorkflowDateRealize == null && x.WorkflowAnswerId == null).First();
 
-                    daoWf.SetAnswer(workflow, answerId, userId);
+                    daoWf.SetAnswer(workflow, answerId, userId, comment);
                     TakeDocModel.WorkflowAnswer answer = daoAnswer.GetBy(x => x.WorkflowAnswerId == answerId).First();
-                    if (answer.WorkflowAnswerGoOn == false) servStatus.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Refuse, userId, true);
+                    if (answer.WorkflowAnswerGoOn == false)
+                    {
+                        daoWf.CancelWorkflowStep(document.DocumentCurrentVersionId.Value);
+                        servStatus.SetStatus(document.DocumentId, TakeDocModel.Status_Document.Refuse, userId, true);
+                    }
                     else
                     {
                         bool isAllApprove = !workflows.Any(x => x.WorkflowAnswer == null);

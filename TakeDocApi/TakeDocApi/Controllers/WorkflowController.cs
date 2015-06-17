@@ -29,12 +29,13 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("answer/{workflowId}/{versionId}/{userId}/{answerId}")]
-        public object SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId)
+        public object SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId, [FromBody]string value)
         {
             TakeDocService.Workflow.Document.Answer servAnswer = new TakeDocService.Workflow.Document.Answer();
             try
             {
-                servAnswer.SetAnswer(workflowId, versionId, userId, answerId);
+                Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+                servAnswer.SetAnswer(workflowId, versionId, userId, answerId, data.Value<string>("comment"));
                 return Request.CreateResponse();
             }
             catch (Exception ex)

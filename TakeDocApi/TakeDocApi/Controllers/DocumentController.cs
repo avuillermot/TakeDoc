@@ -13,12 +13,28 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("SetIncomplete/{documentId}/{userId}")]
-        public HttpResponseMessage SetSend(Guid documentId, Guid userId)
+        public HttpResponseMessage SetIncomplete(Guid documentId, Guid userId)
         {
             TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
             try
             {
                 servStatus.SetStatus(documentId, TakeDocModel.Status_Document.Incomplete, userId, true);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("SetArchive/{documentId}/{userId}")]
+        public HttpResponseMessage SetArchive(Guid documentId, Guid userId)
+        {
+            TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
+            try
+            {
+                servStatus.SetStatus(documentId, TakeDocModel.Status_Document.Archive, userId, true);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

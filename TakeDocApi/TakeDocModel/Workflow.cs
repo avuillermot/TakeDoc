@@ -25,6 +25,8 @@ namespace TakeDocModel
         public System.Guid WorkflowTypeId { get; set; }
         public Nullable<System.Guid> WorkflowAnswerId { get; set; }
         public string WorkflowComment { get; set; }
+        public bool EtatDeleteData { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
     
         public virtual WorkflowAnswer WorkflowAnswer { get; set; }
     }

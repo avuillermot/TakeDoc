@@ -14,7 +14,9 @@
         index: null,
         versionId: null,
         typeWorkflowId: null,
-        entityId: null
+        entityId: null,
+        comment: null,
+        deleted: null
     },
     parse: function () {
         var current = arguments[0];
@@ -33,6 +35,8 @@
         this.set("versionId", current.VersionId);
         this.set("typeWorkflowId", current.WorkflowTypeId);
         this.set("entityId", current.EntityId);
+        this.set("comment", current.Comment);
+        this.set("deleted", current.EtatDeleteData);
         return this;
     }
 });

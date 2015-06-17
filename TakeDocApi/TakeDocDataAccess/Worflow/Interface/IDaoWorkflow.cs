@@ -17,6 +17,11 @@ namespace TakeDocDataAccess.Workflow.Interface
         bool IsAllApprove(Guid VersionId, Guid entityId);
         void Add(TakeDocModel.Workflow workflow);
         ICollection<TakeDocModel.Workflow> GetBy(Expression<Func<TakeDocModel.Workflow, bool>> where, params Expression<Func<TakeDocModel.Workflow, object>>[] properties);
-        void SetAnswer(TakeDocModel.Workflow workflow, Guid answer, Guid userId);
+        void SetAnswer(TakeDocModel.Workflow workflow, Guid answer, Guid userId, string comment);
+        /// <summary>
+        /// Cancel all next step if a no go on answer
+        /// </summary>
+        /// <param name="versionId"></param>
+        void CancelWorkflowStep(Guid versionId);
     }
 }

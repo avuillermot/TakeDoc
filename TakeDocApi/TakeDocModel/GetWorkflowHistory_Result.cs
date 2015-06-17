@@ -28,5 +28,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> VersionId { get; set; }
         public Nullable<System.Guid> WorkflowTypeId { get; set; }
         public Nullable<System.Guid> EntityId { get; set; }
+        public string Comment { get; set; }
+        public Nullable<bool> EtatDeleteData { get; set; }
     }
 }

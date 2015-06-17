@@ -47,6 +47,8 @@ namespace TakeDocService.Workflow.Document
             workflow.WorkflowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == workflowType).First().WorkflowTypeId;
             workflow.WorkflowUserId = currentUser.UserTkManagerId;
             workflow.WorkflowStatusDocumentId = document.DocumentStatusId;
+            workflow.EtatDeleteData = false;
+            workflow.DateCreateData = System.DateTimeOffset.UtcNow;
             daoWorkflow.Add(workflow);
         }
 
@@ -66,6 +68,8 @@ namespace TakeDocService.Workflow.Document
             workflow.WorkflowTypeId = daoWorkflowType.GetBy(x => x.WorkflowTypeReference == workflowType).First().WorkflowTypeId;
             workflow.WorkflowTypeDocumentId = document.DocumentTypeId;
             workflow.WorkflowStatusDocumentId = document.DocumentStatusId;
+            workflow.EtatDeleteData = false;
+            workflow.DateCreateData = System.DateTimeOffset.UtcNow;
             daoWorkflow.Add(workflow);
         }
 

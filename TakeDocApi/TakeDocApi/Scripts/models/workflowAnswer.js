@@ -40,7 +40,7 @@ var WorkflowAnswers = Backbone.Collection.extend({
         $.ajax({
             type: 'POST',
             url: url,
-            data: { '': JSON.stringify(param.fields) },
+            data: { '': JSON.stringify(param.data) },
             success: param.success,
             error: param.error,
             beforeSend: requestHelper.beforeSend()

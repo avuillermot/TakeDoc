@@ -41,7 +41,21 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         return true;
     };
 
+    $scope.ArchiveIsEnable = function () {
+        if (documentDisplay.data.document == null) return false;
+        if (documentDisplay.data.document.get("statusReference") == "APPROVE"
+            || documentDisplay.data.document.get("statusReference") == "REFUSE") return true;
+        return false;
+    };
+
     $scope.workflowIsEnable = false;
+
+    $scope.resetAnswer = function () {
+        $scope.currentAnswer = null;
+    }
+    $scope.doSelectAnswer = function () {
+        $scope.currentAnswer = this.answer;
+    };
     
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
@@ -196,6 +210,13 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.showAnswer = function () {
+
+        $scope.currentAnswer = {
+            attributes: {
+                label: "(Aucun)"
+            }
+        };
+
         var fDisplayModal = function () {
             $("#modalAnswerWorkflow").modal("show");
         };
@@ -215,12 +236,18 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doValidSelectedAnswer = function () {
+        if ($scope.currentAnswer.attributes.id == null) return false;
+
+        var data = {
+            comment: $("#comment").val()
+        };
         var currentAction = wfHistory.getCurrentAction();
         var param = {
             workflowId: currentAction.get("id"),
             versionId: currentAction.get("versionId"),
             userId: $rootScope.getUser().Id,
-            answerId: this.answer.get("id"),
+            answerId: $scope.currentAnswer.get("id"),
+            data: data,
             always: function () {
                 $("#modalAnswerWorkflow").modal("hide");
             },
@@ -234,4 +261,13 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         answers.answer(param);
        
     };
+
+    $scope.doArchive = function () {
+        debugger;
+        var param = {
+            documentId: $scope.document.get("id"),
+            userId: $rootScope.getUser().Id
+        };
+        documentService.SetArchive(param);
+    }
 }]);

@@ -59,6 +59,7 @@ namespace TakeDocService.Workflow.Document
             {
                 if (oldStatus.Equals(TakeDocModel.Status_Document.Complete)) return true;
                 if (oldStatus.Equals(TakeDocModel.Status_Document.Approve)) return true;
+                if (oldStatus.Equals(TakeDocModel.Status_Document.Refuse)) return true;
                 return false;
             }
 

@@ -4,7 +4,8 @@
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-folder-close" data-toggle="tooltip" title="Archiver" ng-hide="ArchiveIsEnable() == false" data-placement="bottom" ng-click="doArchive()"></button>
 </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
@@ -75,10 +76,13 @@
 
                             <div class="row" ng-repeat="action in history.actions | orderBy:['attributes.index']">
                                 <div class="col-md-1"></div>
-                                <div class="col-md-3 inbox-action">{{action.attributes.typeDocumentLabel}}</div>
-                                <div class="col-md-3 inbox-action">{{action.attributes.fullName}}</div>
-                                <div class="col-md-3 inbox-action" tk-date="action.attributes.dateRealize"></div>
-                                <div class="col-md-2 inbox-action">{{action.attributes.answerLabel}}</div>
+                                <div class="col-md-3 inbox-action-cancel-{{action.attributes.deleted}}">{{action.attributes.typeDocumentLabel}}</div>
+                                <div class="col-md-3 inbox-action-cancel-{{action.attributes.deleted}}">{{action.attributes.fullName}}</div>
+                                <div class="col-md-3 inbox-action-cancel-{{action.attributes.deleted}}" tk-date="action.attributes.dateRealize"></div>
+                                <div class="col-md-2 inbox-action-cancel-{{action.attributes.deleted}}">
+                                    <div class="glyphicon glyphicon-comment" ng-if="action.attributes.comment != '' && action.attributes.comment != null" data-toggle="tooltip" title="{{action.attributes.comment}}" data-placement="left"></div>
+                                     {{action.attributes.answerLabel}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -93,23 +97,28 @@
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button class="close" data-dismiss="modal" aria-label="Close" ng-click="currentAsnwer = null;"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Actions</h4>
             </div>
             <div class="modal-body">
                 <div class="dropdown" style="display:inline-block">
-                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
-                        {{myAnswer}}
+                    <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true" ng-init="test=1">
+                        {{currentAnswer.attributes.label}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" ng-model="answer.attributes.id" ng-init="myAnswer = answer.attributes.label" onclick="return false" ng-repeat="answer in answers.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{answer.attributes.label}}</a></li>
-                    </ul>{{myAnswer}}
+                        <li role="presentation" ng-click="doSelectAnswer()" ng-model="answer.attributes.id" onclick="return false" ng-repeat="answer in answers.models | orderBy:['attributes.label']"><a role="menuitem" tabindex="-1" href="#">{{answer.attributes.label}}</a></li>
+                    </ul>
+                </div>
+                <div>&#160;</div>
+                <div class="form-group">
+                    <label for="comment">Comment:</label>
+                    <textarea class="form-control" rows="5" id="comment"></textarea>
                 </div>
 
-                <ul ng-repeat="answer in answers.models | orderBy:['attributes.label']">
-                    <li style="padding-bottom:5px; cursor:pointer" ng-model="answer.attributes.id" ng-click="doValidSelectedAnswer()">{{answer.attributes.label}}</li>
-                </ul>
+                <div class="modal-footer">
+                    <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doValidSelectedAnswer()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+                </div>
             </div>
         </div>
     </div>

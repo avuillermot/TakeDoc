@@ -242,8 +242,17 @@ form {
     border-radius: 5px;
 }
 
-.inbox-action {
-    background-color: ##FAFAFA;
+.inbox-action-cancel-false {
+    background-color: #FAFAFA;
+    height:40px;
+    border-color: #D8D8D8;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
+.inbox-action-cancel-true {
+    color: gray;
     height:40px;
     border-color: #D8D8D8;
     border-width: 1px;
