@@ -1,7 +1,7 @@
 ﻿'use strict';
 var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection','angularLoad']);
 
-backOffice.run(function ($rootScope, $location, angularLoad) {
+backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
 
     $rootScope.getUser = function () {
         return JSON.parse(localStorage.getItem("TkUser"));
@@ -10,7 +10,7 @@ backOffice.run(function ($rootScope, $location, angularLoad) {
         if (arguments[0] != null) {
             var culture = arguments[0].Culture;
             angularLoad.loadScript('../Scripts/lib/moment/locale/' + culture + '.js').then(function () {
-                moment.locale(culture);
+                $timeout(moment.locale(culture),2000);
             }).catch(function () {
                 alert("Culture can't be load");
             });
