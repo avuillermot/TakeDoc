@@ -35,7 +35,10 @@
                                 </div>
                             </div>
                             <div ng-repeat="metadata in metadatas | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
-                                <label class="col-md-3 control-label" style="text-align:left;padding-top:10px;padding-left:0px">{{metadata.attributes.label}}-{{metadata.attributes.mandatory}}</label>
+                                <label class="col-md-3 control-label input-metadata-title">
+                                    {{metadata.attributes.label}}
+                                    <span ng-if="metadata.attributes.mandatory == true" class="input-metadata-required">*</span>
+                                </label>
 
                                 <div class="col-md-9 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
                                     <select ng-switch-when="list" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
@@ -49,7 +52,7 @@
                                     <input ng-switch-default="" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                 </div>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" ng-if="pages.models.length > 0">
                                 <label class="control-label">Page(s)</label>
                                 <div style="padding-top:3px">
                                     <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
