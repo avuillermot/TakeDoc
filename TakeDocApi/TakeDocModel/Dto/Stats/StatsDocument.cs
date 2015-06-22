@@ -14,6 +14,7 @@ namespace TakeDocModel.Dto.Stats
         public string TypeDocumentReference { get; set; }
         public string TypeDocumentLabel { get; set; }
         public string StatusReference { get; set; }
+        public string StatusLabel { get; set; }
         public int Count { get; set; }
     }
 }

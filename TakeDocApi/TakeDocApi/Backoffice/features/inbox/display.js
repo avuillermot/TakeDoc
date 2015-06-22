@@ -263,7 +263,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doArchive = function () {
-        debugger;
         var param = {
             documentId: $scope.document.get("id"),
             userId: $rootScope.getUser().Id

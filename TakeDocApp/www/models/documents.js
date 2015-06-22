@@ -82,6 +82,23 @@ documentService.addPage = function (document, index, onSuccess, onError) {
     });
 }
 
+documentService.SetArchive = function (param, onSuccess, onError) {
+    var url = environnement.UrlBase + "Document/SetArchive/<documentId/>/<userId/>";
+    url = url.replace("<documentId/>", param.documentId);
+    url = url.replace("<userId/>", param.userId);
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function () {
+            
+        },
+        error: function () {
+
+        }
+    });
+}
+
 documentService.SetIncomplete = function (document, onSuccess, onError) {
     console.log("documents.prototype.SetIncomplete:start");
     var url = environnement.UrlBase + "Document/SetIncomplete/<documentId/>/<userId/>";

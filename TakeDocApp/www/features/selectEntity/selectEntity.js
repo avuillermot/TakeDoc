@@ -25,8 +25,8 @@ takeDoc.controller('selectEntityController', ['$scope', '$rootScope', '$location
 
     $scope.countStatus = function (entityId) {
         if (status != null && status != "") {
-            var count = $rootScope.Dashboards.countStatusEntity(entityId, status);
-            if (status == "INCOMPLETE") count = count + $rootScope.Dashboards.countStatusEntity(entityId, "CREATE");
+            var count = $rootScope.Dashboards.countStatusEntity(status, entityId);
+            if (status == "INCOMPLETE") count = count + $rootScope.Dashboards.countStatusEntity("CREATE", entityId);
             return "("+ count + ")";
         }
         else return "";

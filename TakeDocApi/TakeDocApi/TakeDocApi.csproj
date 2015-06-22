@@ -1329,6 +1329,7 @@
     <Content Include="Scripts\bower_components\jquery\bower.json" />
     <Content Include="Scripts\bower_components\jquery\dist\jquery.min.map" />
     <Content Include="Scripts\bower_components\jquery\src\sizzle\dist\sizzle.min.map" />
+    <Content Include="Scripts\lib\highcharts.js" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\external\jquery\jquery.js" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\images\ui-bg_diagonals-thick_20_666666_40x40.png" />
@@ -1449,6 +1450,7 @@
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.css" />
     <Content Include="Scripts\lib\ui-grid\ui-grid.min.js" />
     <Content Include="Scripts\lib\underscore-min.js" />
+    <Content Include="Scripts\models\dashboard.js" />
     <Content Include="Scripts\models\dataField.js" />
     <Content Include="Scripts\models\documentField.js" />
     <Content Include="Scripts\models\documents.js" />
@@ -1458,7 +1460,6 @@
     <Content Include="Scripts\models\entity.js" />
     <Content Include="Scripts\models\groupTk.js" />
     <Content Include="Scripts\models\metadata.js" />
-    <Content Include="Scripts\models\dashboard.js" />
     <Content Include="Scripts\models\typeDocument.js" />
     <Content Include="Scripts\models\userEntity.js" />
     <Content Include="Scripts\models\userTk.js" />
