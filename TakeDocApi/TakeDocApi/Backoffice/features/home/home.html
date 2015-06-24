@@ -1,4 +1,15 @@
 ﻿<div id="container">
-    <div style="padding-top:80px; width: 90%" ng-repeat="entity in entitys" id="bar-{{entity.Id}}">
+    <div class="modal-body">
+        <div class="dropdown" style="display:inline-block">
+            <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+                {{selectedEntity.Label}}
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" onclick="return false;" ng-repeat="entity in entitys | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+            </ul>
+        </div>
+    </div>
+    <div style="padding-top:5px; width: 90%; display:none" class="bargraph-entity" ng-repeat="entity in entitys | orderBy:['Label']" id="bar-{{entity.Id}}">
     </div>
 </div>

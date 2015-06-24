@@ -6,6 +6,7 @@ backOffice.controller('homeController', ['$scope', '$rootScope', function ($scop
 
     var dash = new Dashboards();
     $scope.entitys = $rootScope.getUser().Entitys;
+    if ($scope.selectedEntity == null) $scope.selectedEntity = $scope.entitys[0];
 
     var createBar = function (entity) {
         if (dash.countEntity(entity.Id) == 0) return false;
@@ -43,10 +44,12 @@ backOffice.controller('homeController', ['$scope', '$rootScope', function ($scop
     };
     
     var onSuccess = function () {
-        
         $.each($scope.entitys, function (index, value) {
             createBar(value);
         });
+                
+        $(".bargraph-entity").hide();
+        $("#bar-" + $scope.selectedEntity.Id).show();
     };
 
     var onError = function () {
@@ -59,5 +62,10 @@ backOffice.controller('homeController', ['$scope', '$rootScope', function ($scop
         error: onError
     };
     dash.load(param.userId, param.success, param.error);
-    
+
+    $scope.doSelectEntity = function (entityId) {
+        $scope.selectedEntity = this.entity;
+        $(".bargraph-entity").hide();
+        $("#bar-"+$scope.selectedEntity.Id).show();
+    };
 }]);
