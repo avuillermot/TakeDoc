@@ -63,7 +63,7 @@ backOffice.controller('homeController', ['$scope', '$rootScope', function ($scop
     };
     dash.load(param.userId, param.success, param.error);
 
-    $scope.doSelectEntity = function (entityId) {
+    $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
         $(".bargraph-entity").hide();
         $("#bar-"+$scope.selectedEntity.Id).show();

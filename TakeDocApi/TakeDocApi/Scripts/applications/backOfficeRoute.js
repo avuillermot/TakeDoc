@@ -118,6 +118,19 @@
             }
         }
     });
+    $stateProvider.state('find', {
+        url: "/find",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewLeft": {
+                templateUrl: "features/find/search.html",
+                controller: 'searchFindController'
+            }
+        }
+    });
 
 
     // if none of the above states are matched, use this as the fallback

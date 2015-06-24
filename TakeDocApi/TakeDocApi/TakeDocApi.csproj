@@ -225,6 +225,8 @@
     <Content Include="Backoffice\features\account\accountInfo.html" />
     <Content Include="Backoffice\features\account\account.js" />
     <Content Include="Backoffice\features\account\entity.html" />
+    <Content Include="Backoffice\features\find\search.html" />
+    <Content Include="Backoffice\features\find\search.js" />
     <Content Include="Backoffice\features\inbox\display.html" />
     <Content Include="Backoffice\features\inbox\display.js" />
     <Content Include="Backoffice\features\inbox\inbox.js" />

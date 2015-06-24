@@ -1,0 +1,20 @@
+﻿<div id="container">
+    <div class="dropdown" style="display:inline-block">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+            {{selectedEntity.Label}}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" onclick="return false;" ng-repeat="entity in entitys | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+        </ul>
+    </div>
+    <div class="dropdown" style="display:inline-block">
+        <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="true">
+            {{selectedTypeDoc.attributes.label}}
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+            <li role="presentation" ng-model="typeDoc.Id" ng-click="doSelectTypeDoc();" onclick="return false;" ng-repeat="typeDoc in typeDocs| orderBy:['label']"><a role="menuitem" tabindex="-1" href="#">{{typeDoc.attributes.label}}</a></li>
+        </ul>
+    </div>
+</div>
