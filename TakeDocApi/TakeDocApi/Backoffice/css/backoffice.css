@@ -295,6 +295,27 @@ form {
     text-decoration: underline;
 }
 
+/* search */
+.search-field-deleted-true {
+    color: gray;
+}
+
+.search-dropdown {
+    min-width: 180px;
+    text-align:left;
+}
+
+.search-item-input {
+    width: 30%;
+}
+
+.search-field-title {
+    text-align:left !important;
+    padding-top:10px !important;
+    padding-left:0px !important;
+}
+
+
 /* navbar */
 .navbar-default {
     background-color: #848484;

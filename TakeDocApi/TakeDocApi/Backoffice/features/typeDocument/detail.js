@@ -44,6 +44,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     var loadDocumentFields = function (typeDocumentId, entityId) {
         var param = {
             id: typeDocumentId,
+            deleted: false,
             always: function () {
                 loadWorkflowTypes();
             },

@@ -1,13 +1,52 @@
 ﻿'use strict';
 backOffice.controller('searchFindController', ['$scope', '$rootScope', function ($scope, $rootScope) {
 
+    $("#viewRight").css("width", "0%");
+    $("#viewRight").hide();
+    $("#viewLeft").css("width", "98%");
+
     var myTypeDocs = new TypeDocuments();
+    var myFields = new DocumentFields();
     $scope.entitys = $rootScope.getUser().Entitys;
 
-    var loadField = function (entityId) {
+    $scope.doReset = function () {
+        $('.search-item-input').val("");
+    };
+
+    $scope.doSearch = function () {
+        var req = "";
+        $.each(myFields.models, function (index, field) {
+            if (field.get("value") != null && field.get("value") != "" && field.get("value") != "undefined") {
+                req = req + field.get("reference") + field.get("value");
+            }
+        });
+        alert(req);
+    };
+
+    var loadField = function (typeDoc) {
+        var onSucces = function () {
+            $scope.fields = myFields.models;
+            if (!$scope.$$phase) $scope.$apply();
+        };
+        var onError = function () {
+            $rootScope.showError({ message: "Impossible d'obtenir la liste des champs." });
+        };
+        var param = {
+            id: typeDoc.get("id"),
+            success: onSucces,
+            error: onError,
+            always: null
+        };
+        myFields.load(param);
+    }
+
+    var loadTypeDocument = function (entityId) {
         var onSuccess = function () {
             $scope.typeDocs = myTypeDocs.models;
-            if ($scope.typeDocs.length > 0) $scope.selectedTypeDoc = $scope.typeDocs[0];
+            if ($scope.typeDocs.length > 0) {
+                $scope.selectedTypeDoc = $scope.typeDocs[0];
+                loadField($scope.selectedTypeDoc);
+            }
             if (!$scope.$$phase) $scope.$apply();
         };
 
@@ -28,16 +67,17 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', function 
     $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
         $scope.selectedTypeDoc = null;
-        loadField($scope.selectedEntity.Id);
+        loadTypeDocument($scope.selectedEntity.Id);
     };
 
     $scope.doSelectTypeDoc = function () {
         $scope.selectedTypeDoc = this.typeDoc;
+        loadField($scope.selectedTypeDoc);
     };
 
     if ($scope.selectedEntity == null) {
         $scope.selectedEntity = $scope.entitys[0];
-        loadField($scope.selectedEntity.Id);
+        loadTypeDocument($scope.selectedEntity.Id);
     };
     
 }]);

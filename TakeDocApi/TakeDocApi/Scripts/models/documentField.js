@@ -60,7 +60,8 @@ var DocumentFields = Backbone.Collection.extend({
     parse: function () {
         var data = arguments[0].value;
         for (var i = 0; i < data.length; i++) {
-            var current = new DocumentField();
+            var current = new DocumentField
+
             this.models.push(current.parse(data[i]));
             this.length = this.models.length;
         }
@@ -75,7 +76,10 @@ var DocumentFields = Backbone.Collection.extend({
     },
     load: function (param) {
         this.url = this.urlBase;
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
+
+        var andDeleted = "";
+        if (andDeleted != null) "and EtatDeleteData eq " + param.deleted;
+        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' " + andDeleted) }).always(param.always);
     },
     remove: function (key, value) {
         var arr = new Array();
