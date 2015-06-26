@@ -38,5 +38,6 @@ namespace TakeDocService.Document.Interface
         /// <param name="entityId"></param>
         /// <param name="userId"></param>
         void Delete(Guid documentId, Guid entityId, Guid userId);
+        ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.MetaData> metadatas, Guid userId, Guid entityId);
     }
 }

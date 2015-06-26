@@ -13,6 +13,7 @@ namespace TakeDocService.Document
     {
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
+        TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended daoDocExtended = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended>();
         
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
@@ -144,6 +145,11 @@ namespace TakeDocService.Document
 
                 transaction.Complete();
             }
+        }
+
+        public ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.MetaData> metadatas, Guid userId, Guid entityId)
+        {
+            return daoDocExtended.Search(typeDocumentId, metadatas, userId, entityId);
         }
    }
 }
