@@ -18,7 +18,7 @@ namespace TakeDocService.Document
         
         private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
         {
-            base.Logger.InfoFormat("AddPage: add page to version [{0}], extension : [{1}], rotation [{2}]", versionId, extension, rotation);
+            base.Logger.DebugFormat("AddPage: add page to version [{0}], extension : [{1}], rotation [{2}]", versionId, extension, rotation);
             TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, extension, rotation);
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
@@ -29,10 +29,10 @@ namespace TakeDocService.Document
             // generate full path filename
             System.IO.FileInfo file = this.GeneratePageUNC(entity.EntityReference, page.PageReference, extension);
             // write full path file name
-            base.Logger.InfoFormat("AddPage:  write byte in file [{0}]", file.FullName);
+            base.Logger.DebugFormat("AddPage:  write byte in file [{0}]", file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
 
-            base.Logger.InfoFormat("AddPage: update version with file locator");
+            base.Logger.DebugFormat("AddPage: update version with file locator");
             ICollection<TakeDocModel.View_PageStoreLocator> locators = new List<TakeDocModel.View_PageStoreLocator>();
             locators = dao.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
             page.PageStreamId = locators.First().StreamId;
@@ -42,6 +42,7 @@ namespace TakeDocService.Document
 
         public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)
         {
+            this.Logger.Debug("PageService.Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)");
             imageString = imageString.Replace(string.Format("data:image/{0};base64,", extension), string.Empty);
             byte[] bytes = Convert.FromBase64String(imageString);
             this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
@@ -60,7 +61,7 @@ namespace TakeDocService.Document
         private System.IO.FileInfo GenerateUNC(string entite, string store, string fileName, string extension)
         {
             string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
-            base.Logger.InfoFormat("GenerateUNC path in [{0}]", storeLocalPath);
+            base.Logger.DebugFormat("GenerateUNC path in [{0}]", storeLocalPath);
             string[] arr = storeLocalPath.Split('\\');
             string deep = string.Empty;
             foreach (string s in arr)

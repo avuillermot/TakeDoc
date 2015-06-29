@@ -41,14 +41,16 @@ documentService.create = function (document, onSuccess, onError) {
 	    data: {
 	        EntityId: document.get("EntityId"), UserCreateData: document.get("UserCreateData"), DocumentTypeId: document.get("DocumentTypeId"), DocumentLabel: document.get("DocumentLabel")
         },
-        success: function () {
+	    success: function () {
+	        alert("create document ok");
             document.set("DocumentId", arguments[0].DocumentId);
             document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
             var current = arguments[0];
             if (document.Pages != null && document.Pages.length > 0) documentService.addPage(document, 1, onSuccess, onError);
             else documentService.SetIncomplete(document, onSuccess, onError);
         },
-        error: function () {
+	    error: function () {
+	        alert("create document error");
 			onError();
          }
     });

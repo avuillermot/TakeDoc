@@ -1523,6 +1523,7 @@
     <Content Include="Scripts\lib\moment\Moment.js.nuspec" />
     <Content Include="Scripts\lib\moment\README.md" />
     <Content Include="Scripts\lib\moment\scripts\npm_prepublish.sh" />
+    <None Include="Properties\PublishProfiles\File.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="Scripts\bower_components\angular-ui-router\api\angular-ui-router.d.ts" />

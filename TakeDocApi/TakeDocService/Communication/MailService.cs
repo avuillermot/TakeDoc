@@ -36,7 +36,9 @@ namespace TakeDocService.Communication
             mail.Subject = subject;
             mail.Body = this.FillField(body, user);
             mail.IsBodyHtml = true;
-            //client.Send(mail);
+            if (daoParameter.GetBy(x => x.ParameterReference == "SEND_MAIL").First().ParameterValue.ToUpper().Equals("TRUE"))
+                client.Send(mail);
+            else System.IO.File.WriteAllText(string.Concat(TakeDocModel.Environnement.TempDirectory, "mail",System.Guid.NewGuid(),".html"), mail.Body);
         }
 
         private string FillField(string body, TakeDocModel.UserTk user)

@@ -199,7 +199,6 @@
           <Property Name="ParameterReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ParameterValue" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="ParameterDescription" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
           <Property Name="UserUpdateData" Type="uniqueidentifier" />
@@ -1692,7 +1691,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="ParameterReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
           <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="UserUpdateData" Type="Guid" />
@@ -2356,7 +2354,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
-                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
                 <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
                 <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />

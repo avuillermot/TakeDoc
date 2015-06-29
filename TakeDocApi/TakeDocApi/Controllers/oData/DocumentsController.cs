@@ -36,6 +36,7 @@ namespace TakeDocApi.Controllers.oData
            }
            catch (Exception ex)
            {
+               Utility.Logger.myLogger.Debug(ex.Message);
                return BadRequest(ex.Message);
            }
 
