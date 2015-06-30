@@ -87,14 +87,12 @@
     <Compile Include="Document\Interface\IImageService.cs" />
     <Compile Include="Document\Interface\IMetaDataService.cs" />
     <Compile Include="Document\Interface\IPageService.cs" />
-    <Compile Include="Document\Interface\IPageStoreLocator.cs" />
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
     <Compile Include="Parameter\EntityService.cs" />
     <Compile Include="Parameter\Interface\IEntityService.cs" />
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
-    <Compile Include="Document\PageStoreLocator.cs" />
     <Compile Include="Print\Interface\IReportService.cs" />
     <Compile Include="Search\Interface\ISearch.cs" />
     <Compile Include="Search\Search.cs" />

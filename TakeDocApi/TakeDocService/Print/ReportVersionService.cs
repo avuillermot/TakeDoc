@@ -17,7 +17,6 @@ namespace TakeDocService.Print
         TakeDocService.Document.MetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.MetaDataService>();
         TakeDocService.Document.Interface.IImageService servImage = UnityHelper.Resolve<TakeDocService.Document.Interface.IImageService>();
 
-        dataDoc.Interface.IDaoVersionStoreLocator daoVersionLocator = UnityHelper.Resolve<dataDoc.Interface.IDaoVersionStoreLocator>();
         TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUser = new TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
 
@@ -54,15 +53,7 @@ namespace TakeDocService.Print
                 base.Logger.Error(msg);
                 throw new Exception(msg);
             }
-            Guid? streamId = versions.First().VersionStreamId;
-            ICollection<TakeDocModel.View_VersionStoreLocator> locators = daoVersionLocator.GetBy(x => x.StreamId == streamId);
-            if (locators.Count() == 0)
-            {
-                string msg = string.Format("Unknow locator for version {0} for entity {1}", versionId, entityId);
-                base.Logger.Error(msg);
-                throw new Exception(msg);
-            }
-            return System.IO.File.ReadAllBytes(locators.First().StreamLocator);
+            return System.IO.File.ReadAllBytes(versions.First().VersionPath);
         }
 
         public string GetUrlFile(Guid versionId, Guid entityId)
@@ -184,9 +175,7 @@ namespace TakeDocService.Print
             System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
             System.IO.File.WriteAllBytes(file.FullName, streamOut.ToArray());
 
-            ICollection<TakeDocModel.View_VersionStoreLocator> locators = new List<TakeDocModel.View_VersionStoreLocator>();
-            locators = daoVersionLocator.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
-            version.VersionStreamId = locators.First().StreamId;
+            version.VersionPath = file.FullName;
             servVersion.Update(version);
             return streamOut.ToArray();
         }

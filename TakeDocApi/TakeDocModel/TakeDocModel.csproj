@@ -88,7 +88,6 @@
     <Compile Include="Document\Status_Document.cs" />
     <Compile Include="Document\Status_Version.cs" />
     <Compile Include="Document\Version.cs" />
-    <Compile Include="Document\View_PageStoreLocator.cs" />
     <Compile Include="Dto\Document\ReadOnlyMetadata.cs" />
     <Compile Include="Dto\Print\PrintContext.cs" />
     <Compile Include="Dto\Stats\StatsDocument.cs" />
@@ -156,16 +155,10 @@
     <Compile Include="View_DocumentExtended.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="View_PageStoreLocator.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
     <Compile Include="View_TypeDocumentDataField.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="View_UserEntity.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="View_VersionStoreLocator.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Workflow.cs">

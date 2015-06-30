@@ -63,7 +63,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="history">
 
-                        <div class="container-fluid" style="padding-bottom:15px" ng-repeat="history in historys.models">
+                        <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid" ng-repeat="history in historys.models">
                             <div class="row">
                                 <div class="col-md-4" style="font-weight:bold">{{history.attributes.statusLabel}}</div>
                                 <div class="col-md-4" tk-date="history.attributes.dateCreateData"></div>
@@ -87,7 +87,7 @@
                                      {{action.attributes.answerLabel}}
                                 </div>
                             </div>
-                        </div>
+                        </divclass="form-horizontal">
                     </div>
                 </div>
             </div>

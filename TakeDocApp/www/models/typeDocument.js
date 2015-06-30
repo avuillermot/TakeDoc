@@ -15,7 +15,7 @@
         this.set("entityId", current.EntityId);
         this.set("deleted", current.EtatDeleteData);
         this.set("pageNeed", current.TypeDocumentPageNeed);
-        this.set("workflowTypeId", current.WorkflowTypeId);
+        this.set("workflowTypeId", current.TypeDocumentWorkflowTypeId);
         return this;
     }
 });

@@ -14,8 +14,6 @@
         <AssociationConnector Association="TakeDocModel.FK_Version_Document" />
         <AssociationConnector Association="TakeDocModel.FK_Page_Version" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Version" />
-        <EntityTypeShape EntityType="TakeDocModel.View_PageStoreLocator" Width="1.5" PointX="0.75" PointY="6.75" />
-        <EntityTypeShape EntityType="TakeDocModel.View_VersionStoreLocator" Width="1.5" PointX="3" PointY="5.125" />
         <EntityTypeShape EntityType="TakeDocModel.TypeDocument" Width="1.5" PointX="10.875" PointY="0.5" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Type_Document" />
         <EntityTypeShape EntityType="TakeDocModel.DataField" Width="2.625" PointX="17" PointY="0.5" />

@@ -16,7 +16,6 @@ namespace TakeDocModel
     {
         public System.Guid PageId { get; set; }
         public string PageReference { get; set; }
-        public Nullable<System.Guid> PageStreamId { get; set; }
         public System.Guid PageVersionId { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
         public System.Guid EntityId { get; set; }
@@ -29,5 +28,6 @@ namespace TakeDocModel
         public int PageNumber { get; set; }
         public int PageRotation { get; set; }
         public string PageFileExtension { get; set; }
+        public string PagePath { get; set; }
     }
 }

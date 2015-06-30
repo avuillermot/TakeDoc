@@ -50,7 +50,9 @@ var Dashboards = Backbone.Collection.extend({
         var that = this;
         // group by type document
         $.each(that.where({EntityId: entityId}), function (index, value) {
-            if (value.get("TypeDocumentReference") != null && $.inArray(value.get("TypeDocumentLabel"), typesDoc) == -1)
+            if (value.get("TypeDocumentReference") != null
+                && that.countTypeEntity(value.get("TypeDocumentId"),entityId)
+                && $.inArray(value.get("TypeDocumentLabel"), typesDoc) == -1)
                 typesDoc.push(value.get("TypeDocumentLabel"));
         });
         

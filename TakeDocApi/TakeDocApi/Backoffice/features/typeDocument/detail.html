@@ -48,7 +48,7 @@
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemoveDataField(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
                     <div class="document-field-label">
-                        {{field.attributes.label}}{{field.attributes.index}}{{field.attributes.delete}}
+                        {{field.attributes.label}}&#160;(p{{field.attributes.index}}){{field.attributes.delete}}
                         <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="displayListValuesInfo()"></div>
                         <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="displayAutocompleteInfo()"></div>
                     </div>

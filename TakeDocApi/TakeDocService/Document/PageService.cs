@@ -11,7 +11,6 @@ namespace TakeDocService.Document
 {
     public class PageService : BaseService, Interface.IPageService
     {
-        TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator> dao = new TakeDocDataAccess.DaoBase<TakeDocModel.View_PageStoreLocator>();
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         IDaoPage daoPage = UnityHelper.Resolve<IDaoPage>();
@@ -32,10 +31,7 @@ namespace TakeDocService.Document
             base.Logger.DebugFormat("AddPage:  write byte in file [{0}]", file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
 
-            base.Logger.DebugFormat("AddPage: update version with file locator");
-            ICollection<TakeDocModel.View_PageStoreLocator> locators = new List<TakeDocModel.View_PageStoreLocator>();
-            locators = dao.GetBy(x => x.StreamLocator.ToUpper() == file.FullName.ToUpper());
-            page.PageStreamId = locators.First().StreamId;
+            page.PagePath = file.FullName;
 
             daoPage.Update(page);
         }
@@ -79,15 +75,13 @@ namespace TakeDocService.Document
         public byte[] GetBinary(Guid pageId)
         {
             TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
-            TakeDocModel.View_PageStoreLocator locator = dao.GetBy(x => x.StreamId == page.PageStreamId).First();
-            return System.IO.File.ReadAllBytes(locator.StreamLocator);
+            return System.IO.File.ReadAllBytes(page.PagePath);
         }
 
         public string GetBase64(Guid pageId)
         {
             TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
-            TakeDocModel.View_PageStoreLocator locator = dao.GetBy(x => x.StreamId == page.PageStreamId).First();
-            byte[] data = System.IO.File.ReadAllBytes(locator.StreamLocator);
+            byte[] data = System.IO.File.ReadAllBytes(page.PagePath);
 
             string prefix = string.Format("data:image/{0};base64,", page.PageFileExtension);
  

@@ -67,14 +67,12 @@
     <Compile Include="Document\DaoView_DocumentExtended.cs" />
     <Compile Include="Document\DaoMetaData.cs" />
     <Compile Include="Document\DaoPage.cs" />
-    <Compile Include="Document\DaoPageStoreLocator.cs" />
     <Compile Include="Document\DaoTypeDocument.cs" />
     <Compile Include="Document\DaoBackOfficeTypeDocument.cs" />
     <Compile Include="Document\Interface\IDaoBackOfficeTypeDocument.cs" />
     <Compile Include="Document\Interface\IDaoView_DocumentExtended.cs" />
     <Compile Include="Security\DaoUserTk.cs" />
     <Compile Include="Document\DaoVersion.cs" />
-    <Compile Include="Document\DaoVersionStoreLocator.cs" />
     <Compile Include="Document\DaoDataFieldAutoComplete.cs" />
     <Compile Include="Document\Interface\IDaoDataFieldAutoComplete.cs" />
     <Compile Include="Document\Interface\IDaoDataFieldValue.cs" />
@@ -83,8 +81,6 @@
     <Compile Include="Document\Interface\IDaoPage.cs" />
     <Compile Include="Document\Interface\IDaoTypeDocument.cs" />
     <Compile Include="Security\Interface\IDaoUserTk.cs" />
-    <Compile Include="Document\Interface\IDaoVersionStoreLocator.cs" />
-    <Compile Include="Document\Interface\IDaoPageStoreLocator.cs" />
     <Compile Include="Document\Interface\IDaoVersion.cs" />
     <Compile Include="IDaoGeneric.cs" />
     <Compile Include="Parameter\DaoEntity.cs" />

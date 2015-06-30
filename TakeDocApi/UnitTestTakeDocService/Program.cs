@@ -26,14 +26,14 @@ namespace UnitTestTakeDocService
             TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
             
             documentTest.TestOrdered();
-            /*metaDataTest.TestOrdered();
+            metaDataTest.TestOrdered();
             requestAccountTest.TestOrdered();
             typeDocumentTest.TestOrdered();
             workflowNoTest.TestOrdered();
             workflowAutoTest.TestOrdered();
             workflowManagerTest.TestOrdered();
             workflowBoTest.TestOrdered();
-            workflowMaBoTest.TestOrdered();*/
+            workflowMaBoTest.TestOrdered();
 
             Console.WriteLine("End");
 

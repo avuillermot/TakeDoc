@@ -179,7 +179,7 @@
           <Property Name="PageId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="PageStreamId" Type="uniqueidentifier" />
+          <Property Name="PagePath" Type="nvarchar(max)" />
           <Property Name="PageVersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="PageNumber" Type="int" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
@@ -295,7 +295,7 @@
           <Property Name="VersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="VersionReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="VersionStreamId" Type="uniqueidentifier" />
+          <Property Name="VersionPath" Type="nvarchar(max)" />
           <Property Name="VersionStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="VersionDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="VersionMajor" Type="bit" Nullable="false" />
@@ -393,15 +393,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="VersionStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
         </EntityType>
         <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'TakeDoc.dbo.View_PageStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
-        <EntityType Name="View_PageStoreLocator">
-          <Key>
-            <PropertyRef Name="StreamId" />
-          </Key>
-          <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="StreamLocator" Type="nvarchar(max)" />
-        </EntityType>
-        <!--Erreurs détectées durant la génération :
 avertissement 6002: La table/vue 'TakeDoc.dbo.View_TypeDocumentDataField' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
         <EntityType Name="View_TypeDocumentDataField">
           <Key>
@@ -453,15 +444,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
           <Property Name="EntityReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
-        </EntityType>
-        <!--Erreurs détectées durant la génération :
-avertissement 6002: La table/vue 'TakeDoc.dbo.View_VersionStoreLocator' n'a pas de clé primaire définie. La clé a été déduite et la définition a été créée en tant que table/vue en lecture seule.-->
-        <EntityType Name="View_VersionStoreLocator">
-          <Key>
-            <PropertyRef Name="StreamId" />
-          </Key>
-          <Property Name="StreamId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="StreamLocator" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_BackOfficeTypeDocument_Type_Document">
           <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="1" />
@@ -848,12 +830,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_DocumentExtended].[VersionStatusLabel] AS [VersionStatusLabel]
     FROM [dbo].[View_DocumentExtended] AS [View_DocumentExtended]</DefiningQuery>
           </EntitySet>
-          <EntitySet Name="View_PageStoreLocator" EntityType="Self.View_PageStoreLocator" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [View_PageStoreLocator].[StreamId] AS [StreamId], 
-    [View_PageStoreLocator].[StreamLocator] AS [StreamLocator]
-    FROM [dbo].[View_PageStoreLocator] AS [View_PageStoreLocator]</DefiningQuery>
-          </EntitySet>
           <EntitySet Name="View_TypeDocumentDataField" EntityType="Self.View_TypeDocumentDataField" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [View_TypeDocumentDataField].[TypeDocumentLabel] AS [TypeDocumentLabel], 
@@ -882,12 +858,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_UserEntity].[EntityLabel] AS [EntityLabel], 
     [View_UserEntity].[EtatDeleteData] AS [EtatDeleteData]
     FROM [dbo].[View_UserEntity] AS [View_UserEntity]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="View_VersionStoreLocator" EntityType="Self.View_VersionStoreLocator" store:Type="Views" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [View_VersionStoreLocator].[StreamId] AS [StreamId], 
-    [View_VersionStoreLocator].[StreamLocator] AS [StreamLocator]
-    FROM [dbo].[View_VersionStoreLocator] AS [View_VersionStoreLocator]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="Self.FK_BackOfficeTypeDocument_Type_Document">
             <End Role="Type_Document" EntitySet="Type_Document" />
@@ -1014,8 +984,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Version" EntitySet="Version" />
             <End Role="Page" EntitySet="Page" />
           </AssociationSet>
-          <EntitySet Name="View_PageStoreLocator" EntityType="TakeDocModel.View_PageStoreLocator" />
-          <EntitySet Name="View_VersionStoreLocator" EntityType="TakeDocModel.View_VersionStoreLocator" />
           <EntitySet Name="Type_Document" EntityType="TakeDocModel.TypeDocument" />
           <AssociationSet Name="FK_Document_Type_Document" Association="TakeDocModel.FK_Document_Type_Document">
             <End Role="Type_Document" EntitySet="Type_Document" />
@@ -1214,7 +1182,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           </Key>
           <Property Name="PageId" Type="Guid" Nullable="false" />
           <Property Name="PageReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="PageStreamId" Type="Guid" />
           <Property Name="PageVersionId" Type="Guid" Nullable="false" />
           <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
@@ -1227,6 +1194,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="PageNumber" Type="Int32" Nullable="false" />
           <Property Name="PageRotation" Type="Int32" Nullable="false" />
           <Property Name="PageFileExtension" Type="String" Nullable="false" MaxLength="5" FixedLength="false" Unicode="true" />
+          <Property Name="PagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           </EntityType>
         <EntityType Name="Version">
           <Key>
@@ -1234,7 +1202,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           </Key>
           <Property Name="VersionId" Type="Guid" Nullable="false" />
           <Property Name="VersionReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="VersionStreamId" Type="Guid" />
           <Property Name="VersionDocumentId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Version_Document" FromRole="Version" ToRole="Document" />
           <NavigationProperty Name="Page" Relationship="TakeDocModel.FK_Page_Version" FromRole="Version" ToRole="Page" />
@@ -1252,6 +1219,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="VersionStatusId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="Status_Version" Relationship="TakeDocModel.FK_Version_Status_Version" FromRole="Version" ToRole="Status_Version" />
           <NavigationProperty Name="Workflow" Relationship="TakeDocModel.FK_Workflow_Version" FromRole="Version" ToRole="Workflow" />
+          <Property Name="VersionPath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_Version_Document">
           <End Type="TakeDocModel.Document" Role="Document" Multiplicity="1" />
@@ -1277,20 +1245,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="View_PageStoreLocator">
-          <Key>
-            <PropertyRef Name="StreamId" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="StreamLocator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="View_VersionStoreLocator">
-          <Key>
-            <PropertyRef Name="StreamId" />
-          </Key>
-          <Property Name="StreamId" Type="Guid" Nullable="false" />
-          <Property Name="StreamLocator" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
         <EntityType Name="TypeDocument">
           <Key>
             <PropertyRef Name="TypeDocumentId" />
@@ -2046,6 +2000,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Page">
             <EntityTypeMapping TypeName="TakeDocModel.Page">
               <MappingFragment StoreEntitySet="Page">
+                <ScalarProperty Name="PagePath" ColumnName="PagePath" />
                 <ScalarProperty Name="PageFileExtension" ColumnName="PageFileExtension" />
                 <ScalarProperty Name="PageRotation" ColumnName="PageRotation" />
                 <ScalarProperty Name="PageNumber" ColumnName="PageNumber" />
@@ -2058,7 +2013,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
                 <ScalarProperty Name="PageVersionId" ColumnName="PageVersionId" />
-                <ScalarProperty Name="PageStreamId" ColumnName="PageStreamId" />
                 <ScalarProperty Name="PageReference" ColumnName="PageReference" />
                 <ScalarProperty Name="PageId" ColumnName="PageId" />
               </MappingFragment>
@@ -2068,6 +2022,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Version">
             <EntityTypeMapping TypeName="TakeDocModel.Version">
               <MappingFragment StoreEntitySet="Version">
+                <ScalarProperty Name="VersionPath" ColumnName="VersionPath" />
                 <ScalarProperty Name="VersionStatusId" ColumnName="VersionStatusId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
@@ -2080,25 +2035,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="VersionMajor" ColumnName="VersionMajor" />
                 <ScalarProperty Name="VersionDocumentId" ColumnName="VersionDocumentId" />
-                <ScalarProperty Name="VersionStreamId" ColumnName="VersionStreamId" />
                 <ScalarProperty Name="VersionReference" ColumnName="VersionReference" />
                 <ScalarProperty Name="VersionId" ColumnName="VersionId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="View_PageStoreLocator">
-            <EntityTypeMapping TypeName="TakeDocModel.View_PageStoreLocator">
-              <MappingFragment StoreEntitySet="View_PageStoreLocator">
-                <ScalarProperty Name="StreamLocator" ColumnName="StreamLocator" />
-                <ScalarProperty Name="StreamId" ColumnName="StreamId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="View_VersionStoreLocator">
-            <EntityTypeMapping TypeName="TakeDocModel.View_VersionStoreLocator">
-              <MappingFragment StoreEntitySet="View_VersionStoreLocator">
-                <ScalarProperty Name="StreamLocator" ColumnName="StreamLocator" />
-                <ScalarProperty Name="StreamId" ColumnName="StreamId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

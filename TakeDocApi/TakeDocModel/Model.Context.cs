@@ -32,8 +32,6 @@ namespace TakeDocModel
         public virtual DbSet<Document> Document { get; set; }
         public virtual DbSet<Page> Page { get; set; }
         public virtual DbSet<Version> Version { get; set; }
-        public virtual DbSet<View_PageStoreLocator> View_PageStoreLocator { get; set; }
-        public virtual DbSet<View_VersionStoreLocator> View_VersionStoreLocator { get; set; }
         public virtual DbSet<TypeDocument> Type_Document { get; set; }
         public virtual DbSet<DataField> DataField { get; set; }
         public virtual DbSet<MetaData> MetaData { get; set; }

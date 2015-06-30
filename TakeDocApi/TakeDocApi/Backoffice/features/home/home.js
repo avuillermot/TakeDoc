@@ -9,7 +9,6 @@ backOffice.controller('homeController', ['$scope', '$rootScope', function ($scop
     if ($scope.selectedEntity == null) $scope.selectedEntity = $scope.entitys[0];
 
     var createBar = function (entity) {
-        if (dash.countEntity(entity.Id) == 0) return false;
         var data = dash.getBarGraphStatusDataSource(entity.Id);
 
         $('#bar-'+entity.Id).highcharts({

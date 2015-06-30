@@ -23,7 +23,6 @@ namespace TakeDocModel
     
         public System.Guid VersionId { get; set; }
         public string VersionReference { get; set; }
-        public Nullable<System.Guid> VersionStreamId { get; set; }
         public System.Guid VersionDocumentId { get; set; }
         public bool VersionMajor { get; set; }
         public decimal VersionNumber { get; set; }
@@ -36,6 +35,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserUpdateData { get; set; }
         public bool EtatDeleteData { get; set; }
         public System.Guid VersionStatusId { get; set; }
+        public string VersionPath { get; set; }
     
         public virtual Document Document { get; set; }
         public virtual ICollection<Page> Page { get; set; }

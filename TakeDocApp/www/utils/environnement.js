@@ -1,7 +1,7 @@
 ﻿var environnement = {
-    //UrlBase: "http://localhost/TakeDocApi/",
-    UrlBase: "http://dev-takedoc.cloudapp.net/",
-    isApp: true,
+    UrlBase: "http://localhost/TakeDocApi/",
+    //UrlBase: "http://dev-takedoc.cloudapp.net/",
+    isApp: false,
     tokenAuthentification: null,
 };
 

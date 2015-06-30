@@ -41,7 +41,7 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void TestOrdered() {
             this.SearchTest();
-            /*this.DeleteDocument();
+            this.DeleteDocument();
             this.IsValidMetaData();
 
             this.CreateDocument();
@@ -57,7 +57,7 @@ namespace UnitTestTakeDocService.Document
             this.AddPage1();
             this.AddPage2();
             this.SetStatusIncomplete();
-            this.SetStatusComplete();*/
+            this.SetStatusComplete();
         }
 
          [TestMethod]

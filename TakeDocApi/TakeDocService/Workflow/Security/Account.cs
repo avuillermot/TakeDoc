@@ -86,7 +86,7 @@ namespace TakeDocService.Workflow.Security
             string title = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_TITLE").First().ParameterValue;
             string bodyFile = daoParameter.GetBy(x => x.ParameterReference == "MAIL_INFORM_REQUEST_ACCOUNT_BODY").First().ParameterValue;
 
-            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, "MASTER", @"\", "mail", @"\", bodyFile);
+            string path = string.Concat(TakeDocModel.Environnement.ModelDirectory, entity.EntityReference, @"\", "mail", @"\", bodyFile);
             string body = System.IO.File.ReadAllText(path);
 
             servMail.Send(title, body, from, to, user);
