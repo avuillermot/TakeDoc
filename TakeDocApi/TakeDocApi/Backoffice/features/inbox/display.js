@@ -66,7 +66,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.title = $scope.document.get("label") + " - (" + $scope.document.get("entityLabel") + ")";
 
             loadImage();
-            loadHistory();
         }
         else {
             $scope.document = {};
@@ -174,7 +173,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     var loadImage = function () {
         var success = function () {
             $scope.pages = arguments[0];
-            if (!$scope.$$phase) $scope.$apply();
+            loadHistory();
         };
 
         var param = {

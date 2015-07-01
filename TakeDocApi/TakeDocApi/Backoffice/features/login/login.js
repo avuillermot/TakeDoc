@@ -1,10 +1,10 @@
 ﻿'use strict';
 backOffice.controller('loginController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
-    /*$scope.identity = {
+    $scope.identity = {
         login: "avuillermot@gmail.com",
         password: "password"
-    };*/
+    };
 
     $scope.onKeyPress = function (event) {
         if (event.keyCode == 13) this.doCheck();
