@@ -93,5 +93,20 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade tk-modal" id="ok-cancel-modal" tabindex="-1" role="dialog" aria-labelledby="ok-cancel-modal" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="ok-cancel-modal-label"></h4>
+                </div>
+                <div class="modal-body" id="ok-cancel-modal-body">
+                    <button class="btn-default btn-danger" ng-click="doOkCancelConfirm();">Oui</button>
+                    <button class="btn-default btn-info" onclick="$('#ok-cancel-modal').modal('hide');">Non</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -40,7 +40,17 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
         $("#myModalBody").html(body);
         $('#myModal').modal('show');
     };
-    $rootScope.hideModal = function () {
+
+    $rootScope.OkCancelModalConfirm = null;
+    $rootScope.showOkCancelModal = function (title, onConfirm) {
+        $("#ok-cancel-modal-label").html(title);
+        $('#ok-cancel-modal').modal('show');
+        $rootScope.OkCancelModalConfirm = onConfirm;
+    };
+
+    $rootScope.doOkCancelConfirm = function () {
+        $('#ok-cancel-modal').modal('hide');
+        $rootScope.OkCancelModalConfirm();
     };
 
     $rootScope.showError = function (err) {

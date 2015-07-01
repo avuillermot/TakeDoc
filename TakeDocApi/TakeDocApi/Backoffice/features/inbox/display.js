@@ -88,8 +88,12 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         fileHelper.readUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
     };
 
-    // remove this document
     $scope.doRemove = function () {
+       $rootScope.showOkCancelModal("Confirmer la suppression du document", doRemoveRunfunction);
+    };
+
+    // remove this document
+    var doRemoveRunfunction = function() {
         var documentsExt = new DocumentsExtended();
         var param = {
             documentId: $scope.document.get("id"),
