@@ -5,7 +5,7 @@
     </div>
 
     <div class="panel-body">
-
+        <div style="width:35%;display:inline-block">
             <div class="dropdown" style="display:inline-block">
                 <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                     {{selectedEntity.Label}}
@@ -44,4 +44,7 @@
                 </div>
             </form>
         </div>
+        <div id="seach-result-items" ui-grid="gridDocuments" ui-grid-selection ui-grid-resize-columns ui-grid-auto-resize ui-grid-pagination>
+        </div>
+    </div>
 </div>

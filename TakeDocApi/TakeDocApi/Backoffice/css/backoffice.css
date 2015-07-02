@@ -306,13 +306,21 @@ form {
 }
 
 .search-item-input {
-    width: 30%;
+    width: 75%;
 }
 
 .search-field-title {
     text-align:left !important;
     padding-top:10px !important;
     padding-left:0px !important;
+}
+
+#seach-result-items {
+    margin-left: 5px;
+    padding-top: 5px;
+    display: inline-block;
+    width: 60%;
+    vertical-align: top;
 }
 
 

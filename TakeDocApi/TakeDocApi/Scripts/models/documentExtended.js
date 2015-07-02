@@ -158,5 +158,19 @@ var DocumentsExtended = Backbone.Collection.extend({
     loadToValidateAsBackOffice: function (param) {
         var url = (environnement.UrlBase + "tovalidate/backoffice/{managerId}").replace("{managerId}", param.managerId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
+    },
+    search: function (param) {
+        var url = (environnement.UrlBase + "document/search/{typeDocumentId}/{entityId}/{userId}").replace("{typeDocumentId}", param.typeDocumentId);
+        url = url.replace("{entityId}", param.entityId);
+        url = url.replace("{userId}", param.userId);
+
+        var data = new Array();
+        if (param.conditions != null) {
+            $.each(param.conditions, function (index, value) {
+                data.push({ name: value.name, condition: value.condition, value: value.value });
+            });
+        }
+
+        this.fetch({type: 'POST',data: { '': JSON.stringify(data)}, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     }
 });

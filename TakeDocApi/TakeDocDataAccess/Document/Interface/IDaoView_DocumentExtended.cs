@@ -8,6 +8,6 @@ namespace TakeDocDataAccess.Document.Interface
 {
     public interface IDaoView_DocumentExtended
     {
-        ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.MetaData> metadatas, Guid userId, Guid entityId);
+        ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> metadatas, Guid userId, Guid entityId);
     }
 }

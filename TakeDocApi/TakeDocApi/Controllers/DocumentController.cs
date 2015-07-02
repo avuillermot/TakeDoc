@@ -58,5 +58,41 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPost]
+        [Route("search/{typeDocumentId}/{entityId}/{userId}")]
+        public HttpResponseMessage SearchDocument(Guid typeDocumentId, Guid entityId, Guid userId, [FromBody]string values)
+        {
+            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
+            try
+            {
+                ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs = new List<TakeDocModel.Dto.Document.SearchMetadata>();
+
+                if (values != null)
+                {
+                    Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(values);
+                    foreach (Newtonsoft.Json.Linq.JObject obj in data)
+                    {
+                        string name = obj.Value<string>("name");
+                        string condition = obj.Value<string>("condition");
+                        string value = obj.Value<string>("value");
+
+
+                        searchs.Add(new TakeDocModel.Dto.Document.SearchMetadata(condition)
+                        {
+                            MetaDataValue = value,
+                            MetaDataName = name
+                        });
+                    }
+                }
+               
+                ICollection<TakeDocModel.View_DocumentExtended> back = servDocument.Search(typeDocumentId, searchs, userId, entityId);
+                return Request.CreateResponse(new {value = back});
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

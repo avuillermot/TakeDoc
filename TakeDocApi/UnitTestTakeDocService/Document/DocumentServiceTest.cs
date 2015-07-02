@@ -66,8 +66,8 @@ namespace UnitTestTakeDocService.Document
             Guid typeDoc = new Guid("A78A28CF-9D5C-421D-B008-72E070BAF9D6");
             Guid entityId = new Guid("4A8D729B-A670-4441-A07C-21C9FA69F70F");
 
-             ICollection<TakeDocModel.MetaData> metas = new List<TakeDocModel.MetaData>();
-             metas.Add(new TakeDocModel.MetaData()
+             ICollection<TakeDocModel.Dto.Document.SearchMetadata> metas = new List<TakeDocModel.Dto.Document.SearchMetadata>();
+             metas.Add(new TakeDocModel.Dto.Document.SearchMetadata(TakeDocModel.Dto.Document.SearchCondition.Start)
              {
                  MetaDataName = "DEVISE",
                  MetaDataValue = "DOLLARS"

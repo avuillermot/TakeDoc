@@ -8,13 +8,16 @@ namespace TakeDocDataAccess.Document
 {
     public class DaoView_DocumentExtended : DaoBase<TakeDocModel.View_DocumentExtended>, Interface.IDaoView_DocumentExtended
     {
-        public ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.MetaData> metadatas, Guid userId, Guid entityId)
+        public ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
         {
             StringBuilder sqlVersion = new StringBuilder("SELECT VersionId FROM dbo.Version v WHERE v.VersionId = dx.VersionId AND v.EtatDeleteData = 0");
-            foreach (TakeDocModel.MetaData meta in metadatas)
+            foreach (TakeDocModel.Dto.Document.SearchMetadata search in searchs)
             {
                 StringBuilder sqlMeta = new StringBuilder("SELECT MetaDataId FROM dbo.MetaData m WHERE m.MetaDataVersionId = v.VersionId ");
-                sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE '{1}%' AND m.EtatDeleteData = 0 ", meta.MetaDataName, meta.MetaDataValue);
+                if (search.Condition.ToUpper() == TakeDocModel.Dto.Document.SearchCondition.Start)
+                {
+                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE '{1}%' AND m.EtatDeleteData = 0 ", search.MetaDataName, search.MetaDataValue);
+                }
                 //if (meta.DataField.DataFieldType.DataFieldTypeId.Equals(System.DateTimeOffset)
                 sqlVersion.AppendFormat("AND EXISTS({0})", sqlMeta);
             }

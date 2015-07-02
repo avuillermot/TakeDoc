@@ -67,14 +67,14 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
         })
     });
 
-    if ($rootScope.getUser() != null) {
+    /*if ($rootScope.getUser() != null) {
         var culture = $rootScope.getUser().Culture;
         angularLoad.loadScript('../Scripts/lib/moment/locale/' + culture + '.js').then(function () {
-            $timeout(moment.locale(culture), 500);
+            $timeout(moment.locale(culture), 2500);
         }).catch(function () {
             alert("Culture can't be load");
         });
-    }
+    }*/
 });
 
 backOffice.directive('tkDate', function ($rootScope) {
