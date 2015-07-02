@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('searchFindController', ['$scope', '$rootScope', function ($scope, $rootScope) {
+backOffice.controller('searchFindController', ['$scope', '$rootScope', 'documentDisplay', function ($scope, $rootScope, documentDisplay) {
 
     $("#viewRight").css("width", "0%");
     $("#viewRight").hide();
@@ -8,6 +8,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', function 
     var myTypeDocs = new TypeDocuments();
     var myDocs = new DocumentsExtended();
     var myFields = new DocumentFields();
+    var myMetas = new MetaDatas();
     $scope.entitys = $rootScope.getUser().Entitys;
 
     var resizeGridInbox = function () {
@@ -110,6 +111,18 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', function 
     display/use item list and item to display
     ***************************************************
     ***************************************************/
+    var displayDocument = function (document, metas, viewType) {
+        $("#viewRight").css("width", "49%");
+        $("#viewRight").show();
+        $("#viewLeft").css("width", "49%");
+
+        documentDisplay.data.metadatas = metas;
+        documentDisplay.data.document = document;
+        documentDisplay.data.viewType = viewType;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
+        if (!$scope.$$phase) $scope.$apply();
+    }
+
     $scope.gridDocuments = {
         columnDefs: [
            { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 280 },
@@ -125,6 +138,30 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', function 
         noUnselect: true,
         paginationPageSizes: [20, 50, 100, 500],
         data: []
+    };
+
+    // display detail of this document in the display module
+    $scope.gridDocuments.onRegisterApi = function (gridApi) {
+        //set gridApi on scope
+        $scope.gridApi = gridApi;
+        gridApi.selection.on.rowSelectionChanged($scope, function () {
+            var toShow = arguments[0].entity;
+            var success = function () {
+                debugger;
+                displayDocument(toShow, arguments[0], $scope.selectedDirectory);
+            };
+            var error = function () {
+                $rootScope.showError(arguments[0]);
+            };
+            var param = {
+                versionId: toShow.get("versionId"),
+                entityId: toShow.get("entityId"),
+                success: success,
+                error: error
+            };
+            myMetas = new MetaDatas();
+            myMetas.load(param);
+        });
     };
     
 }]);

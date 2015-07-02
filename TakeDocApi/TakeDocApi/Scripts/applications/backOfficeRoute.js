@@ -128,6 +128,10 @@
             "viewLeft": {
                 templateUrl: "features/find/search.html",
                 controller: 'searchFindController'
+            },
+            "viewRight": {
+                templateUrl: "features/inbox/display.html",
+                controller: 'displayController'
             }
         }
     });
