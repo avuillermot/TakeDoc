@@ -13,11 +13,11 @@ namespace TakeDocDataAccess.Document
             StringBuilder sqlVersion = new StringBuilder("SELECT VersionId FROM dbo.Version v WHERE v.VersionId = dx.VersionId AND v.EtatDeleteData = 0");
             foreach (TakeDocModel.Dto.Document.SearchMetadata search in searchs)
             {
-                StringBuilder sqlMeta = new StringBuilder("SELECT MetaDataId FROM dbo.MetaData m WHERE m.MetaDataVersionId = v.VersionId ");
-                if (search.Condition.ToUpper() == TakeDocModel.Dto.Document.SearchCondition.Start)
-                {
-                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE '{1}%' AND m.EtatDeleteData = 0 ", search.MetaDataName, search.MetaDataValue);
-                }
+                StringBuilder sqlMeta = new StringBuilder("SELECT MetaDataId FROM dbo.MetaData m WHERE m.MetaDataVersionId = v.VersionId AND m.EtatDeleteData = 0 ");
+                if (search.DataField.DataFieldType.DataFieldInputType.ToUpper() == "ION-TOGGLE")
+                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE 'TRUE' ", search.MetaDataName, search.MetaDataValue);
+                else if (search.Condition.ToUpper() == TakeDocModel.Dto.Document.SearchCondition.Start)
+                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE '{1}%' ", search.MetaDataName, search.MetaDataValue);
                 //if (meta.DataField.DataFieldType.DataFieldTypeId.Equals(System.DateTimeOffset)
                 sqlVersion.AppendFormat("AND EXISTS({0})", sqlMeta);
             }

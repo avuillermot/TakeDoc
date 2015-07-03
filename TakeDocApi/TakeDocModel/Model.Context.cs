@@ -98,31 +98,6 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteEntityUser", userRefParameter);
         }
     
-        public virtual ObjectResult<SearchUserTk_Result> SearchUserTk(Nullable<System.Guid> currentUserId, string firstName, string lastName, string email, Nullable<System.Guid> entityId)
-        {
-            var currentUserIdParameter = currentUserId.HasValue ?
-                new ObjectParameter("currentUserId", currentUserId) :
-                new ObjectParameter("currentUserId", typeof(System.Guid));
-    
-            var firstNameParameter = firstName != null ?
-                new ObjectParameter("firstName", firstName) :
-                new ObjectParameter("firstName", typeof(string));
-    
-            var lastNameParameter = lastName != null ?
-                new ObjectParameter("lastName", lastName) :
-                new ObjectParameter("lastName", typeof(string));
-    
-            var emailParameter = email != null ?
-                new ObjectParameter("email", email) :
-                new ObjectParameter("email", typeof(string));
-    
-            var entityIdParameter = entityId.HasValue ?
-                new ObjectParameter("entityId", entityId) :
-                new ObjectParameter("entityId", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk_Result>("SearchUserTk", currentUserIdParameter, firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
-        }
-    
         public virtual int AddEvent(string type, string from, string info)
         {
             var typeParameter = type != null ?
@@ -173,23 +148,6 @@ namespace TakeDocModel
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("AddFieldToDocumentType", typeDocumentRefParameter, fieldRefParameter, mandatoryParameter, deleteParameter, indexParameter, entityRefParameter, userRefParameter);
         }
     
-        public virtual ObjectResult<SearchUserTkFullText_Result> SearchUserTkFullText(Nullable<System.Guid> currentUserId, string value, Nullable<System.Guid> entityId)
-        {
-            var currentUserIdParameter = currentUserId.HasValue ?
-                new ObjectParameter("currentUserId", currentUserId) :
-                new ObjectParameter("currentUserId", typeof(System.Guid));
-    
-            var valueParameter = value != null ?
-                new ObjectParameter("value", value) :
-                new ObjectParameter("value", typeof(string));
-    
-            var entityIdParameter = entityId.HasValue ?
-                new ObjectParameter("entityId", entityId) :
-                new ObjectParameter("entityId", typeof(System.Guid));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter, entityIdParameter);
-        }
-    
         public virtual int AddDocumentStatusHisto(Nullable<System.Guid> documentId, Nullable<System.Guid> statusId, Nullable<System.Guid> userId, Nullable<System.Guid> entityId)
         {
             var documentIdParameter = documentId.HasValue ?
@@ -231,6 +189,48 @@ namespace TakeDocModel
                 new ObjectParameter("entityId", typeof(System.Guid));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetWorkflowHistory_Result>("GetWorkflowHistory", documentIdParameter, entityIdParameter);
+        }
+    
+        public virtual ObjectResult<SearchUserTk_Result> SearchUserTk(Nullable<System.Guid> currentUserId, string firstName, string lastName, string email, Nullable<System.Guid> entityId)
+        {
+            var currentUserIdParameter = currentUserId.HasValue ?
+                new ObjectParameter("currentUserId", currentUserId) :
+                new ObjectParameter("currentUserId", typeof(System.Guid));
+    
+            var firstNameParameter = firstName != null ?
+                new ObjectParameter("firstName", firstName) :
+                new ObjectParameter("firstName", typeof(string));
+    
+            var lastNameParameter = lastName != null ?
+                new ObjectParameter("lastName", lastName) :
+                new ObjectParameter("lastName", typeof(string));
+    
+            var emailParameter = email != null ?
+                new ObjectParameter("email", email) :
+                new ObjectParameter("email", typeof(string));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTk_Result>("SearchUserTk", currentUserIdParameter, firstNameParameter, lastNameParameter, emailParameter, entityIdParameter);
+        }
+    
+        public virtual ObjectResult<SearchUserTkFullText_Result> SearchUserTkFullText(Nullable<System.Guid> currentUserId, string value, Nullable<System.Guid> entityId)
+        {
+            var currentUserIdParameter = currentUserId.HasValue ?
+                new ObjectParameter("currentUserId", currentUserId) :
+                new ObjectParameter("currentUserId", typeof(System.Guid));
+    
+            var valueParameter = value != null ?
+                new ObjectParameter("value", value) :
+                new ObjectParameter("value", typeof(string));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter, entityIdParameter);
         }
     }
 }

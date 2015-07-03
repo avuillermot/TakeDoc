@@ -17,7 +17,7 @@ namespace TakeDocApi.Controllers.AutoComplete
             TakeDocService.Search.Interface.ISearch search = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Search.Interface.ISearch>();
             try
             {
-                ICollection<TakeDocModel.SearchUserTkFullText_Result> users = search.SearchUserFullText(currentUserId, value, entityId);
+                ICollection<TakeDocModel.SearchUserTkFullText_Result> users = search.SearchUserFullText(currentUserId, value, entityId, true);
                 var req = from user in users
                           select new
                           {
@@ -38,7 +38,7 @@ namespace TakeDocApi.Controllers.AutoComplete
             TakeDocService.Search.Interface.ISearch search = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Search.Interface.ISearch>();
             try
             {
-                ICollection<TakeDocModel.SearchUserTkFullText_Result> users = search.SearchUserFullText(currentUserId, value, Guid.Empty);
+                ICollection<TakeDocModel.SearchUserTkFullText_Result> users = search.SearchUserFullText(currentUserId, value, Guid.Empty, true);
                 var req = from user in users
                           select new
                           {
@@ -51,6 +51,5 @@ namespace TakeDocApi.Controllers.AutoComplete
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }
-    }
+        }   }
 }

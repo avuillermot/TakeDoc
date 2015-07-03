@@ -167,7 +167,7 @@ var DocumentsExtended = Backbone.Collection.extend({
         var data = new Array();
         if (param.conditions != null) {
             $.each(param.conditions, function (index, value) {
-                data.push({ name: value.name, condition: value.condition, value: value.value });
+                data.push({ name: value.name, condition: value.condition, value: value.value, type: value.type });
             });
         }
 

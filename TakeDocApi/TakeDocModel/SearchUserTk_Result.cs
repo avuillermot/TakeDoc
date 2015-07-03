@@ -17,5 +17,6 @@ namespace TakeDocModel
         public string UserTkFirstName { get; set; }
         public string UserTkLastName { get; set; }
         public string UserTkEmail { get; set; }
+        public bool UserTkEnable { get; set; }
     }
 }

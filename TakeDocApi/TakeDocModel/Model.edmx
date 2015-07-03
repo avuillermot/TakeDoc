@@ -1055,13 +1055,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="DeleteEntityUser">
           <Parameter Name="userRef" Mode="In" Type="String" />
           </FunctionImport>
-          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk_Result)">
-            <Parameter Name="currentUserId" Mode="In" Type="Guid" />
-            <Parameter Name="firstName" Mode="In" Type="String" />
-            <Parameter Name="lastName" Mode="In" Type="String" />
-            <Parameter Name="email" Mode="In" Type="String" />
-            <Parameter Name="entityId" Mode="In" Type="Guid" />
-          </FunctionImport>
           <FunctionImport Name="AddEvent">
             <Parameter Name="type" Mode="In" Type="String" />
             <Parameter Name="from" Mode="In" Type="String" />
@@ -1075,11 +1068,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="index" Mode="In" Type="Int32" />
             <Parameter Name="entityRef" Mode="In" Type="String" />
             <Parameter Name="userRef" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="SearchUserTkFullText" ReturnType="Collection(TakeDocModel.SearchUserTkFullText_Result)">
-            <Parameter Name="currentUserId" Mode="In" Type="Guid" />
-            <Parameter Name="value" Mode="In" Type="String" />
-            <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
           <EntitySet Name="BackOfficeTypeDocument" EntityType="TakeDocModel.BackOfficeTypeDocument" />
           <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document">
@@ -1141,6 +1129,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           </AssociationSet>
           <FunctionImport Name="GetWorkflowHistory" ReturnType="Collection(TakeDocModel.GetWorkflowHistory_Result)">
             <Parameter Name="documentId" Mode="In" Type="Guid" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="SearchUserTk" ReturnType="Collection(TakeDocModel.SearchUserTk_Result)">
+            <Parameter Name="currentUserId" Mode="In" Type="Guid" />
+            <Parameter Name="firstName" Mode="In" Type="String" />
+            <Parameter Name="lastName" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="SearchUserTkFullText" ReturnType="Collection(TakeDocModel.SearchUserTkFullText_Result)">
+            <Parameter Name="currentUserId" Mode="In" Type="Guid" />
+            <Parameter Name="value" Mode="In" Type="String" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
           </EntityContainer>
@@ -1686,18 +1686,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="SearchUserTk_Result">
-          <Property Type="Guid" Name="UserTkId" Nullable="false" />
-          <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
-        </ComplexType>
-        <ComplexType Name="SearchUserTkFullText_Result">
-          <Property Type="Guid" Name="UserTkId" Nullable="false" />
-          <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
-          <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
-        </ComplexType>
         <EntityType Name="BackOfficeTypeDocument">
           <Key>
             <PropertyRef Name="UserTkId" />
@@ -1949,6 +1937,20 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="Guid" Name="EntityId" Nullable="true" />
           <Property Type="String" Name="Comment" Nullable="true" />
           <Property Type="Boolean" Name="EtatDeleteData" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="SearchUserTk_Result">
+          <Property Type="Guid" Name="UserTkId" Nullable="false" />
+          <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
+          <Property Type="Boolean" Name="UserTkEnable" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SearchUserTkFullText_Result">
+          <Property Type="Guid" Name="UserTkId" Nullable="false" />
+          <Property Type="String" Name="UserTkFirstName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkLastName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
+          <Property Type="Boolean" Name="UserTkEnable" Nullable="false" />
         </ComplexType>
         </Schema>
     </edmx:ConceptualModels>
@@ -2311,28 +2313,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImportMapping FunctionImportName="AddUserToEntity" FunctionName="TakeDocModel.Store.AddUserToEntity" />
           <FunctionImportMapping FunctionImportName="DeleteUserToEntity" FunctionName="TakeDocModel.Store.DeleteUserToEntity" />
           <FunctionImportMapping FunctionImportName="DeleteEntityUser" FunctionName="TakeDocModel.Store.DeleteEntityUser" />
-          <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk" >
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk_Result">
-                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
-                <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
-                <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
-                <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="AddEvent" FunctionName="TakeDocModel.Store.AddEvent" />
           <FunctionImportMapping FunctionImportName="AddFieldToDocumentType" FunctionName="TakeDocModel.Store.AddFieldToDocumentType" />
-          <FunctionImportMapping FunctionImportName="SearchUserTkFullText" FunctionName="TakeDocModel.Store.SearchUserTkFullText">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTkFullText_Result">
-                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
-                <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
-                <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
-                <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
           <EntitySetMapping Name="BackOfficeTypeDocument">
             <EntityTypeMapping TypeName="TakeDocModel.BackOfficeTypeDocument">
               <MappingFragment StoreEntitySet="BackOfficeTypeDocument">
@@ -2453,6 +2435,28 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="EntityId" ColumnName="EntityId" />
                 <ScalarProperty Name="Comment" ColumnName="Comment" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchUserTk" FunctionName="TakeDocModel.Store.SearchUserTk">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTk_Result">
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
+                <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
+                <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
+                <ScalarProperty Name="UserTkEnable" ColumnName="UserTkEnable" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SearchUserTkFullText" FunctionName="TakeDocModel.Store.SearchUserTkFullText">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TakeDocModel.SearchUserTkFullText_Result">
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="UserTkFirstName" ColumnName="UserTkFirstName" />
+                <ScalarProperty Name="UserTkLastName" ColumnName="UserTkLastName" />
+                <ScalarProperty Name="UserTkEmail" ColumnName="UserTkEmail" />
+                <ScalarProperty Name="UserTkEnable" ColumnName="UserTkEnable" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

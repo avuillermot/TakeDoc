@@ -18,6 +18,7 @@ namespace TakeDocService.Search.Interface
         /// <param name="entityId"></param>
         /// <returns></returns>
         ICollection<TakeDocModel.SearchUserTk_Result> SearchUser(Guid currentUserId, string firstName, string lastName, string email, Guid entityId);
+        ICollection<TakeDocModel.SearchUserTk_Result> SearchUser(Guid currentUserId, string firstName, string lastName, string email, Guid entityId, bool enable);
         /// <summary>
         /// Search user who contains value parameter in first name, last name or email
         /// </summary>
@@ -25,5 +26,6 @@ namespace TakeDocService.Search.Interface
         /// <param name="value"></param>
         /// <returns></returns>
         ICollection<TakeDocModel.SearchUserTkFullText_Result> SearchUserFullText(Guid currentUserId, string value, Guid entityId);
+        ICollection<TakeDocModel.SearchUserTkFullText_Result> SearchUserFullText(Guid currentUserId, string value, Guid entityId, bool enable);
     }
 }

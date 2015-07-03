@@ -1,11 +1,12 @@
 ﻿<div class="panel panel-info">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-search" ng-click="doSearch();" data-toggle="tooltip" title="Rechercher" data-placement="bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-remove" ng-click="doCloseSearch();" data-toggle="tooltip" title="Revenir à la recherche" data-placement="bottom" ng-hide="modeSeach == true"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-search" ng-click="doSearch();" data-toggle="tooltip" title="Rechercher" data-placement="bottom" ng-hide="modeSeach == false"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon glyphicon-refresh" ng-click="doReset();" data-toggle="tooltip" title="Remise à zéro" data-placement="bottom" ng-hide="modeSeach == false"></button>
     </div>
 
     <div class="panel-body">
-        <div style="width:35%;display:inline-block">
+        <div id="divSearchControl" style="width:35%;display:inline-block">
             <div class="dropdown" style="display:inline-block">
                 <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                     {{selectedEntity.Label}}
@@ -25,21 +26,15 @@
                 </ul>
             </div>
             <form class="form-horizontal" style="padding-left:15px;padding-top:15px">
-                <div ng-repeat="field in fields | orderBy:['attributes.deleted','attributes.index'] " class="form-group search-field-deleted-{{field.attributes.deleted}}" ng-switch on="field.attributes.inputType">
+                <div ng-repeat="field in fields | filter:filterSearchField  | orderBy:['attributes.deleted','attributes.index'] " class="form-group search-field-deleted-{{field.attributes.deleted}}" ng-switch on="field.attributes.inputType">
                     <label class="col-md-2 control-label search-field-title">
                         {{field.attributes.label}}-{{field.attributes.inputType}}
                     </label>
 
                     <div class="col-md-9 inbox-metadata" id="divinput-{{field.attributes.id}}-{{field.attributes.name}}">
-                        <select ng-switch-when="list" id="input-{{field.attributes.id}}-{{field.attributes.name}}" ng-model="field.attributes.value" tabindex="{{field.attributes.index}}" class="form-control search-item-input search-field ">
-                            <option ng-repeat="item in field.attributes.valueList.models" ng-selected="field.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
-                        </select>
-
-                        <input ng-switch-when="date" id="input-{{field.attributes.id}}-{{field.attributes.name}}" name="{{field.attributes.id}}" type="{{field.attributes.inputType}}" class="form-control search-item-input search-field" />
-                        <input ng-switch-when="ion-toggle" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="checkbox" class="search-field" ng-checked=" field.attributes.value= ='True' " />
-                        <textarea ng-switch-when="textarea" id="input-{{field.attributes.id}}-{{field.attributes.name}}" class="search-item-input search-field" rows="3"></textarea>
-                        <input ng-switch-when="autocomplete" id="input-{{field.attributes.id}}-{{field.attributes.name}}" class="search-item-input search-field" tk-autocomplete="{{field.attributes.id}}" />
-                        <input ng-switch-default="" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
+                        <input ng-switch-when="ion-toggle" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="checkbox" class="search-field" ng-model="field.attributes.value" ng-checked=" field.attributes.value= ='True' " />
+                        <input ng-switch-when="number" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
+                        <input ng-switch-when="text" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
                     </div>
                 </div>
             </form>
