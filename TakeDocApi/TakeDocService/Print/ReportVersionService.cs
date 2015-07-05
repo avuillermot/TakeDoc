@@ -53,7 +53,7 @@ namespace TakeDocService.Print
                 base.Logger.Error(msg);
                 throw new Exception(msg);
             }
-            return System.IO.File.ReadAllBytes(versions.First().VersionPath);
+            return System.IO.File.ReadAllBytes(string.Concat(TakeDocModel.Environnement.VersionStoreUNC,versions.First().VersionPath));
         }
 
         public string GetUrlFile(Guid versionId, Guid entityId)
@@ -175,7 +175,7 @@ namespace TakeDocService.Print
             System.IO.FileInfo file = this.GetGenerateFileInfo(entity.EntityReference, version.VersionReference, "pdf");
             System.IO.File.WriteAllBytes(file.FullName, streamOut.ToArray());
 
-            version.VersionPath = file.FullName;
+            version.VersionPath = file.FullName.Replace(TakeDocModel.Environnement.VersionStoreUNC, string.Empty);
             servVersion.Update(version);
             return streamOut.ToArray();
         }

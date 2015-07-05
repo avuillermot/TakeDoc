@@ -31,7 +31,7 @@ namespace TakeDocService.Document
             base.Logger.DebugFormat("AddPage:  write byte in file [{0}]", file.FullName);
             System.IO.File.WriteAllBytes(file.FullName, data);
 
-            page.PagePath = file.FullName;
+            page.PagePath = file.FullName.Replace(TakeDocModel.Environnement.PageStoreUNC,string.Empty);
 
             daoPage.Update(page);
         }
@@ -75,13 +75,13 @@ namespace TakeDocService.Document
         public byte[] GetBinary(Guid pageId)
         {
             TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
-            return System.IO.File.ReadAllBytes(page.PagePath);
+            return System.IO.File.ReadAllBytes(string.Concat(TakeDocModel.Environnement.PageStoreUNC,page.PagePath));
         }
 
         public string GetBase64(Guid pageId)
         {
             TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
-            byte[] data = System.IO.File.ReadAllBytes(page.PagePath);
+            byte[] data = System.IO.File.ReadAllBytes(String.Concat(TakeDocModel.Environnement.PageStoreUNC,page.PagePath));
 
             string prefix = string.Format("data:image/{0};base64,", page.PageFileExtension);
  

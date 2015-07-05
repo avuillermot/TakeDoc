@@ -359,6 +359,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
             <PropertyRef Name="DocumentStatusId" />
             <PropertyRef Name="DocumentStatusReference" />
             <PropertyRef Name="DocumentStatusLabel" />
+            <PropertyRef Name="TypeDocumentId" />
             <PropertyRef Name="TypeDocumentReference" />
             <PropertyRef Name="DocumentTypeLabel" />
             <PropertyRef Name="VersionDateCreateData" />
@@ -382,6 +383,7 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="DocumentStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="TypeDocumentReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentTypeLabel" Type="nvarchar(max)" Nullable="false" />
           <Property Name="VersionDateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
@@ -819,6 +821,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_DocumentExtended].[DocumentStatusId] AS [DocumentStatusId], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
     [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
+    [View_DocumentExtended].[TypeDocumentId] AS [TypeDocumentId], 
     [View_DocumentExtended].[TypeDocumentReference] AS [TypeDocumentReference], 
     [View_DocumentExtended].[DocumentTypeLabel] AS [DocumentTypeLabel], 
     [View_DocumentExtended].[VersionDateCreateData] AS [VersionDateCreateData], 
@@ -1591,6 +1594,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <PropertyRef Name="VersionId" />
             <PropertyRef Name="DocumentDateCreateData" />
             <PropertyRef Name="DocumentStatusId" />
+            <PropertyRef Name="TypeDocumentId" />
           </Key>
           <Property Name="EntityReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EntityLabel" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
@@ -1614,6 +1618,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="DocumentOwnerReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="DocumentDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
+          <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -2249,6 +2254,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="IsTypeOf(TakeDocModel.View_DocumentExtended)">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
                 <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />
                 <ScalarProperty Name="DocumentLabel" ColumnName="DocumentLabel" />

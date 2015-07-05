@@ -55,6 +55,7 @@ namespace TakeDocApi.Controllers
             }
             catch (Exception ex)
             {
+                Utility.Logger.myLogger.Error(ex.Message);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
@@ -101,6 +102,7 @@ namespace TakeDocApi.Controllers
             }
             catch (Exception ex)
             {
+                Utility.Logger.myLogger.Error(ex.Message);
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
