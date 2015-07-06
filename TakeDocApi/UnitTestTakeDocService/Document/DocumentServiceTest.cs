@@ -70,7 +70,14 @@ namespace UnitTestTakeDocService.Document
              metas.Add(new TakeDocModel.Dto.Document.SearchMetadata(TakeDocModel.Dto.Document.SearchCondition.Start)
              {
                  MetaDataName = "DEVISE",
-                 MetaDataValue = "DOLLARS"
+                 MetaDataValue = "DOLLARS",
+                 DataField = new TakeDocModel.DataField()
+                 {
+                     DataFieldType = new TakeDocModel.DataFieldType()
+                     {
+                         DataFieldInputType = "text"
+                     }
+                 }
              });
 
              /*metas.Add(new TakeDocModel.MetaData()

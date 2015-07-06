@@ -88,6 +88,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Document\DocumentServiceTest.cs" />
+    <Compile Include="Security\TokenServiceTest.cs" />
     <Compile Include="Security\UserRequestAcountTest.cs" />
     <Compile Include="Security\UserTkLogonTest.cs" />
     <Compile Include="Wokflow\WorkflowManagerBackOffice.cs" />

@@ -37,9 +37,8 @@
         <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="2.75" PointX="4.125" PointY="11.75" />
         <EntityTypeShape EntityType="TakeDocModel.Customer" Width="1.5" PointX="10.625" PointY="14.75" />
         <AssociationConnector Association="TakeDocModel.FK_Client_Entity" />
-        <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="7.375" PointY="12.75" />
         <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />
-        <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.75" PointY="14.875" />
+        <EntityTypeShape EntityType="TakeDocModel.GroupTk" Width="1.5" PointX="0.875" PointY="16.25" />
         <AssociationConnector Association="TakeDocModel.FK_UserTk_GroupTk" />
         <EntityTypeShape EntityType="TakeDocModel.BackOfficeTypeDocument" Width="1.5" PointX="13.125" PointY="7.75" />
         <AssociationConnector Association="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" />
@@ -58,6 +57,14 @@
         <EntityTypeShape EntityType="TakeDocModel.WorkflowAnswer" Width="1.5" PointX="18.25" PointY="18.875" />
         <AssociationConnector Association="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" />
         <AssociationConnector Association="TakeDocModel.FK_Workflow_WorkflowAnswer" />
+        <EntityTypeShape EntityType="TakeDocModel.AccessToken" Width="1.5" PointX="3.125" PointY="18.75" />
+        <EntityTypeShape EntityType="TakeDocModel.RefreshToken" Width="1.5" PointX="6.125" PointY="18.75" />
+        <AssociationConnector Association="TakeDocModel.FK_AccessToken_GroupTk" />
+        <AssociationConnector Association="TakeDocModel.FK_AccessToken_UserTk" />
+        <AssociationConnector Association="TakeDocModel.FK_RefreshToken_GroupTk" />
+        <AssociationConnector Association="TakeDocModel.FK_RefreshToken_UserTk" />
+        <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="0.75" PointY="6.75" />
+        <AssociationConnector Association="TakeDocModel.FK_AccessToken_RefreshToken" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

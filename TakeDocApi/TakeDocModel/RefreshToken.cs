@@ -12,20 +12,23 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class GroupTk
+    public partial class RefreshToken
     {
-        public GroupTk()
+        public RefreshToken()
         {
             this.AccessToken = new HashSet<AccessToken>();
-            this.RefreshToken = new HashSet<RefreshToken>();
         }
     
-        public System.Guid GroupTkId { get; set; }
-        public string GroupTkReference { get; set; }
-        public string GroupTkLabel { get; set; }
-        public int GroupTkLevel { get; set; }
+        public System.Guid Id { get; set; }
+        public string ClientId { get; set; }
+        public System.Guid UserTkId { get; set; }
+        public string Source { get; set; }
+        public System.DateTimeOffset DateStartUTC { get; set; }
+        public Nullable<System.DateTimeOffset> DateEndUTC { get; set; }
+        public System.Guid Role { get; set; }
     
+        public virtual GroupTk GroupTk { get; set; }
+        public virtual UserTk UserTk { get; set; }
         public virtual ICollection<AccessToken> AccessToken { get; set; }
-        public virtual ICollection<RefreshToken> RefreshToken { get; set; }
     }
 }

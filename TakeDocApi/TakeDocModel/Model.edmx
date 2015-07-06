@@ -5,6 +5,19 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TakeDocModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccessToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClientId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserTkId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateStartUTC" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="DateEndUTC" Type="datetimeoffset" Precision="7" />
+          <Property Name="Role" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="RefreshTokenId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="BackOfficeTypeDocument">
           <Key>
             <PropertyRef Name="UserTkId" />
@@ -199,13 +212,18 @@
           <Property Name="ParameterReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="ParameterValue" Type="nvarchar" MaxLength="300" Nullable="false" />
           <Property Name="ParameterDescription" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
-          <Property Name="UserUpdateData" Type="uniqueidentifier" />
-          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
-          <Property Name="UserDeleteData" Type="uniqueidentifier" />
-          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
-          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RefreshToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClientId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserTkId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="Source" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="DateStartUTC" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="DateEndUTC" Type="datetimeoffset" Precision="7" />
+          <Property Name="Role" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="Status_Document">
           <Key>
@@ -447,6 +465,42 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_AccessToken_GroupTk">
+          <End Role="GroupTk" Type="Self.GroupTk" Multiplicity="1" />
+          <End Role="AccessToken" Type="Self.AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccessToken_RefreshToken">
+          <End Role="RefreshToken" Type="Self.RefreshToken" Multiplicity="1" />
+          <End Role="AccessToken" Type="Self.AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RefreshToken">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="RefreshTokenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccessToken_UserTk">
+          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
+          <End Role="AccessToken" Type="Self.AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_BackOfficeTypeDocument_Type_Document">
           <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="1" />
           <End Role="BackOfficeTypeDocument" Type="Self.BackOfficeTypeDocument" Multiplicity="*" />
@@ -456,18 +510,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
             </Principal>
             <Dependent Role="BackOfficeTypeDocument">
               <PropertyRef Name="TypeDocumentId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_BackOfficeTypeDocument_UserTk">
-          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
-          <End Role="BackOfficeTypeDocument" Type="Self.BackOfficeTypeDocument" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTk">
-              <PropertyRef Name="UserTkId" />
-            </Principal>
-            <Dependent Role="BackOfficeTypeDocument">
-              <PropertyRef Name="UserTkId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -567,18 +609,6 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DocumentStatus_UserTk">
-          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
-          <End Role="DocumentStatusHisto" Type="Self.DocumentStatusHisto" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTk">
-              <PropertyRef Name="UserTkId" />
-            </Principal>
-            <Dependent Role="DocumentStatusHisto">
-              <PropertyRef Name="UserCreateData" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_MetaData_DataField">
           <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -615,6 +645,30 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Principal>
             <Dependent Role="Page">
               <PropertyRef Name="PageVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_GroupTk">
+          <End Role="GroupTk" Type="Self.GroupTk" Multiplicity="1" />
+          <End Role="RefreshToken" Type="Self.RefreshToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="RefreshToken">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_UserTk">
+          <End Role="UserTk" Type="Self.UserTk" Multiplicity="1" />
+          <End Role="RefreshToken" Type="Self.RefreshToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="RefreshToken">
+              <PropertyRef Name="UserTkId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -783,6 +837,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
         </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
+          <EntitySet Name="AccessToken" EntityType="Self.AccessToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BackOfficeTypeDocument" EntityType="Self.BackOfficeTypeDocument" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Counter" EntityType="Self.Counter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
@@ -797,6 +852,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RefreshToken" EntityType="Self.RefreshToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Document" EntityType="Self.Status_Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Version" EntityType="Self.Status_Version" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -862,12 +918,20 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_UserEntity].[EtatDeleteData] AS [EtatDeleteData]
     FROM [dbo].[View_UserEntity] AS [View_UserEntity]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_AccessToken_GroupTk" Association="Self.FK_AccessToken_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccessToken_RefreshToken" Association="Self.FK_AccessToken_RefreshToken">
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccessToken_UserTk" Association="Self.FK_AccessToken_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
           <AssociationSet Name="FK_BackOfficeTypeDocument_Type_Document" Association="Self.FK_BackOfficeTypeDocument_Type_Document">
             <End Role="Type_Document" EntitySet="Type_Document" />
-            <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
-          </AssociationSet>
-          <AssociationSet Name="FK_BackOfficeTypeDocument_UserTk" Association="Self.FK_BackOfficeTypeDocument_UserTk">
-            <End Role="UserTk" EntitySet="UserTk" />
             <End Role="BackOfficeTypeDocument" EntitySet="BackOfficeTypeDocument" />
           </AssociationSet>
           <AssociationSet Name="FK_Client_Entity" Association="Self.FK_Client_Entity">
@@ -902,10 +966,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Entity" EntitySet="Entity" />
             <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
           </AssociationSet>
-          <AssociationSet Name="FK_DocumentStatus_UserTk" Association="Self.FK_DocumentStatus_UserTk">
-            <End Role="UserTk" EntitySet="UserTk" />
-            <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
-          </AssociationSet>
           <AssociationSet Name="FK_MetaData_DataField" Association="Self.FK_MetaData_DataField">
             <End Role="DataField" EntitySet="DataField" />
             <End Role="MetaData" EntitySet="MetaData" />
@@ -917,6 +977,14 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_Page_Version" Association="Self.FK_Page_Version">
             <End Role="Version" EntitySet="Version" />
             <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_GroupTk" Association="Self.FK_RefreshToken_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_UserTk" Association="Self.FK_RefreshToken_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
           </AssociationSet>
           <AssociationSet Name="FK_Type_Document_WorkflowType" Association="Self.FK_Type_Document_WorkflowType">
             <End Role="WorkflowType" EntitySet="WorkflowType" />
@@ -1037,7 +1105,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="Entity" EntitySet="Entity" />
             <End Role="Customer" EntitySet="Customer" />
           </AssociationSet>
-          <EntitySet Name="Parameter" EntityType="TakeDocModel.Parameter" />
           <AssociationSet Name="UserTkView_UserEntity" Association="TakeDocModel.UserTkView_UserEntity">
             <End Role="UserTk" EntitySet="UserTk" />
             <End Role="View_UserEntity" EntitySet="View_UserEntity" />
@@ -1146,6 +1213,29 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <Parameter Name="value" Mode="In" Type="String" />
             <Parameter Name="entityId" Mode="In" Type="Guid" />
           </FunctionImport>
+          <EntitySet Name="AccessToken" EntityType="TakeDocModel.AccessToken" />
+          <EntitySet Name="RefreshToken" EntityType="TakeDocModel.RefreshToken" />
+          <AssociationSet Name="FK_AccessToken_GroupTk" Association="TakeDocModel.FK_AccessToken_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_AccessToken_UserTk" Association="TakeDocModel.FK_AccessToken_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_GroupTk" Association="TakeDocModel.FK_RefreshToken_GroupTk">
+            <End Role="GroupTk" EntitySet="GroupTk" />
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
+          </AssociationSet>
+          <AssociationSet Name="FK_RefreshToken_UserTk" Association="TakeDocModel.FK_RefreshToken_UserTk">
+            <End Role="UserTk" EntitySet="UserTk" />
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
+          </AssociationSet>
+          <EntitySet Name="Parameter" EntityType="TakeDocModel.Parameter" />
+          <AssociationSet Name="FK_AccessToken_RefreshToken" Association="TakeDocModel.FK_AccessToken_RefreshToken">
+            <End Role="RefreshToken" EntitySet="RefreshToken" />
+            <End Role="AccessToken" EntitySet="AccessToken" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1361,6 +1451,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserTkManagerId" Type="Guid" />
           <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_UserTk" FromRole="UserTk" ToRole="BackOfficeTypeDocument" a:GetterAccess="Private" xmlns:a="http://schemas.microsoft.com/ado/2006/04/codegeneration" a:SetterAccess="Private" />
           <NavigationProperty Name="DocumentStatusHisto" Relationship="TakeDocModel.FK_DocumentStatus_UserTk" FromRole="UserTk" ToRole="DocumentStatusHisto" />
+          <NavigationProperty Name="AccessToken" Relationship="TakeDocModel.FK_AccessToken_UserTk" FromRole="UserTk" ToRole="AccessToken" />
+          <NavigationProperty Name="RefreshToken" Relationship="TakeDocModel.FK_RefreshToken_UserTk" FromRole="UserTk" ToRole="RefreshToken" />
         </EntityType>
         <EntityType Name="View_UserEntity">
           <Key>
@@ -1643,21 +1735,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Parameter">
-          <Key>
-            <PropertyRef Name="ParameterReference" />
-          </Key>
-          <Property Name="ParameterReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
-          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
-          <Property Name="UserUpdateData" Type="Guid" />
-          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
-          <Property Name="UserDeleteData" Type="Guid" />
-          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
-          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
-        </EntityType>
         <Association Name="UserTkView_UserEntity">
           <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
           <End Type="TakeDocModel.View_UserEntity" Role="View_UserEntity" Multiplicity="*" />
@@ -1678,6 +1755,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="GroupTkReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="GroupTkLabel" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="GroupTkLevel" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AccessToken" Relationship="TakeDocModel.FK_AccessToken_GroupTk" FromRole="GroupTk" ToRole="AccessToken" />
+          <NavigationProperty Name="RefreshToken" Relationship="TakeDocModel.FK_RefreshToken_GroupTk" FromRole="GroupTk" ToRole="RefreshToken" />
         </EntityType>
         <Association Name="FK_UserTk_GroupTk">
           <End Type="TakeDocModel.GroupTk" Role="GroupTk" Multiplicity="1" />
@@ -1957,6 +2036,105 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Type="String" Name="UserTkEmail" Nullable="false" MaxLength="200" />
           <Property Type="Boolean" Name="UserTkEnable" Nullable="false" />
         </ComplexType>
+        <EntityType Name="AccessToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ClientId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkId" Type="Guid" Nullable="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DateStartUTC" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="DateEndUTC" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Role" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_AccessToken_GroupTk" FromRole="AccessToken" ToRole="GroupTk" />
+          <NavigationProperty Name="UserTk" Relationship="TakeDocModel.FK_AccessToken_UserTk" FromRole="AccessToken" ToRole="UserTk" />
+          <Property Name="RefreshTokenId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="RefreshToken" Relationship="TakeDocModel.FK_AccessToken_RefreshToken" FromRole="AccessToken" ToRole="RefreshToken" />
+        </EntityType>
+        <EntityType Name="RefreshToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Guid" Nullable="false" />
+          <Property Name="ClientId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="UserTkId" Type="Guid" Nullable="false" />
+          <Property Name="Source" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="DateStartUTC" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="DateEndUTC" Type="DateTimeOffset" Precision="7" />
+          <Property Name="Role" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="GroupTk" Relationship="TakeDocModel.FK_RefreshToken_GroupTk" FromRole="RefreshToken" ToRole="GroupTk" />
+          <NavigationProperty Name="UserTk" Relationship="TakeDocModel.FK_RefreshToken_UserTk" FromRole="RefreshToken" ToRole="UserTk" />
+          <NavigationProperty Name="AccessToken" Relationship="TakeDocModel.FK_AccessToken_RefreshToken" FromRole="RefreshToken" ToRole="AccessToken" />
+        </EntityType>
+        <Association Name="FK_AccessToken_GroupTk">
+          <End Type="TakeDocModel.GroupTk" Role="GroupTk" Multiplicity="1" />
+          <End Type="TakeDocModel.AccessToken" Role="AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_AccessToken_UserTk">
+          <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
+          <End Type="TakeDocModel.AccessToken" Role="AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_GroupTk">
+          <End Type="TakeDocModel.GroupTk" Role="GroupTk" Multiplicity="1" />
+          <End Type="TakeDocModel.RefreshToken" Role="RefreshToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupTk">
+              <PropertyRef Name="GroupTkId" />
+            </Principal>
+            <Dependent Role="RefreshToken">
+              <PropertyRef Name="Role" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_RefreshToken_UserTk">
+          <End Type="TakeDocModel.UserTk" Role="UserTk" Multiplicity="1" />
+          <End Type="TakeDocModel.RefreshToken" Role="RefreshToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTk">
+              <PropertyRef Name="UserTkId" />
+            </Principal>
+            <Dependent Role="RefreshToken">
+              <PropertyRef Name="UserTkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParameterReference" />
+          </Key>
+          <Property Name="ParameterReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParameterValue" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="ParameterDescription" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_AccessToken_RefreshToken">
+          <End Type="TakeDocModel.RefreshToken" Role="RefreshToken" Multiplicity="1" />
+          <End Type="TakeDocModel.AccessToken" Role="AccessToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RefreshToken">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AccessToken">
+              <PropertyRef Name="RefreshTokenId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2290,22 +2468,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Parameter">
-            <EntityTypeMapping TypeName="TakeDocModel.Parameter">
-              <MappingFragment StoreEntitySet="Parameter">
-                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
-                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
-                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
-                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
-                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
-                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
-                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
-                <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
-                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
-                <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="GroupTk">
             <EntityTypeMapping TypeName="TakeDocModel.GroupTk">
               <MappingFragment StoreEntitySet="GroupTk">
@@ -2466,6 +2628,42 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="AccessToken">
+            <EntityTypeMapping TypeName="TakeDocModel.AccessToken">
+              <MappingFragment StoreEntitySet="AccessToken">
+                <ScalarProperty Name="RefreshTokenId" ColumnName="RefreshTokenId" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="DateEndUTC" ColumnName="DateEndUTC" />
+                <ScalarProperty Name="DateStartUTC" ColumnName="DateStartUTC" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RefreshToken">
+            <EntityTypeMapping TypeName="TakeDocModel.RefreshToken">
+              <MappingFragment StoreEntitySet="RefreshToken">
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="DateEndUTC" ColumnName="DateEndUTC" />
+                <ScalarProperty Name="DateStartUTC" ColumnName="DateStartUTC" />
+                <ScalarProperty Name="Source" ColumnName="Source" />
+                <ScalarProperty Name="UserTkId" ColumnName="UserTkId" />
+                <ScalarProperty Name="ClientId" ColumnName="ClientId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameter">
+            <EntityTypeMapping TypeName="TakeDocModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="ParameterDescription" ColumnName="ParameterDescription" />
+                <ScalarProperty Name="ParameterValue" ColumnName="ParameterValue" />
+                <ScalarProperty Name="ParameterReference" ColumnName="ParameterReference" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

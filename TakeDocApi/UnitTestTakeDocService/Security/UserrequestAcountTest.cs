@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TakeDocService.Workflow.Security.Interface;
 using Utility.MyUnityHelper;
 using System.Collections.Generic;
-using System.Security.Claims;
 using System.Linq;
 
 namespace UnitTestTakeDocService.Security
