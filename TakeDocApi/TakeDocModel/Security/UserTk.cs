@@ -8,6 +8,7 @@ namespace TakeDocModel
 {
     public partial class UserTk
     {
-        public Guid TokenAuthorization { get; set; }
+        public Guid RefreshToken { get; set; }
+        public Guid AccessToken { get; set; }
     }
 }

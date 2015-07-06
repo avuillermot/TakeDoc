@@ -19,7 +19,7 @@ namespace UnitTestTakeDocService.Security
         [TestMethod]
         public void CreateTokenTest()
         {
-            var back = servToken.CreateRefreshToken(userId, "TEST", "UnitTestTakeDocService.Security.Test");
+            var back = servToken.CreateRefreshToken(userId, "TEST");
             servToken.GetAccessToken(back.Id);
         }
     }

@@ -14,18 +14,9 @@ namespace TakeDocModel
     
     public partial class GroupTk
     {
-        public GroupTk()
-        {
-            this.AccessToken = new HashSet<AccessToken>();
-            this.RefreshToken = new HashSet<RefreshToken>();
-        }
-    
         public System.Guid GroupTkId { get; set; }
         public string GroupTkReference { get; set; }
         public string GroupTkLabel { get; set; }
         public int GroupTkLevel { get; set; }
-    
-        public virtual ICollection<AccessToken> AccessToken { get; set; }
-        public virtual ICollection<RefreshToken> RefreshToken { get; set; }
     }
 }

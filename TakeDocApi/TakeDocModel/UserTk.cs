@@ -19,8 +19,6 @@ namespace TakeDocModel
             this.View_UserEntity = new HashSet<View_UserEntity>();
             this.BackOfficeTypeDocument = new HashSet<BackOfficeTypeDocument>();
             this.DocumentStatusHisto = new HashSet<DocumentStatusHisto>();
-            this.AccessToken = new HashSet<AccessToken>();
-            this.RefreshToken = new HashSet<RefreshToken>();
         }
     
         public System.Guid UserTkId { get; set; }
@@ -44,7 +42,5 @@ namespace TakeDocModel
         public virtual GroupTk GroupTk { get; set; }
         private ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
         public virtual ICollection<DocumentStatusHisto> DocumentStatusHisto { get; set; }
-        public virtual ICollection<AccessToken> AccessToken { get; set; }
-        public virtual ICollection<RefreshToken> RefreshToken { get; set; }
     }
 }

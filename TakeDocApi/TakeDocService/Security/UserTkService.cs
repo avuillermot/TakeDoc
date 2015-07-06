@@ -17,6 +17,7 @@ namespace TakeDocService.Security
         TakeDocDataAccess.DaoBase<TakeDocModel.Parameter> daoParameter = new TakeDocDataAccess.DaoBase<TakeDocModel.Parameter>();
 
         TakeDocService.Security.Interface.ICryptoService servCrypto = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ICryptoService>();
+        TakeDocService.Security.Interface.ITokenService servToken = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ITokenService>();
         TakeDocService.Parameter.Interface.IEntityService servEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Parameter.Interface.IEntityService>();
         TakeDocService.Communication.Interface.IMailService servMail = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Communication.Interface.IMailService>();
 
@@ -62,7 +63,12 @@ namespace TakeDocService.Security
                 this.Logger.Info(msg);
                 throw new Exception(msg);
             }
-            user.TokenAuthorization = System.Guid.NewGuid();
+
+            TakeDocModel.RefreshToken token = servToken.CreateRefreshToken(user.UserTkId, "Logon");
+
+            user.RefreshToken = token.Id;
+            user.AccessToken = token.AccessToken.First().Id;
+            
             return user;
         }
 

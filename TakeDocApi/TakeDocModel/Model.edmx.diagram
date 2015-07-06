@@ -57,13 +57,9 @@
         <EntityTypeShape EntityType="TakeDocModel.WorkflowAnswer" Width="1.5" PointX="18.25" PointY="18.875" />
         <AssociationConnector Association="TakeDocModel.FK_WorkfFlowAnswer_WorkflowType" />
         <AssociationConnector Association="TakeDocModel.FK_Workflow_WorkflowAnswer" />
-        <EntityTypeShape EntityType="TakeDocModel.AccessToken" Width="1.5" PointX="3.125" PointY="18.75" />
-        <EntityTypeShape EntityType="TakeDocModel.RefreshToken" Width="1.5" PointX="6.125" PointY="18.75" />
-        <AssociationConnector Association="TakeDocModel.FK_AccessToken_GroupTk" />
-        <AssociationConnector Association="TakeDocModel.FK_AccessToken_UserTk" />
-        <AssociationConnector Association="TakeDocModel.FK_RefreshToken_GroupTk" />
-        <AssociationConnector Association="TakeDocModel.FK_RefreshToken_UserTk" />
         <EntityTypeShape EntityType="TakeDocModel.Parameter" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="TakeDocModel.AccessToken" Width="1.5" PointX="5.625" PointY="19" />
+        <EntityTypeShape EntityType="TakeDocModel.RefreshToken" Width="1.5" PointX="3.375" PointY="19" />
         <AssociationConnector Association="TakeDocModel.FK_AccessToken_RefreshToken" />
         </Diagram>
     </edmx:Diagrams>

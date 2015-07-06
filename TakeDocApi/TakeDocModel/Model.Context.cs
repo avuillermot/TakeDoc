@@ -52,9 +52,9 @@ namespace TakeDocModel
         public virtual DbSet<Workflow> Workflow { get; set; }
         public virtual DbSet<WorkflowType> WorkflowType { get; set; }
         public virtual DbSet<WorkflowAnswer> WorkflowAnswer { get; set; }
+        public virtual DbSet<Parameter> Parameter { get; set; }
         public virtual DbSet<AccessToken> AccessToken { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
-        public virtual DbSet<Parameter> Parameter { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

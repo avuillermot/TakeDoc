@@ -8,7 +8,7 @@ namespace TakeDocService.Security.Interface
 {
     public interface ITokenService
     {
-        TakeDocModel.RefreshToken CreateRefreshToken(Guid userTkId, string source, string clientId);
+        TakeDocModel.RefreshToken CreateRefreshToken(Guid clientId, string source);
         TakeDocModel.AccessToken GetAccessToken(Guid refreshTokenId);
     }
 }

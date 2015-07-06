@@ -17,7 +17,7 @@ namespace TakeDocApi.Controllers
             TakeDocService.Security.Interface.ITokenService token = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ITokenService>();
             try
             {
-                TakeDocModel.RefreshToken refresh = token.CreateRefreshToken(userId, source, clientId);
+                TakeDocModel.RefreshToken refresh = token.CreateRefreshToken(userId, source);
 
                 var back = new {
                     RefreshToken = refresh.Id,

@@ -9,8 +9,9 @@
         this.Culture = user.UserTkCulture;
         this.Enable = user.UserTkEnable;
         this.Activate = user.UserTkActivate;
-        this.TokenAuthorization = user.TokenAuthorization;
-        environnement.tokenAuthentification = this.TokenAuthorization;
+        debugger;
+        environnement.RefreshToken = this.RefreshToken;
+        environnement.AccessToken = this.AccessToken;
         if (user.GroupTk != null) {
             this.GroupId = user.GroupTk.GroupTkId;
             this.GroupLabel = user.GroupTk.GroupTkLabel;
