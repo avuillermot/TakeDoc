@@ -67,7 +67,9 @@ namespace TakeDocService.Security
             TakeDocModel.RefreshToken token = servToken.CreateRefreshToken(user.UserTkId, "Logon");
 
             user.RefreshToken = token.Id;
+            user.RefreshTokenTicks = token.DateEndUTC.Value.Ticks;
             user.AccessToken = token.AccessToken.First().Id;
+            user.AccessTokenTicks = token.AccessToken.First().DateEndUTC.Value.Ticks;
             
             return user;
         }

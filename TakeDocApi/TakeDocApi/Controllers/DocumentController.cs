@@ -62,6 +62,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("search/{typeDocumentId}/{entityId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SearchDocument(Guid typeDocumentId, Guid entityId, Guid userId, [FromBody]string values)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();

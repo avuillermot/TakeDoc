@@ -54,6 +54,16 @@ namespace TakeDocService.Security
             }
         }
 
+        public bool IsValidAccessToken(Guid accessTokenId)
+        {
+            ICollection<TakeDocModel.AccessToken> accessTokens = daoAccessToken.GetBy(x => x.Id == accessTokenId
+                && x.DateStartUTC <= System.DateTime.UtcNow
+                && System.DateTime.UtcNow <= x.DateEndUTC);
+            if (accessTokens.Count() > 1) return false;
+            if (accessTokens.Count() <= 0) return false;
+            return true;
+        }
+
         private TakeDocModel.AccessToken GetNewAccessToken(Guid clientId, Guid tokenId, Guid roleId, Guid refreshTokenId, string source)
         {
             int durationAccess = Convert.ToInt32(daoParameter.GetBy(x => x.ParameterReference == "ACCESS_TOKEN_DURATION").First().ParameterValue);

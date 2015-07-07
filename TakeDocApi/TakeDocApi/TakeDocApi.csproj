@@ -185,6 +185,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Security\AuthorizeTk.cs" />
     <Compile Include="Controllers\AutoComplete\UserTk.cs" />
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
     <Compile Include="Controllers\DocumentToValidateController.cs" />

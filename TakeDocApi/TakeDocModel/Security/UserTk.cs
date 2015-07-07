@@ -10,5 +10,7 @@ namespace TakeDocModel
     {
         public Guid RefreshToken { get; set; }
         public Guid AccessToken { get; set; }
+        public long RefreshTokenTicks { get; set; }
+        public long AccessTokenTicks { get; set; }
     }
 }

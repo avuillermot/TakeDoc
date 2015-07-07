@@ -55,7 +55,6 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
 
         var conditions = new Array();
         $.each(myFields.models, function (index, field) {
-            debugger;
             if (field.get("value") != null && field.get("value") != "" && field.get("value") != "undefined") {
                 conditions.push({name: field.get("reference"), condition: "start", value: field.get("value"), type: field.get("inputType")});
             }

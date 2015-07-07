@@ -10,5 +10,6 @@ namespace TakeDocService.Security.Interface
     {
         TakeDocModel.RefreshToken CreateRefreshToken(Guid clientId, string source);
         TakeDocModel.AccessToken GetAccessToken(Guid refreshTokenId);
+        bool IsValidAccessToken(Guid accessTokenId);
     }
 }
