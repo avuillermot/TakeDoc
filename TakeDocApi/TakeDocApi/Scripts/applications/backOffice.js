@@ -59,7 +59,7 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
         $rootScope.hideLoader();
 
         if ($location.$$path != "/login") {
-            if ($rootScope.getUser() == null) $location.path("#/login");
+            if ($rootScope.getUser() == null || environnement.isAuthenticate() == false) $location.path("#/login");
         }
 
         $(function () {

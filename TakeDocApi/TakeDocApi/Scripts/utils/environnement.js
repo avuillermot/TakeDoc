@@ -1,47 +1,57 @@
 ﻿var environnement = {
+    durationCookieDay: 1,
     UrlBase: "http://localhost/TakeDocApi/",
     RefreshToken: null,
     AccessToken: null,
     AccessTokenTicks: null,
     RefreshTokenTicks: null,
+    setToken: function (user) {
+        debugger;
+        $.cookie('AccessToken', user.AccessToken, { expires: environnement.durationCookieDay });
+        $.cookie('AccessTokenTicks', user.AccessTokenTicks, { expires: environnement.durationCookieDay });
+        $.cookie('RefreshToken', user.RefreshToken, { expires: environnement.durationCookieDay });
+        $.cookie('RefreshTokenTicks', user.RefreshTokenTicks, { expires: environnement.durationCookieDay });
+    },
+    isAuthenticate: function () {
+        if ($.cookie('RefreshTokenTicks') == null) return false
+
+        var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
+        if ($.cookie('RefreshTokenTicks') < ticks) return false;
+        return true;
+    }
 }
 
 var requestHelper = {
-    _lock: false,
     getNewAccessToken: function () {
         var that = this;
         var param = {
             success: function () {
-                environnement.AccessToken = arguments[0].AccessToken;
-                environnement.AccessTokenTicks = arguments[0].AccessTokenTicks;
-                alert("access token refresh ok");
-                that._lock = false;
+                $.cookie('AccessToken', arguments[0].AccessToken, { expires: environnement.durationCookieDay });
+                $.cookie('AccessTokenTicks', arguments[0].AccessTokenTicks, { expires: environnement.durationCookieDay });
             },
             error: function () {
-                alert("access token refresh error");
+                alert("Vous n'avez pas accès à cette fonctionnalité.");
             }
         };
         $.ajax({
             type: 'GET',
-            url: environnement.UrlBase + 'token/access/'+environnement.RefreshToken,
+            async: false,
+            url: environnement.UrlBase + 'token/access/'+$.cookie('RefreshToken'),
             success: param.success,
             error: param.error
         });
     },
     beforeSend: function () {
-        this._lock = false;
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
-        if (environnement.AccessTokenTicks < ticks) {
-            this._lock = true;
-            this.getNewAccessToken();
-        }
-        while (this._lock == true);
-        if (environnement.RefreshTokenTicks < ticks) {
-            alert("refresh token expired");
+        if ($.cookie('RefreshTokenTicks') < ticks) {
+            alert("Vous n'avez pas accès à cette fonctionnalité.");
             return false;
         }
+        else if ($.cookie('AccessTokenTicks') < ticks) {
+            this.getNewAccessToken();
+        }
         return function (xhr, settings) {
-            xhr.setRequestHeader("Authorization", environnement.AccessToken);
+            xhr.setRequestHeader("Authorization", $.cookie('AccessToken'));
         }
     }
 };

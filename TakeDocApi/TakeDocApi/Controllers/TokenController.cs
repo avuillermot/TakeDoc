@@ -45,7 +45,7 @@ namespace TakeDocApi.Controllers
                 var back = new
                 {
                     AccessToken = access.Id,
-                    AccessTokenTicks = access.DateEndUTC
+                    AccessTokenTicks = access.DateEndUTC.Value.Ticks
                 };
 
                 return Request.CreateResponse(back);

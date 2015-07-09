@@ -1358,6 +1358,7 @@
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\jquery-ui.structure.min.css" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\jquery-ui.theme.css" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\jquery-ui.theme.min.css" />
+    <Content Include="Scripts\lib\jquery.cookie.js" />
     <Content Include="Scripts\lib\modernizr-2.6.2.js" />
     <Content Include="Scripts\lib\moment\locale\af.js" />
     <Content Include="Scripts\lib\moment\locale\ar-ma.js" />

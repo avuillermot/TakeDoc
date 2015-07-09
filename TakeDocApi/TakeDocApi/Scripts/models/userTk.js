@@ -9,10 +9,7 @@
         this.Culture = user.UserTkCulture;
         this.Enable = user.UserTkEnable;
         this.Activate = user.UserTkActivate;
-        environnement.RefreshToken = user.RefreshToken;
-        environnement.AccessToken = user.AccessToken;
-        environnement.RefreshTokenTicks = user.RefreshTokenTicks;
-        environnement.AccessTokenTicks = user.AccessTokenTicks;
+        environnement.setToken(user);
         if (user.GroupTk != null) {
             this.GroupId = user.GroupTk.GroupTkId;
             this.GroupLabel = user.GroupTk.GroupTkLabel;

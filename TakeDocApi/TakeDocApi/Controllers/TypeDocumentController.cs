@@ -46,6 +46,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("Update/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk("BACKOFFICE","ADMIN")]
         public HttpResponseMessage Update(Guid userId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TakeDocService.Security
 {
-    public class TokenService : Interface.ITokenService
+    public class TokenService : BaseService, Interface.ITokenService
     {
         private TakeDocDataAccess.DaoBase<TakeDocModel.RefreshToken> daoRefreshToken = new TakeDocDataAccess.DaoBase<TakeDocModel.RefreshToken>();
         private TakeDocDataAccess.DaoBase<TakeDocModel.AccessToken> daoAccessToken = new TakeDocDataAccess.DaoBase<TakeDocModel.AccessToken>();
@@ -54,13 +54,27 @@ namespace TakeDocService.Security
             }
         }
 
-        public bool IsValidAccessToken(Guid accessTokenId)
+        public bool IsValidAccessToken(Guid accessTokenId, string[] accessGroup)
         {
+            base.Logger.DebugFormat("Test access token {0} date", accessTokenId);
+            // test if token is valid
             ICollection<TakeDocModel.AccessToken> accessTokens = daoAccessToken.GetBy(x => x.Id == accessTokenId
                 && x.DateStartUTC <= System.DateTime.UtcNow
                 && System.DateTime.UtcNow <= x.DateEndUTC);
             if (accessTokens.Count() > 1) return false;
             if (accessTokens.Count() <= 0) return false;
+            base.Logger.DebugFormat("Test access token  {0} has valid date", accessTokenId);
+            base.Logger.DebugFormat("Test access token  {0} group", accessTokenId);
+            if (accessGroup.Count() == 1 && accessGroup[0] == string.Empty) return true;
+
+            TakeDocModel.AccessToken current = accessTokens.First();
+            TakeDocModel.UserTk user = daoUserTk.GetBy(x => x.UserTkId == current.ClientId, x => x.GroupTk).First();
+            if (accessGroup.Contains(user.GroupTk.GroupTkReference) == false) {
+                base.Logger.DebugFormat("no access for {0} token because is invalid group access", accessTokenId);
+                return false;
+            }
+            base.Logger.DebugFormat("Test access token  {0} group is valid", accessTokenId);
+
             return true;
         }
 
