@@ -23,7 +23,6 @@ var TkDocument = Backbone.Model.extend({
             DocumentLabel: null,
             Pages: new Pictures(),
             Extension: "png",
-            CurrentVersionId: null,
             Metadatas: null
         }
 });

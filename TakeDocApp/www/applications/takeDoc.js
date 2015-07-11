@@ -59,8 +59,12 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
                 { from: "#/findDocument", to: "#/menu" }
     ];
 
-    var scenarioDetailMetadata = [
+    var scenarioDetailMetadataUpdate = [
         { from: "#/findDocument", to: "#/metadata/mode/UPDATE" },
+        { from: "#/metadata", to: "#/menu" }
+    ];
+    var scenarioDetailMetadataReadOnly = [
+        { from: "#/findDocument", to: "#/metadata/mode/READ" },
         { from: "#/metadata", to: "#/menu" }
     ];
 
@@ -70,7 +74,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("findWait", scenarioFindWait);
     $rootScope.Scenario.init("findApprove", scenarioFindApprove);
     $rootScope.Scenario.init("findRefuse", scenarioFindRefuse);
-    $rootScope.Scenario.init("detailMetadata", scenarioDetailMetadata);
+    $rootScope.Scenario.init("detailMetadataUpdate", scenarioDetailMetadataUpdate);
+    $rootScope.Scenario.init("detailMetadataReadOnly", scenarioDetailMetadataReadOnly);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

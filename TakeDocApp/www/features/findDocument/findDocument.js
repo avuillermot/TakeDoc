@@ -56,8 +56,11 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     $scope.openMetadata = function (docRef, entityRef) {
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-                var onSuccess = function () {
-                    var step = $rootScope.Scenario.start("detailMetadata");
+            var onSuccess = function () {
+
+                    var starter = (mode == "INCOMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
+                    var step = $rootScope.Scenario.start("");
+                    step = $rootScope.Scenario.start(starter);
                     $location.path(step.to.substr(2));
                     $scope.$broadcast("findDocument$refreshPage");
                 };
@@ -82,6 +85,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         };
         var error = function () {
             $ionicLoading.hide();
+            $rootScope.PopupHelper.show("Une erreur est survenue lors du chargement du document.");
         };
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {

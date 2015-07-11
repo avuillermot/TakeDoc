@@ -36,7 +36,7 @@
     <ion-footer-bar>
         <div class="button-bar">
             <div go-back="true"></div>
-            <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>
 </ion-view>

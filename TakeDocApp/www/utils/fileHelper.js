@@ -48,6 +48,7 @@ fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
 
 fileHelper.readUrl = function (versionId, entityId, success, error) {
     var onSuccess = function () {
+        alert("open:"+environnement.UrlBase + "Temp/Pdf/" + arguments[0]);
         window.open(environnement.UrlBase + "Temp/Pdf/" + arguments[0]);
         success.apply(this,arguments);
     };
@@ -97,6 +98,7 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
         
     var success = function () {
         var fileName = arguments[0];
+        alert(fileName);
         var uri = environnement.UrlBase + "Temp/Pdf/" + fileName;
         var getFilesystem = function (fileSystem) {
             getFolder(fileSystem, "",

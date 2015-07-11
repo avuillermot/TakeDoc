@@ -1,6 +1,6 @@
 ﻿'use strict';
 takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatform', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $ionicPlatform, $route, $location, $ionicLoading) {
-
+    
     var fRefresh = function () {
         if (!$scope.$$phase) {
             try { $scope.$apply(); } catch (ex) { }
@@ -16,6 +16,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         if (metas.length == 0) $scope.doSave();
+        $scope.mode = states.stateParams.mode;
     });
 
     $scope.doOnFocus = function (id) {

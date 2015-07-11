@@ -1,12 +1,9 @@
 ﻿var environnement = {
+    isApp: false,
     durationCookieDay: 1,
     UrlBase: "http://localhost/TakeDocApi/",
-    RefreshToken: null,
-    AccessToken: null,
-    AccessTokenTicks: null,
-    RefreshTokenTicks: null,
+    //UrlBase: "https://dev-takedoc.cloudapp.net/",
     setToken: function (user) {
-        debugger;
         $.cookie('AccessToken', user.AccessToken, { expires: environnement.durationCookieDay });
         $.cookie('AccessTokenTicks', user.AccessTokenTicks, { expires: environnement.durationCookieDay });
         $.cookie('RefreshToken', user.RefreshToken, { expires: environnement.durationCookieDay });
