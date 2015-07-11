@@ -12,11 +12,11 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
+        $scope.mode = states.stateParams.mode;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         if (metas.length == 0) $scope.doSave();
-        $scope.mode = states.stateParams.mode;
     });
 
     $scope.doOnFocus = function (id) {

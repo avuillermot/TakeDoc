@@ -57,7 +57,6 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
             var onSuccess = function () {
-
                     var starter = (mode == "INCOMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
                     var step = $rootScope.Scenario.start("");
                     step = $rootScope.Scenario.start(starter);
