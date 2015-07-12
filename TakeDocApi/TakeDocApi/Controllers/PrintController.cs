@@ -13,6 +13,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("Binary/{versionId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetBinaryFile(Guid versionId, Guid entityId)
         {
             try
@@ -30,6 +31,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("Url/{versionId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetUrlFile(Guid versionId, Guid entityId)
         {
             try

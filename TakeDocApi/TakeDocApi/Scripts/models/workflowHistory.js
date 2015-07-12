@@ -100,7 +100,7 @@ var WorkflowHistorys = Backbone.Collection.extend({
     },
     load: function (param) {
         var myUrl = this.url.replace("<documentId/>", param.documentId).replace("<entityId/>", param.entityId);
-        this.fetch({ success: param.success, error: param.error, url: myUrl, reset: true }).always(param.always);
+        this.fetch({ success: param.success, error: param.error, url: myUrl, beforeSend: requestHelper.beforeSend(), reset: true }).always(param.always);
     },
     //*************************************
     // return current action to answer

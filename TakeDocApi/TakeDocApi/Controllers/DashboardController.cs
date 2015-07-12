@@ -12,6 +12,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("detailled/statusdocument/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetDetailedDashboard(Guid userId)
         {
             TakeDocService.Stats.Interface.IDashboardService servDashboard = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Stats.Interface.IDashboardService>();

@@ -15,6 +15,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpPost]
         [Route("Add")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage Post(Guid userId, Guid entityId, Guid versionId, string extension, int rotation, [FromBody]string value)
         {
             IPageService servPage = Utility.MyUnityHelper.UnityHelper.Resolve<IPageService>();
@@ -31,6 +32,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("Image/{versionId}/{entityId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage Post(Guid versionId, Guid entityId, Guid userId)
         {
             IVersionService servVersion = Utility.MyUnityHelper.UnityHelper.Resolve<IVersionService>();

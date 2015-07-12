@@ -25,6 +25,6 @@ var WorkflowTypes = Backbone.Collection.extend({
     },
     load: function (param) {
         var url = environnement.UrlBase + "odata/WorkflowTypes";
-        this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
+        this.fetch({ success: param.success, error: param.error, url: url, beforeSend: requestHelper.beforeSend(), reset: true }).always(param.always);
     },
 });

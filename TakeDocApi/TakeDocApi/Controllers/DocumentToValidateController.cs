@@ -12,6 +12,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("manager/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetByManager(Guid userId)
         {
             TakeDocService.Workflow.Document.Interface.IDocumentToValidate servToValidate = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Document.Interface.IDocumentToValidate>();

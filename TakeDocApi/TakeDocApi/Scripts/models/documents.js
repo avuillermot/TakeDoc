@@ -36,20 +36,21 @@ documentService.create = function (document, onSuccess, onError) {
     console.log("documents.prototype.create:start");
     $.ajax({
 	        type: 'PUT',
-	        url: environnement.UrlBase+"odata/Documents(0)",
-	    data: {
-	        EntityId: document.get("EntityId"), UserCreateData: document.get("UserCreateData"), DocumentTypeId: document.get("DocumentTypeId"), DocumentLabel: document.get("DocumentLabel")
-        },
-        success: function () {
-            document.set("DocumentId", arguments[0].DocumentId);
-            document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
-            var current = arguments[0];
-            if (document.Pages != null && document.Pages.length > 0) documentService.addPage(document, 1, onSuccess, onError);
-            else documentService.SetIncomplete(document, onSuccess, onError);
-        },
-        error: function () {
-			onError();
-         }
+	        url: environnement.UrlBase + "odata/Documents(0)",
+	        beforeSend: requestHelper.beforeSend(),
+	        data: {
+	            EntityId: document.get("EntityId"), UserCreateData: document.get("UserCreateData"), DocumentTypeId: document.get("DocumentTypeId"), DocumentLabel: document.get("DocumentLabel")
+            },
+            success: function () {
+                document.set("DocumentId", arguments[0].DocumentId);
+                document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
+                var current = arguments[0];
+                if (document.Pages != null && document.Pages.length > 0) documentService.addPage(document, 1, onSuccess, onError);
+                else documentService.SetIncomplete(document, onSuccess, onError);
+            },
+            error: function () {
+			    onError();
+           }
     });
 }
 
@@ -89,6 +90,7 @@ documentService.SetArchive = function (param, onSuccess, onError) {
     $.ajax({
         type: 'POST',
         url: url,
+        beforeSend: requestHelper.beforeSend(),
         success: function () {
             
         },
@@ -107,6 +109,7 @@ documentService.SetIncomplete = function (document, onSuccess, onError) {
     $.ajax({
         type: 'GET',
         url: url,
+        beforeSend: requestHelper.beforeSend(),
         success: function () {
             documentService.getMetaData(document, onSuccess, onError);
         },

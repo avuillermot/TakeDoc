@@ -13,6 +13,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("Version/ReadOnly/{versionId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetReadOnlyMetaData(Guid versionId, Guid entityId)
         {
             try
@@ -30,6 +31,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("Version/{versionId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetMetaData(Guid versionId, Guid entityId)
         {
             IMetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<IMetaDataService>();
@@ -77,6 +79,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPut]
         [Route("Version/{versionId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();

@@ -12,6 +12,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("create/{userId}/{source}/{clientId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage CreateRefreshToken(Guid userId, string source, string clientId)
         {
             TakeDocService.Security.Interface.ITokenService token = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ITokenService>();
@@ -35,6 +36,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("access/{refreshTokenId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage CreateAccessToken(Guid refreshTokenId)
         {
             TakeDocService.Security.Interface.ITokenService token = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.ITokenService>();

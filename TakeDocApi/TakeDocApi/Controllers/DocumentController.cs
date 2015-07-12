@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TakeDocService.Document.Interface;
+using TakeDocApi.Controllers.Security;
 
 namespace TakeDocApi.Controllers
 {
@@ -13,6 +14,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("SetIncomplete/{documentId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetIncomplete(Guid documentId, Guid userId)
         {
             TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
@@ -29,6 +31,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("SetArchive/{documentId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetArchive(Guid documentId, Guid userId)
         {
             TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
@@ -45,6 +48,7 @@ namespace TakeDocApi.Controllers
 
         [HttpDelete]
         [Route("delete/{documentId}/{entityId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage DeleteDocument(Guid documentId, Guid entityId, Guid userId)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();

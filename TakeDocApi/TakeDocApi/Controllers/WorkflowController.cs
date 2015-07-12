@@ -12,6 +12,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpGet]
         [Route("history/{documentId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public object GetStatusHistory(Guid documentId, Guid entityId)
         {
             TakeDocService.Workflow.Document.ValidationAuto servValidate = new TakeDocService.Workflow.Document.ValidationAuto();
@@ -29,6 +30,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("answer/{workflowId}/{versionId}/{userId}/{answerId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public object SetAnswer(Guid workflowId, Guid versionId, Guid userId, Guid answerId, [FromBody]string value)
         {
             TakeDocService.Workflow.Document.Answer servAnswer = new TakeDocService.Workflow.Document.Answer();

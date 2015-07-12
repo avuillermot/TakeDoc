@@ -4,6 +4,7 @@
     UrlBase: "http://localhost/TakeDocApi/",
     //UrlBase: "https://dev-takedoc.cloudapp.net/",
     setToken: function (user) {
+        debugger;
         $.cookie('AccessToken', user.AccessToken, { expires: environnement.durationCookieDay });
         $.cookie('AccessTokenTicks', user.AccessTokenTicks, { expires: environnement.durationCookieDay });
         $.cookie('RefreshToken', user.RefreshToken, { expires: environnement.durationCookieDay });
@@ -23,6 +24,7 @@ var requestHelper = {
         var that = this;
         var param = {
             success: function () {
+                debugger;
                 $.cookie('AccessToken', arguments[0].AccessToken, { expires: environnement.durationCookieDay });
                 $.cookie('AccessTokenTicks', arguments[0].AccessTokenTicks, { expires: environnement.durationCookieDay });
             },

@@ -27,6 +27,6 @@ var GroupTks = Backbone.Collection.extend({
     },
     loadAll: function (param) {
         this.url = this.urlBase;
-        this.fetch({ success: param.success, error: param.error, url: (environnement.UrlBase + "odata/GroupTks") });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: (environnement.UrlBase + "odata/GroupTks") });
     }
 });

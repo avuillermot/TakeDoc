@@ -79,7 +79,7 @@ var DocumentFields = Backbone.Collection.extend({
 
         var andDeleted = "";
         if (andDeleted != null) "and EtatDeleteData eq " + param.deleted;
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' " + andDeleted) }).always(param.always);
+        this.fetch({ reset: true, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: (environnement.UrlBase + "odata/TypeDocumentDataFields?$filter=TypeDocumentId eq guid'" + param.id + "' " + andDeleted) }).always(param.always);
     },
     remove: function (key, value) {
         var arr = new Array();
@@ -121,7 +121,7 @@ var FieldValues = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/DataFieldValues?$filter=DataFieldId eq guid'"+ param.id +"' and EtatDeleteData eq false") }).always(param.always);
+        this.fetch({ reset: true, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: (environnement.UrlBase + "odata/DataFieldValues?$filter=DataFieldId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
     }
 });
 
@@ -153,6 +153,6 @@ var FieldAutocompletes = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/AutoCompletes?$filter=DataFieldAutoCompleteId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
+        this.fetch({ reset: true, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: (environnement.UrlBase + "odata/AutoCompletes?$filter=DataFieldAutoCompleteId eq guid'" + param.id + "' and EtatDeleteData eq false") }).always(param.always);
     }
 });

@@ -134,6 +134,7 @@ var MetaDatas = Backbone.Collection.extend({
             type: 'PUT',
             url: myUrl,
             data: { '': data },
+            beforeSend: requestHelper.beforeSend(),
             success: function () {
                 onSucces.apply(this, arguments);
             },
@@ -149,11 +150,12 @@ var MetaDatas = Backbone.Collection.extend({
             type: 'POST',
             url: url,
             success: param.success,
-            error: param.error
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
         });
     },
     load: function (param) {
         var url = (environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>").replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId);
-        this.fetch({ success: param.success, error: param.error, url: url });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url });
     }
 });

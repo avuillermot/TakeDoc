@@ -54,6 +54,9 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     });
 
     $scope.openMetadata = function (docRef, entityRef) {
+        $ionicLoading.show({
+            template: 'Chargement en cours...'
+        });
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
             var onSuccess = function () {

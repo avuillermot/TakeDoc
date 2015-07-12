@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TakeDocApi.Controllers.Security;
 
 namespace TakeDocApi.Controllers
 {
@@ -12,6 +13,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpPost]
         [Route("user/add/{entityId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage AddUserToEntity(Guid userId, Guid entityId)
         {
             try
@@ -28,6 +30,7 @@ namespace TakeDocApi.Controllers
 
         [HttpDelete]
         [Route("user/remove/{entityId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage RemoveUserToEntity(Guid userId, Guid entityId)
         {
             try

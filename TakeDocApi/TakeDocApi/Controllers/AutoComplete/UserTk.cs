@@ -12,6 +12,7 @@ namespace TakeDocApi.Controllers.AutoComplete
     {
         [HttpGet]
         [Route("ByName/{currentUserId}/{value}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetSend(Guid currentUserId, string value, Guid entityId)
         {
             TakeDocService.Search.Interface.ISearch search = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Search.Interface.ISearch>();
@@ -33,6 +34,7 @@ namespace TakeDocApi.Controllers.AutoComplete
         }
         [HttpGet]
         [Route("ByName/{currentUserId}/{value}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetSend(Guid currentUserId, string value)
         {
             TakeDocService.Search.Interface.ISearch search = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Search.Interface.ISearch>();
@@ -51,5 +53,6 @@ namespace TakeDocApi.Controllers.AutoComplete
             {
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
-        }   }
+        }
+    }
 }

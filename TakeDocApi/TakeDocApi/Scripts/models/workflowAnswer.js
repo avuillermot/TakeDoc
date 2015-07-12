@@ -28,7 +28,7 @@ var WorkflowAnswers = Backbone.Collection.extend({
     load: function (param) {
         var url = environnement.UrlBase + "odata/WorkflowAnswers?$filter=WorkflowTypeId eq guid'{{workflowTypeId}}'";
         url = url.replace("{{workflowTypeId}}", param.action.get("typeWorkflowId"));
-        this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
+        this.fetch({ success: param.success, error: param.error, url: url, beforeSend: requestHelper.beforeSend(), reset: true }).always(param.always);
     },
     answer: function (param) {
         var url = environnement.UrlBase + "workflow/answer/{{workflowId}}/{{versionId}}/{{userId}}/{{answerId}}";

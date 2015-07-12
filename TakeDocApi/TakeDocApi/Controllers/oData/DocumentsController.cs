@@ -21,6 +21,7 @@ namespace TakeDocApi.Controllers.oData
 
         // PUT: odata/Documents(5)
         [EnableQuery]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public IHttpActionResult Put([FromODataUri] string key, Document document)
         {
            if (!ModelState.IsValid) return BadRequest(ModelState);

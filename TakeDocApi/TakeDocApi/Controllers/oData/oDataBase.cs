@@ -19,6 +19,7 @@ namespace TakeDocApi.Controllers.oData
     {
         protected TakeDocEntities1 _db = new TakeDocEntities1();
 
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public ICollection<T> Get(ODataQueryOptions<T> queryOptions, ODataValidationSettings validationSettings)
         {
             ICollection<T> retour;

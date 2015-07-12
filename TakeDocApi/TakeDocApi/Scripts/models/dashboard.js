@@ -16,7 +16,7 @@ var Dashboards = Backbone.Collection.extend({
     urlDetailled: environnement.UrlBase + "dashboard/detailled/statusdocument/<userId/>",
     load: function (userId, success, error) {
         this.mode = this.urlDetailled;
-        this.fetch({ success: success, error: error, url: this.urlDetailled.replace("<userId/>", userId) });
+        this.fetch({ success: success, error: error, beforeSend: requestHelper.beforeSend(), url: this.urlDetailled.replace("<userId/>", userId) });
     },
     countEntity: function (entityId) {
         var arr = this.where({ EntityId: entityId });

@@ -66,6 +66,6 @@ var DataFieldTypes = Backbone.Collection.extend({
         }
     },
     load: function (param) {
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/DataFieldTypes") });
+        this.fetch({ reset: true, success: param.success, beforeSend: requestHelper.beforeSend(), error: param.error, url: (environnement.UrlBase + "odata/DataFieldTypes") });
     }
 });

@@ -9,7 +9,7 @@ using TakeDocService.Security.Interface;
 using Utility.MyUnityHelper;
 using System.Web;
 using System.Threading;
-using System.Security.Principal;
+using TakeDocApi.Controllers.Security;
 
 namespace TakeDocApi.Controllers
 {
@@ -36,7 +36,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("user/{userId}")]
-        [AllowAnonymous]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetUser(Guid userId)
         {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
@@ -55,7 +55,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPatch]
         [Route("ChangePassword")]
-        [AllowAnonymous]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage ChangeUserPassword([FromBody]string value)
         {
             IUserTkService servUser = UnityHelper.Resolve<IUserTkService>();
@@ -74,6 +74,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("all")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage GetAllUser()
         {
             TakeDocService.Security.Interface.IUserTkService servUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Security.Interface.IUserTkService>();
@@ -90,6 +91,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("activate/{userReference}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage ActivateUser(string userReference)
         {
             TakeDocService.Workflow.Security.Interface.IAccount servAccount = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Security.Interface.IAccount>();
@@ -133,6 +135,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPatch]
         [Route("update/{userId}/{firstName}/{lastName}/{email}/{culture}/{enable}/{activate}/{groupId}/{managerId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage UpdateUserTk(Guid userId, string firstName, string lastName, string email, string culture, bool enable, bool activate, Guid groupId, Guid? managerId) {
             try
             {
@@ -159,6 +162,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("user/entity/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetEntityUser(Guid userId)
         {
             try
@@ -175,6 +179,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("generate/password/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GenerateNewPassword(Guid userId)
         {
             try
@@ -191,6 +196,7 @@ namespace TakeDocApi.Controllers
 
         [HttpDelete]
         [Route("delete/{userId}/{currentUserId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage Delete(Guid userId, Guid currentUserId)
         {
             try
@@ -207,6 +213,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("name/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetById(Guid userId)
         {
             try

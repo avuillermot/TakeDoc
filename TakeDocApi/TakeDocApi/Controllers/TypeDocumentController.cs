@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TakeDocApi.Controllers.Security;
 
 namespace TakeDocApi.Controllers
 {
@@ -12,6 +13,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpPut]
         [Route("Add/{label}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage Update(string label, Guid userId, Guid entityId)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -29,6 +31,7 @@ namespace TakeDocApi.Controllers
 
         [HttpDelete]
         [Route("Delete/{typeDocumentId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage Delete(Guid typeDocumentId, Guid userId, Guid entityId)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -46,7 +49,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("Update/{userId}")]
-        [TakeDocApi.Controllers.Security.AuthorizeTk("BACKOFFICE","ADMIN")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage Update(Guid userId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -80,6 +83,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("Update/DataField/{typeDocumentId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage UpdateDataField(Guid typeDocumentId, Guid userId, Guid entityId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -105,6 +109,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPost]
         [Route("Update/Manager/{typeDocumentId}/{userIdUpdater}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage UpdateManager(Guid typeDocumentId, Guid userIdUpdater, Guid entityId, [FromBody]string value)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -129,6 +134,7 @@ namespace TakeDocApi.Controllers
 
         [HttpPut]
         [Route("add/backofficeuser/{typeDocumentId}/{backOfficerUserId}/{entityId}/{userIdUpdater}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage AddBackOfficeUser(Guid typeDocumentId, Guid backOfficerUserId, Guid entityId, Guid userIdUpdater)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -146,6 +152,7 @@ namespace TakeDocApi.Controllers
 
         [HttpDelete]
         [Route("delete/backofficeuser/{typeDocumentId}/{backOfficerUserId}/{entityId}/{userIdUpdater}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage DeleteBackOfficeUser(Guid typeDocumentId, Guid backOfficerUserId, Guid entityId, Guid userIdUpdater)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();
@@ -163,6 +170,7 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("get/backofficeuser/{typeDocumentId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage DeleteBackOfficeUser(Guid typeDocumentId, Guid entityId)
         {
             TakeDocService.Document.Interface.ITypeDocumentService servTypeDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.ITypeDocumentService>();

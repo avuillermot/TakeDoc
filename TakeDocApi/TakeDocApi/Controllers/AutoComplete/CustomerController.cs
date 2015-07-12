@@ -13,6 +13,7 @@ namespace TakeDocApi.Controllers.AutoComplete
     {
         [HttpGet]
         [Route("{entityId}/{userId}/{value}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetSend(Guid entityId, Guid userId, string value)
         {
             ICustomerService servCustomer = Utility.MyUnityHelper.UnityHelper.Resolve<ICustomerService>();

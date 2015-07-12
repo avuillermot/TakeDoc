@@ -13,7 +13,8 @@ var Pages = Backbone.Collection.extend({
         this.fetch({
             url: url,
             success: param.success,
-            error: param.error
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
         });
     }
 });

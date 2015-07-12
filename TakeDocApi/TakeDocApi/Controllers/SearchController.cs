@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TakeDocApi.Controllers.Security;
 
 namespace TakeDocApi.Controllers
 {
@@ -12,6 +13,7 @@ namespace TakeDocApi.Controllers
     {
         [HttpPost]
         [Route("user")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage SearchUser([FromBody]string value)
         {
             TakeDocService.Search.Interface.ISearch search = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Search.Interface.ISearch>();
