@@ -67,14 +67,14 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
         })
     });
 
-    /*if ($rootScope.getUser() != null) {
+    if ($rootScope.getUser() != null) {
         var culture = $rootScope.getUser().Culture;
         angularLoad.loadScript('../Scripts/lib/moment/locale/' + culture + '.js').then(function () {
             $timeout(moment.locale(culture), 2500);
         }).catch(function () {
             alert("Culture can't be load");
         });
-    }*/
+    }
 });
 
 backOffice.directive('tkDate', function ($rootScope) {
@@ -171,8 +171,14 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
                     url = url.toUpperCase().replace("<ENTITYID/>", scope.$parent.metadata.get("entityId"));
                     url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
                     url = url.toUpperCase().replace("<VALUE/>", scope.$parent.metadata.get("value"));
-                    $http.get(url).success(function (data) {
-                        response(data);
+                    $.ajax({
+                        type: 'GET',
+                        url: url,
+                        beforeSend: requestHelper.beforeSend(),
+                        success: function (data) {
+                            response(data)
+                        },
+                        error: function () {}
                     });
             },
             minLength: 3,

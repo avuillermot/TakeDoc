@@ -42,7 +42,8 @@ fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
         },
         error: function () {
             error.apply(this, arguments);
-        }
+        },
+        beforeSend: requestHelper.beforeSend()
     });
 }
 
@@ -76,7 +77,8 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
                             },
                             success : function () {
                                 onSuccess.apply(this, arguments);
-                            }
+                            },
+                            beforeSend: requestHelper.beforeSend()
                         }
                     );
 			        

@@ -85,14 +85,15 @@ namespace TakeDocService.Workflow.Document
                 ICollection<TakeDocModel.DocumentStatusHisto> historyStatus = servStatus.GetStatus(documentId, entityId);
                 ICollection<TakeDocModel.Status_Document> statusDocument = daoStDocument.GetBy(x => x.EntityId == entityId);
                 
+                // when document is create
                 TakeDocModel.DocumentStatusHisto historyToAdd = new TakeDocModel.DocumentStatusHisto();
-                historyToAdd.DateCreateData = document.DateUpdateData.Value;
+                historyToAdd.DateCreateData = document.DateCreateData;
                 historyToAdd.DocumentId = document.DocumentId;
                 historyToAdd.DocumentIndex = historyStatus.Count() + 1;
                 historyToAdd.DocumentStatusId = document.DocumentStatusId;
                 historyToAdd.DocumentVersionId = document.DocumentCurrentVersionId.Value;
                 historyToAdd.EntityId = document.EntityId;
-                historyToAdd.UserCreateData = document.UserUpdateData.Value;
+                historyToAdd.UserCreateData = document.UserCreateData;
                 historyStatus.Add(historyToAdd);
 
                 foreach (TakeDocModel.DocumentStatusHisto h in historyStatus)

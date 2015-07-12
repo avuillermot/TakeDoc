@@ -38,7 +38,7 @@ var DataFields = Backbone.Collection.extend({
     },
     load: function (param) {
         this.url = this.urlBase;
-        this.fetch({ reset: true, success: param.success, error: param.error, url: (environnement.UrlBase + "odata/DataFields?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq false") }).always(param.always);
+        this.fetch({ reset: true, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: (environnement.UrlBase + "odata/DataFields?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq false") }).always(param.always);
     }
 });
 

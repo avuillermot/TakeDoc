@@ -78,7 +78,8 @@ documentService.addPage = function (document, index, onSuccess, onError) {
         },
         error: function () {
 			onError();
-        }
+        },
+        beforeSend: requestHelper.beforeSend()
     });
 }
 

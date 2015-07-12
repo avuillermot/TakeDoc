@@ -13,6 +13,7 @@ autocomplete.get = function (entityId, userId, value, url, success, error) {
     $.ajax({
         type: 'GET',
         url: environnement.UrlBase + url,
+        beforeSend: requestHelper.beforeSend(),
         success: function () {
             success(arguments[0]);
         },

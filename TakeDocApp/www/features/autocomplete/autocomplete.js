@@ -4,7 +4,7 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
     var id = null;
 
     // delay before search
-    var delay = 2000;
+    var delay = 1500;
     var timeLastKeyPress = null;
     
     // if there are some autocomplete datafield, index of the current

@@ -37,6 +37,7 @@ fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
     $.ajax({
         type: 'GET',
         url: environnement.UrlBase + "Print/Url/" + versionId + "/" + entityId,
+        beforeSend: requestHelper.beforeSend(),
         success: function () {
             success.apply(this, arguments);
         },
@@ -75,7 +76,8 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
                             },
                             success : function () {
                                 onSuccess.apply(this, arguments);
-                            }
+                            },
+                            beforeSend: requestHelper.beforeSend()
                         }
                     );
 			        

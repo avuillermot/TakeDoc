@@ -118,7 +118,6 @@ userTkService.changePassword = function (param, success, error) {
 }
 
 userTkService.generatePassword = function (param) {
-    debugger;
     var url = (environnement.UrlBase + "identity/generate/password/<userId/>").replace("<userId/>", param.userId);
     $.ajax({
         type: 'POST',
