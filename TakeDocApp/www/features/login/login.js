@@ -22,7 +22,7 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$io
             }
         };
         var success = function () {
-            $rootScope.User = new userTk(arguments[0], false);
+            $rootScope.User = new userTk(arguments[0], true);
             $location.path("menu");
             if (!$scope.$$phase) $scope.$apply();
         };

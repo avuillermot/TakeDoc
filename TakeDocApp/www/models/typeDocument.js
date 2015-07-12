@@ -35,11 +35,11 @@ var TypeDocuments = Backbone.Collection.extend({
         if (param.deleted == null) param.deleted = false;
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq "+param.deleted;
         if (param.label != null && param.label != "") url = url + " and startswith(TypeDocumentLabel,'"+ param.label +"')"
-        this.fetch({ success: param.success, error: param.error, url: url, reset: true });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
     loadById: function (param) {
         var url = environnement.UrlBase + "odata/TypeDocuments?$filter=TypeDocumentId eq guid'" + param.id + "'";
-        this.fetch({ success: param.success, error: param.error, url: url, reset: true });
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
     update: function (param) {
         var fn1 = function () {
@@ -124,6 +124,6 @@ var WorkflowTypes = Backbone.Collection.extend({
     },
     load: function (param) {
         var url = environnement.UrlBase + "odata/WorkflowTypes";
-        this.fetch({ success: param.success, error: param.error, url: url, reset: true }).always(param.always);
+        this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true }).always(param.always);
     },
 });

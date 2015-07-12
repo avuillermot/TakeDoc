@@ -1,5 +1,6 @@
-﻿function userTk(user) {
+﻿function userTk(user, withToken) {
     if (user != null) {
+        if (withToken == null) withToken = false;
         this.FirstName = user.UserTkFirstName;
         this.LastName = user.UserTkLastName;
         this.Email = user.UserTkEmail
@@ -11,8 +12,7 @@
         this.Culture = user.UserTkCulture;
         this.Enable = user.UserTkEnable;
         this.Activate = user.UserTkActivate;
-        environnement.RefreshToken = user.RefreshToken;
-        environnement.AccessToken = user.AccessToken;
+        if (withToken) environnement.setToken(user);
         if (user.GroupTk != null) {
             this.GroupId = user.GroupTk.GroupTkId;
             this.GroupLabel = user.GroupTk.GroupTkLabel;
@@ -57,7 +57,8 @@ userTkService.dashboard = function (userId, success, error) {
         type: 'GET',
         url: url,
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 };
 
@@ -68,7 +69,8 @@ userTkService.get = function (userId, success, error) {
         type: 'GET',
         url: url,
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 };
 
@@ -79,7 +81,8 @@ userTkService.getName = function (userId, success, error) {
         type: 'GET',
         url: url,
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 };
 
@@ -92,7 +95,8 @@ userTkService.update = function (user, success, error) {
                 .replace("<email/>", user.email).replace("<culture/>", user.culture).replace("<enable/>", user.enable)
                 .replace("<activate/>", user.activate).replace("<groupId/>", user.groupId).replace("<managerId/>", user.managerId),
             success: success,
-            error: error
+            error: error,
+            beforeSend: requestHelper.beforeSend()
         });
     }
     else error({ message: "Un utilisateur ne peut pas être son propre manager." });
@@ -110,7 +114,8 @@ userTkService.changePassword = function (param, success, error) {
         url: url,
         data: { '': JSON.stringify(data) },
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 }
 
@@ -118,9 +123,10 @@ userTkService.generatePassword = function (param) {
     var url = (environnement.UrlBase + "identity/generate/password/<userId/>").replace("<userId/>", param.userId);
     $.ajax({
         type: 'POST',
-        url: url,
         success: param.success,
-        error: param.error
+        error: param.error,
+        beforeSend: requestHelper.beforeSend(),
+        url: url
     });
 }
 
@@ -131,7 +137,8 @@ userTkService.search = function (param, success, error) {
         url: url,
         data: { '': JSON.stringify(param) },
         success: success,
-        error: error
+        error: error,
+        beforeSend: requestHelper.beforeSend()
     });
 }
 
@@ -141,6 +148,7 @@ userTkService.delete = function (param, success, error) {
         type: 'DELETE',
         url: url,
         success: param.success,
-        error: param.error
+        error: param.error,
+        beforeSend: requestHelper.beforeSend()
     });
 }
