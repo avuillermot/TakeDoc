@@ -16,6 +16,7 @@ namespace TakeDocService.Print
         Document.Interface.IVersionService servVersion = UnityHelper.Resolve<Document.Interface.IVersionService>();
         TakeDocService.Document.MetaDataService servMetaData = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.MetaDataService>();
         TakeDocService.Document.Interface.IImageService servImage = UnityHelper.Resolve<TakeDocService.Document.Interface.IImageService>();
+        TraductionService servTraduction = new TraductionService();
 
         TakeDocDataAccess.DaoBase<TakeDocModel.UserTk> daoUser = new TakeDocDataAccess.DaoBase<TakeDocModel.UserTk>();
         TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
@@ -82,7 +83,7 @@ namespace TakeDocService.Print
             {
                 ICollection<string> line = new List<string>();
                 line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
-                line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : ro.Text));
+                line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : servTraduction.Get("fr", ro.Text)));
                 model.AddLine("TabMetadata", line.ToArray<string>());
             }
             model.RemoveEmptyLine("TabMetadata");

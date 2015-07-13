@@ -94,6 +94,8 @@
     <Compile Include="Document\MetaDataService.cs" />
     <Compile Include="Document\PageService.cs" />
     <Compile Include="Print\Interface\IReportService.cs" />
+    <Compile Include="Print\Interface\ITraductionService.cs" />
+    <Compile Include="Print\TraductionService.cs" />
     <Compile Include="Search\Interface\ISearch.cs" />
     <Compile Include="Search\Search.cs" />
     <Compile Include="Security\Interface\ITokenService.cs" />
