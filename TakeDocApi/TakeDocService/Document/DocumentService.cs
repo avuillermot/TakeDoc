@@ -147,9 +147,9 @@ namespace TakeDocService.Document
             }
         }
 
-        public ICollection<TakeDocModel.View_DocumentExtended> Search(Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
+        public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
         {
-            return daoDocExtended.Search(typeDocumentId, searchs, userId, entityId);
+            return daoDocExtended.Search(title, typeDocumentId, searchs, userId, entityId);
         }
    }
 }
