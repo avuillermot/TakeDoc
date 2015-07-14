@@ -1,11 +1,11 @@
 ﻿<ion-view view-title="Informations">
    <ion-content>
        <section>
-           <ion-list id="ion-list-metadata">
+           <ion-list id="ion-list-metadata" ng-show="browse == false">
                <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
-                       {{metadata.attributes.label}}
+                       {{metadata.attributes.label}}-{{metadata.attributes.htmlType}}
                    </div>
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block; padding-left:5px; vertical-align:top; padding-top:5px;">
@@ -17,6 +17,9 @@
                        </div>
                        <div ng-switch-when="autocomplete" ng-readonly="mode == 'READ'">
                            <textarea rows="5" class="metadata-autocomplete-value" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)"></textarea>
+                       </div>
+                       <div ng-switch-when="file" ng-readonly="mode == 'READ'">
+                           <div ng-click="doBrowse()">Browse</div>
                        </div>
 
                        <input ng-switch-when="date" ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
@@ -31,8 +34,7 @@
                    </div>
                </ion-item>
            </ion-list>
-           <div id="container"></div>
-           <div class="button button-light ion-log-in" id="browseBtn" ng-click="browse()">Browse</div>
+           <div id="browser" ng-show="browse == true"></div>
        </section>
     </ion-content>
     <ion-footer-bar>

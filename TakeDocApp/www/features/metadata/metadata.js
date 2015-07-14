@@ -13,6 +13,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
         $scope.mode = states.stateParams.mode;
+        $scope.browse = false;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
@@ -50,12 +51,14 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         return false;
     };
 
-    $scope.browse = function () {
+    $scope.doBrowse = function () {
+        alert(1);
+        $scope.browse = true;
         var path = 'file:///storage/';
         // Constructor takes FileSelector(elem, path, masks, success, fail, cancel, menu, pathChanged, openFile)
         // Only elem is really required, but you'll have to provide the path sooner or later anyway.
         // If you don't provide a mask *.* will be used
-        var fileSelector = new FileSelector($('#container'), path, 'Documents (html, txt)|*.htm;*.html;*.txt|All files|*.*');
+        var fileSelector = new FileSelector($('#browser'), path, 'Documents (html, txt)|*.htm;*.html;*.txt|All files|*.*');
         // Mask can be changed later using setMasks method.
         fileSelector.onCancel = function (e) // Fires on the back button
         {
@@ -80,5 +83,5 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         fileSelector.open(path);
         if (!$scope.$$phase) $scope.$apply();
         // Directories and files will be alphabetically ordered and directories will be listed before the files.
-    }
+    };
 }]);

@@ -1,20 +1,20 @@
 ﻿var environnement = {
-    isApp: false,
+    isApp: true,
     durationCookieDay: 1,
-    //UrlBase: "http://192.168.0.11/TakeDocApi/",
-    UrlBase: "http://localhost/TakeDocApi/",
+    UrlBase: "http://192.168.0.11/TakeDocApi/",
+    //UrlBase: "http://localhost/TakeDocApi/",
     //UrlBase: "https://dev-takedoc.cloudapp.net/",
     setToken: function (user) {
-        $.cookie('AccessToken', user.AccessToken, { expires: environnement.durationCookieDay });
-        $.cookie('AccessTokenTicks', user.AccessTokenTicks, { expires: environnement.durationCookieDay });
-        $.cookie('RefreshToken', user.RefreshToken, { expires: environnement.durationCookieDay });
-        $.cookie('RefreshTokenTicks', user.RefreshTokenTicks, { expires: environnement.durationCookieDay });
+        sessionStorage.setItem('AccessToken', user.AccessToken);
+        sessionStorage.setItem('AccessTokenTicks', user.AccessTokenTicks);
+        sessionStorage.setItem('RefreshToken', user.RefreshToken);
+        sessionStorage.setItem('RefreshTokenTicks', user.RefreshTokenTicks);
     },
     isAuthenticate: function () {
-        if ($.cookie('RefreshTokenTicks') == null) return false
+        if (sessionStorage.getItem('RefreshTokenTicks') == null) return false
 
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
-        if ($.cookie('RefreshTokenTicks') < ticks) return false;
+        if (sessionStorage.getItem('RefreshTokenTicks') < ticks) return false;
         return true;
     }
 }
@@ -24,8 +24,8 @@ var requestHelper = {
         var that = this;
         var param = {
             success: function () {
-                $.cookie('AccessToken', arguments[0].AccessToken, { expires: environnement.durationCookieDay });
-                $.cookie('AccessTokenTicks', arguments[0].AccessTokenTicks, { expires: environnement.durationCookieDay });
+                sessionStorage.setItem('AccessToken', arguments[0].AccessToken);
+                sessionStorage.setItem('AccessTokenTicks', arguments[0].AccessTokenTicks);
             },
             error: function () {
                 alert("Vous n'avez pas accès à cette fonctionnalité.");
@@ -41,15 +41,15 @@ var requestHelper = {
     },
     beforeSend: function () {
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
-        if ($.cookie('RefreshTokenTicks') < ticks) {
+        if (sessionStorage.getItem('RefreshTokenTicks') < ticks) {
             alert("Vous n'avez pas accès à cette fonctionnalité.");
             return false;
         }
-        else if ($.cookie('AccessTokenTicks') < ticks) {
+        else if (sessionStorage.getItem('AccessTokenTicks') < ticks) {
             this.getNewAccessToken();
         }
         return function (xhr, settings) {
-            xhr.setRequestHeader("Authorization", $.cookie('AccessToken'));
+            xhr.setRequestHeader("Authorization", sessionStorage.getItem('AccessToken'));
         }
     }
 };
