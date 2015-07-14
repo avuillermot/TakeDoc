@@ -151,5 +151,14 @@ namespace TakeDocService.Document
         {
             return daoDocExtended.Search(title, typeDocumentId, searchs, userId, entityId);
         }
+
+        public void SetTitle(string title, Guid versionId, Guid userId, Guid entityId)
+        {
+            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId && x.EntityId == entityId).First();
+            document.DateUpdateData = System.DateTime.UtcNow;
+            document.UserUpdateData = userId;
+            document.DocumentLabel = title;
+            daoDocument.Update(document);
+        }
    }
 }

@@ -31,6 +31,7 @@ namespace TakeDocService.Document.Interface
         void AddVersionMinor(Guid userId, Guid entityId, Guid documentId);
         TakeDocModel.Document GetById(Guid documentId, params Expression<Func<TakeDocModel.Document, object>>[] properties);
         void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas);
+        void SetTitle(string title, Guid versionId, Guid userId, Guid entityId);
         /// <summary>
         /// Delete document, all his version and all metadata
         /// </summary>

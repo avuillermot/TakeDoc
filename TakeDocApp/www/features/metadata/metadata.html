@@ -1,7 +1,7 @@
 ﻿<ion-view view-title="Informations">
    <ion-content>
        <section>
-           <ion-list>
+           <ion-list id="ion-list-metadata">
                <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
@@ -31,6 +31,8 @@
                    </div>
                </ion-item>
            </ion-list>
+           <div id="container"></div>
+           <div class="button button-light ion-log-in" id="browseBtn" ng-click="browse()">Browse</div>
        </section>
     </ion-content>
     <ion-footer-bar>

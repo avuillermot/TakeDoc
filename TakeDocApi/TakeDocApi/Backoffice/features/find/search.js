@@ -27,6 +27,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
 
     $scope.doReset = function () {
         $('.search-item-input').val("");
+        $scope.documentTitle = "";
     };
 
     $scope.doCloseSearch = function () {
@@ -62,13 +63,13 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
 
         var param = {
             typeDocumentId: $scope.selectedTypeDoc.get("id"),
+            title: $scope.documentTitle,
             userId: $rootScope.getUser().Id,
             entityId: $scope.selectedEntity.Id,
             conditions: conditions,
             success: success,
             error: error
         };
-
         $rootScope.showLoader();
         myDocs.search(param);
     };

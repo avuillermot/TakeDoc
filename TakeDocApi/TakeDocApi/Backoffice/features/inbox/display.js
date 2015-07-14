@@ -4,6 +4,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     var pages = new Pages();
     var wfHistory = new WorkflowHistorys();
     var answers = new WorkflowAnswers();
+    var document = new DocumentsExtended();
     var cloneData = new Array();
 
     // clone metadata to compare if data has changed before save
@@ -63,7 +64,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         if (documentDisplay.data.document != null) {
             $scope.document = documentDisplay.data.document;
             $scope.metadatas = documentDisplay.data.metadatas.models;
-            $scope.title = $scope.document.get("label") + " - (" + $scope.document.get("entityLabel") + ")";
+            $scope.title = $scope.document.get("label");
 
             loadImage();
         }
@@ -131,10 +132,21 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
                 $rootScope.showError(err);
             };
-            var param = {
+
+            var paramMeta = {
                 userId: $rootScope.getUser().Id,
                 entityId: $scope.document.get("entityId"),
                 versionId: $scope.document.get("versionId")
+            };
+            var paramDoc = {
+                userId: $rootScope.getUser().Id,
+                entityId: $scope.document.get("entityId"),
+                versionId: $scope.document.get("versionId"),
+                title: $scope.title,
+                success: function () {
+                    documentDisplay.data.metadatas.save(paramMeta, success, error);
+                },
+                error: error
             };
 
             // data field are mapped to the model here because date picker cause problem
@@ -148,7 +160,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
             if (hasChanged()) {
                 $rootScope.showLoader("Enregistrement....");
-                documentDisplay.data.metadatas.save(param, success, error);
+                //documentDisplay.data.metadatas.save(paramMeta, success, error);
+                document.setTitle(paramDoc);
             }
         }
     };

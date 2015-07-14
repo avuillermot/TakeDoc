@@ -26,6 +26,15 @@
                 </ul>
             </div>
             <form class="form-horizontal" style="padding-left:15px;padding-top:15px">
+                <div class="form-group search-field-deleted-false">
+                    <label class="col-md-2 control-label search-field-title">
+                        Titre
+                    </label>
+                    <div class="col-md-9 inbox-metadata" id="divinput-title">
+                        <input id="input-title" type="text" ng-model="documentTitle" class="search-item-input search-field" />
+                    </div>
+                </div>
+
                 <div ng-repeat="field in fields | filter:filterSearchField  | orderBy:['attributes.deleted','attributes.index'] " class="form-group search-field-deleted-{{field.attributes.deleted}}" ng-switch on="field.attributes.inputType">
                     <label class="col-md-2 control-label search-field-title">
                         {{field.attributes.label}}

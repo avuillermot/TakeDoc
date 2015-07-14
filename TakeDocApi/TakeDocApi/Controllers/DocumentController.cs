@@ -46,6 +46,23 @@ namespace TakeDocApi.Controllers
             }
         }
 
+        [HttpPost]
+        [Route("Title/{title}/{versionId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage SetTitle(string title, Guid versionId, Guid userId, Guid entityId)
+        {
+            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
+            try
+            {
+                servDocument.SetTitle(title, versionId, userId, entityId);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
         [HttpDelete]
         [Route("delete/{documentId}/{entityId}/{userId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
@@ -101,7 +118,8 @@ namespace TakeDocApi.Controllers
                         });
                     }
                 }
-               
+
+                if (title == "[EMPTY]") title = string.Empty;
                 ICollection<TakeDocModel.View_DocumentExtended> back = servDocument.Search(title, typeDocumentId, searchs, userId, entityId);
                 return Request.CreateResponse(new {value = back});
             }

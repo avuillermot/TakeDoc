@@ -9,7 +9,7 @@
 </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
-            <h3 class="panel-title">{{title}}</h3>
+            <h3 class="panel-title"><input ng-model="title" class="inbox-title" ng-disabled="document.isReadOnly()" /></h3>
         </div>
         <div class="panel-body">
             <div role="tabpanel">

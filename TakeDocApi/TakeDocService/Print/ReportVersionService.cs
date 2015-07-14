@@ -79,6 +79,10 @@ namespace TakeDocService.Print
 
             ULibre.Drivers.Interface.IDriver model = new ULibre.Drivers.Implementation.OdtDriver();
             model.Open(destination.FullName);
+            ICollection<string> title = new List<string>();
+            title.Add("");
+            title.Add(version.Document.DocumentLabel);
+            model.AddLine("TabMetadata", title.ToArray<string>());
             foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
             {
                 ICollection<string> line = new List<string>();
