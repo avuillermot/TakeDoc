@@ -43,8 +43,8 @@
                 <label for="inputLabel" class="form-tk-label">Champs</label>
 
                 <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.deleted">
-                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="mooveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
-                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="mooveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="moveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="moveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemoveDataField(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
                     <div class="document-field-label">

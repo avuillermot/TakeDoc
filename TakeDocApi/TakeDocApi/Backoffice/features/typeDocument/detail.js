@@ -104,7 +104,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
     //************************************
     // function for datafield admin
     //************************************
-    $scope.mooveUp = function (id) {
+    $scope.moveUp = function (id) {
         var size = $scope.fields.length;
         var field = $scope.fields.where({ id: id });
         var currentIndex = field[0].get('index');
@@ -114,7 +114,7 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             fieldToMove[0].set('index', currentIndex);
         }
     };
-    $scope.mooveDown = function (id) {
+    $scope.moveDown = function (id) {
         var size = $scope.fields.length;
         var field = $scope.fields.where({ id: id });
         var currentIndex = field[0].get('index');

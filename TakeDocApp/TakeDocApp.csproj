@@ -58,8 +58,6 @@
     <Content Include="www\img\rotate.png" />
     <Content Include="www\img\select.png" />
     <Content Include="www\img\up.png" />
-    <Content Include="www\img\windows8-icons - Copie.png" />
-    <Content Include="www\img\windows8-icons.png" />
     <Content Include="www\js\app.js" />
     <Content Include="www\js\controllers.js" />
     <Content Include="www\js\services.js" />

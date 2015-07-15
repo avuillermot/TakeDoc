@@ -17,7 +17,7 @@ div.button-bar {
     padding-top:50px;
 }
 
-.moove-down {
+.move-down {
     margin-top: 30px;
 }
 
@@ -192,4 +192,14 @@ div.button-bar {
     -moz-transform: rotate(270deg);
     -o-transform: rotate(270deg);
     transform: rotate(270deg);
+}
+
+.fileselector-container {
+    background-color:blue;
+    height: 40px;
+}
+
+.fileselector-item {
+    background-color:red;
+    height:40px;
 }

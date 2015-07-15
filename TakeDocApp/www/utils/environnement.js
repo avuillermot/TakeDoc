@@ -1,6 +1,5 @@
 ﻿var environnement = {
     isApp: true,
-    durationCookieDay: 1,
     UrlBase: "http://192.168.0.11/TakeDocApi/",
     //UrlBase: "http://localhost/TakeDocApi/",
     //UrlBase: "https://dev-takedoc.cloudapp.net/",

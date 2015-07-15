@@ -2,24 +2,21 @@
 
 }
 
-fileHelper.prototype.read = function (fileName) {
+fileHelper.read = function (fileName) {
     var dfd = new $.Deferred();
 
     var fn = function () {
-        console.log("fileHelper.prototype.read:start " + fileName);
-
+        
         var error = function () {
-            console.log("fileHelper.prototype.read:error");
+            alert("Impossible de lire le fichier : " + fileName);
         };
 
         var gotFile = function (fileEntry) {
-            console.log("fileHelper.prototype.read:gotFile start");
             fileEntry.file(function (file) {
-                console.log("fileHelper.prototype.read:gotFile->fileEntry.file");
                 var reader = new FileReader();
                 reader.onloadend = function (e) {
+                    alert("ok");
                     var content = e.target.result;
-                    console.log(content);
                     dfd.resolve(content);
                 }
 
@@ -195,20 +192,20 @@ FileSelector.prototype = {
         $elem.addClass('loading');
         $elem.html(
 		'<div class="path">file:///storage/extSdCard/</div>' + "\n" +
-		'<div class="file-container">' + "\n" +
-		'	<div class="item directory back"><i></i> ..</div>' + "\n" +
+		'<div class="fileselector-container">' + "\n" +
+		'	<div class="fileselector-item directory back"><i></i> ..</div>' + "\n" +
 		'	<div class="not-ready">' + "\n" +
 		'		<span>Opening...</span>' + "\n" +
 		'	</div>' + "\n" +
-		'</div>' + "\n" +
-		'<div class="options show"><select class="mask"></select></div>'
+		'</div>' + "\n" 
+		//'<div class="options show"><select class="mask"></select></div>'
 		);
         $elem.find('.options .mask').change(function () {
             self.currentMask = this.value;
             self.filter();
             self.updateMask();
         });
-        $elem.on("click", '.item', function (ev) {
+        $elem.on("click", '.fileselector-item', function (ev) {
             if (!self.opening) {
                 $item = $(this);
                 if ($item.hasClass('directory')) {
@@ -258,8 +255,8 @@ FileSelector.prototype = {
     filter: function (mask) {
         mask = mask || this.masks[this.currentMask];
         var $elem = $(this.elem);
-        $elem.find('.file-container .item.hidden').removeClass('hidden');
-        $elem.find('.file-container .item.file').each(function () {
+        $elem.find('.fileselector-container .fileselector-item.hidden').removeClass('hidden');
+        $elem.find('.fileselector-container .fileselector-item.file').each(function () {
             var $item = $(this);
             if (!mask.test($item.attr('data-url'))) {
                 $item.addClass('hidden');
@@ -279,19 +276,19 @@ FileSelector.prototype = {
     {
         var $elem = $(this.elem);
         $elem.find('.path').text(decodeURI(this.path) + (this.masks.length == 1 ? this.masks[this.currentMask].rule.trim() : ''));
-        $elem.find('.file-container').css('padding-top', $elem.find('.path').outerHeight() + 'px');
+        $elem.find('.fileselector-container').css('padding-top', $elem.find('.path').outerHeight() + 'px');
         var backUrl = this.path.replace(/^(file:\/\/)(.*\/)(.+)$/i, '$1$2');
-        $elem.find('.file-container .item.back').attr('data-url', backUrl);
+        $elem.find('.fileselector-container .fileselector-item.back').attr('data-url', backUrl);
     },
     updateMask: function () {
         var $elem = $(this.elem);
-        $elem.find('.file-container').css('padding-bottom', $elem.find('.options').outerHeight() + 'px');
+        $elem.find('.fileselector-container').css('padding-bottom', $elem.find('.options').outerHeight() + 'px');
         this.updatePath();
     },
     finalizeOpenning: function () {
         var $elem = $(this.elem);
-        $elem.find('.file-container .item.selected').removeClass('selected');
-        $elem.find('.file-container').removeClass('loading');
+        $elem.find('.fileselector-container .fileselector-item.selected').removeClass('selected');
+        $elem.find('.fileselector-container').removeClass('loading');
         this.opening = false;
     },
     open: function (path) {
@@ -301,9 +298,9 @@ FileSelector.prototype = {
         if (typeof path === 'undefined') {
             path = self.path;
         }
-        $elem.find('.file-container .item[data-url="' + path + '"]').addClass('selected');
+        $elem.find('.fileselector-container .fileselector-item[data-url="' + path + '"]').addClass('selected');
 
-        $elem.find('.file-container .item.selected').removeClass('.selected');
+        $elem.find('.fileselector-container .fileselector-item.selected').removeClass('.selected');
         //$elem.find('.file-container:not(.loading)').addClass('loading');
         window.resolveLocalFileSystemURL(path, function (entry) {
             //self.path);
@@ -322,7 +319,7 @@ FileSelector.prototype = {
                         var entry = entries[i];
                         var name = entry.name;
                         var item = {
-                            html: '<div class="item ' + (entry.isDirectory ? 'directory' : 'file') + '" data-url="' + entry.nativeURL + '"><i></i>' + entry.name + '</div>',
+                            html: '<div class="fileselector-item ' + (entry.isDirectory ? 'directory' : 'file') + '" data-url="' + entry.nativeURL + '"><i></i>' + entry.name + '</div>',
                             name: entry.name
                         };
                         if (entry.isDirectory)
@@ -333,10 +330,10 @@ FileSelector.prototype = {
                     directories.sort(self.nameSort);
                     files.sort(self.nameSort);
 
-                    $elem.find('.file-container .item:not(.back)').remove();
-                    $elem.find('.file-container').scrollTop(0);
+                    $elem.find('.fileselector-container .fileselector-item:not(.back)').remove();
+                    $elem.find('.fileselector-container').scrollTop(0);
                     //$elem.find('.file-container .item.selected').removeClass('selected');
-                    $elem.find('.file-container').append(self.joinItemHtml(directories) + self.joinItemHtml(files));
+                    $elem.find('.fileselector-container').append(self.joinItemHtml(directories) + self.joinItemHtml(files));
                     self.filter();
                     self.finalizeOpenning();
                 },

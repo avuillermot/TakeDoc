@@ -78,7 +78,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 		return false;
     };
 
-    $scope.mooveUp = function (id) {
+    $scope.moveUp = function (id) {
 		var size = $rootScope.myTakeDoc.Pages.length;
 		var page = $rootScope.myTakeDoc.Pages.where({ id: id });
 		var currentIndex = page[0].get('pageNumber');
@@ -89,7 +89,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 			fRefresh();
 		}
     };
-    $scope.mooveDown = function (id) {
+    $scope.moveDown = function (id) {
 		var size = $rootScope.myTakeDoc.Pages.length;
 		var page = $rootScope.myTakeDoc.Pages.where({ id: id });
 		var currentIndex = page[0].get('pageNumber');

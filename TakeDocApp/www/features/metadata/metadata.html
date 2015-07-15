@@ -19,7 +19,7 @@
                            <textarea rows="5" class="metadata-autocomplete-value" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)"></textarea>
                        </div>
                        <div ng-switch-when="file" ng-readonly="mode == 'READ'">
-                           <div ng-click="doBrowse()">Browse</div>
+                           <div id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" ng-click="doBrowse('{{metadata.attributes.id}}')">File : {{metadata.attributes.value}}</div>
                        </div>
 
                        <input ng-switch-when="date" ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />

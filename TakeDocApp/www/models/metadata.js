@@ -125,6 +125,10 @@ var MetaDatas = Backbone.Collection.extend({
             if (model.get("type") == "date") {
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
+            else if (model.get("type") == "file") {
+                fileHelper.read(model.get("value"));
+                model.set("value", "123");
+            }
         });
         var data = JSON.stringify(this.models);
         var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", ctx.userId)
