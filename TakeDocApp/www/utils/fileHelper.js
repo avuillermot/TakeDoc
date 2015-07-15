@@ -15,7 +15,6 @@ fileHelper.read = function (fileName) {
             fileEntry.file(function (file) {
                 var reader = new FileReader();
                 reader.onloadend = function (e) {
-                    alert("ok");
                     var content = e.target.result;
                     dfd.resolve(content);
                 }

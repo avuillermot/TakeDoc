@@ -126,8 +126,11 @@ var MetaDatas = Backbone.Collection.extend({
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
             else if (model.get("type") == "file") {
-                fileHelper.read(model.get("value"));
-                model.set("value", "123");
+                var content = null;
+                fileHelper.read(model.get("value")).then(function (data) {
+                    content = data;
+                });
+                model.set("value", content);
             }
         });
         var data = JSON.stringify(this.models);

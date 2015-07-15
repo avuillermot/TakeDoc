@@ -99,7 +99,8 @@ namespace TakeDocApi.Controllers
             }
             catch (Exception ex)
             {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+                var msg = new {Message = ex.Message};
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg);
             }
         }
     }

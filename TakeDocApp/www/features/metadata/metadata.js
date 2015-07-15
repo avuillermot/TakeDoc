@@ -69,7 +69,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         };
         fileSelector.onSuccess = function (path) {
             var meta = $rootScope.myTakeDoc.Metadatas.where({ id: metadataId });
-            meta[0].set("value", path);
+            if (meta.length > 0) meta[0].set("value", path);
             $scope.browse = false;
             if (!$scope.$$phase) $scope.$apply();
             // If you click on a file, this function will be called with the name of the file
