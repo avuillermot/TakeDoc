@@ -9,7 +9,7 @@
 </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
-            <h3 class="panel-title"><input ng-model="title" class="inbox-title" ng-disabled="document.isReadOnly()" /></h3>
+            <h3 class="panel-title"><input ng-model="title" class="inbox-title" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true"/></h3>
         </div>
         <div class="panel-body">
             <div role="tabpanel">
@@ -44,7 +44,9 @@
                                     <select ng-switch-when="list" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
                                         <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                                     </select>
-
+                                    <div ng-switch-when="file" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control">
+                                        {{metadata.attributes.value}}
+                                    </div>
                                     <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
                                     <textarea ng-switch-when="textarea" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>

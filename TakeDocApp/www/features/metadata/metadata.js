@@ -52,43 +52,51 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     };
 
     $scope.doBrowse = function (metadataId) {
-        $scope.browse = true;
-        var path = 'file:///storage/sdcard0/Download/';
-        // Constructor takes FileSelector(elem, path, masks, success, fail, cancel, menu, pathChanged, openFile)
-        // Only elem is really required, but you'll have to provide the path sooner or later anyway.
-        // If you don't provide a mask *.* will be used
-        var fileSelector = new FileSelector($('#browser'), path, 'Pdf|*.pdf');
-        // Mask can be changed later using setMasks method.
-        fileSelector.onCancel = function (e) // Fires on the back button
-        {
-            // Add code for closing the file selector, going one folder back (like below) or something else
-            $(fileSelector.elem).find('.fileselector-container .fileselector-item.back').click();
-            e.stop(); // prevent other backbutton event listners from firing
-            $scope.browse = false;
+        if (environnement.isApp == true) {
+            $scope.browse = true;
+            var path = 'file:///storage/sdcard0/Download/';
+            // Constructor takes FileSelector(elem, path, masks, success, fail, cancel, menu, pathChanged, openFile)
+            // Only elem is really required, but you'll have to provide the path sooner or later anyway.
+            // If you don't provide a mask *.* will be used
+            var fileSelector = new FileSelector($('#browser'), path, 'Pdf|*.pdf');
+            // Mask can be changed later using setMasks method.
+            fileSelector.onCancel = function (e) // Fires on the back button
+            {
+                // Add code for closing the file selector, going one folder back (like below) or something else
+                $(fileSelector.elem).find('.fileselector-container .fileselector-item.back').click();
+                e.stop(); // prevent other backbutton event listners from firing
+                $scope.browse = false;
+                if (!$scope.$$phase) $scope.$apply();
+            };
+            fileSelector.onSuccess = function (path) {
+                var meta = $rootScope.myTakeDoc.Metadatas.where({ id: metadataId });
+                if (meta.length > 0) meta[0].set("value", path);
+                $scope.browse = false;
+                if (!$scope.$$phase) $scope.$apply();
+                // If you click on a file, this function will be called with the name of the file
+            };
+            fileSelector.onPathChanged = function (path) {
+                // Each time you change directory this callback will be launched (here we're saving lastpath in local storage)
+                localStorage['lastPath'] = path;
+            };
+            fileSelector.onFail = function (error) {
+                // If something goes wrong this code will be executed
+                alert(error.message);
+                $scope.browse = false;
+                if (!$scope.$$phase) $scope.$apply();
+            };
+            // There are also onMenu() and onOpenFile(fileEntry, path) callbacks.
+            // First is called when you press menu button, the other when path leads to a file and not a directory.
+            // Make the selector load file\directory list from a path (if no path is provided, component will try using previous path)
+            fileSelector.open(path);
             if (!$scope.$$phase) $scope.$apply();
-        };
-        fileSelector.onSuccess = function (path) {
+            // Directories and files will be alphabetically ordered and directories will be listed before the files.
+        }
+        else {
             var meta = $rootScope.myTakeDoc.Metadatas.where({ id: metadataId });
-            if (meta.length > 0) meta[0].set("value", path);
+            if (meta.length > 0) meta[0].set("value", "mon fichier");
             $scope.browse = false;
             if (!$scope.$$phase) $scope.$apply();
-            // If you click on a file, this function will be called with the name of the file
-        };
-        fileSelector.onPathChanged = function (path) {
-            // Each time you change directory this callback will be launched (here we're saving lastpath in local storage)
-            localStorage['lastPath'] = path;
-        };
-        fileSelector.onFail = function (error) {
-            // If something goes wrong this code will be executed
-            alert(error.message);
-            $scope.browse = false;
-            if (!$scope.$$phase) $scope.$apply();
-        };
-        // There are also onMenu() and onOpenFile(fileEntry, path) callbacks.
-        // First is called when you press menu button, the other when path leads to a file and not a directory.
-        // Make the selector load file\directory list from a path (if no path is provided, component will try using previous path)
-        fileSelector.open(path);
-        if (!$scope.$$phase) $scope.$apply();
-        // Directories and files will be alphabetically ordered and directories will be listed before the files.
+        }
     };
 }]);

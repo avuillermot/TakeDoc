@@ -184,6 +184,24 @@
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="MetaDataDisplayIndex" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="MetaDataFile">
+          <Key>
+            <PropertyRef Name="MetaDataFileId" />
+          </Key>
+          <Property Name="MetaDataFileId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MetaDataFileReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MetaDataFileName" Type="nvarchar" MaxLength="500" Nullable="false" />
+          <Property Name="MetaDataFilePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="MetaDataId" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
         <EntityType Name="Page">
           <Key>
             <PropertyRef Name="PageId" />
@@ -610,6 +628,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_MetaDataFile_MetaData">
+          <End Role="MetaData" Type="Self.MetaData" Multiplicity="1" />
+          <End Role="MetaDataFile" Type="Self.MetaDataFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaData">
+              <PropertyRef Name="MetaDataId" />
+            </Principal>
+            <Dependent Role="MetaDataFile">
+              <PropertyRef Name="MetaDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Page_Version">
           <End Role="Version" Type="Self.Version" Multiplicity="1" />
           <End Role="Page" Type="Self.Page" Multiplicity="*" />
@@ -800,6 +830,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupTk" EntityType="Self.GroupTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MetaDataFile" EntityType="Self.MetaDataFile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Page" EntityType="Self.Page" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="RefreshToken" EntityType="Self.RefreshToken" Schema="dbo" store:Type="Tables" />
@@ -915,6 +946,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_MetaData_Version" Association="Self.FK_MetaData_Version">
             <End Role="Version" EntitySet="Version" />
             <End Role="MetaData" EntitySet="MetaData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MetaDataFile_MetaData" Association="Self.FK_MetaDataFile_MetaData">
+            <End Role="MetaData" EntitySet="MetaData" />
+            <End Role="MetaDataFile" EntitySet="MetaDataFile" />
           </AssociationSet>
           <AssociationSet Name="FK_Page_Version" Association="Self.FK_Page_Version">
             <End Role="Version" EntitySet="Version" />
@@ -1154,6 +1189,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="RefreshToken" EntitySet="RefreshToken" />
             <End Role="AccessToken" EntitySet="AccessToken" />
           </AssociationSet>
+          <EntitySet Name="MetaDataFile" EntityType="TakeDocModel.MetaDataFile" />
+          <AssociationSet Name="FK_MetaDataFile_MetaData" Association="TakeDocModel.FK_MetaDataFile_MetaData">
+            <End Role="MetaData" EntitySet="MetaData" />
+            <End Role="MetaDataFile" EntitySet="MetaDataFile" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1332,6 +1372,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="Version" Relationship="TakeDocModel.FK_MetaData_Version" FromRole="MetaData" ToRole="Version" />
           <Property Name="MetaDataDisplayIndex" Type="Int32" Nullable="false" />
           <Property Name="MetaDataMandatory" Type="Boolean" />
+          <NavigationProperty Name="MetaDataFile" Relationship="TakeDocModel.FK_MetaDataFile_MetaData" FromRole="MetaData" ToRole="MetaDataFile" />
           </EntityType>
         <Association Name="FK_MetaData_DataField">
           <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
@@ -1995,6 +2036,37 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="MetaDataFile">
+          <Key>
+            <PropertyRef Name="MetaDataFileId" />
+          </Key>
+          <Property Name="MetaDataFileId" Type="Guid" Nullable="false" />
+          <Property Name="MetaDataFileReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataFileName" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <Property Name="MetaDataFilePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaDataFile_MetaData" FromRole="MetaDataFile" ToRole="MetaData" />
+        </EntityType>
+        <Association Name="FK_MetaDataFile_MetaData">
+          <End Type="TakeDocModel.MetaData" Role="MetaData" Multiplicity="1" />
+          <End Type="TakeDocModel.MetaDataFile" Role="MetaDataFile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MetaData">
+              <PropertyRef Name="MetaDataId" />
+            </Principal>
+            <Dependent Role="MetaDataFile">
+              <PropertyRef Name="MetaDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -2519,6 +2591,25 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="Source" ColumnName="Source" />
                 <ScalarProperty Name="ClientId" ColumnName="ClientId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MetaDataFile">
+            <EntityTypeMapping TypeName="TakeDocModel.MetaDataFile">
+              <MappingFragment StoreEntitySet="MetaDataFile">
+                <ScalarProperty Name="MetaDataId" ColumnName="MetaDataId" />
+                <ScalarProperty Name="MetaDataFilePath" ColumnName="MetaDataFilePath" />
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="MetaDataFileName" ColumnName="MetaDataFileName" />
+                <ScalarProperty Name="MetaDataFileReference" ColumnName="MetaDataFileReference" />
+                <ScalarProperty Name="MetaDataFileId" ColumnName="MetaDataFileId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

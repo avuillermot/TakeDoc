@@ -66,6 +66,9 @@
     <Reference Include="Microsoft.Practices.Unity.RegistrationByConvention">
       <HintPath>..\packages\Unity.3.5.1404.0\lib\net45\Microsoft.Practices.Unity.RegistrationByConvention.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
@@ -85,10 +88,12 @@
     <Compile Include="Document\Interface\IDocumentService.cs" />
     <Compile Include="Document\ImageService.cs" />
     <Compile Include="Document\Interface\IImageService.cs" />
+    <Compile Include="Document\Interface\IMetaDataFileService.cs" />
     <Compile Include="Document\Interface\IMetaDataService.cs" />
     <Compile Include="Document\Interface\IPageService.cs" />
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
+    <Compile Include="Document\MetaDataFileService.cs" />
     <Compile Include="Parameter\EntityService.cs" />
     <Compile Include="Parameter\Interface\IEntityService.cs" />
     <Compile Include="Document\MetaDataService.cs" />

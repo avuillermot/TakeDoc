@@ -12,17 +12,11 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class MetaData
+    public partial class MetaDataFile
     {
-        public MetaData()
-        {
-            this.MetaDataFile = new HashSet<MetaDataFile>();
-        }
-    
-        public System.Guid MetaDataId { get; set; }
-        public string MetaDataName { get; set; }
-        public string MetaDataValue { get; set; }
-        public System.Guid DataFieldId { get; set; }
+        public System.Guid MetaDataFileId { get; set; }
+        public string MetaDataFileReference { get; set; }
+        public string MetaDataFileName { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
         public System.DateTimeOffset DateCreateData { get; set; }
@@ -31,12 +25,9 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
-        public System.Guid MetaDataVersionId { get; set; }
-        public int MetaDataDisplayIndex { get; set; }
-        public Nullable<bool> MetaDataMandatory { get; set; }
+        public string MetaDataFilePath { get; set; }
+        public System.Guid MetaDataId { get; set; }
     
-        public virtual DataField DataField { get; set; }
-        public virtual Version Version { get; set; }
-        public virtual ICollection<MetaDataFile> MetaDataFile { get; set; }
+        public virtual MetaData MetaData { get; set; }
     }
 }

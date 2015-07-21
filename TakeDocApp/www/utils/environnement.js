@@ -1,6 +1,6 @@
 ﻿var environnement = {
     isApp: true,
-    UrlBase: "http://192.168.0.11/TakeDocApi/",
+    UrlBase: "http://192.168.0.14/TakeDocApi/",
     //UrlBase: "http://localhost/TakeDocApi/",
     //UrlBase: "https://dev-takedoc.cloudapp.net/",
     setToken: function (user) {

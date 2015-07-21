@@ -61,6 +61,8 @@
         <EntityTypeShape EntityType="TakeDocModel.AccessToken" Width="1.5" PointX="5.625" PointY="19" />
         <EntityTypeShape EntityType="TakeDocModel.RefreshToken" Width="1.5" PointX="3.375" PointY="19" />
         <AssociationConnector Association="TakeDocModel.FK_AccessToken_RefreshToken" />
+        <EntityTypeShape EntityType="TakeDocModel.MetaDataFile" Width="1.5" PointX="7.375" PointY="12.75" />
+        <AssociationConnector Association="TakeDocModel.FK_MetaDataFile_MetaData" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

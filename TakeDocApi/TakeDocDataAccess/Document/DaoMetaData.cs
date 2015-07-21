@@ -18,17 +18,13 @@ namespace TakeDocDataAccess.Document
             return meta;
         }
 
-        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> values)
+        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, ICollection<TakeDocModel.MetaData> metadatas)
         {
-            ICollection<TakeDocModel.MetaData> metadatas = this.Context.MetaData.Where(x => x.MetaDataVersionId == versionId && x.EntityId == entityId && x.EtatDeleteData == false).ToList();
             foreach (TakeDocModel.MetaData metadata in metadatas)
             {
-                ICollection<KeyValuePair<string,string>> kvs = values.Where(x => x.Key == metadata.MetaDataName).ToList();
-                if (kvs.Count() > 0) {
-                    metadata.MetaDataValue = kvs.First().Value;
-                    metadata.UserUpdateData = userId;
-                    metadata.DateUpdateData = System.DateTimeOffset.UtcNow;
-                }
+                metadata.MetaDataValue = metadata.MetaDataValue;
+                metadata.UserUpdateData = userId;
+                metadata.DateUpdateData = System.DateTimeOffset.UtcNow;
             }
             this.Update(metadatas);
         }

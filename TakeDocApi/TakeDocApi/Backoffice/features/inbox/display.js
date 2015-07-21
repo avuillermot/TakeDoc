@@ -20,6 +20,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     // test if data are updated, return true if yes else false
     var hasChanged = function () {
+        if ($scope.isUpdate) {
+            $scope.isUpdate = false;
+            return true;
+        }
         for (var i = 0; i < cloneData.length; i++) {
             var current = cloneData[i];
             var meta = documentDisplay.data.metadatas.where({ id: current.id });
@@ -28,6 +32,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         return false;
     };
 
+    $scope.isUpdate = false;
     $scope.openImage = function () {
         $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
         $("#enlarge-page-modal-body").html('<img style="width:100%" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
@@ -78,6 +83,18 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     // display pdf of this document
     $scope.doOpenDocument = function () {
+        var success = function () {
+
+        };
+        var error = function () {
+            $rootScope.showError("Impossible d'ouvrir le document.")
+        };
+
+        fileHelper.readDocumentUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
+    };
+
+    // display pdf of this document
+    $scope.doOpenFile = function () {
         var success = function () {
 
         };
@@ -160,7 +177,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
             if (hasChanged()) {
                 $rootScope.showLoader("Enregistrement....");
-                //documentDisplay.data.metadatas.save(paramMeta, success, error);
                 document.setTitle(paramDoc);
             }
         }

@@ -10,19 +10,21 @@ fileHelper.read = function (fileName) {
         var error = function () {
             alert("Impossible de lire le fichier : " + fileName);
         };
+        if (environnement.isApp == true) {
+            var gotFile = function (fileEntry) {
+                fileEntry.file(function (file) {
+                    var reader = new FileReader();
+                    reader.onloadend = function (e) {
+                        var content = e.target.result;
+                        dfd.resolve(content);
+                    }
 
-        var gotFile = function (fileEntry) {
-            fileEntry.file(function (file) {
-                var reader = new FileReader();
-                reader.onloadend = function (e) {
-                    var content = e.target.result;
-                    dfd.resolve(content);
-                }
-
-                reader.readAsBinaryString(file);
-            });
-        };
-        window.resolveLocalFileSystemURL(fileName, gotFile, error);
+                    reader.readAsDataURL(file);
+                });
+            };
+            window.resolveLocalFileSystemURL(fileName, gotFile, error);
+        }
+        else dfd.resolve("file4564564564564564665");
     };
     fn();
 
@@ -43,7 +45,7 @@ fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
     });
 }
 
-fileHelper.readUrl = function (versionId, entityId, success, error) {
+fileHelper.readDocumentUrl = function (versionId, entityId, success, error) {
     var onSuccess = function () {
         window.open(environnement.UrlBase + "Temp/Pdf/" + arguments[0]);
         success.apply(this,arguments);

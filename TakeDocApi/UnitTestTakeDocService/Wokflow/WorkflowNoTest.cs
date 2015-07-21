@@ -107,10 +107,11 @@ namespace UnitTestTakeDocService.Workflow
         {
             ICollection<TakeDocModel.Status_Document> status = servStatus.GetStatus(MyDocument.EntityId);
 
-            IDictionary<string, string> metas = new Dictionary<string, string>();
+            IDictionary<string, object> metas = new Dictionary<string, object>();
             metas.Add("REFACTURABLE", "true");
             metas.Add("MONTANT", "20");
-            servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, metas);
+            throw new Exception("new metada");
+            servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, null);
             
             ICollection<TakeDocModel.DocumentStatusHisto> histos = servStatus.GetStatus(MyDocument);
             Assert.IsTrue(histos.Count() == 2, "create, complete in this order");

@@ -160,9 +160,10 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
     search: function (param) {
-        var url = (environnement.UrlBase + "document/search/{typeDocumentId}/{entityId}/{userId}").replace("{typeDocumentId}", param.typeDocumentId);
+        var url = (environnement.UrlBase + "document/search/{title}/{typeDocumentId}/{entityId}/{userId}").replace("{typeDocumentId}", param.typeDocumentId);
         url = url.replace("{entityId}", param.entityId);
         url = url.replace("{userId}", param.userId);
+        url = url.replace("{title}", (param.title == "" || param.title == null)?"[EMPTY]":param.title);
 
         var data = new Array();
         if (param.conditions != null) {
@@ -172,5 +173,19 @@ var DocumentsExtended = Backbone.Collection.extend({
         }
 
         this.fetch({type: 'POST',data: { '': JSON.stringify(data)}, success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
+    },
+    setTitle: function (param) {
+        var url = (environnement.UrlBase + "document/title/{title}/{versionId}/{userId}/{entityId}").replace("{versionId}", param.versionId);
+        url = url.replace("{entityId}", param.entityId);
+        url = url.replace("{userId}", param.userId);
+        url = url.replace("{title}", param.title);
+
+        $.ajax({
+            type: 'POST',
+            url: url,
+            success: param.success,
+            error: param.error,
+            beforeSend: requestHelper.beforeSend()
+        });
     }
 });

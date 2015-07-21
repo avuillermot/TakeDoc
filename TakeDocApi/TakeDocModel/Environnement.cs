@@ -13,6 +13,7 @@ namespace TakeDocModel
             VersionStoreUNC = settings["VersionStoreUNC"].ToString();
             PageStoreUNC = settings["PageStoreUNC"].ToString();
             VignetteStoreUNC = settings["VignetteStoreUNC"].ToString();
+            MetaDataFileStoreUNC = settings["MetaDataFileStoreUNC"].ToString();
             TempDirectory = settings["TempDirectory"].ToString();
             JpegTestFile1 = settings["JpegTestFile1"].ToString();
             JpegTestFile2 = settings["JpegTestFile2"].ToString();
@@ -22,6 +23,7 @@ namespace TakeDocModel
         public static string PageStoreUNC { get; set; }
         public static string VersionStoreUNC { get; set; }
         public static string VignetteStoreUNC { get; set; }
+        public static string MetaDataFileStoreUNC { get; set; }
         public static string TempDirectory { get; set; }
         public static string JpegTestFile1 { get; set; }
         public static string JpegTestFile2 { get; set; }

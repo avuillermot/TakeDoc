@@ -16,6 +16,7 @@ namespace TakeDocService.Document
         DAO.Interface.IDaoDataFieldAutoComplete daoAutoComplete = UnityHelper.Resolve<DAO.Interface.IDaoDataFieldAutoComplete>();
 
         Interface.IDataFieldService servDataField = UnityHelper.Resolve<Interface.IDataFieldService>();
+        Interface.IMetaDataFileService servMdFile = UnityHelper.Resolve<Interface.IMetaDataFileService>();
 
         public void CreateMetaData(Guid userId, Guid entityId, Guid versionId, Guid typeDocumentId)
         {
@@ -38,19 +39,64 @@ namespace TakeDocService.Document
             } 
         }
 
-        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
+        public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, string json)
         {
-            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(metadatas.Keys, entityId);
-            foreach (KeyValuePair<string,string> metadata in metadatas)
+            ICollection<TakeDocModel.MetaData> metadatas = daoMetaData.GetBy(x => x.MetaDataVersionId == document.DocumentCurrentVersionId && x.EtatDeleteData == false && x.EntityId == document.EntityId);
+            ICollection<TakeDocModel.MetaDataFile> files = new List<TakeDocModel.MetaDataFile>();
+
+            Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(json);
+            foreach (Newtonsoft.Json.Linq.JObject obj in data)
             {
-                ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == metadata.Key).ToList();
+                string name = obj.Value<string>("name");
+
+                TakeDocModel.MetaData meta = metadatas.First(x => x.MetaDataName == name);
+                meta.MetaDataValue = obj.Value<string>("value");
+
+                if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("FILE"))
+                {
+                    string path = obj.GetValue("file").Value<string>("name");
+                    string dataFile = obj.GetValue("file").Value<string>("data");
+
+                    meta.MetaDataFile = new List<TakeDocModel.MetaDataFile>();
+                    TakeDocModel.MetaDataFile file = new TakeDocModel.MetaDataFile();
+                    file.MetaDataFilePath = path;
+                    file.MetaDataFileData = Convert.FromBase64String(dataFile.Substring(dataFile.IndexOf(";base64,") + 8));
+                    file.MetaDataId = meta.MetaDataId;
+                    files.Add(file);
+
+                    meta.MetaDataValue = servMdFile.GetFile(path).Name;
+                }
+            }
+            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(document.DocumentTypeId, document.EntityId);
+            foreach (TakeDocModel.MetaData meta in metadatas)
+            {
+                ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == meta.MetaDataName && x.TypeDocumentId == document.DocumentTypeId).ToList();
                 if (field.Count() > 0)
                 {
-                    bool ok = this.IsValid(field.First().TypeId, metadata.Value, field.First().Mandatory);
+                    bool ok = this.IsValid(field.First().TypeId, meta.MetaDataValue, field.First().Mandatory);
                     if (ok == false) throw new Exception("MetaData non valide.");
                 }
             }
-            daoMetaData.SetMetaData(userId, entityId, versionId, metadatas);
+            try
+            {
+                daoMetaData.SetMetaData(userId, document.EntityId, document.DocumentTypeId, metadatas);
+                foreach (TakeDocModel.MetaData metadata in metadatas)
+                {
+                    ICollection<TakeDocModel.MetaDataFile> metaFiles = files.Where(x => x.MetaDataId == metadata.MetaDataId).ToList();
+                    if (metaFiles.Count() > 0)
+                    {
+                        foreach (TakeDocModel.MetaDataFile file in metaFiles)
+                        {
+                            servMdFile.Create(file.MetaDataFilePath, file.MetaDataFileData, metadata.MetaDataId, userId, entity);
+                        }
+                    }
+                }
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex1)
+            {
+                base.Logger.Error(ex1);
+                throw ex1;
+            }
         }
 
         public bool IsValid(string typeName, string value, bool required)

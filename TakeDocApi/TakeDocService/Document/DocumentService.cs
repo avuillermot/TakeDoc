@@ -6,6 +6,7 @@ using TakeDocDataAccess.Document.Interface;
 using TakeDocDataAccess.Document;
 using Utility.MyUnityHelper;
 using System.Transactions;
+using Newtonsoft.Json.Linq;
 
 namespace TakeDocService.Document
 {
@@ -14,6 +15,7 @@ namespace TakeDocService.Document
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended daoDocExtended = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
         
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
@@ -82,20 +84,34 @@ namespace TakeDocService.Document
             return documents.First();
         }
 
-
-        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, string> metadatas)
+        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, string json)
         {
             using (TransactionScope transaction = new TransactionScope())
             {
+                TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
+                //TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
+                TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
+
+                servMeta.SetMetaData(userId, document, entity, json);
+                transaction.Complete();
+            }
+        }
+
+        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, IDictionary<string, object> metadatas)
+        {
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                //metadatas.First().Value.GetType().FullName.Equals("System.String")
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
                 TakeDocModel.Version version = document.Version.Where(x => x.VersionId == document.DocumentCurrentVersionId).First();
                 TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
-
-                servMeta.SetMetaData(userId, entityId, versionId, metadatas);
+                
+                //servMeta.SetMetaData(userId, entityId, versionId, metadatas);
                 //***********************************
                 // update status of document
                 //***********************************
-                TakeDocModel.WorkflowType validation = version.Document.Type_Document.WorkflowType;
+                /*TakeDocModel.WorkflowType validation = version.Document.Type_Document.WorkflowType;
 
                 TakeDocService.Workflow.Document.Interface.IValidation wfValidation = null;
                 if (validation.WorkflowTypeReference == "AUTO")
@@ -122,7 +138,7 @@ namespace TakeDocService.Document
                 {
                     wfValidation = new TakeDocService.Workflow.Document.ValidationManagerBackOffice();
                     wfValidation.Execute(document, user);
-                }
+                }*/
 
                 //***********************************
                 // end update status of document

@@ -19,14 +19,36 @@
     }
 });
 
+var MetaDataFile = Backbone.Model.extend({
+    defaults: {
+        id: null,
+        reference: null,
+        name: null,
+        path: null,
+        data: null
+    },
+    parse: function () {
+        var current = arguments[0];
+        this.set("id", current.id);
+        this.set("reference", current.reference);
+        this.set("id", current.id);
+        this.set("name", current.name);
+        this.set("path", current.data);
+        this.set("data", current.data);
+        return this;
+    }
+});
+
 var MetaDataValues = Backbone.Collection.extend({
     model: MetaDataValue,
     parse: function () {
         var data = arguments[0];
-        for (var i = 0; i < data.length; i++) {
-            var current = new MetaDataValue();
-            this.models.push(current.parse(data[i]));
-            this.length = this.models.length;
+        if (data != null) {
+            for (var i = 0; i < data.length; i++) {
+                var current = new MetaDataValue();
+                this.models.push(current.parse(data[i]));
+                this.length = this.models.length;
+            }
         }
     }
 });
@@ -36,6 +58,7 @@ var MetaData = Backbone.Model.extend({
         id: null,
         index: null,
         name: null,
+        key: null,
         value: null,
         mandatory: null,
         type: null,
@@ -47,7 +70,8 @@ var MetaData = Backbone.Model.extend({
         autoCompleteTitle: null,
         autoCompletePlaceHolder: null,
         autoCompleteUrl: null,
-        autoCompleteReference: null
+        autoCompleteReference: null,
+        file: null
     },
     parse: function () {
         var current = arguments[0];
@@ -65,9 +89,16 @@ var MetaData = Backbone.Model.extend({
         this.set("autoCompletePlaceHolder", current.autoCompletePlaceHolder);
         this.set("autoCompleteUrl", current.autoCompleteUrl);
         this.set("autoCompleteReference", current.autoCompleteReference);
-        var values = new MetaDataValues();
-        values.parse(current.valueList);
-        this.set("valueList", values);
+        if (current.valueList != null) {
+            var values = new MetaDataValues();
+            values.parse(current.valueList);
+            this.set("valueList", values);
+        }
+        if (current.file != null) {
+            var file = new MetaDataFile();
+            file.parse(current.file);
+            this.set("file", file);
+        }
         return this;
     }
 });
@@ -121,27 +152,48 @@ var MetaDatas = Backbone.Collection.extend({
     },
 
     update: function (ctx, onSucces, onError) {
+        var nbFile = this.where({ type: "file" }).length;
+        var count = 0;
+
+        var that = this;
+        var parameters = arguments;
+        var fnSave = function (myModels, context) {
+            var data = JSON.stringify(myModels, context);
+            var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", context.userId)
+                .replace("<entityId/>", context.entityId)
+                .replace("<versionId/>", context.versionId);
+            $.ajax({
+                type: 'POST',
+                url: myUrl,
+                data: { '': data },
+                beforeSend: requestHelper.beforeSend(),
+                success: function () {
+                    onSucces.apply(that, arguments);
+                },
+                error: function () {
+                    onError.apply(that, arguments);
+                }
+            });
+        };
+
         this.each(function (model, index) {
             if (model.get("type") == "date") {
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
-        });
-        var data = JSON.stringify(this.models);
-        var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", ctx.userId)
-            .replace("<entityId/>", ctx.entityId)
-            .replace("<versionId/>", ctx.versionId);
-        $.ajax({
-            type: 'PUT',
-            url: myUrl,
-            data: { '': data },
-            beforeSend: requestHelper.beforeSend(),
-            success: function () {
-                onSucces.apply(this, arguments);
-            },
-            error: function () {
-                onError.apply(this, arguments);
+            else if (model.get("type") == "file") {
+                count++;
+                var currentModel = model;
+                fileHelper.read(currentModel.get("value")).then(function (fileBin) {
+                   var metaFile = currentModel.get("file");
+                    metaFile.set("data", fileBin);
+                    metaFile.set("path", currentModel.get("value"));
+                    metaFile.set("name", currentModel.get("value"));
+                    if (count == nbFile) fnSave(that.models, ctx);
+                });
             }
         });
+        if (nbFile == 0) fnSave(this.models, ctx);
+
     },
 
     generatePdf: function (param) {

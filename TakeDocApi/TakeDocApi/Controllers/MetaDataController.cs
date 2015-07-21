@@ -39,37 +39,97 @@ namespace TakeDocApi.Controllers
             try
             {
                 ICollection<TakeDocModel.MetaData> metadatas = servMetaData.GetByVersion(versionId, entityId);
-                var req = from metadata in metadatas
-                          select new
-                          {
-                              id = metadata.MetaDataId,
-                              index = metadata.MetaDataDisplayIndex,
-                              name = metadata.MetaDataName,
-                              value = metadata.MetaDataValue,
-                              mandatory = metadata.MetaDataMandatory,
-                              type = metadata.DataField.DataFieldType.DataFieldInputType,
-                              label = metadata.DataField.DataFieldLabel,
-                              htmlType = metadata.HtmlType,
-                              entityId = metadata.EntityId,
-                              valueList = from value in metadata.DataFieldValues
-                                          select new
-                                          {
-                                              id = value.DataFieldId,
-                                              index = value.DataFieldValueIndex,
-                                              key = value.DataFieldValueKey,
-                                              text = value.DataFieldValueText,
-                                              reference = value.DataFieldValueReference,
-                                              etatDelete = value.EtatDeleteData,
-                                              entity = value.EntityId
-                                          },
-                              autoCompleteId = (metadata.AutoComplete == null) ? Guid.Empty : metadata.AutoComplete.DataFieldAutoCompleteId,
-                              autoCompleteTitle = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteTitle,
-                              autoCompletePlaceHolder = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompletePlaceHolder,
-                              autoCompleteUrl = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteUrl,
-                              autoCompleteReference = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteReference
-                          };
+                ICollection<object> back = new List<object>();
+                foreach (TakeDocModel.MetaData metadata in metadatas)
+                {
+                    if (metadata.DataFieldValues.Count() > 0)
+                    {
+                        var itemList = new
+                        {
+                            id = metadata.MetaDataId,
+                            index = metadata.MetaDataDisplayIndex,
+                            name = metadata.MetaDataName,
+                            value = metadata.MetaDataValue,
+                            mandatory = metadata.MetaDataMandatory,
+                            type = metadata.DataField.DataFieldType.DataFieldInputType,
+                            label = metadata.DataField.DataFieldLabel,
+                            htmlType = metadata.HtmlType,
+                            entityId = metadata.EntityId,
+                            valueList = from value in metadata.DataFieldValues
+                                        select new
+                                        {
+                                            id = value.DataFieldId,
+                                            index = value.DataFieldValueIndex,
+                                            key = value.DataFieldValueKey,
+                                            text = value.DataFieldValueText,
+                                            reference = value.DataFieldValueReference,
+                                            etatDelete = value.EtatDeleteData,
+                                            entity = value.EntityId
+                                        }
+                        };
+                        back.Add(itemList);
+                    }
+                    else if (metadata.AutoComplete != null)
+                    {
+                        var itemAutoComplete = new
+                        {
+                            id = metadata.MetaDataId,
+                            index = metadata.MetaDataDisplayIndex,
+                            name = metadata.MetaDataName,
+                            value = metadata.MetaDataValue,
+                            mandatory = metadata.MetaDataMandatory,
+                            type = metadata.DataField.DataFieldType.DataFieldInputType,
+                            label = metadata.DataField.DataFieldLabel,
+                            htmlType = metadata.HtmlType,
+                            entityId = metadata.EntityId,
+                            autoCompleteId = (metadata.AutoComplete == null) ? Guid.Empty : metadata.AutoComplete.DataFieldAutoCompleteId,
+                            autoCompleteTitle = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteTitle,
+                            autoCompletePlaceHolder = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompletePlaceHolder,
+                            autoCompleteUrl = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteUrl,
+                            autoCompleteReference = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteReference
+                        };
+                        back.Add(itemAutoComplete);
+                    }
+                    else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("FILE")) {
+                        var itemFile = new
+                        {
+                            id = metadata.MetaDataId,
+                            index = metadata.MetaDataDisplayIndex,
+                            name = metadata.MetaDataName,
+                            value = metadata.MetaDataValue,
+                            mandatory = metadata.MetaDataMandatory,
+                            type = metadata.DataField.DataFieldType.DataFieldInputType,
+                            label = metadata.DataField.DataFieldLabel,
+                            htmlType = metadata.HtmlType,
+                            entityId = metadata.EntityId,
+                            file = new
+                            {
+                                data= string.Empty,
+                                path= string.Empty,
+                                name= string.Empty
+                            }
+                        };
+                        back.Add(itemFile);
+                    }
+                    else
+                    {
+                        var itemSimple = new
+                        {
+                            id = metadata.MetaDataId,
+                            index = metadata.MetaDataDisplayIndex,
+                            name = metadata.MetaDataName,
+                            value = metadata.MetaDataValue,
+                            mandatory = metadata.MetaDataMandatory,
+                            type = metadata.DataField.DataFieldType.DataFieldInputType,
+                            label = metadata.DataField.DataFieldLabel,
+                            htmlType = metadata.HtmlType,
+                            entityId = metadata.EntityId
+                        };
+                        back.Add(itemSimple);
+                    }
+                }
 
-                return Request.CreateResponse(req.ToList<object>());
+                return Request.CreateResponse(back);
             }
             catch (Exception ex)
             {
@@ -77,7 +137,7 @@ namespace TakeDocApi.Controllers
             }
         }
 
-        [HttpPut]
+        [HttpPost]
         [Route("Version/{versionId}/{userId}/{entityId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
@@ -85,16 +145,7 @@ namespace TakeDocApi.Controllers
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
             {
-                Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(value);
-                IDictionary<string, string> metadatas = new Dictionary<string, string>();
-                foreach (Newtonsoft.Json.Linq.JObject obj in data)
-                {
-                    string name = obj.Value<string>("name");
-                    string input = obj.Value<string>("type").ToUpper();
-
-                    metadatas.Add(name, obj.Value<string>("value"));
-                }
-                servDocument.SetMetaData(userId, entityId, versionId, metadatas);
+                servDocument.SetMetaData(userId, entityId, versionId, value);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

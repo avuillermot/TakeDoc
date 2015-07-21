@@ -91,7 +91,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         };
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            if ($rootScope.isApp == false) fileHelper.readUrl(current[0].get("versionId"), current[0].get("entityId"), success, error);
+            if ($rootScope.isApp == false) fileHelper.readDocumentUrl(current[0].get("versionId"), current[0].get("entityId"), success, error);
             else fileHelper.download(current[0].get("versionId"), current[0].get("entityId"), success, error);
         }
     };

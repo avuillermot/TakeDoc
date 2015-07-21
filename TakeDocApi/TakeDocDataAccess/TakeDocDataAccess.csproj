@@ -64,12 +64,14 @@
     <Compile Include="DaoGeneric.cs" />
     <Compile Include="Document\DaoDataFieldValue.cs" />
     <Compile Include="Document\DaoDocument.cs" />
+    <Compile Include="Document\DaoMetaDataFile.cs" />
     <Compile Include="Document\DaoView_DocumentExtended.cs" />
     <Compile Include="Document\DaoMetaData.cs" />
     <Compile Include="Document\DaoPage.cs" />
     <Compile Include="Document\DaoTypeDocument.cs" />
     <Compile Include="Document\DaoBackOfficeTypeDocument.cs" />
     <Compile Include="Document\Interface\IDaoBackOfficeTypeDocument.cs" />
+    <Compile Include="Document\Interface\IDaoMetaDataFile.cs" />
     <Compile Include="Document\Interface\IDaoView_DocumentExtended.cs" />
     <Compile Include="Security\DaoUserTk.cs" />
     <Compile Include="Document\DaoVersion.cs" />
