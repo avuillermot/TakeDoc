@@ -3,6 +3,7 @@
 }
 
 fileHelper.read = function (fileName) {
+    debugger;
     var dfd = new $.Deferred();
 
     var fn = function () {
@@ -10,7 +11,7 @@ fileHelper.read = function (fileName) {
         var error = function () {
             alert("Impossible de lire le fichier : " + fileName);
         };
-        if (environnement.isApp == true) {
+        
             var gotFile = function (fileEntry) {
                 fileEntry.file(function (file) {
                     var reader = new FileReader();
@@ -24,7 +25,7 @@ fileHelper.read = function (fileName) {
             };
             window.resolveLocalFileSystemURL(fileName, gotFile, error);
         }
-        else dfd.resolve("file4564564564564564665");
+
     };
     fn();
 

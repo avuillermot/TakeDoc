@@ -140,3 +140,14 @@
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');
 });
+
+backOffice.config(['flowFactoryProvider', function (flowFactoryProvider) {
+    flowFactoryProvider.defaults = {
+        
+    };
+    flowFactoryProvider.on('catchAll', function (event) {
+        console.log('catchAll', arguments);
+    });
+    // Can be used with different implementations of Flow.js
+    // flowFactoryProvider.factory = fustyFlowFactory;
+}]);

@@ -102,7 +102,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $rootScope.showError("Impossible d'ouvrir le document.")
         };
 
-        fileHelper.readUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
+        fileHelper.readDocumentUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
     };
 
     $scope.doRemove = function () {
@@ -301,4 +301,40 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         };
         documentService.SetArchive(param);
     }
+
+    /***********************************************/
+    // FILE TO UPLOAD
+    /***********************************************/
+    $scope.fileAdd = function ($file, $event, $flow, metadataId) {
+        alert(1);
+        debugger;
+        var base64;
+        var fileReader = new FileReader();
+        fileReader.onload = function (event) {
+            debugger;
+            var current = documentDisplay.data.metadatas.where({ id: metadataId });
+            if (current.length > 0) {
+                debugger;
+                base64 = event.target.result;
+                var file = current[0].get("file");
+                file.set("data", base64);
+                file.set("name", $file.name);
+                current[0].set("value", $file.name);
+                if (!$scope.$$phase) $scope.$apply();
+            }
+        };
+        fileReader.readAsDataURL($file.file);
+    };
+
+    $scope.fileRemove = function (metadataId) {
+        var current = documentDisplay.data.metadatas.where({ id: metadataId });
+        if (current.length > 0) {
+            var file = current[0].get("file");
+            file.set("data", null);
+            file.set("name", null);
+            current[0].set("value", null);
+            if (!$scope.$$phase) $scope.$apply();
+        }
+    };
+
 }]);

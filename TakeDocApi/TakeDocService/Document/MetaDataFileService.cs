@@ -30,8 +30,8 @@ namespace TakeDocService.Document
             System.IO.FileInfo f = this.GetFile(fullName);
             foreach (TakeDocModel.MetaDataFile mFile in mFiles)
             {
-                System.IO.FileInfo delete = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, mFile.MetaDataFileReference, new System.IO.FileInfo(mFile.MetaDataFileName).Extension.Replace(".", string.Empty));
-                delete.Delete();
+                System.IO.FileInfo delete = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, mFile.MetaDataFileReference, new System.IO.FileInfo(mFile.MetaDataFileName).Extension.Replace(".", string.Empty), false);
+                if (delete.Exists) delete.Delete();
                 daoMdFile.Delete(mFile);
             }
                        
@@ -48,7 +48,7 @@ namespace TakeDocService.Document
             try
             {
                 daoMdFile.Add(back);
-                System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, back.MetaDataFileReference, f.Extension.Replace(".", string.Empty));
+                System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, back.MetaDataFileReference, f.Extension.Replace(".", string.Empty),true);
                 System.IO.File.WriteAllBytes(file.FullName, data);
                 
             }
@@ -65,7 +65,7 @@ namespace TakeDocService.Document
             return back;
         }
 
-        private System.IO.FileInfo GenerateUNC(string entite, string store, string fileName, string extension)
+        private System.IO.FileInfo GenerateUNC(string entite, string store, string fileName, string extension, bool create)
         {
             string storeLocalPath = string.Concat(@"\", entite, @"\", extension);
             base.Logger.DebugFormat("GenerateUNC path in [{0}]", storeLocalPath);
@@ -76,7 +76,7 @@ namespace TakeDocService.Document
                 if (string.IsNullOrEmpty(s) == false)
                 {
                     deep = string.Concat(deep, @"\", s);
-                    if (System.IO.Directory.Exists(deep) == false) System.IO.Directory.CreateDirectory(string.Concat(TakeDocModel.Environnement.MetaDataFileStoreUNC, @"\", deep));
+                    if (System.IO.Directory.Exists(deep) == false && create) System.IO.Directory.CreateDirectory(string.Concat(TakeDocModel.Environnement.MetaDataFileStoreUNC, @"\", deep));
                 }
             }
             return new System.IO.FileInfo(string.Concat(store, @"\", storeLocalPath, @"\", fileName, ".", extension));

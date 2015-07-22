@@ -180,19 +180,8 @@ var MetaDatas = Backbone.Collection.extend({
             if (model.get("type") == "date") {
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
-            else if (model.get("type") == "file") {
-                count++;
-                var currentModel = model;
-                fileHelper.read(currentModel.get("value")).then(function (fileBin) {
-                   var metaFile = currentModel.get("file");
-                    metaFile.set("data", fileBin);
-                    metaFile.set("path", currentModel.get("value"));
-                    metaFile.set("name", currentModel.get("value"));
-                    if (count == nbFile) fnSave(that.models, ctx);
-                });
-            }
         });
-        if (nbFile == 0) fnSave(this.models, ctx);
+        fnSave(this.models, ctx);
 
     },
 
