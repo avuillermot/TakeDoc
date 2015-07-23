@@ -34,11 +34,15 @@ namespace TakeDocService.Document
                 if (delete.Exists) delete.Delete();
                 daoMdFile.Delete(mFile);
             }
-                       
+
+            string reference = daoMdFile.GenerateReference();
+            System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, reference, f.Extension.Replace(".", string.Empty), true);
+                                  
             TakeDocModel.MetaDataFile back = new TakeDocModel.MetaDataFile()
             {
-                MetaDataFilePath = fullName,
-                MetaDataFileName = f.Name,
+                MetaDataFileReference = reference,
+                MetaDataFilePath = file.FullName.Replace(TakeDocModel.Environnement.MetaDataFileStoreUNC, string.Empty),
+                MetaDataFileName = string.Concat(reference,file.Extension),
                 MetaDataId = metadataId,
                 UserCreateData = userId,
                 DateCreateData = System.DateTimeOffset.UtcNow,
@@ -48,7 +52,6 @@ namespace TakeDocService.Document
             try
             {
                 daoMdFile.Add(back);
-                System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, back.MetaDataFileReference, f.Extension.Replace(".", string.Empty),true);
                 System.IO.File.WriteAllBytes(file.FullName, data);
                 
             }
@@ -80,6 +83,16 @@ namespace TakeDocService.Document
                 }
             }
             return new System.IO.FileInfo(string.Concat(store, @"\", storeLocalPath, @"\", fileName, ".", extension));
+        }
+
+        public string GetUrlFile(Guid metadataId, Guid entityId)
+        {
+            ICollection<TakeDocModel.MetaDataFile> files = daoMdFile.GetBy(x => x.MetaDataId == metadataId && x.EntityId == entityId);
+            byte[] data = System.IO.File.ReadAllBytes(string.Concat(TakeDocModel.Environnement.MetaDataFileStoreUNC, files.First().MetaDataFilePath));
+            System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory, files.First().MetaDataFileName));
+            if (System.IO.File.Exists(file.FullName)) System.IO.File.Delete(file.FullName);
+            System.IO.File.WriteAllBytes(file.FullName, data);
+            return file.Name;
         }
     }
 }

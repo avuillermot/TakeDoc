@@ -10,5 +10,6 @@ namespace TakeDocService.Document.Interface
     {
         TakeDocModel.MetaDataFile Create(string path, byte[] data, Guid metadataId, Guid userId, TakeDocModel.Entity entity);
         System.IO.FileInfo GetFile(string fullName);
+        string GetUrlFile(Guid metadataId, Guid entityId);
     }
 }

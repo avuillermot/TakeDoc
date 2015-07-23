@@ -12,5 +12,6 @@ namespace TakeDocDataAccess.Document.Interface
         TakeDocModel.MetaDataFile Add(TakeDocModel.MetaDataFile file);
         void Delete(TakeDocModel.MetaDataFile file);
         ICollection<TakeDocModel.MetaDataFile> GetBy(Expression<Func<TakeDocModel.MetaDataFile, bool>> where, params Expression<Func<TakeDocModel.MetaDataFile, object>>[] properties);
+        string GenerateReference();
     }
 }

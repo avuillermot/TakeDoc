@@ -93,18 +93,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         fileHelper.readDocumentUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
     };
 
-    // display pdf of this document
-    $scope.doOpenFile = function () {
-        var success = function () {
-
-        };
-        var error = function () {
-            $rootScope.showError("Impossible d'ouvrir le document.")
-        };
-
-        fileHelper.readDocumentUrl(documentDisplay.data.document.get("versionId"), documentDisplay.data.document.get("entityId"), success, error);
-    };
-
     $scope.doRemove = function () {
        $rootScope.showOkCancelModal("Confirmer la suppression du document", doRemoveRunfunction);
     };
@@ -142,6 +130,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 $rootScope.hideLoader();
                 if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
                 clone();
+
+                // refresh screen -> need for metadatafile
+                documentDisplay.data.calls = documentDisplay.data.calls + 1;
+                if (!$scope.$$phase) $scope.$apply();
             };
             var error = function () {
                 $rootScope.hideLoader();
@@ -306,15 +298,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     // FILE TO UPLOAD
     /***********************************************/
     $scope.fileAdd = function ($file, $event, $flow, metadataId) {
-        alert(1);
-        debugger;
         var base64;
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
-            debugger;
             var current = documentDisplay.data.metadatas.where({ id: metadataId });
             if (current.length > 0) {
-                debugger;
                 base64 = event.target.result;
                 var file = current[0].get("file");
                 file.set("data", base64);
@@ -335,6 +323,22 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             current[0].set("value", null);
             if (!$scope.$$phase) $scope.$apply();
         }
+    };
+
+
+    // display pdf of this document
+    $scope.doOpenFile = function (id) {
+        if (hasChanged()) {
+            $rootScope.showError({ message: "Veuillez enregistrer les modifications." });
+            return false;
+        }
+        var success = function () {
+
+        };
+        var error = function () {
+            $rootScope.showError("Impossible d'ouvrir le document.")
+        };
+        fileHelper.readFileUrl(id, documentDisplay.data.document.get("entityId"), success, error);
     };
 
 }]);

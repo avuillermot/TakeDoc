@@ -30,7 +30,7 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpGet]
-        [Route("Url/{versionId}/{entityId}")]
+        [Route("Url/Document/{versionId}/{entityId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage GetUrlFile(Guid versionId, Guid entityId)
         {
@@ -38,6 +38,23 @@ namespace TakeDocApi.Controllers
             {
                 IReportVersionService servReport = Utility.MyUnityHelper.UnityHelper.Resolve<IReportVersionService>();
                 string name = servReport.GetUrlFile(versionId, entityId);
+                return Request.CreateResponse(name);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("Url/File/{metadataId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage GetUrlMetaDataFile(Guid metadataId, Guid entityId)
+        {
+            try
+            {
+                TakeDocService.Document.Interface.IMetaDataFileService servFile = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.IMetaDataFileService>();
+                string name = servFile.GetUrlFile(metadataId, entityId);
                 return Request.CreateResponse(name);
             }
             catch (Exception ex)

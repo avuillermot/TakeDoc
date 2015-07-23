@@ -1472,6 +1472,7 @@
     <Content Include="Scripts\models\workflowAnswer.js" />
     <Content Include="Scripts\models\workflowType.js" />
     <Content Include="Scripts\utils\environnement.js" />
+    <Content Include="Scripts\utils\uploadHelper.js" />
     <Content Include="Scripts\utils\fileHelper.js" />
     <Content Include="Scripts\utils\utils.js" />
     <Content Include="Temp\Pdf\info.txt" />

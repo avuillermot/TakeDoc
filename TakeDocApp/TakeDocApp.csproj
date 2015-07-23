@@ -264,6 +264,7 @@
     <Content Include="www\models\typeDocument.js" />
     <Content Include="www\utils\autocomplete.js" />
     <Content Include="www\utils\environnement.js" />
+    <Content Include="www\utils\uploadHelper.js" />
     <Content Include="www\utils\fileHelper.js" />
     <Content Include="www\utils\modalHelper.js" />
     <Content Include="www\utils\popupHelper.js" />
