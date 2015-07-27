@@ -24,7 +24,7 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.items = null;
-
+        debugger;
         id = states.stateParams.id;
         var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
         if (current.length > 0) $scope.current = current[0].attributes;

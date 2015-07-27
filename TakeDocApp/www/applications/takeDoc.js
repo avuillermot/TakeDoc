@@ -110,6 +110,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('takePicture', _routeHelper.get("takePicture", false))
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false, "/id/:id"))
+        .state('upload', _routeHelper.get("upload", false, "/id/:id"))
 
         .state('findDocument', _routeHelper.get("findDocument", false, "/search/:search"));
 

@@ -297,7 +297,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     /***********************************************/
     // FILE TO UPLOAD
     /***********************************************/
-    $scope.fileAdd = function ($file, $event, $flow, metadataId) {
+    $scope.fileAdd = function (file, event, flow, metadataId) {
         var base64;
         var fileReader = new FileReader();
         fileReader.onload = function (event) {

@@ -44,6 +44,8 @@
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
+    <Content Include="www\features\upload\upload.html" />
+    <Content Include="www\features\upload\upload.js" />
     <Content Include="www\img\add.png" />
     <Content Include="www\img\administration.png" />
     <Content Include="www\img\analyze.png" />

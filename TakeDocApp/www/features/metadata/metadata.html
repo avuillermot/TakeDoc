@@ -1,7 +1,7 @@
 ﻿<ion-view view-title="Informations">
    <ion-content>
        <section>
-           <ion-list id="ion-list-metadata" ng-show="browse == false">
+           <ion-list id="ion-list-metadata">
                <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in myTakeDoc.Metadatas.models | orderBy:['attributes.index']">
 
                    <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
@@ -12,14 +12,22 @@
                        <select ng-switch-when="list" ng-readonly="mode == 'READ'" ng-model="metadata.attributes.value" class="ion-input-select" style="height:20px" tabindex="{{metadata.attributes.index}}">
                            <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                        </select>
+                       <!--<div ng-switch-when="file" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}">
+                           <span ng-show="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-info glyphicon glyphicon-eye-open" style="cursor:pointer" ng-click="doOpenFile(metadata.attributes.id)">&#160;{{metadata.attributes.value}}</span>
+                           <span ng-show="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-danger glyphicon glyphicon-remove" style="cursor:pointer" ng-click="fileRemove(metadata.attributes.id)">&#160;</span>
+                           <div ng-show="metadata.attributes.value == '' || metadata.attributes.value == null" flow-init
+                                flow-file-added="fileAdd( $file, $event, $flow, metadata.attributes.id )">
+                               <input type="file" flow-btn />
+                           </div>
+                       </div>-->
                        <div ng-switch-when="textarea" ng-readonly="mode == 'READ'">
                            <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
                        </div>
                        <div ng-switch-when="autocomplete" ng-readonly="mode == 'READ'">
-                           <textarea rows="5" class="metadata-autocomplete-value" ng-model="metadata.attributes.value" ng-focus="doOnFocus(metadata.attributes.id)"></textarea>
+                           <textarea rows="5" class="metadata-autocomplete-value" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" ng-focus="doAutocompleteOnFocus(metadata.attributes.id)"></textarea>
                        </div>
                        <div ng-switch-when="file" ng-readonly="mode == 'READ'">
-                           <div id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" ng-click="doBrowse('{{metadata.attributes.id}}')">File : {{metadata.attributes.value}}</div>
+                           <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2" ng-focus="doMetadataFileOnFocus(metadata.attributes.id)"></textarea>
                        </div>
 
                        <input ng-switch-when="date" ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
@@ -34,15 +42,13 @@
                    </div>
                </ion-item>
            </ion-list>
-           <div id="browser" ng-show="browse == true"></div>
        </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
             <div go-back="true"></div>
             <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" valid-input="doSave()"></div>
-            <div back-button ng-show="mode == 'READ'">122222222</div>
+            <div back-button ng-show="mode == 'READ'"></div>
         </div>
     </ion-footer-bar>
 </ion-view>
->

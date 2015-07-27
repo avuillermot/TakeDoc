@@ -273,6 +273,16 @@ form {
     padding-left:0px !important;
 }
 
+.input-file-metadatafile-none {
+    display:none;
+    cursor:pointer;
+}
+
+.input-file-metadatafile-inline-block {
+    display:inline-block;
+    cursor:pointer;
+}
+
 /* admin type document */
 .document-field-container, .manager-typedoc-container {
     margin: 0px !important;
