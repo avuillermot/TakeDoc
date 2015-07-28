@@ -69,7 +69,7 @@ FileSelector.prototype = {
         $elem.html(
 		'<div class="path">file:///storage/extSdCard/</div>' + "\n" +
 		'<div class="fileselector-container">' + "\n" +
-		'	<div class="fileselector-item directory back"><i></i> ..</div>' + "\n" +
+		'	<div class="fileselector-item directory back row-result ion-android-arrow-dropright"><i></i> ..</div>' + "\n" +
 		'	<div class="not-ready">' + "\n" +
 		'		<span>Opening...</span>' + "\n" +
 		'	</div>' + "\n" +

@@ -195,11 +195,9 @@ div.button-bar {
 }
 
 .fileselector-container {
-    background-color:blue;
     height: 40px;
 }
 
 .fileselector-item {
-    background-color:red;
     height:40px;
 }
