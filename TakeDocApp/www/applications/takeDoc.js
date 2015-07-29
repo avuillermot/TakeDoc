@@ -118,10 +118,13 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/login');
 });
 
-takeDoc.directive( 'goClick', function ( $location, $route ) {
+takeDoc.directive('goClick', function ( $location, $route ) {
     return function (scope, element, attrs) {
         var path;
-        element.addClass("button button-stable ion-checkmark-round");
+        if (element.attr("go-click-class") == null) 
+            element.addClass("button button-stable ion-checkmark-round");
+        else element.addClass("button button-stable " + element.attr("go-click-class"));
+
         attrs.$observe( 'goClick', function (val) {
             path = val;
         });

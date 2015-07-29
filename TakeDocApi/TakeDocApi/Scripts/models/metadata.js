@@ -184,8 +184,10 @@ var MetaDatas = Backbone.Collection.extend({
                 count++;
                 var currentModel = model;
                 fileHelper.read(currentModel.get("file").get("path")).then(function (fileBin) {
-                    var metaFile = currentModel.get("file");
-                    metaFile.set("data", fileBin);
+                    if (fileBin != null) {
+                        var metaFile = currentModel.get("file");
+                        metaFile.set("data", fileBin);
+                    }
                     if (count == nbFile) fnSave(that.models, ctx);
                 });
             }

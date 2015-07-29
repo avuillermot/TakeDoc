@@ -29,6 +29,36 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         if (!$scope.$$phase) $scope.$apply();
     };
 
+    $scope.doCancelDocument = function (id) {
+        var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            var metaFile = current[0].get("file");
+            metaFile.set("name", "");
+            metaFile.set("path", "");
+            metaFile.set("data", "");
+        }
+    };
+
+    $scope.doOpenDocument = function (id) {
+        $ionicLoading.show({
+            template: 'Chargement en cours...'
+        });
+
+        var success = function () {
+            $ionicLoading.hide();
+        };
+        var error = function () {
+            $ionicLoading.hide();
+            $rootScope.PopupHelper.show("Une erreur est survenue lors du chargement du document.");
+        };
+        var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
+        if (current.length > 0) {
+            if ($rootScope.isApp == false) fileHelper.readFileUrl(current[0].get("id"), current[0].get("entityId"), success, error);
+            else fileHelper.download(current[0].get("id"), current[0].get("entityId"), "medatafile", success, error);
+        }
+    };
+
     $scope.doSave = function () {
         $ionicLoading.show({
             template: 'Enregistrement...'

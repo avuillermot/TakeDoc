@@ -48,9 +48,9 @@
                                     <div ng-switch-when="file" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}">
                                         <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-info glyphicon glyphicon-eye-open" style="cursor:pointer" ng-click="doOpenFile(metadata.attributes.id)">&#160;{{metadata.attributes.value}}</span>
                                         <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-danger glyphicon glyphicon-remove" style="cursor:pointer" ng-click="fileRemove(metadata.attributes.id)">&#160;</span>
-                                        <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" flow-init=""
-                                             flow-file-added="fileAdd(file, event, flow, metadata.attributes.id)">
-                                            <input type="file" />
+                                        <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" flow-init
+                                             flow-file-added="fileAdd($file, $event, $flow, metadata.attributes.id)">
+                                            <input flow-btn type="file" />
                                         </div>
                                     </div>
 

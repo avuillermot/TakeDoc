@@ -6,7 +6,6 @@ fileHelper.read = function (fileName) {
     var dfd = new $.Deferred();
 
     var fn = function () {
-        
         var error = function () {
             alert("Impossible de lire le fichier : " + fileName);
         };
@@ -31,10 +30,12 @@ fileHelper.read = function (fileName) {
     return dfd.promise();
 }
 
-fileHelper.copyOnServerTemp = function (versionId, entityId, success, error) {
+fileHelper.copyOnServerTemp = function (id, entityId, type, success, error) {
+    var url = environnement.UrlBase + "Print/Url/Document/" + id + "/" + entityId;
+    if (type == "medatafile") url = environnement.UrlBase + "Print/Url/File/" + id + "/" + entityId;
     $.ajax({
         type: 'GET',
-        url: environnement.UrlBase + "Print/Url/Document/" + versionId + "/" + entityId,
+        url: url,
         beforeSend: requestHelper.beforeSend(),
         success: function () {
             success.apply(this, arguments);
@@ -53,10 +54,21 @@ fileHelper.readDocumentUrl = function (versionId, entityId, success, error) {
     var onError = function () {
         error.apply(this, arguments);
     };
-    fileHelper.copyOnServerTemp(versionId, entityId, onSuccess, onError);
+    fileHelper.copyOnServerTemp(versionId, entityId, "document", onSuccess, onError);
 }
 
-fileHelper.download = function (versionId, entityId, onSuccess, onError) {
+fileHelper.readFileUrl = function (mdFileId, entityId, success, error) {
+    var onSuccess = function () {
+        window.open(environnement.UrlBase + "Temp/Pdf/" + arguments[0]);
+        success.apply(this, arguments);
+    };
+    var onError = function () {
+        error.apply(this, arguments);
+    };
+    fileHelper.copyOnServerTemp(mdFileId, entityId, "medatafile", onSuccess, onError);
+}
+
+fileHelper.download = function (id, entityId, type, onSuccess, onError) {
 
     var transferFile = function (uri, filePath) {
         var transfer = new FileTransfer();
@@ -65,9 +77,16 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
 			filePath,
 			function (entry) {
 			    var targetPath = entry.toURL();
+			    var extension = targetPath.split('.').pop();
+
+			    var typeMime = "";
+			    if (extension == "pdf") typeMime = "application/pdf";
+			    else if (extension == "jpg") typeMime = "image/jpeg";
+                else if (extension == "jpeg") typeMime = "image/jpeg";
+
 			    try {
 			        cordova.plugins.fileOpener2.open(
-                        targetPath, 'application/pdf',
+                        targetPath, typeMime,
                         { 
                             error : function(e) { 
                                 onError.apply(this, arguments);
@@ -119,5 +138,5 @@ fileHelper.download = function (versionId, entityId, onSuccess, onError) {
     var error = function () {
         onError.apply(this, arguments);
     };
-    fileHelper.copyOnServerTemp(versionId, entityId, success, error);
+    fileHelper.copyOnServerTemp(id, entityId, type, success, error);
 }

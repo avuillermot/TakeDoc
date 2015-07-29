@@ -104,6 +104,14 @@ div.button-bar {
     margin-right:0px;
 }
 
+.metadata-item-list-file {
+    height:80px !important;
+}
+
+.metadata-item-filename {
+    font-size:10px !important;
+}
+
 /* LOGIN - page de login */
 .login {
     background-image: url("../img/login-small.jpg");

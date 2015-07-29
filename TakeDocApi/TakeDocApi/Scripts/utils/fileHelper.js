@@ -21,7 +21,8 @@ fileHelper.read = function (fileName) {
                 reader.readAsDataURL(file);
             });
         };
-        window.resolveLocalFileSystemURL(fileName, gotFile, error);
+        if (environnement.isApp == false) dfd.resolve(null);
+        else window.resolveLocalFileSystemURL(fileName, gotFile, error);
     }
 
     fn();
@@ -30,7 +31,6 @@ fileHelper.read = function (fileName) {
 }
 
 fileHelper.copyOnServerTemp = function (id, entityId, type, success, error) {
-    debugger;
     var url = environnement.UrlBase + "Print/Url/Document/" + id + "/" + entityId;
     if (type == "medatafile") url = environnement.UrlBase + "Print/Url/File/" + id + "/" + entityId;
     $.ajax({

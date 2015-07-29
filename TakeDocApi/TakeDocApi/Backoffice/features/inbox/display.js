@@ -297,16 +297,18 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     /***********************************************/
     // FILE TO UPLOAD
     /***********************************************/
-    $scope.fileAdd = function (file, event, flow, metadataId) {
+    $scope.fileAdd = function ($file, $event, $flow, metadataId) {
         var base64;
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
+            debugger;
             var current = documentDisplay.data.metadatas.where({ id: metadataId });
             if (current.length > 0) {
                 base64 = event.target.result;
                 var file = current[0].get("file");
                 file.set("data", base64);
                 file.set("name", $file.name);
+                file.set("path", $file.name);
                 current[0].set("value", $file.name);
                 if (!$scope.$$phase) $scope.$apply();
             }
