@@ -68,7 +68,7 @@ fileHelper.readFileUrl = function (mdFileId, entityId, success, error) {
     fileHelper.copyOnServerTemp(mdFileId, entityId, "medatafile", onSuccess, onError);
 }
 
-fileHelper.download = function (id, entityId, type, onSuccess, onError) {
+fileHelper.download = function (id, entityId, type, mimeType, onSuccess, onError) {
 
     var transferFile = function (uri, filePath) {
         var transfer = new FileTransfer();
@@ -77,16 +77,10 @@ fileHelper.download = function (id, entityId, type, onSuccess, onError) {
 			filePath,
 			function (entry) {
 			    var targetPath = entry.toURL();
-			    var extension = targetPath.split('.').pop();
-
-			    var typeMime = "";
-			    if (extension == "pdf") typeMime = "application/pdf";
-			    else if (extension == "jpg") typeMime = "image/jpeg";
-                else if (extension == "jpeg") typeMime = "image/jpeg";
-
+			    
 			    try {
 			        cordova.plugins.fileOpener2.open(
-                        targetPath, typeMime,
+                        targetPath, mimeType,
                         { 
                             error : function(e) { 
                                 onError.apply(this, arguments);

@@ -91,6 +91,7 @@ namespace TakeDocApi.Controllers
                         back.Add(itemAutoComplete);
                     }
                     else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("FILE")) {
+                        TakeDocModel.MetaDataFile file = metadata.MetaDataFile.First();
                         var itemFile = new
                         {
                             id = metadata.MetaDataId,
@@ -104,9 +105,13 @@ namespace TakeDocApi.Controllers
                             entityId = metadata.EntityId,
                             file = new
                             {
-                                data= string.Empty,
-                                path= string.Empty,
-                                name= string.Empty
+                                id = file.MetaDataFileId,
+                                reference = file.MetaDataFileReference,
+                                data = file.MetaDataFileData,
+                                path = file.MetaDataFilePath,
+                                name = file.MetaDataFileName,
+                                mimeType = file.MetaDataFileMimeType,
+                                extension = file.MetaDataFileExtension
                             }
                         };
                         back.Add(itemFile);

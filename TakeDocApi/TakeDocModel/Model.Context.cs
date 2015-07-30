@@ -235,5 +235,14 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SearchUserTkFullText_Result>("SearchUserTkFullText", currentUserIdParameter, valueParameter, entityIdParameter);
         }
+    
+        public virtual ObjectResult<string> GetMediaType(string extension)
+        {
+            var extensionParameter = extension != null ?
+                new ObjectParameter("extension", extension) :
+                new ObjectParameter("extension", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMediaType", extensionParameter);
+        }
     }
 }

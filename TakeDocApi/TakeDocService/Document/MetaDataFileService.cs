@@ -47,7 +47,8 @@ namespace TakeDocService.Document
                 UserCreateData = userId,
                 DateCreateData = System.DateTimeOffset.UtcNow,
                 EtatDeleteData = false,
-                EntityId = entity.EntityId
+                EntityId = entity.EntityId,
+                MetaDataFileExtension = file.Extension.Replace(".",string.Empty)
             };
             try
             {

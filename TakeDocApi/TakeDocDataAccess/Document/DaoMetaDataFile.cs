@@ -12,6 +12,7 @@ namespace TakeDocDataAccess.Document
         {
             if (string.IsNullOrEmpty(file.MetaDataFileReference)) file.MetaDataFileReference = base.GenerateReference("MetaDataFile");
             file.DateCreateData = System.DateTimeOffset.UtcNow;
+            file.MetaDataFileMimeType = this.Context.GetMediaType(file.MetaDataFileExtension.Replace(".", string.Empty)).First().ToString();
             if (file.MetaDataFileId.Equals(System.Guid.Empty)) file.MetaDataFileId = System.Guid.NewGuid();
             this.Context.MetaDataFile.Add(file);
             this.Context.SaveChanges();

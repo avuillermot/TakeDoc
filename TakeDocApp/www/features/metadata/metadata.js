@@ -55,7 +55,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
         if (current.length > 0) {
             if ($rootScope.isApp == false) fileHelper.readFileUrl(current[0].get("id"), current[0].get("entityId"), success, error);
-            else fileHelper.download(current[0].get("id"), current[0].get("entityId"), "medatafile", success, error);
+            else fileHelper.download(current[0].get("id"), current[0].get("entityId"), "medatafile", current[0].get("mimeType"), success, error);
         }
     };
 

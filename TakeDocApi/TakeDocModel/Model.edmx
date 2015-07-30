@@ -201,6 +201,8 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="MetaDataId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="MetaDataFileMimeType" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="MetaDataFileExtension" Type="nvarchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -796,6 +798,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <Function Name="GetDocumentToValidate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userId" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="GetMediaType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="extension" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="GetNewReference" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="table" Type="nvarchar" Mode="In" />
           <Parameter Name="reference" Type="nvarchar" Mode="InOut" />
@@ -1194,6 +1199,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="MetaData" EntitySet="MetaData" />
             <End Role="MetaDataFile" EntitySet="MetaDataFile" />
           </AssociationSet>
+          <FunctionImport Name="GetMediaType" ReturnType="Collection(String)">
+          <Parameter Name="extension" Mode="In" Type="String" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -2054,6 +2062,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="MetaDataFilePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="MetaDataId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="MetaData" Relationship="TakeDocModel.FK_MetaDataFile_MetaData" FromRole="MetaDataFile" ToRole="MetaData" />
+          <Property Name="MetaDataFileMimeType" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataFileExtension" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_MetaDataFile_MetaData">
           <End Type="TakeDocModel.MetaData" Role="MetaData" Multiplicity="1" />
@@ -2597,6 +2607,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="MetaDataFile">
             <EntityTypeMapping TypeName="TakeDocModel.MetaDataFile">
               <MappingFragment StoreEntitySet="MetaDataFile">
+                <ScalarProperty Name="MetaDataFileExtension" ColumnName="MetaDataFileExtension" />
+                <ScalarProperty Name="MetaDataFileMimeType" ColumnName="MetaDataFileMimeType" />
                 <ScalarProperty Name="MetaDataId" ColumnName="MetaDataId" />
                 <ScalarProperty Name="MetaDataFilePath" ColumnName="MetaDataFilePath" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
@@ -2613,6 +2625,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetMediaType" FunctionName="TakeDocModel.Store.GetMediaType" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

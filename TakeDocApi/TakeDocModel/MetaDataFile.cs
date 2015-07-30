@@ -27,6 +27,8 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public string MetaDataFilePath { get; set; }
         public System.Guid MetaDataId { get; set; }
+        public string MetaDataFileMimeType { get; set; }
+        public string MetaDataFileExtension { get; set; }
     
         public virtual MetaData MetaData { get; set; }
     }

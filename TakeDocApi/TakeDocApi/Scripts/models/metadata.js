@@ -25,7 +25,9 @@ var MetaDataFile = Backbone.Model.extend({
         reference: null,
         name: null,
         path: null,
-        data: null
+        data: null,
+        extension: null,
+        mimeType: null
     },
     parse: function () {
         var current = arguments[0];
@@ -33,8 +35,11 @@ var MetaDataFile = Backbone.Model.extend({
         this.set("reference", current.reference);
         this.set("id", current.id);
         this.set("name", current.name);
-        this.set("path", current.data);
+        this.set("path", current.path);
         this.set("data", current.data);
+        this.set("extension", current.extension);
+        this.set("mimeType", current.mimeType);
+        debugger;
         return this;
     }
 });
