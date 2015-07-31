@@ -24,18 +24,24 @@ namespace TakeDocService.Document
             return f;
         }
 
-        public TakeDocModel.MetaDataFile Create(string fullName, byte[] data, Guid metadataId, Guid userId, TakeDocModel.Entity entity)
+        public void Delete(Guid metaDataId, Guid userId)
         {
-            ICollection<TakeDocModel.MetaDataFile> mFiles = daoMdFile.GetBy(x => x.MetaDataId == metadataId && x.EntityId == entity.EntityId);
-            System.IO.FileInfo f = this.GetFile(fullName);
-            foreach (TakeDocModel.MetaDataFile mFile in mFiles)
-            {
-                System.IO.FileInfo delete = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, mFile.MetaDataFileReference, new System.IO.FileInfo(mFile.MetaDataFileName).Extension.Replace(".", string.Empty), false);
-                if (delete.Exists) delete.Delete();
-                daoMdFile.Delete(mFile);
-            }
+            daoMdFile.Delete(metaDataId, userId);
+        }
+
+        /*public void Update(TakeDocModel.MetaDataFile file, Guid userId)
+        {
+            daoMdFile.Update(file, userId);
+        }*/
+        
+        public TakeDocModel.MetaDataFile Update(string fullName, byte[] data, Guid metadataId, Guid userId, TakeDocModel.Entity entity)
+        {
+            ICollection<TakeDocModel.MetaDataFile> mFiles = daoMdFile.GetBy(x => x.MetaDataId == metadataId && x.EntityId == entity.EntityId && x.EtatDeleteData == false);
+            foreach (TakeDocModel.MetaDataFile mFile in mFiles) daoMdFile.Delete(mFile.MetaDataId, userId);
 
             string reference = daoMdFile.GenerateReference();
+
+            System.IO.FileInfo f = this.GetFile(fullName);
             System.IO.FileInfo file = this.GenerateUNC(entity.EntityReference, TakeDocModel.Environnement.MetaDataFileStoreUNC, reference, f.Extension.Replace(".", string.Empty), true);
                                   
             TakeDocModel.MetaDataFile back = new TakeDocModel.MetaDataFile()
@@ -88,7 +94,7 @@ namespace TakeDocService.Document
 
         public string GetUrlFile(Guid metadataId, Guid entityId)
         {
-            ICollection<TakeDocModel.MetaDataFile> files = daoMdFile.GetBy(x => x.MetaDataId == metadataId && x.EntityId == entityId);
+            ICollection<TakeDocModel.MetaDataFile> files = daoMdFile.GetBy(x => x.MetaDataId == metadataId && x.EntityId == entityId && x.EtatDeleteData == false);
             byte[] data = System.IO.File.ReadAllBytes(string.Concat(TakeDocModel.Environnement.MetaDataFileStoreUNC, files.First().MetaDataFilePath));
             System.IO.FileInfo file = new System.IO.FileInfo(string.Concat(TakeDocModel.Environnement.TempDirectory, files.First().MetaDataFileName));
             if (System.IO.File.Exists(file.FullName)) System.IO.File.Delete(file.FullName);

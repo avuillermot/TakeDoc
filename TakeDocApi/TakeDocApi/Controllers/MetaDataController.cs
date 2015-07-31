@@ -91,7 +91,11 @@ namespace TakeDocApi.Controllers
                         back.Add(itemAutoComplete);
                     }
                     else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("FILE")) {
-                        TakeDocModel.MetaDataFile file = metadata.MetaDataFile.First();
+                        TakeDocModel.MetaDataFile file = null;
+                        ICollection<TakeDocModel.MetaDataFile> files = metadata.MetaDataFile.Where(x => x.EtatDeleteData == false).ToList();
+                        if (files.Count() > 0) file = files.First();
+                        else file = new TakeDocModel.MetaDataFile();
+    
                         var itemFile = new
                         {
                             id = metadata.MetaDataId,

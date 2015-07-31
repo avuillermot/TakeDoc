@@ -39,7 +39,6 @@ var MetaDataFile = Backbone.Model.extend({
         this.set("data", current.data);
         this.set("extension", current.extension);
         this.set("mimeType", current.mimeType);
-        debugger;
         return this;
     }
 });
@@ -186,19 +185,26 @@ var MetaDatas = Backbone.Collection.extend({
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
             else if (model.get("type") == "file") {
+                var hasFile = model.get("value") == null || model.get("value") != "";
                 count++;
-                var currentModel = model;
-                fileHelper.read(currentModel.get("file").get("path")).then(function (fileBin) {
-                    if (fileBin != null) {
-                        var metaFile = currentModel.get("file");
-                        metaFile.set("data", fileBin);
-                    }
+                if (hasFile) {
+                    var currentModel = model;
+                    fileHelper.read(currentModel.get("file").get("path")).then(function (fileBin) {
+                        if (fileBin != null) {
+                            var metaFile = currentModel.get("file");
+                            metaFile.set("data", fileBin);
+                        }
+                        if (count == nbFile) fnSave(that.models, ctx);
+                    });
+                }
+                else {
+                    var metaFile = model.get("file");
+                    metaFile.set("data", null);
                     if (count == nbFile) fnSave(that.models, ctx);
-                });
+                }
             }
         });
         if (nbFile == 0) fnSave(this.models, ctx);
-
     },
 
     generatePdf: function (param) {

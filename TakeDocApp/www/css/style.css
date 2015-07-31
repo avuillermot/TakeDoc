@@ -96,16 +96,12 @@ div.button-bar {
 }
 
 .metadata-item-list {
-    height:50px;
+    height:60px;
     padding:0px; 
     margin-top:2px; 
     margin-left:2px; 
     margin-bottom:0px; 
     margin-right:0px;
-}
-
-.metadata-item-list-file {
-    height:80px !important;
 }
 
 .metadata-item-filename {

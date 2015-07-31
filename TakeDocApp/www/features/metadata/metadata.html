@@ -21,8 +21,8 @@
                        <div ng-switch-when="file" ng-readonly="mode == 'READ'">
                            <div class="metadata-item-filename">{{metadata.attributes.value}}</div>
                            <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doOpenDocument(metadata.attributes.id)" class="button button-small button-light ion-document"></div>
-                           <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doCancelDocument(metadata.attributes.id)" class="button button-small button-light ion-android-cancel"></div>
-                           <div ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search"></div>
+                           <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doCancelDocument(metadata.attributes.id)" class="button button-small button-light ion-android-cancel" style="margin-left:10px;"></div>
+                           <div ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search" style="margin-left:10px;"></div>
                        </div>
 
                        <input ng-switch-when="date" ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />

@@ -54,19 +54,32 @@ namespace TakeDocService.Document
 
                 if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("FILE"))
                 {
-                    string path = obj.GetValue("file").Value<string>("name");
+                    string fileName = obj.GetValue("file").Value<string>("name");
+                    string filePath = obj.GetValue("file").Value<string>("path");
                     string dataFile = obj.GetValue("file").Value<string>("data");
 
-                    meta.MetaDataFile = new List<TakeDocModel.MetaDataFile>();
-                    TakeDocModel.MetaDataFile file = new TakeDocModel.MetaDataFile();
-                    file.MetaDataFilePath = path;
-                    file.MetaDataFileData = Convert.FromBase64String(dataFile.Substring(dataFile.IndexOf(";base64,") + 8));
-                    file.MetaDataId = meta.MetaDataId;
-                    files.Add(file);
+                    // if no metadatavalue, it's to delete
+                    bool toDel = string.IsNullOrEmpty(meta.MetaDataValue);
+                    bool toUpdate = string.IsNullOrEmpty(fileName) == false && string.IsNullOrEmpty(dataFile) == true;
+                    bool toAdd = string.IsNullOrEmpty(fileName) == false && string.IsNullOrEmpty(dataFile) == false;
 
-                    meta.MetaDataValue = servMdFile.GetFile(path).Name;
+                    if (toDel) servMdFile.Delete(meta.MetaDataId, userId);
+                    else if (toAdd)
+                    {
+                        meta.MetaDataFile = new List<TakeDocModel.MetaDataFile>();
+                        TakeDocModel.MetaDataFile file = new TakeDocModel.MetaDataFile();
+
+                        file.EtatDeleteData = false;
+                        file.MetaDataFilePath = filePath;
+                        file.MetaDataId = meta.MetaDataId;
+                        meta.MetaDataValue = servMdFile.GetFile(filePath).Name;
+                        file.MetaDataFileData = Convert.FromBase64String(dataFile.Substring(dataFile.IndexOf(";base64,") + 8));
+
+                        files.Add(file);
+                    }
                 }
             }
+
             ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(document.DocumentTypeId, document.EntityId);
             foreach (TakeDocModel.MetaData meta in metadatas)
             {
@@ -87,7 +100,7 @@ namespace TakeDocService.Document
                     {
                         foreach (TakeDocModel.MetaDataFile file in metaFiles)
                         {
-                            servMdFile.Create(file.MetaDataFilePath, file.MetaDataFileData, metadata.MetaDataId, userId, entity);
+                            if (file.MetaDataFileData != null) servMdFile.Update(file.MetaDataFilePath, file.MetaDataFileData, metadata.MetaDataId, userId, entity);
                         }
                     }
                 }

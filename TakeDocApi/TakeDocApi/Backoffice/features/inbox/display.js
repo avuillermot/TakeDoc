@@ -301,7 +301,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         var base64;
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
-            debugger;
             var current = documentDisplay.data.metadatas.where({ id: metadataId });
             if (current.length > 0) {
                 base64 = event.target.result;
