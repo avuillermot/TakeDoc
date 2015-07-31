@@ -28,11 +28,6 @@ namespace TakeDocService.Document
         {
             daoMdFile.Delete(metaDataId, userId);
         }
-
-        /*public void Update(TakeDocModel.MetaDataFile file, Guid userId)
-        {
-            daoMdFile.Update(file, userId);
-        }*/
         
         public TakeDocModel.MetaDataFile Update(string fullName, byte[] data, Guid metadataId, Guid userId, TakeDocModel.Entity entity)
         {

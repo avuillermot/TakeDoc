@@ -60,6 +60,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     };
 
     $scope.doSave = function () {
+        debugger;
         $ionicLoading.show({
             template: 'Enregistrement...'
         });

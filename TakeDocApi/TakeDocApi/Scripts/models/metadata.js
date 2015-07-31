@@ -185,7 +185,7 @@ var MetaDatas = Backbone.Collection.extend({
                 model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
             else if (model.get("type") == "file") {
-                var hasFile = model.get("value") == null || model.get("value") != "";
+                var hasFile = model.get("file").get("path") != null && model.get("file").get("path") != "";
                 count++;
                 if (hasFile) {
                     var currentModel = model;

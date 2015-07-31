@@ -72,7 +72,7 @@ namespace TakeDocService.Document
                         file.EtatDeleteData = false;
                         file.MetaDataFilePath = filePath;
                         file.MetaDataId = meta.MetaDataId;
-                        meta.MetaDataValue = servMdFile.GetFile(filePath).Name;
+                        file.MetaDataFileName = servMdFile.GetFile(filePath).Name;
                         file.MetaDataFileData = Convert.FromBase64String(dataFile.Substring(dataFile.IndexOf(";base64,") + 8));
 
                         files.Add(file);
