@@ -123,7 +123,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         documentsExt.delete(param);
     };
 
-    $scope.doSave = function () {
+    $scope.doSave = function (startWorkflow) {
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
@@ -145,7 +145,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var paramMeta = {
                 userId: $rootScope.getUser().Id,
                 entityId: $scope.document.get("entityId"),
-                versionId: $scope.document.get("versionId")
+                versionId: $scope.document.get("versionId"),
+                startWorkflow: startWorkflow
             };
             var paramDoc = {
                 userId: $rootScope.getUser().Id,
@@ -167,9 +168,13 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 current[0].set("value", elemMetaValue);
             });
 
+            debugger;
             if (hasChanged()) {
                 $rootScope.showLoader("Enregistrement....");
                 document.setTitle(paramDoc);
+            }
+            else if (startWorkflow) {
+                documentDisplay.data.metadatas.startWorkflow(paramMeta, success, error);
             }
         }
     };

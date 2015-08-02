@@ -111,7 +111,7 @@ namespace UnitTestTakeDocService.Workflow
             metas.Add("REFACTURABLE", "true");
             metas.Add("MONTANT", "20");
             throw new Exception("new metada");
-            servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, null);
+            servDocument.SetMetaData(userId, entityId, MyDocument.DocumentCurrentVersionId.Value, null, true);
             
             ICollection<TakeDocModel.DocumentStatusHisto> histos = servStatus.GetStatus(MyDocument);
             Assert.IsTrue(histos.Count() == 2, "create, complete in this order");

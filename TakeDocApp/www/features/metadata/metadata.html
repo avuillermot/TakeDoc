@@ -12,17 +12,17 @@
                        <select ng-switch-when="list" ng-readonly="mode == 'READ'" ng-model="metadata.attributes.value" class="ion-input-select" style="height:20px" tabindex="{{metadata.attributes.index}}">
                            <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}" ng-selected="metadata.attributes.value == item.attributes.key">{{item.attributes.text}}</option>
                        </select>
-                       <div ng-switch-when="textarea" ng-readonly="mode == 'READ'">
-                           <textarea id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
+                       <div ng-switch-when="textarea">
+                           <textarea ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
                        </div>
-                       <div ng-switch-when="autocomplete" ng-readonly="mode == 'READ'">
-                           <textarea rows="5" class="metadata-autocomplete-value" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" readonly="readonly"></textarea>
+                       <div ng-switch-when="autocomplete">
+                           <textarea ng-readonly="mode == 'READ'" rows="5" class="metadata-autocomplete-value" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" readonly="readonly"></textarea>
                        </div>
                        <div ng-switch-when="file" ng-readonly="mode == 'READ'">
                            <div class="metadata-item-filename">{{metadata.attributes.value}}</div>
                            <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doOpenDocument(metadata.attributes.id)" class="button button-small button-light ion-document"></div>
-                           <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doCancelDocument(metadata.attributes.id)" class="button button-small button-light ion-android-cancel" style="margin-left:10px;"></div>
-                           <div ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search" style="margin-left:10px;"></div>
+                           <div ng-hide="mode == 'READ' || metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doCancelDocument(metadata.attributes.id)" class="button button-small button-light ion-android-cancel" style="margin-left:10px;"></div>
+                           <div ng-hide="mode == 'READ'" ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search" style="margin-left:10px;"></div>
                        </div>
 
                        <input ng-switch-when="date" ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" />
@@ -42,7 +42,8 @@
     <ion-footer-bar>
         <div class="button-bar">
             <div go-back="true"></div>
-            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" valid-input="doSave()"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" valid-input="doSave(false)"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" go-click-class="ion-jet" valid-input="doSave(true)"></div>
             <div back-button ng-show="mode == 'READ'"></div>
         </div>
     </ion-footer-bar>

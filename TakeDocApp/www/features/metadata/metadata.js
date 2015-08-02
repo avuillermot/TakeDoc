@@ -16,7 +16,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        if (metas.length == 0) $scope.doSave();
+        if (metas.length == 0) $scope.doSave(true);
     });
 
     $scope.doAutocompleteOnFocus = function (id) {
@@ -59,8 +59,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         }
     };
 
-    $scope.doSave = function () {
-        debugger;
+    $scope.doSave = function (startWorkflow) {
         $ionicLoading.show({
             template: 'Enregistrement...'
         });
@@ -81,7 +80,8 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         $rootScope.myTakeDoc.Metadatas.save({
             userId: $rootScope.User.Id,
             entityId: $rootScope.myTakeDoc.get("EntityId"),
-            versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId")
+            versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
+            startWorkflow: startWorkflow
         }, success, error);
         return false;
     };

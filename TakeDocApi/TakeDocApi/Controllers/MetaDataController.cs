@@ -147,19 +147,37 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPost]
-        [Route("Version/{versionId}/{userId}/{entityId}")]
+        [Route("Version/{versionId}/{userId}/{entityId}/{startWorkflow}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
-        public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, [FromBody]string value)
+        public HttpResponseMessage SetMetaData(Guid versionId, Guid userId, Guid entityId, bool startWorkflow, [FromBody]string value)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
             {
-                servDocument.SetMetaData(userId, entityId, versionId, value);
+                servDocument.SetMetaData(userId, entityId, versionId, value, startWorkflow);
                 return Request.CreateResponse();
             }
             catch (Exception ex)
             {
                 var msg = new {Message = ex.Message};
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, msg);
+            }
+        }
+
+        [HttpPost]
+        [Route("Version/StartWorkflow/{versionId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage StartWorkflow(Guid versionId, Guid userId, Guid entityId)
+        {
+            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
+            try
+            {
+                servDocument.StartWorkflow(userId, entityId, versionId);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                var msg = new { Message = ex.Message };
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, msg);
             }
         }

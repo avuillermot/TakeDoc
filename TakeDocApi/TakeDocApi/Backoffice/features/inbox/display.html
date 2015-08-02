@@ -1,6 +1,7 @@
 ﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="title != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
@@ -47,9 +48,9 @@
 
                                     <div ng-switch-when="file" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}">
                                         <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-info glyphicon glyphicon-eye-open" style="cursor:pointer" ng-click="doOpenFile(metadata.attributes.id)">&#160;{{metadata.attributes.value}}</span>
-                                        <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-danger glyphicon glyphicon-remove" style="cursor:pointer" ng-click="fileRemove(metadata.attributes.id)">&#160;</span>
+                                        <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-danger glyphicon glyphicon-remove" style="cursor:pointer" ng-click="fileRemove(metadata.attributes.id)" ng-hide="document.isReadOnly()">&#160;</span>
                                         <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" flow-init=""
-                                             flow-file-added="fileAdd($file, $event, $flow, metadata.attributes.id)">
+                                             flow-file-added="fileAdd($file, $event, $flow, metadata.attributes.id)" ng-hide="document.isReadOnly()">
                                             <input flow-btn="" type="file" />
                                         </div>
                                     </div>
