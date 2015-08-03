@@ -43,7 +43,7 @@
                     <div class="col-md-9 inbox-metadata" id="divinput-{{field.attributes.id}}-{{field.attributes.name}}">
                         <input ng-switch-when="ion-toggle" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="checkbox" class="search-field" ng-model="field.attributes.value" ng-checked=" field.attributes.value= ='True' " />
                         <input ng-switch-when="number" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
-                        <input ng-switch-when="text" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
+                        <input ng-switch-default="" id="input-{{field.attributes.id}}-{{field.attributes.name}}" type="{{field.attributes.inputType}}" ng-model="field.attributes.value" class="search-item-input search-field" />
                     </div>
                 </div>
             </form>

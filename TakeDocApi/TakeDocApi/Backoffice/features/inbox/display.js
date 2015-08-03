@@ -248,6 +248,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
         var fDisplayModal = function () {
             $("#modalAnswerWorkflow").modal("show");
+            $("#comment").val("");
         };
         
         var param = {

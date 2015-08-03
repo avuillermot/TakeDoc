@@ -1,7 +1,7 @@
 ﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="title != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
-        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
-        <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement=" bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
+        <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
         
@@ -125,7 +125,7 @@
                 </div>
                 <div>&#160;</div>
                 <div class="form-group">
-                    <label for="comment">Comment:</label>
+                    <label for="comment">Commentaire:</label>
                     <textarea class="form-control" rows="5" id="comment"></textarea>
                 </div>
 

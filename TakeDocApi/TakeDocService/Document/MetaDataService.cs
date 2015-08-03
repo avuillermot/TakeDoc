@@ -80,16 +80,9 @@ namespace TakeDocService.Document
                 }
             }
 
-            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(document.DocumentTypeId, document.EntityId);
-            foreach (TakeDocModel.MetaData meta in metadatas)
-            {
-                ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == meta.MetaDataName && x.TypeDocumentId == document.DocumentTypeId).ToList();
-                if (field.Count() > 0)
-                {
-                    bool ok = this.IsValid(field.First().TypeId, meta.MetaDataValue, field.First().Mandatory);
-                    if (ok == false) throw new Exception("MetaData non valide.");
-                }
-            }
+            bool ok = this.BeProven(document, metadatas);
+            if (ok == false) throw new Exception("MetaData non valide.");
+
             try
             {
                 daoMetaData.SetMetaData(userId, document.EntityId, document.DocumentTypeId, metadatas);
@@ -112,12 +105,40 @@ namespace TakeDocService.Document
             }
         }
 
-        public bool IsValid(string typeName, string value, bool required)
+        /// <summary>
+        /// Check if metadata is valid (type, mandatory, .....)
+        /// </summary>
+        /// <param name="document"></param>
+        /// <param name="metadatas"></param>
+        /// <returns></returns>
+        public bool BeProven(TakeDocModel.Document document, ICollection<TakeDocModel.MetaData> metadatas)
+        {
+            ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(document.DocumentTypeId, document.EntityId);
+            foreach (TakeDocModel.MetaData meta in metadatas)
+            {
+                ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == meta.MetaDataName && x.TypeDocumentId == document.DocumentTypeId).ToList();
+                if (field.Count() > 0)
+                {
+                    bool ok = this.BeProven(field.First().TypeId, meta.MetaDataValue, field.First().Mandatory);
+                    if (ok == false) throw new Exception("MetaData non valide.");
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Check if value is valid
+        /// </summary>
+        /// <param name="typeName"></param>
+        /// <param name="value"></param>
+        /// <param name="required"></param>
+        /// <returns></returns>
+        public bool BeProven(string typeName, string value, bool required)
         {
             bool result = true;
             try
             {
-                this.Valid(typeName, value, required);
+                this.Assert(typeName, value, required);
             }
             catch (Exception ex)
             {
@@ -126,7 +147,7 @@ namespace TakeDocService.Document
             return result;
         }
 
-        private void Valid(string typeName, string value, bool required)
+        private void Assert(string typeName, string value, bool required)
         {
             if (string.IsNullOrEmpty(value) == true && required == true) throw new Exception("Bad data");
             if (typeName.StartsWith("System.String")) typeName = "System.String";

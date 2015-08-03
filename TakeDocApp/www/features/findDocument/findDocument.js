@@ -12,7 +12,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         }
     };
     $scope.$on("findDocument$refreshPage", fRefresh);
-
+    
     var onSuccess = function (collection) {
         extDocuments = collection;
         $scope.documents = extDocuments.models;
@@ -60,7 +60,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
             var onSuccess = function () {
-                    var starter = (mode == "INCOMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
+                var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
                     var step = $rootScope.Scenario.start("");
                     step = $rootScope.Scenario.start(starter);
                     $location.path(step.to.substr(2));

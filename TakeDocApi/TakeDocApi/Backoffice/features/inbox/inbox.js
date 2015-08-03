@@ -139,6 +139,10 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         }
     }
 
+    $scope.doRefresh = function () {
+        setDashBoard();
+    }
+
     /**************************************************
     ***************************************************
     display/use directory list and directory to display

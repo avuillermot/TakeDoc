@@ -182,13 +182,13 @@ namespace UnitTestTakeDocService.Document
         [TestMethod]
         public void IsValidMetaData()
         {
-            Assert.IsTrue(servMetaData.IsValid("System.String", "test",true));
-            Assert.IsFalse(servMetaData.IsValid("System.DateTimeOffset", "test",true));
-            Assert.IsTrue(servMetaData.IsValid("System.DateTimeOffset", System.DateTimeOffset.UtcNow.ToString(),true));
-            Assert.IsFalse(servMetaData.IsValid("System.Boolean", "test",true));
-            Assert.IsTrue(servMetaData.IsValid("System.Boolean", "true",true));
-            Assert.IsFalse(servMetaData.IsValid("System.String", string.Empty, true));
-            Assert.IsFalse(servMetaData.IsValid("System.String", null, true));
+            Assert.IsTrue(servMetaData.BeProven("System.String", "test",true));
+            Assert.IsFalse(servMetaData.BeProven("System.DateTimeOffset", "test",true));
+            Assert.IsTrue(servMetaData.BeProven("System.DateTimeOffset", System.DateTimeOffset.UtcNow.ToString(),true));
+            Assert.IsFalse(servMetaData.BeProven("System.Boolean", "test",true));
+            Assert.IsTrue(servMetaData.BeProven("System.Boolean", "true",true));
+            Assert.IsFalse(servMetaData.BeProven("System.String", string.Empty, true));
+            Assert.IsFalse(servMetaData.BeProven("System.String", null, true));
         }
 
         [TestMethod]

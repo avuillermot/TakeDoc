@@ -93,9 +93,11 @@ namespace TakeDocService.Document
                 TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
 
                 servMeta.SetMetaData(userId, document, entity, json);
+                // if there is exception, all metadata are ok -> so document is complete
+                servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
                 if (startWorkflow)
                 {
-                    this.StartWorkflow(document, user, entityId);
+                    this.StartWorkflow(document, user, entityId, false);
                 }
                 transaction.Complete();
             }
@@ -106,50 +108,61 @@ namespace TakeDocService.Document
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
             TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
 
-            this.StartWorkflow(document, user, entityId);
+            this.StartWorkflow(document, user, entityId, true);
         }
 
-        private void StartWorkflow(TakeDocModel.Document document, TakeDocModel.UserTk user, Guid entityId)
+        private void StartWorkflow(TakeDocModel.Document document, TakeDocModel.UserTk user, Guid entityId, bool checkValue)
         {
-            using (TransactionScope transaction = new TransactionScope())
+            bool ok = true;
+            if (checkValue)
             {
-                //***********************************
-                // update status of document
-                //***********************************
-                TakeDocModel.WorkflowType validation = document.Type_Document.WorkflowType;
+                TakeDocModel.Version version = servVersion.GetById(document.DocumentCurrentVersionId.Value, x => x.MetaData);
+                ok = servMeta.BeProven(document, version.MetaData);
+                // here, all metadata are ok, so document is complete
+                servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
+            }
+            if (ok)
+            {
+                using (TransactionScope transaction = new TransactionScope())
+                {
+                    //***********************************
+                    // update status of document
+                    //***********************************
+                    TakeDocModel.WorkflowType validation = document.Type_Document.WorkflowType;
 
-                TakeDocService.Workflow.Document.Interface.IValidation wfValidation = null;
-                if (validation.WorkflowTypeReference == "AUTO")
-                {
-                    wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
-                    wfValidation.Execute(document, user);
-                }
-                else if (validation.WorkflowTypeReference == "NO")
-                {
-                    wfValidation = new TakeDocService.Workflow.Document.ValidationNo();
-                    wfValidation.Execute(document, user);
-                }
-                else if (validation.WorkflowTypeReference == "MANAGER")
-                {
-                    wfValidation = new TakeDocService.Workflow.Document.ValidationManager();
-                    wfValidation.Execute(document, user);
-                }
-                else if (validation.WorkflowTypeReference == "BACKOFFICE")
-                {
-                    wfValidation = new TakeDocService.Workflow.Document.ValidationBackOffice();
-                    wfValidation.Execute(document, user);
-                }
-                else if (validation.WorkflowTypeReference == "MANAGER-BACKOFFICE")
-                {
-                    wfValidation = new TakeDocService.Workflow.Document.ValidationManagerBackOffice();
-                    wfValidation.Execute(document, user);
-                }
+                    TakeDocService.Workflow.Document.Interface.IValidation wfValidation = null;
+                    if (validation.WorkflowTypeReference == "AUTO")
+                    {
+                        wfValidation = new TakeDocService.Workflow.Document.ValidationAuto();
+                        wfValidation.Execute(document, user);
+                    }
+                    else if (validation.WorkflowTypeReference == "NO")
+                    {
+                        wfValidation = new TakeDocService.Workflow.Document.ValidationNo();
+                        wfValidation.Execute(document, user);
+                    }
+                    else if (validation.WorkflowTypeReference == "MANAGER")
+                    {
+                        wfValidation = new TakeDocService.Workflow.Document.ValidationManager();
+                        wfValidation.Execute(document, user);
+                    }
+                    else if (validation.WorkflowTypeReference == "BACKOFFICE")
+                    {
+                        wfValidation = new TakeDocService.Workflow.Document.ValidationBackOffice();
+                        wfValidation.Execute(document, user);
+                    }
+                    else if (validation.WorkflowTypeReference == "MANAGER-BACKOFFICE")
+                    {
+                        wfValidation = new TakeDocService.Workflow.Document.ValidationManagerBackOffice();
+                        wfValidation.Execute(document, user);
+                    }
 
-                //***********************************
-                // end update status of document
-                //***********************************
+                    //***********************************
+                    // end update status of document
+                    //***********************************
 
-                transaction.Complete();
+                    transaction.Complete();
+                }
             }
         }
         
