@@ -69,9 +69,9 @@ FileSelector.prototype = {
         $elem.html(
 		'<div class="path">file:///storage/extSdCard/</div>' + "\n" +
 		'<div class="fileselector-container">' + "\n" +
-		'	<div class="fileselector-item directory back row-result ion-android-arrow-dropright"><i></i> ..</div>' + "\n" +
+		'	<div class="fileselector-item directory back row-result ion-backspace"><i></i> ......</div>' + "\n" +
 		'	<div class="not-ready">' + "\n" +
-		'		<span>Opening...</span>' + "\n" +
+		'		<span>&#160;</span>' + "\n" +
 		'	</div>' + "\n" +
 		'</div>' + "\n" 
 		//'<div class="options show"><select class="mask"></select></div>'
@@ -195,7 +195,9 @@ FileSelector.prototype = {
                         var entry = entries[i];
                         var name = entry.name;
                         var item = {
-                            html: '<div class="fileselector-item ' + (entry.isDirectory ? 'directory' : 'file') + '" data-url="' + entry.nativeURL + '"><i></i>' + entry.name + '</div>',
+                            html: '<div class="fileselector-item ' + (entry.isDirectory ? 'directory' : 'file') 
+                                + ' ' + (entry.isDirectory ? 'ion-android-arrow-dropright' : 'ion-document') + '" data-url="'
+                                + entry.nativeURL + '"><i></i>&#160;' + entry.name + '</div>',
                             name: entry.name
                         };
                         if (entry.isDirectory)
