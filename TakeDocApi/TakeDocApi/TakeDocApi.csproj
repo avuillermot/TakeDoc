@@ -210,7 +210,6 @@
     <Compile Include="Controllers\oData\TypeDocumentsController.cs" />
     <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
-    <Compile Include="Controllers\TakeDoc\TakeDocFrController.cs" />
     <Compile Include="Controllers\TokenController.cs" />
     <Compile Include="Controllers\TypeDocumentController.cs" />
     <Compile Include="Controllers\WorkflowController.cs" />

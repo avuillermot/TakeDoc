@@ -18,6 +18,7 @@
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#detail" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Détails</a></li>
+                    <li role="presentation"><a href="#photos" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Photos</a></li>
                     <li role="presentation"><a href="#history" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Workflow</a></li>
                 </ul>
 
@@ -62,17 +63,18 @@
                                     <input ng-switch-default="" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                 </div>
                             </div>
+                        </form>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="photos">
+                        <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid">
                             <div class="form-group" ng-if="pages.models.length > 0">
-                                <label class="control-label">Page(s)</label>
-                                <div style="padding-top:3px">
-                                    <img ng-repeat="page in pages.models | orderBy:['attributes.index']" data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />
+                                <div ng-repeat="page in pages.models | orderBy:['attributes.index']">
+                                    <img data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />&#160;Page&#160;{{page.attributes.index}}
                                 </div>
                             </div>
-                        </form>
-                        
+                        </div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="history">
-
                         <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid" ng-repeat="history in historys.models">
                             <div class="row">
                                 <div class="col-md-4" style="font-weight:bold">{{history.attributes.statusLabel}}</div>
@@ -97,7 +99,7 @@
                                      {{action.attributes.answerLabel}}
                                 </div>
                             </div>
-                        </divclass="form-horizontal">
+                        </div>
                     </div>
                 </div>
             </div>
