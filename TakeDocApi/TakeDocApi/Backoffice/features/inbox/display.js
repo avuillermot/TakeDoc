@@ -168,13 +168,15 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 current[0].set("value", elemMetaValue);
             });
 
-            debugger;
             if (hasChanged()) {
                 $rootScope.showLoader("Enregistrement....");
                 document.setTitle(paramDoc);
             }
             else if (startWorkflow) {
-                documentDisplay.data.metadatas.startWorkflow(paramMeta, success, error);
+                var fn = function () {
+                    documentDisplay.data.metadatas.startWorkflow(paramMeta, success, error);
+                };
+                $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }
         }
     };

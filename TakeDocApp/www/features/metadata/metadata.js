@@ -60,9 +60,6 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     };
 
     $scope.doSave = function (startWorkflow) {
-        $ionicLoading.show({
-            template: 'Enregistrement...'
-        });
         $scope.$on("metadata$refreshPage", fRefresh);
 
         var success = function () {
@@ -77,12 +74,25 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
             $rootScope.PopupHelper.show("Informations", msg);
         };
 
-        $rootScope.myTakeDoc.Metadatas.save({
-            userId: $rootScope.User.Id,
-            entityId: $rootScope.myTakeDoc.get("EntityId"),
-            versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
-            startWorkflow: startWorkflow
-        }, success, error);
+        var fn = function () {
+            if (arguments[0] === "Ok") {
+                $ionicLoading.show({
+                    template: 'Enregistrement...'
+                });
+
+                $rootScope.myTakeDoc.Metadatas.save({
+                    userId: $rootScope.User.Id,
+                    entityId: $rootScope.myTakeDoc.get("EntityId"),
+                    versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
+                    startWorkflow: startWorkflow
+                }, success, error);
+            }
+        };
+
+        if (startWorkflow) {
+            $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
+        }
+        else fn("Ok");
         return false;
     };
 }]);
