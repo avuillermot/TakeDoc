@@ -87,5 +87,25 @@ namespace TakeDocService.Document
  
             return string.Concat(prefix, Convert.ToBase64String(data));
         }
+
+        public void Update(Guid versionId, string json)
+        {
+            ICollection<TakeDocModel.Page> pages = daoPage.GetBy(x => x.PageVersionId == versionId);
+
+            Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(json);
+            foreach (Newtonsoft.Json.Linq.JObject obj in data)
+            {
+                Guid pageId = new Guid(obj.Value<string>("id"));
+                int rotation = obj.Value<int>("rotation");
+                ICollection<TakeDocModel.Page> myPages = pages.Where(x => x.PageId == pageId).ToList();
+                if (myPages.Count() > 0)
+                {
+                    TakeDocModel.Page page = myPages.First();
+                    page.PageRotation = rotation;
+                    daoPage.Update(page);
+                }
+            }
+
+        }
     }
 }

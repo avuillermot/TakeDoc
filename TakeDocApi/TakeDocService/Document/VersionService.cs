@@ -90,7 +90,8 @@ namespace TakeDocService.Document
             TakeDocModel.Version version = daoVersion.GetBy(x => x.VersionId == versionId && x.EntityId == entityId, x => x.Page).First();
             foreach(TakeDocModel.Page page in version.Page.Where(x => x.EtatDeleteData == false)) {
                 var current = new {
-                    index = page.PageNumber,
+                    id = page.PageId,
+                    pageNumber = page.PageNumber,
                     base64Image = servPage.GetBase64(page.PageId),
                     rotation = page.PageRotation
                 };

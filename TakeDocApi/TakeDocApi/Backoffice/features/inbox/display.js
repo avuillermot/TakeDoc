@@ -239,7 +239,9 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         };
         wfHistory.load(param);
     };
-
+    /***********************************************/
+    // Workflow answer
+    /***********************************************/
     $scope.showAnswer = function () {
 
         $scope.currentAnswer = {
@@ -333,8 +335,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             if (!$scope.$$phase) $scope.$apply();
         }
     };
-
-
+    
     // display pdf of this document
     $scope.doOpenFile = function (id) {
         if (hasChanged()) {
@@ -350,4 +351,80 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         fileHelper.readFileUrl(id, documentDisplay.data.document.get("entityId"), success, error);
     };
 
+    /***********************************************/
+    // PANE PAGE
+    /***********************************************/
+    $scope.doTurn = function (id) {
+        var elem = angular.element("#img-page-" + id);
+        var prefix = "inbox-thumbnail-rotate";
+        var r000 = elem.hasClass(prefix + "0");
+        var r090 = elem.hasClass(prefix + "90");
+        var r180 = elem.hasClass(prefix + "180");
+        var r270 = elem.hasClass(prefix + "270");
+
+        elem.removeClass(prefix + "0");
+        elem.removeClass(prefix + "90");
+        elem.removeClass(prefix + "180");
+        elem.removeClass(prefix + "270");
+
+        var rotation = 0;
+        if (r000) {
+            elem.addClass(prefix + "90");
+            rotation = 90;
+        }
+        else if (r090) {
+            elem.addClass(prefix + "180");
+            rotation = 180;
+        }
+        else if (r180) {
+            elem.addClass(prefix + "270");
+            rotation = 270;
+        }
+        else if (r270) {
+            elem.addClass(prefix + "0");
+            rotation = 0;
+        }
+
+        var page = $scope.pages.where({ id: id });
+        page[0].set('rotation', rotation);
+        page[0].set('action', 'update');
+    };
+    $scope.moveUp = function (id) {
+        var size = $scope.pages.length;
+        var page = $scope.pages.where({ id: id });
+        var currentIndex = page[0].get('pageNumber');
+        if (currentIndex > 1) {
+            var pageToMove = $scope.pages.where({ pageNumber: currentIndex - 1 });
+            page[0].set('pageNumber', currentIndex - 1);
+            pageToMove[0].set('pageNumber', currentIndex);
+            pageToMove[0].set('action', 'update');
+        }
+    };
+    $scope.moveDown = function (id) {
+        var size = $scope.pages.length;
+        var page = $scope.pages.where({ id: id });
+        var currentIndex = page[0].get('pageNumber');
+        if (currentIndex < size) {
+            var pageToMove = $scope.pages.where({ pageNumber: currentIndex + 1 });
+            page[0].set('pageNumber', currentIndex + 1);
+            pageToMove[0].set('pageNumber', currentIndex);
+            pageToMove[0].set('action', 'update');
+        }
+    };
+    $scope.deletePicture = function (id) {
+        var size = $scope.pages.length;
+        $scope.pages.remove({ id: id });
+        $scope.numeroter(1, size);
+    };
+    $scope.numeroter = function (startIndex, size) {
+        var index = startIndex;
+        var nb = startIndex;
+        while (index <= size) {
+            var page = $scope.pages.where({ pageNumber: index });
+            if (page.length > 0) {
+                page[0].set('pageNumber', nb++);
+            }
+            index++;
+        }
+    };
 }]);

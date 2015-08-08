@@ -1,6 +1,8 @@
 ﻿var Page = Backbone.Model.extend({
     defaults: {
-        index: null,
+        id: null,
+        pageNumber: null,
+        rotate: null,
         base64Image: null
     }
 });

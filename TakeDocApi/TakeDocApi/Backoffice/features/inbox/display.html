@@ -68,8 +68,12 @@
                     <div role="tabpanel" class="tab-pane" id="photos">
                         <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid">
                             <div class="form-group" ng-if="pages.models.length > 0">
-                                <div ng-repeat="page in pages.models | orderBy:['attributes.index']">
-                                    <img data-ng-src="{{page.attributes.base64Image}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />&#160;Page&#160;{{page.attributes.index}}
+                                <div ng-repeat="page in pages.models | orderBy:['attributes.pageNumber']">
+                                    <img data-ng-src="{{page.attributes.base64Image}}" id="img-page-{{page.attributes.id}}" ng-click="openImage()" class="inbox-thumbnail inbox-thumbnail-rotate{{page.attributes.rotation}}" />&#160;Page&#160;{{page.attributes.pageNumber}}
+                                    <button class="btn-xs btn-default glyphicon glyphicon-repeat" ng-click="doTurn(page.attributes.id)" data-toggle="tooltip" title="Pivoter" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
+                                    <button class="btn-xs btn-default glyphicon glyphicon-chevron-up" ng-click="moveUp(page.attributes.id)" data-toggle="tooltip" title="Pivoter" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
+                                    <button class="btn-xs btn-default glyphicon glyphicon-chevron-down" ng-click="moveDown(page.attributes.id)" data-toggle="tooltip" title="Pivoter" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
+                                    <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="deletePicture(page.attributes.id)" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
                                 </div>
                             </div>
                         </div>
