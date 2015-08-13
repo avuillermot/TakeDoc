@@ -92,6 +92,7 @@
     <Compile Include="Document\Status_Document.cs" />
     <Compile Include="Document\Status_Version.cs" />
     <Compile Include="Document\Version.cs" />
+    <Compile Include="Dto\Document\DocumentComplete.cs" />
     <Compile Include="Dto\Document\ReadOnlyMetadata.cs" />
     <Compile Include="Dto\Document\SearchMetadata.cs" />
     <Compile Include="Dto\Print\PrintContext.cs" />

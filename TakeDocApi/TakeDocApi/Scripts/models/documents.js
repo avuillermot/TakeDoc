@@ -12,7 +12,7 @@ var Pictures = Backbone.Collection.extend({
     model: Picture
 });
 
-var TkDocument = Backbone.Model.extend({
+var CreateDocumentTk = Backbone.Model.extend({
     defaults: {
             DocumentId: null,
             EntityId: null,

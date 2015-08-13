@@ -1,20 +1,19 @@
 ﻿'use strict';
 backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', '$timeout', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, $timeout, documentDisplay, documentsDirectory) {
 
-    var pages = new Pages();
+    var myDocComplete = new DocumentComplete();
     var wfHistory = new WorkflowHistorys();
     var answers = new WorkflowAnswers();
-    var document = new DocumentsExtended();
     var cloneData = new Array();
 
     // clone metadata to compare if data has changed before save
     var clone = function () {
         cloneData = new Array();
-        for (var i = 0; i < documentDisplay.data.metadatas.length; i++) {
-            var current = documentDisplay.data.metadatas.at(i);
+        for (var i = 0; i < $scope.metadatas.length; i++) {
+            var current = $scope.metadatas.at(i);
             var id = current.get("id");
             var value = current.get("value");
-            cloneData.push({id: id, value: value});
+            cloneData.push({ id: id, value: value });
         }
     };
 
@@ -26,7 +25,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         }
         for (var i = 0; i < cloneData.length; i++) {
             var current = cloneData[i];
-            var meta = documentDisplay.data.metadatas.where({ id: current.id });
+            var meta = $scope.metadatas.where({ id: current.id });
             if (meta[0].get("value") != current.value) return true;
         }
         return false;
@@ -34,7 +33,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
     $scope.isUpdate = false;
     $scope.openImage = function () {
-        $("#enlarge-page-modal-label").html("Page " + this.page.get("index"));
+        $("#enlarge-page-modal-label").html("Page " + this.page.get("pageNumber"));
         $("#enlarge-page-modal-body").html('<img style="width:100%" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
         $('#enlarge-page-modal').modal('show');
     };
@@ -62,23 +61,35 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     $scope.doSelectAnswer = function () {
         $scope.currentAnswer = this.answer;
     };
+
+    var loadComplete = function () {
+        var success = function () {
+            var data = arguments[0];
+            $scope.document = data.document;
+            $scope.metadatas = data.metadatas;
+            $scope.pages = data.pages;
+            $scope.historys = [];
+            if (!$scope.$$phase) $scope.$apply();
+            clone();
+            loadHistory();
+        };
+        var error = function () {
+            $rootScope.showError(arguments[0]);
+        };
+        var context = {
+            versionId: documentDisplay.data.document.get("versionId"),
+            userId: $rootScope.getUser().Id,
+            entityId: documentDisplay.data.document.get("entityId"),
+            success: success,
+            error: error
+        };
+        myDocComplete.load(context);
+    }
     
     // subscribe to event for display the current document
     $scope.$watch(function () { return documentDisplay.data.calls; }, function () {
         $rootScope.hideLoader();
-        if (documentDisplay.data.document != null) {
-            $scope.document = documentDisplay.data.document;
-            $scope.metadatas = documentDisplay.data.metadatas.models;
-            $scope.title = $scope.document.get("label");
-
-            loadImage();
-        }
-        else {
-            $scope.document = {};
-            $scope.metadatas = [];
-            $scope.title = null;
-        }
-        clone();
+        if (documentDisplay.data.document != null) loadComplete();
     });
 
     // display pdf of this document
@@ -129,7 +140,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var success = function () {
                 $rootScope.hideLoader();
                 if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
-                clone();
 
                 // refresh screen -> need for metadatafile
                 documentDisplay.data.calls = documentDisplay.data.calls + 1;
@@ -142,39 +152,36 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 $rootScope.showError(err);
             };
 
-            var paramMeta = {
-                userId: $rootScope.getUser().Id,
-                entityId: $scope.document.get("entityId"),
-                versionId: $scope.document.get("versionId"),
-                startWorkflow: startWorkflow
-            };
-            var paramDoc = {
-                userId: $rootScope.getUser().Id,
-                entityId: $scope.document.get("entityId"),
-                versionId: $scope.document.get("versionId"),
-                title: $scope.title,
-                success: function () {
-                    documentDisplay.data.metadatas.save(paramMeta, success, error);
-                },
-                error: error
-            };
-
             // data field are mapped to the model here because date picker cause problem
             var elemsDate = $('#divInboxDisplay input[type="date"]');
             $.each(elemsDate, function (index, value) {
                 var elemMetaId = value.name;
                 var elemMetaValue = value.value;
-                var current = documentDisplay.data.metadatas.where({ id: elemMetaId });
+                var current = $scope.metadatas.where({ id: elemMetaId });
                 current[0].set("value", elemMetaValue);
             });
+            var context = {
+                userId: $rootScope.getUser().Id,
+                entityId: $scope.document.get("entityId"),
+                startWorkflow: startWorkflow,
+                success: success,
+                error: error
+            };
 
-            if (hasChanged()) {
+            if (hasChanged() == true && startWorkflow == false) {
                 $rootScope.showLoader("Enregistrement....");
-                document.setTitle(paramDoc);
+                myDocComplete.save(context);
+            }
+            if (hasChanged() == true && startWorkflow == true) {
+                var fn = function () {
+                    $rootScope.showLoader("Enregistrement....");
+                    myDocComplete.save(context);
+                };
+                $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }
             else if (startWorkflow) {
                 var fn = function () {
-                    documentDisplay.data.metadatas.startWorkflow(paramMeta, success, error);
+                    myDocComplete.startWorkflow(context);
                 };
                 $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }
@@ -195,25 +202,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
         };
         $rootScope.showLoader("Génération PDF....");
-        documentDisplay.data.metadatas.generatePdf(param);
-    };
-
-    var loadImage = function () {
-        var success = function () {
-            $scope.pages = arguments[0];
-            loadHistory();
-        };
-
-        var param = {
-            userId: $rootScope.getUser().Id,
-            entityId: $scope.document.get("entityId"),
-            versionId: $scope.document.get("versionId"),
-            success: success,
-            error: function () {
-                $rootScope.showError({ message: "Les images ne sont pas disponibles" });
-            }
-        };
-        pages.load(param);
+        $scope.metadatas.generatePdf(param);
     };
 
     var loadHistory = function () {
@@ -308,10 +297,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     // FILE TO UPLOAD
     /***********************************************/
     $scope.fileAdd = function ($file, $event, $flow, metadataId) {
+        $scope.isUpdate = true;
         var base64;
         var fileReader = new FileReader();
         fileReader.onload = function (event) {
-            var current = documentDisplay.data.metadatas.where({ id: metadataId });
+            var current = $scope.metadatas.where({ id: metadataId });
             if (current.length > 0) {
                 base64 = event.target.result;
                 var file = current[0].get("file");
@@ -326,7 +316,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.fileRemove = function (metadataId) {
-        var current = documentDisplay.data.metadatas.where({ id: metadataId });
+        $scope.isUpdate = true;
+        var current = $scope.metadatas.where({ id: metadataId });
         if (current.length > 0) {
             var file = current[0].get("file");
             file.set("data", null);
@@ -354,6 +345,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     /***********************************************/
     // PANE PAGE
     /***********************************************/
+    function pageChanged(page) {
+        page.set('action', 'update');
+        $scope.isUpdate = true;
+    };
     $scope.doTurn = function (id) {
         var elem = angular.element("#img-page-" + id);
         var prefix = "inbox-thumbnail-rotate";
@@ -384,10 +379,9 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             elem.addClass(prefix + "0");
             rotation = 0;
         }
-
         var page = $scope.pages.where({ id: id });
         page[0].set('rotation', rotation);
-        page[0].set('action', 'update');
+        pageChanged(page[0]);
     };
     $scope.moveUp = function (id) {
         var size = $scope.pages.length;
@@ -397,7 +391,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var pageToMove = $scope.pages.where({ pageNumber: currentIndex - 1 });
             page[0].set('pageNumber', currentIndex - 1);
             pageToMove[0].set('pageNumber', currentIndex);
-            pageToMove[0].set('action', 'update');
+            pageChanged(page[0]);
         }
     };
     $scope.moveDown = function (id) {
@@ -408,7 +402,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var pageToMove = $scope.pages.where({ pageNumber: currentIndex + 1 });
             page[0].set('pageNumber', currentIndex + 1);
             pageToMove[0].set('pageNumber', currentIndex);
-            pageToMove[0].set('action', 'update');
+            pageChanged(page[0]);
         }
     };
     $scope.deletePicture = function (id) {

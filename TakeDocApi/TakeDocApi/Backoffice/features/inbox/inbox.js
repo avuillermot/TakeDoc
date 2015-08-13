@@ -2,7 +2,6 @@
 backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
 
     var myDocuments = new DocumentsExtended();
-    var myMetas = new MetaDatas();
     var myDashBoards = new Dashboards();
     
     var displayInbox = function () {
@@ -10,23 +9,19 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $("#viewRight").hide();
         $("#viewLeft").css("width", "98%");
         
-        documentDisplay.data.metadatas = [];
         documentDisplay.data.document = null;
         documentDisplay.data.viewType = null;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
         if (!$scope.$$phase) $scope.$apply();
     }
 
-    var displayDocument = function (document, metas, viewType) {
+    var displayDocument = function (document, viewType) {
         $("#viewRight").css("width", "49%");
         $("#viewRight").show();
         $("#viewLeft").css("width", "49%");
-
-        documentDisplay.data.metadatas = metas;
         documentDisplay.data.document = document;
         documentDisplay.data.viewType = viewType;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
-        if (!$scope.$$phase) $scope.$apply();
     }
     
     // subscribe to displayController that it can update list currently display
@@ -69,20 +64,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $scope.gridApi = gridApi;
         gridApi.selection.on.rowSelectionChanged($scope, function () {
             var toShow = arguments[0].entity;
-            var success = function () {
-                displayDocument(toShow, arguments[0], $scope.selectedDirectory);
-            };
-            var error = function () {
-                $rootScope.showError(arguments[0]);
-            };
-            var param = {
-                versionId: toShow.get("versionId"),
-                entityId: toShow.get("entityId"),
-                success: success,
-                error: error
-            };
-            myMetas = new MetaDatas();
-            myMetas.load(param);
+            displayDocument(toShow, $scope.selectedDirectory);
         });
     };
 

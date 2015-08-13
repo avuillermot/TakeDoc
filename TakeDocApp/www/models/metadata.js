@@ -162,8 +162,12 @@ var MetaDatas = Backbone.Collection.extend({
         var that = this;
         var parameters = arguments;
         var fnSave = function (myModels, context) {
-            var data = JSON.stringify(myModels, context);
-            var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>/<startWorkflow/>".replace("<userId/>", context.userId)
+            var arr = new Array();
+            arr.push({versionId: context.versionId});
+            arr.push(myModels);
+            arr.push("");
+            var data = JSON.stringify(arr);
+            var myUrl = environnement.UrlBase + "DocumentComplete/<userId/>/<entityId/>/<startWorkflow/>".replace("<userId/>", context.userId)
                 .replace("<entityId/>", context.entityId)
                 .replace("<versionId/>", context.versionId)
                 .replace("<startWorkflow/>", context.startWorkflow);

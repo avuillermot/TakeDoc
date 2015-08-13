@@ -258,6 +258,7 @@
     <Content Include="www\lib\moment\min\moment.min.js" />
     <Content Include="www\lib\moment\moment.js" />
     <Content Include="www\lib\underscore-min.js" />
+    <Content Include="www\models\documentComplete.js" />
     <Content Include="www\models\dashboard.js" />
     <Content Include="www\models\metadata.js" />
     <Content Include="www\models\documents.js" />
@@ -776,6 +777,9 @@
     <Compile Include="plugins\org.apache.cordova.camera\src\wp\Camera.cs" />
     <Compile Include="plugins\org.apache.cordova.console\src\wp\DebugConsole.cs" />
     <Compile Include="plugins\org.apache.cordova.device\src\wp\Device.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

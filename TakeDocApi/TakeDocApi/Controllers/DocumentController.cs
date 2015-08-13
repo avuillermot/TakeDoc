@@ -13,6 +13,23 @@ namespace TakeDocApi.Controllers
     public class DocumentController : ApiController
     {
         [HttpGet]
+        [Route("{documentId}/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage Get(Guid documentId, Guid userId)
+        {
+            TakeDocService.Workflow.Document.Interface.IStatus servStatus = new TakeDocService.Workflow.Document.Status();
+            try
+            {
+                servStatus.SetStatus(documentId, TakeDocModel.Status_Document.Incomplete, userId, true);
+                return Request.CreateResponse();
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("SetIncomplete/{documentId}/{userId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage SetIncomplete(Guid documentId, Guid userId)
@@ -38,23 +55,6 @@ namespace TakeDocApi.Controllers
             try
             {
                 servStatus.SetStatus(documentId, TakeDocModel.Status_Document.Archive, userId, true);
-                return Request.CreateResponse();
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("Title/{title}/{versionId}/{userId}/{entityId}")]
-        [TakeDocApi.Controllers.Security.AuthorizeTk()]
-        public HttpResponseMessage SetTitle(string title, Guid versionId, Guid userId, Guid entityId)
-        {
-            IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
-            try
-            {
-                servDocument.SetTitle(title, versionId, userId, entityId);
                 return Request.CreateResponse();
             }
             catch (Exception ex)

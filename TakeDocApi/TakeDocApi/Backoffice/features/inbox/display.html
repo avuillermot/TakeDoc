@@ -1,16 +1,16 @@
-﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="title != null">
+﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="document.attributes.label != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
         <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-eye-open" ng-click="doOpenDocument();" ng-hide="pdfIsEnable() == false" data-toggle="tooltip" title="Ouvrir PDF" data-placement="bottom"></button>
-        
+
         <button class="btn-xs btn-default glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-folder-close" data-toggle="tooltip" title="Archiver" ng-hide="ArchiveIsEnable() == false" data-placement="bottom" ng-click="doArchive()"></button>
-</div>
+    </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
-            <h3 class="panel-title"><input ng-model="title" class="inbox-title" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true"/></h3>
+            <h3 class="panel-title"><input ng-model="document.attributes.label" class="inbox-title" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true" /></h3>
         </div>
         <div class="panel-body">
             <div role="tabpanel">
@@ -36,14 +36,14 @@
                                     {{document.attributes.ownerFullName}}
                                 </div>
                             </div>
-                            <div ng-repeat="metadata in metadatas | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
+                            <div ng-repeat="metadata in metadatas.models | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
                                 <label class="col-md-3 control-label input-metadata-title">
                                     {{metadata.attributes.label}}
                                     <span ng-if="metadata.attributes.mandatory == true" class="input-metadata-required">*</span>
                                 </label>
 
                                 <div class="col-md-9 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
-                                    <select ng-switch-when="list" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}">
+                                    <select ng-switch-when="list" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" ng-change="isUpdate = true">
                                         <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                                     </select>
 
@@ -56,7 +56,7 @@
                                         </div>
                                     </div>
 
-                                    <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value == 'True'" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
                                     <textarea ng-switch-when="textarea" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
                                     <input ng-switch-when="autocomplete" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
@@ -100,14 +100,14 @@
                                 <div class="col-md-3 inbox-action-cancel-{{action.attributes.deleted}}" tk-date="action.attributes.dateRealize"></div>
                                 <div class="col-md-2 inbox-action-cancel-{{action.attributes.deleted}}">
                                     <div class="glyphicon glyphicon-comment" ng-if="action.attributes.comment != '' && action.attributes.comment != null" data-toggle="tooltip" title="{{action.attributes.comment}}" data-placement="left"></div>
-                                     {{action.attributes.answerLabel}}
+                                    {{action.attributes.answerLabel}}
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-       </div>
+        </div>
     </div>
 </div>
 

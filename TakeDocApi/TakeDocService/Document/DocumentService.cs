@@ -15,7 +15,6 @@ namespace TakeDocService.Document
         IDaoDocument daoDocument = UnityHelper.Resolve<IDaoDocument>();
         TakeDocDataAccess.Security.Interface.IDaoUserTk daoUser = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Security.Interface.IDaoUserTk>();
         TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended daoDocExtended = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoView_DocumentExtended>();
-        TakeDocDataAccess.DaoBase<TakeDocModel.Entity> daoEntity = new TakeDocDataAccess.DaoBase<TakeDocModel.Entity>();
         
         Interface.IVersionService servVersion = UnityHelper.Resolve<Interface.IVersionService>();
         Interface.IPageService servPage = UnityHelper.Resolve<Interface.IPageService>();
@@ -84,31 +83,20 @@ namespace TakeDocService.Document
             return documents.First();
         }
 
-        public void SetMetaData(Guid userId, Guid entityId, Guid versionId, string json, bool startWorkflow)
+        public void Update(TakeDocModel.UserTk user, TakeDocModel.Entity entity, TakeDocModel.Version version, Newtonsoft.Json.Linq.JObject jsonDocument, Newtonsoft.Json.Linq.JArray jsonMetadata, bool startWorkflow)
         {
             using (TransactionScope transaction = new TransactionScope())
             {
-                TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
-                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
-                TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
+                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == version.VersionId).First();
 
-                servMeta.SetMetaData(userId, document, entity, json);
+                if (jsonDocument != null && jsonDocument.Value<string>("label") != null) this.SetTitle(jsonDocument.Value<string>("label"), version.VersionId, user.UserTkId, entity.EntityId);
+                if (jsonMetadata != null) servMeta.SetMetaData(user.UserTkId, document, entity, jsonMetadata);
+
                 // if there is exception, all metadata are ok -> so document is complete
-                servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
-                if (startWorkflow)
-                {
-                    this.StartWorkflow(document, user, entityId, false);
-                }
+                if (jsonDocument != null) servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
+                if (startWorkflow) this.StartWorkflow(document, user, entity.EntityId, false);
                 transaction.Complete();
             }
-        }
-
-        public void StartWorkflow(Guid userId, Guid entityId, Guid versionId)
-        {
-            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == versionId).First();
-            TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
-
-            this.StartWorkflow(document, user, entityId, true);
         }
 
         private void StartWorkflow(TakeDocModel.Document document, TakeDocModel.UserTk user, Guid entityId, bool checkValue)

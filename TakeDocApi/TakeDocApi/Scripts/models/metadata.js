@@ -162,8 +162,12 @@ var MetaDatas = Backbone.Collection.extend({
         var that = this;
         var parameters = arguments;
         var fnSave = function (myModels, context) {
-            var data = JSON.stringify(myModels, context);
-            var myUrl = environnement.UrlBase + "metaData/version/<versionId/>/<userId/>/<entityId/>/<startWorkflow/>".replace("<userId/>", context.userId)
+            var arr = new Array();
+            arr.push({versionId: context.versionId});
+            arr.push(myModels);
+            arr.push("");
+            var data = JSON.stringify(arr);
+            var myUrl = environnement.UrlBase + "DocumentComplete/<userId/>/<entityId/>/<startWorkflow/>".replace("<userId/>", context.userId)
                 .replace("<entityId/>", context.entityId)
                 .replace("<versionId/>", context.versionId)
                 .replace("<startWorkflow/>", context.startWorkflow);
@@ -221,22 +225,5 @@ var MetaDatas = Backbone.Collection.extend({
     load: function (param) {
         var url = (environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>").replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url });
-    },
-    startWorkflow: function (context, onSucces, onError) {
-        var myUrl = environnement.UrlBase + "metaData/version/StartWorkflow/<versionId/>/<userId/>/<entityId/>".replace("<userId/>", context.userId)
-               .replace("<entityId/>", context.entityId)
-               .replace("<versionId/>", context.versionId);
-        var that = this;
-        $.ajax({
-            type: 'POST',
-            url: myUrl,
-            beforeSend: requestHelper.beforeSend(),
-            success: function () {
-                onSucces.apply(that, arguments);
-            },
-            error: function () {
-                onError.apply(that, arguments);
-            }
-        });
     }
 });

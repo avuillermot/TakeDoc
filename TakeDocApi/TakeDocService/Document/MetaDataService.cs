@@ -39,13 +39,12 @@ namespace TakeDocService.Document
             } 
         }
 
-        public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, string json)
+        public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, Newtonsoft.Json.Linq.JArray jsonMetaData)
         {
             ICollection<TakeDocModel.MetaData> metadatas = daoMetaData.GetBy(x => x.MetaDataVersionId == document.DocumentCurrentVersionId && x.EtatDeleteData == false && x.EntityId == document.EntityId);
             ICollection<TakeDocModel.MetaDataFile> files = new List<TakeDocModel.MetaDataFile>();
 
-            Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(json);
-            foreach (Newtonsoft.Json.Linq.JObject obj in data)
+            foreach (Newtonsoft.Json.Linq.JObject obj in jsonMetaData)
             {
                 string name = obj.Value<string>("name");
 
@@ -201,6 +200,110 @@ namespace TakeDocService.Document
 
             }
             return metas;
+        }
+
+        public ICollection<object> GetJson(ICollection<TakeDocModel.MetaData> metadatas)
+        {
+            ICollection<object> back = new List<object>();
+            foreach (TakeDocModel.MetaData metadata in metadatas)
+            {
+                if (metadata.DataFieldValues.Count() > 0)
+                {
+                    var itemList = new
+                    {
+                        id = metadata.MetaDataId,
+                        index = metadata.MetaDataDisplayIndex,
+                        name = metadata.MetaDataName,
+                        value = metadata.MetaDataValue,
+                        mandatory = metadata.MetaDataMandatory,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
+                        label = metadata.DataField.DataFieldLabel,
+                        htmlType = metadata.HtmlType,
+                        entityId = metadata.EntityId,
+                        valueList = from value in metadata.DataFieldValues
+                                    select new
+                                    {
+                                        id = value.DataFieldId,
+                                        index = value.DataFieldValueIndex,
+                                        key = value.DataFieldValueKey,
+                                        text = value.DataFieldValueText,
+                                        reference = value.DataFieldValueReference,
+                                        etatDelete = value.EtatDeleteData,
+                                        entity = value.EntityId
+                                    }
+                    };
+                    back.Add(itemList);
+                }
+                else if (metadata.AutoComplete != null)
+                {
+                    var itemAutoComplete = new
+                    {
+                        id = metadata.MetaDataId,
+                        index = metadata.MetaDataDisplayIndex,
+                        name = metadata.MetaDataName,
+                        value = metadata.MetaDataValue,
+                        mandatory = metadata.MetaDataMandatory,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
+                        label = metadata.DataField.DataFieldLabel,
+                        htmlType = metadata.HtmlType,
+                        entityId = metadata.EntityId,
+                        autoCompleteId = (metadata.AutoComplete == null) ? Guid.Empty : metadata.AutoComplete.DataFieldAutoCompleteId,
+                        autoCompleteTitle = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteTitle,
+                        autoCompletePlaceHolder = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompletePlaceHolder,
+                        autoCompleteUrl = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteUrl,
+                        autoCompleteReference = (metadata.AutoComplete == null) ? null : metadata.AutoComplete.DataFieldAutoCompleteReference
+                    };
+                    back.Add(itemAutoComplete);
+                }
+                else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("FILE"))
+                {
+                    TakeDocModel.MetaDataFile file = null;
+                    ICollection<TakeDocModel.MetaDataFile> files = metadata.MetaDataFile.Where(x => x.EtatDeleteData == false).ToList();
+                    if (files.Count() > 0) file = files.First();
+                    else file = new TakeDocModel.MetaDataFile();
+
+                    var itemFile = new
+                    {
+                        id = metadata.MetaDataId,
+                        index = metadata.MetaDataDisplayIndex,
+                        name = metadata.MetaDataName,
+                        value = metadata.MetaDataValue,
+                        mandatory = metadata.MetaDataMandatory,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
+                        label = metadata.DataField.DataFieldLabel,
+                        htmlType = metadata.HtmlType,
+                        entityId = metadata.EntityId,
+                        file = new
+                        {
+                            id = file.MetaDataFileId,
+                            reference = file.MetaDataFileReference,
+                            data = file.MetaDataFileData,
+                            path = file.MetaDataFilePath,
+                            name = file.MetaDataFileName,
+                            mimeType = file.MetaDataFileMimeType,
+                            extension = file.MetaDataFileExtension
+                        }
+                    };
+                    back.Add(itemFile);
+                }
+                else
+                {
+                    var itemSimple = new
+                    {
+                        id = metadata.MetaDataId,
+                        index = metadata.MetaDataDisplayIndex,
+                        name = metadata.MetaDataName,
+                        value = metadata.MetaDataValue,
+                        mandatory = metadata.MetaDataMandatory,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
+                        label = metadata.DataField.DataFieldLabel,
+                        htmlType = metadata.HtmlType,
+                        entityId = metadata.EntityId
+                    };
+                    back.Add(itemSimple);
+                }
+            }
+            return back;
         }
 
         public ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(TakeDocModel.Version version)

@@ -186,6 +186,7 @@
     <Compile Include="App_Start\UnityConfig.cs" />
     <Compile Include="App_Start\UnityMvcActivator.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\DocumentCompleteController.cs" />
     <Compile Include="Controllers\Security\AuthorizeTk.cs" />
     <Compile Include="Controllers\AutoComplete\UserTk.cs" />
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />
@@ -1458,6 +1459,7 @@
     <Content Include="Scripts\lib\underscore-min.js" />
     <Content Include="Scripts\models\dashboard.js" />
     <Content Include="Scripts\models\dataField.js" />
+    <Content Include="Scripts\models\documentComplete.js" />
     <Content Include="Scripts\models\documentField.js" />
     <Content Include="Scripts\models\documents.js" />
     <Content Include="Scripts\models\managerTypeDocument.js" />

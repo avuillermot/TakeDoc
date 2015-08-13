@@ -69,7 +69,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 var onError = function() {
                     $rootScope.PopupHelper.show("Une erreur est survenue lors de l'obtention des informations");
                 };
-                $rootScope.myTakeDoc = new TkDocument();
+                $rootScope.myTakeDoc = new CreateDocumentTk();
                 $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current[0].get("versionId"));
                 $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);

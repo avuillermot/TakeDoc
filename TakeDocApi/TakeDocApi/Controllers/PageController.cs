@@ -29,23 +29,5 @@ namespace TakeDocApi.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
-
-        [HttpGet]
-        [Route("Image/{versionId}/{entityId}/{userId}")]
-        [TakeDocApi.Controllers.Security.AuthorizeTk()]
-        public HttpResponseMessage Post(Guid versionId, Guid entityId, Guid userId)
-        {
-            IVersionService servVersion = Utility.MyUnityHelper.UnityHelper.Resolve<IVersionService>();
-            try
-            {
-                ICollection<object> back = servVersion.GetPages(versionId, entityId, userId);
-
-                return Request.CreateResponse(back);
-            }
-            catch (Exception ex)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
-            }
-        }
     }
 }
