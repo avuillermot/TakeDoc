@@ -44,6 +44,41 @@ namespace TakeDocService.Document
             this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
         }
 
+        private void Update(Guid pageId, int rotation, int pageNumber, bool delete, Guid userId, Guid entityId)
+        {
+            TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
+            page.PageRotation = rotation;
+            page.PageNumber = pageNumber;
+            if (delete)
+            {
+                page.UserDeleteData = userId;
+                page.DateDeleteData = System.DateTimeOffset.UtcNow;
+                page.EtatDeleteData = true;
+            }
+            else
+            {
+                page.UserUpdateData = userId;
+                page.DateUpdateData = System.DateTimeOffset.UtcNow;
+            }
+            daoPage.Update(page);
+        }
+
+        public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, Guid entityId)
+        {
+            foreach (Newtonsoft.Json.Linq.JObject page in pages)
+            {
+                Guid id = new Guid(page.Value<string>("id"));
+                int rotation = page.Value<int>("rotation");
+                int pageNumber = page.Value<int>("pageNumber");
+                string action = page.Value<string>("action");
+                if (string.IsNullOrEmpty(action) == false)
+                {
+                    bool delete = action.ToUpper().Equals("DELETE");
+                    this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                }
+            }
+        }
+
         private System.IO.FileInfo GeneratePageUNC(string entite, string fileName, string extension)
         {
             return this.GenerateUNC(entite, TakeDocModel.Environnement.PageStoreUNC, fileName, extension);
@@ -70,8 +105,7 @@ namespace TakeDocService.Document
             }
             return new System.IO.FileInfo(string.Concat(store, @"\", storeLocalPath, @"\", fileName, ".", extension));
         }
-
-        
+                
         public byte[] GetBinary(Guid pageId)
         {
             TakeDocModel.Page page = daoPage.GetBy(x => x.PageId == pageId).First();
@@ -86,26 +120,6 @@ namespace TakeDocService.Document
             string prefix = string.Format("data:image/{0};base64,", page.PageFileExtension);
  
             return string.Concat(prefix, Convert.ToBase64String(data));
-        }
-
-        public void Update(Guid versionId, string json)
-        {
-            ICollection<TakeDocModel.Page> pages = daoPage.GetBy(x => x.PageVersionId == versionId);
-
-            Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(json);
-            foreach (Newtonsoft.Json.Linq.JObject obj in data)
-            {
-                Guid pageId = new Guid(obj.Value<string>("id"));
-                int rotation = obj.Value<int>("rotation");
-                ICollection<TakeDocModel.Page> myPages = pages.Where(x => x.PageId == pageId).ToList();
-                if (myPages.Count() > 0)
-                {
-                    TakeDocModel.Page page = myPages.First();
-                    page.PageRotation = rotation;
-                    daoPage.Update(page);
-                }
-            }
-
         }
     }
 }

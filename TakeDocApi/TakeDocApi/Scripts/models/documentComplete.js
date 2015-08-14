@@ -22,7 +22,6 @@
         this.pages.parse(arguments[0].Pages);
     },
     save: function (context) {
-        debugger;
         var result = this.metadatas.check();
         if (result.valid) {
             var data = new Array();
@@ -36,7 +35,14 @@
                 .replace("{{startWorkflow}}", context.startWorkflow)
                 .replace("{{userId}}", context.userId)
                 .replace("{{entityId}}", this.document.get("entityId"));
-            this.fetch({ type: 'POST', data: { '': json }, url: url, success: context.success, error: context.error, beforeSend: requestHelper.beforeSend() });
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: { '': json },
+                success: context.success,
+                error: context.error,
+                beforeSend: requestHelper.beforeSend()
+            });
         }
         else alert(result.message);
     },
@@ -52,6 +58,13 @@
             .replace("{{startWorkflow}}", context.startWorkflow)
             .replace("{{userId}}", context.userId)
             .replace("{{entityId}}", this.document.get("entityId"));
-        this.fetch({ type: 'POST', data: { '': json }, url: url, success: context.success, error: context.error, beforeSend: requestHelper.beforeSend(), reset: true });
+        $.ajax({
+            type: 'POST',
+            url: url,
+            data: { '': json },
+            success: context.success,
+            error: context.error,
+            beforeSend: requestHelper.beforeSend()
+        });
     }
 });

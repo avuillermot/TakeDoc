@@ -288,14 +288,25 @@ namespace TakeDocService.Document
                 }
                 else
                 {
+                    string inputType = metadata.DataField.DataFieldType.DataFieldTypeId;
+                    object value = null;
+                    if (string.IsNullOrEmpty(metadata.MetaDataValue) == false)
+                    {
+                        value = metadata.MetaDataValue;
+                        if (inputType.ToUpper().Equals("SYSTEM.BOOLEAN"))
+                        {
+                            if (value.ToString().ToUpper().Equals("FALSE")) value = false;
+                            else value = true;
+                        }
+                    }
                     var itemSimple = new
                     {
                         id = metadata.MetaDataId,
                         index = metadata.MetaDataDisplayIndex,
                         name = metadata.MetaDataName,
-                        value = metadata.MetaDataValue,
+                        value = value,
                         mandatory = metadata.MetaDataMandatory,
-                        type = metadata.DataField.DataFieldType.DataFieldInputType,
+                        type = inputType,
                         label = metadata.DataField.DataFieldLabel,
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId

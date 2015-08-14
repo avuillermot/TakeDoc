@@ -3,6 +3,7 @@
         id: null,
         pageNumber: null,
         rotation: null,
+        action: null,
         base64Image: null
     },
     parse: function () {
@@ -10,6 +11,7 @@
         this.set("id", current.id);
         this.set("pageNumber", current.pageNumber);
         this.set("rotation", current.rotation);
+        this.set("action", "");
         this.set("base64Image", current.base64Image);
         return this;
     }

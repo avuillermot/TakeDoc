@@ -138,15 +138,13 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
-                debugger;
                 $rootScope.hideLoader();
-                
+
                 // refresh screen -> need for metadatafile
                 documentDisplay.data.calls = documentDisplay.data.calls + 1;
                 if (!$scope.$$phase) $scope.$apply();
             };
             var error = function () {
-                debugger;
                 $rootScope.hideLoader();
                 var err = arguments[0];
                 if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
@@ -188,6 +186,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }
         }
+        else $('#myTabPanel a[href="#detail"]').tab("show");
     };
 
     var loadHistory = function () {
@@ -330,8 +329,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     /***********************************************/
     // PANE PAGE
     /***********************************************/
-    function pageChanged(page) {
-        page.set('action', 'update');
+    function pageChanged(page, action) {
+        page.set('action', action);
         $scope.isUpdate = true;
     };
     $scope.doTurn = function (id) {
@@ -366,7 +365,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         }
         var page = $scope.pages.where({ id: id });
         page[0].set('rotation', rotation);
-        pageChanged(page[0]);
+        pageChanged(page[0],'update');
     };
     $scope.moveUp = function (id) {
         var size = $scope.pages.length;
@@ -376,7 +375,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var pageToMove = $scope.pages.where({ pageNumber: currentIndex - 1 });
             page[0].set('pageNumber', currentIndex - 1);
             pageToMove[0].set('pageNumber', currentIndex);
-            pageChanged(page[0]);
+            pageChanged(page[0], 'update');
+            pageChanged(pageToMove[0], 'update');
         }
     };
     $scope.moveDown = function (id) {
@@ -387,12 +387,14 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var pageToMove = $scope.pages.where({ pageNumber: currentIndex + 1 });
             page[0].set('pageNumber', currentIndex + 1);
             pageToMove[0].set('pageNumber', currentIndex);
-            pageChanged(page[0]);
+            pageChanged(page[0], 'update');
+            pageChanged(pageToMove[0], 'update');
         }
     };
     $scope.deletePicture = function (id) {
         var size = $scope.pages.length;
-        $scope.pages.remove({ id: id });
+        var pages = $scope.pages.where({ id: id });
+        pageChanged(pages[0], 'delete');
         $scope.numeroter(1, size);
     };
     $scope.numeroter = function (startIndex, size) {
@@ -401,7 +403,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         while (index <= size) {
             var page = $scope.pages.where({ pageNumber: index });
             if (page.length > 0) {
-                page[0].set('pageNumber', nb++);
+                if (page[0].get('action') != 'delete') {
+                    page[0].set('pageNumber', nb++);
+                    page[0].set('action', 'update');
+                    $scope.isUpdate = true;
+                }
             }
             index++;
         }

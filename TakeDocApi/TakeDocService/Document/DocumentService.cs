@@ -85,18 +85,14 @@ namespace TakeDocService.Document
 
         public void Update(TakeDocModel.UserTk user, TakeDocModel.Entity entity, TakeDocModel.Version version, Newtonsoft.Json.Linq.JObject jsonDocument, Newtonsoft.Json.Linq.JArray jsonMetadata, bool startWorkflow)
         {
-            using (TransactionScope transaction = new TransactionScope())
-            {
-                TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == version.VersionId).First();
+            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == version.VersionId).First();
 
-                if (jsonDocument != null && jsonDocument.Value<string>("label") != null) this.SetTitle(jsonDocument.Value<string>("label"), version.VersionId, user.UserTkId, entity.EntityId);
-                if (jsonMetadata != null) servMeta.SetMetaData(user.UserTkId, document, entity, jsonMetadata);
+            if (jsonDocument != null && jsonDocument.Value<string>("label") != null) this.SetTitle(jsonDocument.Value<string>("label"), version.VersionId, user.UserTkId, entity.EntityId);
+            if (jsonMetadata != null) servMeta.SetMetaData(user.UserTkId, document, entity, jsonMetadata);
 
-                // if there is exception, all metadata are ok -> so document is complete
-                if (jsonDocument != null) servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
-                if (startWorkflow) this.StartWorkflow(document, user, entity.EntityId, false);
-                transaction.Complete();
-            }
+            // if there is exception, all metadata are ok -> so document is complete
+            if (jsonDocument != null) servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
+            if (startWorkflow) this.StartWorkflow(document, user, entity.EntityId, false);
         }
 
         private void StartWorkflow(TakeDocModel.Document document, TakeDocModel.UserTk user, Guid entityId, bool checkValue)
