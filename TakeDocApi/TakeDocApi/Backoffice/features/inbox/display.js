@@ -138,14 +138,15 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
+                debugger;
                 $rootScope.hideLoader();
-                if ($scope.pdfIsEnable() == true && hasChanged() == true) generatePdf();
-
+                
                 // refresh screen -> need for metadatafile
                 documentDisplay.data.calls = documentDisplay.data.calls + 1;
                 if (!$scope.$$phase) $scope.$apply();
             };
             var error = function () {
+                debugger;
                 $rootScope.hideLoader();
                 var err = arguments[0];
                 if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
@@ -181,28 +182,12 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
             else if (startWorkflow) {
                 var fn = function () {
+                    $rootScope.showLoader("Enregistrement....");
                     myDocComplete.startWorkflow(context);
                 };
                 $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }
         }
-    };
-
-    var generatePdf = function () {
-        var param = {
-            userId: $rootScope.getUser().Id,
-            entityId: $scope.document.get("entityId"),
-            versionId: $scope.document.get("versionId"),
-            success: function () {
-                $rootScope.hideLoader();
-            },
-            error: function () {
-                $rootScope.hideLoader();
-                $rootScope.showError("La générartion du PDF est en erreur");
-            }
-        };
-        $rootScope.showLoader("Génération PDF....");
-        $scope.metadatas.generatePdf(param);
     };
 
     var loadHistory = function () {

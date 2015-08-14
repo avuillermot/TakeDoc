@@ -12,7 +12,6 @@ namespace TakeDocService.Workflow.Document
         public bool Execute(TakeDocModel.Document document, TakeDocModel.UserTk user)
         {
             TakeDocModel.Version version = document.LastVersion;
-            //this.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId);
             servReportVersion.Generate(version.VersionId, version.EntityId);
             this.SetStatus(document, TakeDocModel.Status_Document.Approve, user.UserTkId);
             if (this.daoWorkflow.IsAllApprove(version.VersionId, version.EntityId)) this.SetStatus(document, TakeDocModel.Status_Document.Archive, user.UserTkId);

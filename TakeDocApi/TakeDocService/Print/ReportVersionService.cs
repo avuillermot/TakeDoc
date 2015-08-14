@@ -102,6 +102,12 @@ namespace TakeDocService.Print
             model.Save();
         }
 
+        /// <summary>
+        /// Init tab with metadata name and value
+        /// </summary>
+        /// <param name="version"></param>
+        /// <param name="entity"></param>
+        /// <returns></returns>
         private byte[] GenerateStarterPdf(TakeDocModel.Version version, TakeDocModel.Entity entity)
         {
             byte[] data = null;

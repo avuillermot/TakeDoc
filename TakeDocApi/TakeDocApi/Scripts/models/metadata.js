@@ -211,17 +211,6 @@ var MetaDatas = Backbone.Collection.extend({
         });
         if (nbFile == 0) fnSave(this.models, ctx);
     },
-
-    generatePdf: function (param) {
-        var url = environnement.UrlBase + "print/generatepdf/version/<versionId/>/<entityId/>/<userId/>".replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId).replace("<userId/>", param.userId)
-        $.ajax({
-            type: 'POST',
-            url: url,
-            success: param.success,
-            error: param.error,
-            beforeSend: requestHelper.beforeSend()
-        });
-    },
     load: function (param) {
         var url = (environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>").replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId);
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url });
