@@ -18,11 +18,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     // test if data are updated, return true if yes else false
-    var hasChanged = function () {
-        if ($scope.isUpdate) {
-            $scope.isUpdate = false;
-            return true;
-        }
+    $scope.hasChanged = function () {
+        if ($scope.isUpdate) return true;
         for (var i = 0; i < cloneData.length; i++) {
             var current = cloneData[i];
             var meta = $scope.metadatas.where({ id: current.id });
@@ -138,8 +135,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
+                debugger;
                 $rootScope.hideLoader();
 
+                $scope.isUpdate = false;
                 // refresh screen -> need for metadatafile
                 documentDisplay.data.calls = documentDisplay.data.calls + 1;
                 if (!$scope.$$phase) $scope.$apply();
@@ -147,8 +146,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             var error = function () {
                 $rootScope.hideLoader();
                 var err = arguments[0];
-                if (err.message == null) err.message = "Une erreur est survenue lors de l'enregistrement.";
-                $rootScope.showError(err);
+                if (err.responseText != null) $rootScope.showError({ message: err.responseText });
+                else $rootScope.showError({ message: "Une erreur est survenue." });
             };
 
             // data field are mapped to the model here because date picker cause problem
@@ -167,11 +166,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 error: error
             };
 
-            if (hasChanged() == true && startWorkflow == false) {
+            if ($scope.hasChanged() == true && startWorkflow == false) {
                 $rootScope.showLoader("Enregistrement....");
                 myDocComplete.save(context);
             }
-            if (hasChanged() == true && startWorkflow == true) {
+            if ($scope.hasChanged() == true && startWorkflow == true) {
                 var fn = function () {
                     $rootScope.showLoader("Enregistrement....");
                     myDocComplete.save(context);
@@ -313,7 +312,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     
     // display pdf of this document
     $scope.doOpenFile = function (id) {
-        if (hasChanged()) {
+        if ($scope.hasChanged()) {
             $rootScope.showError({ message: "Veuillez enregistrer les modifications." });
             return false;
         }
@@ -393,8 +392,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
     $scope.deletePicture = function (id) {
         var size = $scope.pages.length;
-        var pages = $scope.pages.where({ id: id });
-        pageChanged(pages[0], 'delete');
+        $scope.pages.remove(id);
+        $scope.isUpdate = true;
         $scope.numeroter(1, size);
     };
     $scope.numeroter = function (startIndex, size) {
@@ -411,5 +410,9 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             }
             index++;
         }
+    };
+
+    $scope.notDeletedPage = function (item) {
+        return item.get("action") != "delete";
     };
 }]);

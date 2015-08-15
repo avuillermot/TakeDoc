@@ -119,7 +119,7 @@ namespace TakeDocService.Document
                 if (field.Count() > 0)
                 {
                     bool ok = this.BeProven(field.First().TypeId, meta.MetaDataValue, field.First().Mandatory);
-                    if (ok == false) throw new Exception("MetaData non valide.");
+                    if (ok == false) throw new Exception(string.Format("Champ [{0}] non valide : {1}.", field.First().Label, meta.MetaDataValue));
                 }
             }
             return true;
@@ -290,6 +290,9 @@ namespace TakeDocService.Document
                 {
                     string inputType = metadata.DataField.DataFieldType.DataFieldTypeId;
                     object value = null;
+                    if (inputType.ToUpper().Equals("SYSTEM.BOOLEAN") && string.IsNullOrEmpty(metadata.MetaDataValue) == true)
+                        value = false;
+
                     if (string.IsNullOrEmpty(metadata.MetaDataValue) == false)
                     {
                         value = metadata.MetaDataValue;

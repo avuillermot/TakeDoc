@@ -28,5 +28,14 @@ var Pages = Backbone.Collection.extend({
             this.length = this.models.length;
         }
         return arr;
+    },
+    remove: function (id) {
+        for (var i = 0; i < this.models.length; i++) {
+            var current = this.models[i];
+            if (current.get("id") == id) {
+                current.set("action", "delete");
+                current.set("pageNumber", -1);
+            }
+        }
     }
 });

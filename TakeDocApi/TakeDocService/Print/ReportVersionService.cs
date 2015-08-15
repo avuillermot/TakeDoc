@@ -83,6 +83,10 @@ namespace TakeDocService.Print
             title.Add("");
             title.Add(version.Document.DocumentLabel);
             model.AddLine("TabMetadata", title.ToArray<string>());
+            ICollection<string> reference = new List<string>();
+            reference.Add("Référence doc.");
+            reference.Add(version.Document.DocumentReference);
+            model.AddLine("TabMetadata", reference.ToArray<string>());
             foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
             {
                 ICollection<string> line = new List<string>();
