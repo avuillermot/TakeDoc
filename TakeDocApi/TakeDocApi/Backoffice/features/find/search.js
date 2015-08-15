@@ -6,6 +6,9 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
         $("#viewRight").hide();
         $("#viewLeft").css("width", "98%");
         $scope.modeSeach = true;
+        documentDisplay.data.document = null;
+        documentDisplay.data.viewType = null;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
     }
     var displayModeDetail = function () {
         $("#divSearchControl").hide();
