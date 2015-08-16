@@ -5,15 +5,26 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
         $("#viewRight").css("width", "0%");
         $("#viewRight").hide();
         $("#viewLeft").css("width", "98%");
+
+        $("#divSearchControl").show();
+        $("#seach-result-items").css("width", "60%");
+
         $scope.modeSeach = true;
         documentDisplay.data.document = null;
         documentDisplay.data.viewType = null;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
-    }
-    var displayModeDetail = function () {
+    };
+    var displayDocument = function (document, viewType) {
+        $("#viewRight").css("width", "49%");
+        $("#viewRight").show();
+        $("#viewLeft").css("width", "49%");
+
         $("#divSearchControl").hide();
-        $("#seach-result-items").css("width", "95%");
-        $scope.modeSeach = false;
+        $("#seach-result-items").css("width", "90%");
+
+        documentDisplay.data.document = document;
+        documentDisplay.data.viewType = viewType;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
     };
     displayModeSearch();
 
@@ -140,15 +151,6 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
     display/use item list and item to display
     ***************************************************
     ***************************************************/
-    var displayDocument = function (document, viewType) {
-        $("#viewRight").css("width", "49%");
-        $("#viewRight").show();
-        $("#viewLeft").css("width", "49%");
-        documentDisplay.data.document = document;
-        documentDisplay.data.viewType = viewType;
-        documentDisplay.data.calls = documentDisplay.data.calls + 1;
-    }
-    
     $scope.gridDocuments = {
         columnDefs: [
            { name: 'Titre', field: 'attributes.label', cellClass: "cell-inbox-item", width: 280 },
