@@ -22,6 +22,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
         $("#divSearchControl").hide();
         $("#seach-result-items").css("width", "90%");
 
+        $scope.modeSeach = false;
         documentDisplay.data.document = document;
         documentDisplay.data.viewType = viewType;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
