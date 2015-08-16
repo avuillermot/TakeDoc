@@ -191,7 +191,7 @@ namespace TakeDocService.Document
             foreach (TakeDocModel.MetaData meta in metas)
             {
                 ICollection<TakeDocModel.DataFieldValue> values = daoDataFieldValue.GetBy(x => x.DataFieldId == meta.DataFieldId && x.EntityId == meta.EntityId && (x.EtatDeleteData == false || x.DataFieldValueKey == meta.MetaDataValue));
-                if (values != null && values.Count() > 0) meta.DataFieldValues = values;
+                if (values != null && values.Count() > 0) meta.DataFieldValues = values.OrderBy(x => x.DataFieldValueKey).ToList();
                 else meta.DataFieldValues = new List<TakeDocModel.DataFieldValue>();
                 
                 ICollection<TakeDocModel.DataFieldAutoComplete> autoCompletes = daoAutoComplete.GetBy(x => x.DataFieldAutoCompleteId == meta.DataField.DataFieldAutoCompleteId && x.EntityId == meta.EntityId && x.EtatDeleteData == false);
