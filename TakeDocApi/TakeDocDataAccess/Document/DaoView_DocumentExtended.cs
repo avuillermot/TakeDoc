@@ -8,7 +8,7 @@ namespace TakeDocDataAccess.Document
 {
     public class DaoView_DocumentExtended : DaoBase<TakeDocModel.View_DocumentExtended>, Interface.IDaoView_DocumentExtended
     {
-        public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
+        public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, string reference, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
         {
             StringBuilder sqlVersion = new StringBuilder("SELECT VersionId FROM dbo.Version v WHERE v.VersionId = dx.VersionId AND v.EtatDeleteData = 0");
             // test value of metadata
@@ -40,6 +40,7 @@ namespace TakeDocDataAccess.Document
                 sql.Append(")");
             }
             if (string.IsNullOrEmpty(title) == false) sql.AppendFormat("AND dx.DocumentLabel LIKE '{0}%' ", title);
+            if (string.IsNullOrEmpty(reference) == false) sql.AppendFormat("AND dx.DocumentReference LIKE '%{0}' ", reference);
 
             System.Data.Entity.Infrastructure.DbRawSqlQuery<TakeDocModel.View_DocumentExtended> data = this.ctx.Database.SqlQuery<TakeDocModel.View_DocumentExtended>(sql.ToString());
             return data.ToList<TakeDocModel.View_DocumentExtended>();

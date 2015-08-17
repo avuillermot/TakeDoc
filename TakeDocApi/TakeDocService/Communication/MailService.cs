@@ -27,12 +27,12 @@ namespace TakeDocService.Communication
             System.Net.NetworkCredential basicCredential =  new System.Net.NetworkCredential(login, password);
             MailMessage mail = new MailMessage(from, to);
             SmtpClient client = new SmtpClient();
+            client.Host = smtp;
             client.Port = Convert.ToInt32(port);
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = basicCredential;
-            client.EnableSsl = true;
-            client.Host = smtp;
+            client.EnableSsl = false;
             mail.Subject = subject;
             mail.Body = this.FillField(body, user);
             mail.IsBodyHtml = true;

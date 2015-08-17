@@ -82,9 +82,9 @@ namespace TakeDocApi.Controllers
         }
 
         [HttpPost]
-        [Route("search/{title}/{typeDocumentId}/{entityId}/{userId}")]
+        [Route("search/{title}/{reference}/{typeDocumentId}/{entityId}/{userId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
-        public HttpResponseMessage SearchDocument(string title, Guid typeDocumentId, Guid entityId, Guid userId, [FromBody]string values)
+        public HttpResponseMessage SearchDocument(string title, string reference, Guid typeDocumentId, Guid entityId, Guid userId, [FromBody]string values)
         {
             IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<IDocumentService>();
             try
@@ -120,7 +120,8 @@ namespace TakeDocApi.Controllers
                 }
 
                 if (title == "[EMPTY]") title = string.Empty;
-                ICollection<TakeDocModel.View_DocumentExtended> back = servDocument.Search(title, typeDocumentId, searchs, userId, entityId);
+                if (reference == "[EMPTY]") reference = string.Empty;
+                ICollection<TakeDocModel.View_DocumentExtended> back = servDocument.Search(title, reference, typeDocumentId, searchs, userId, entityId);
                 return Request.CreateResponse(new {value = back});
             }
             catch (Exception ex)

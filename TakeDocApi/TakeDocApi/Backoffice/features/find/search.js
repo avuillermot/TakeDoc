@@ -43,6 +43,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
     $scope.doReset = function () {
         $('.search-item-input').val("");
         $scope.documentTitle = "";
+        $scope.documentReference = "";
     };
 
     $scope.doCloseSearch = function () {
@@ -78,6 +79,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
 
         var param = {
             typeDocumentId: $scope.selectedTypeDoc.get("id"),
+            reference: $scope.documentReference,
             title: $scope.documentTitle,
             userId: $rootScope.getUser().Id,
             entityId: $scope.selectedEntity.Id,
@@ -85,7 +87,7 @@ backOffice.controller('searchFindController', ['$scope', '$rootScope', 'document
             success: success,
             error: error
         };
-        $rootScope.showLoader();
+        $rootScope.showLoader("Recherche en cours...");
         myDocs.search(param);
     };
 

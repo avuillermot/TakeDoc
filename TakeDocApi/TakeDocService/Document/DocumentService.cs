@@ -165,9 +165,9 @@ namespace TakeDocService.Document
             }
         }
 
-        public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
+        public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, string reference, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)
         {
-            return daoDocExtended.Search(title, typeDocumentId, searchs, userId, entityId);
+            return daoDocExtended.Search(title, reference, typeDocumentId, searchs, userId, entityId);
         }
 
         public void SetTitle(string title, Guid versionId, Guid userId, Guid entityId)

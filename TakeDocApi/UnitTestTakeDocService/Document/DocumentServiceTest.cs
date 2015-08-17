@@ -86,7 +86,7 @@ namespace UnitTestTakeDocService.Document
                  MetaDataValue = "5"
              });*/
 
-             ICollection<TakeDocModel.View_DocumentExtended> docs = servDocument.Search(string.Empty, typeDoc, metas, userId, entityId);
+             ICollection<TakeDocModel.View_DocumentExtended> docs = servDocument.Search(string.Empty, string.Empty, typeDoc, metas, userId, entityId);
         }
         
         [TestMethod]

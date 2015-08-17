@@ -34,6 +34,14 @@
                         <input id="input-title" type="text" ng-model="documentTitle" class="search-item-input search-field" />
                     </div>
                 </div>
+                <div class="form-group search-field-deleted-false">
+                    <label class="col-md-2 control-label search-field-title">
+                        Référence doc.
+                    </label>
+                    <div class="col-md-9 inbox-metadata" id="divinput-reference">
+                        <input id="input-title" type="text" ng-model="documentReference" class="search-item-input search-field" />
+                    </div>
+                </div>
 
                 <div ng-repeat="field in fields | filter:filterSearchField  | orderBy:['attributes.deleted','attributes.index'] " class="form-group search-field-deleted-{{field.attributes.deleted}}" ng-switch on="field.attributes.inputType">
                     <label class="col-md-2 control-label search-field-title">

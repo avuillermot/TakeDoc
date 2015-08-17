@@ -34,13 +34,15 @@ backOffice.controller('resultUserController', ['$scope', '$rootScope', '$locatio
                     usersResult.data.calls = usersResult.data.calls + 1;
                     $scope.$apply();
                 }
+                $rootScope.hideLoader();
 
             },
             error: function () {
+                $rootScope.hideLoader();
                 $rootScope.showModal("Erreur","Il est impossible de supprimer cet utilisateur.");
             }
         }
-
+        $rootScope.showLoader("Suppression en cours...");
         userTkService.delete(param);
 
     };
