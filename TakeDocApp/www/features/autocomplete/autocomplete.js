@@ -32,7 +32,8 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
 
     $scope.doSelect = function (key, value) {
         if (key != null) {
-            $scope.current.value = value;
+            $scope.current.value = key;
+            $scope.current.text = value;
             $location.path("metadata/mode/UPDATE");
         }
     };

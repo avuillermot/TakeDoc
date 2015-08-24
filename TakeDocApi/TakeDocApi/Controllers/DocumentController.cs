@@ -99,6 +99,7 @@ namespace TakeDocApi.Controllers
                         string name = obj.Value<string>("name");
                         string condition = obj.Value<string>("condition");
                         string value = obj.Value<string>("value");
+                        string text = obj.Value<string>("text");
                         string ctype = obj.Value<string>("type");
 
                         TakeDocModel.DataField field = new TakeDocModel.DataField()
@@ -112,6 +113,7 @@ namespace TakeDocApi.Controllers
                         searchs.Add(new TakeDocModel.Dto.Document.SearchMetadata(condition)
                         {
                             MetaDataValue = value,
+                            MetaDataText = text,
                             MetaDataName = name,
                             Condition = condition,
                             DataField = field

@@ -83,6 +83,7 @@ var MetaData = Backbone.Model.extend({
         this.set("index", current.index);
         this.set("name", current.name);
         this.set("value", current.value);
+        this.set("text", current.text);
         this.set("mandatory", current.mandatory);
         this.set("type", current.type);
         this.set("label", current.label);
@@ -127,8 +128,14 @@ var MetaDatas = Backbone.Collection.extend({
             var current = this.models[i];
             var mandatory = current.get("mandatory");
 
-            if (current.get("type") == "ion-toggle" && (current.get("value") == null || current.get("value") == "")) current.set("value", "false");
-
+            if (current.get("htmlType") == "list") {
+                debugger;
+                var value = current.get("value");
+                // we have the value, we find text
+                var values = current.get("valueList").where({ key: value });
+                if (values.length > 0) current.set("text", values[0].get("text"));
+            }
+            
             if (mandatory == true) {
                 var myValue = (current.get("type") != "date") ? current.get("value") : moment(current.get("value")).format("YYYY-MM-DD");
 

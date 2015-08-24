@@ -50,6 +50,7 @@ namespace TakeDocService.Document
 
                 TakeDocModel.MetaData meta = metadatas.First(x => x.MetaDataName == name);
                 meta.MetaDataValue = obj.Value<string>("value");
+                meta.MetaDataText = obj.Value<string>("text");
 
                 if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("FILE"))
                 {
@@ -215,9 +216,10 @@ namespace TakeDocService.Document
                         index = metadata.MetaDataDisplayIndex,
                         name = metadata.MetaDataName,
                         value = metadata.MetaDataValue,
+                        text = metadata.MetaDataText,
                         mandatory = metadata.MetaDataMandatory,
-                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         label = metadata.DataField.DataFieldLabel,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId,
                         valueList = from value in metadata.DataFieldValues
@@ -242,9 +244,10 @@ namespace TakeDocService.Document
                         index = metadata.MetaDataDisplayIndex,
                         name = metadata.MetaDataName,
                         value = metadata.MetaDataValue,
+                        text = metadata.MetaDataText,
                         mandatory = metadata.MetaDataMandatory,
-                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         label = metadata.DataField.DataFieldLabel,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId,
                         autoCompleteId = (metadata.AutoComplete == null) ? Guid.Empty : metadata.AutoComplete.DataFieldAutoCompleteId,
@@ -268,9 +271,10 @@ namespace TakeDocService.Document
                         index = metadata.MetaDataDisplayIndex,
                         name = metadata.MetaDataName,
                         value = metadata.MetaDataValue,
+                        text = metadata.MetaDataText,
                         mandatory = metadata.MetaDataMandatory,
-                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         label = metadata.DataField.DataFieldLabel,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId,
                         file = new
@@ -309,8 +313,8 @@ namespace TakeDocService.Document
                         name = metadata.MetaDataName,
                         value = value,
                         mandatory = metadata.MetaDataMandatory,
-                        type = inputType,
                         label = metadata.DataField.DataFieldLabel,
+                        type = metadata.DataField.DataFieldType.DataFieldInputType,
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId
                     };
@@ -333,10 +337,9 @@ namespace TakeDocService.Document
             ro.DisplayIndex = metadata.MetaDataDisplayIndex;
             ro.Label = metadata.DataField.DataFieldLabel;
             ro.Value = metadata.MetaDataValue;
-            ro.Text = metadata.MetaDataValue;
+            ro.Text = metadata.MetaDataText;
             ro.Type = metadata.DataField.DataFieldType.DataFieldInputType;
-            if (metadata.HtmlType.Equals("list") && string.IsNullOrEmpty(metadata.MetaDataValue) == false) ro.Text = metadata.DataFieldValues.First(x => x.DataFieldValueKey == metadata.MetaDataValue).DataFieldValueText;
-
+            
             return ro;
         }
 

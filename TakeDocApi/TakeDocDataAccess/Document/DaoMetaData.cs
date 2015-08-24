@@ -22,7 +22,7 @@ namespace TakeDocDataAccess.Document
         {
             foreach (TakeDocModel.MetaData metadata in metadatas)
             {
-                metadata.MetaDataValue = metadata.MetaDataValue;
+                if (string.IsNullOrEmpty(metadata.MetaDataText)) metadata.MetaDataText = metadata.MetaDataValue;
                 metadata.UserUpdateData = userId;
                 metadata.DateUpdateData = System.DateTimeOffset.UtcNow;
             }

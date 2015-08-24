@@ -16,7 +16,7 @@
                            <textarea ng-readonly="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2"></textarea>
                        </div>
                        <div ng-switch-when="autocomplete">
-                           <textarea ng-readonly="mode == 'READ'" rows="5" class="metadata-autocomplete-value" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" readonly="readonly"></textarea>
+                           <textarea ng-readonly="mode == 'READ'" rows="5" class="metadata-autocomplete-value" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.text" tabindex="{{metadata.attributes.index}}" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" readonly="readonly"></textarea>
                        </div>
                        <div ng-switch-when="file" ng-readonly="mode == 'READ'">
                            <div class="metadata-item-filename">{{metadata.attributes.value}}</div>

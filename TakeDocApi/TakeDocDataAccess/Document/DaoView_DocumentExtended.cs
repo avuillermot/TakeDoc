@@ -16,9 +16,9 @@ namespace TakeDocDataAccess.Document
             {
                 StringBuilder sqlMeta = new StringBuilder("SELECT MetaDataId FROM dbo.MetaData m WHERE m.MetaDataVersionId = v.VersionId AND m.EtatDeleteData = 0 ");
                 if (search.DataField.DataFieldType.DataFieldInputType.ToUpper() == "ION-TOGGLE")
-                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE 'TRUE' ", search.MetaDataName, search.MetaDataValue);
+                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND (m.MetaDataValue LIKE 'TRUE' OR m.MetaDataText LIKE '{1}%')", search.MetaDataName, search.MetaDataValue);
                 else if (search.Condition.ToUpper() == TakeDocModel.Dto.Document.SearchCondition.Start)
-                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND m.MetaDataValue LIKE '{1}%' ", search.MetaDataName, search.MetaDataValue);
+                    sqlMeta.AppendFormat("AND m.MetaDataName = '{0}' AND (m.MetaDataValue LIKE '{1}%' OR m.MetaDataText LIKE '{2}%')", search.MetaDataName, search.MetaDataValue, search.MetaDataValue);
                 sqlVersion.AppendFormat("AND EXISTS({0})", sqlMeta);
             }
             

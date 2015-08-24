@@ -170,7 +170,7 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
                     var url = environnement.UrlBase + scope.$parent.metadata.get("autoCompleteUrl");
                     url = url.toUpperCase().replace("<ENTITYID/>", scope.$parent.metadata.get("entityId"));
                     url = url.toUpperCase().replace("<USERID/>", $rootScope.getUser().Id);
-                    url = url.toUpperCase().replace("<VALUE/>", scope.$parent.metadata.get("value"));
+                    url = url.toUpperCase().replace("<VALUE/>", scope.$parent.metadata.get("text"));
                     $.ajax({
                         type: 'GET',
                         url: url,
@@ -189,7 +189,8 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
             select: function (event, ui) {
                 $('#item-' + scope.$parent.metadata.get("id")).height("");
                 // lors de la sélection d'un choix dans la liste, on affiche le libellé et on déclenche la recherche
-                scope.$parent.metadata.set("value", ui.item.text);
+                scope.$parent.metadata.set("value", ui.item.key);
+                scope.$parent.metadata.set("text", ui.item.text);
                 scope.$apply();
                 return false;
             },
@@ -197,7 +198,7 @@ backOffice.directive('tkAutocomplete', ['$http', '$rootScope', function ($http, 
         }).data("ui-autocomplete")._renderItem = function (ul, item) {
             // set du label pour récupération dans la méthode select
             item.label = item.text;
-            var highLighted = highLightData(item.text, scope.$parent.metadata.get("value"));
+            var highLighted = highLightData(item.text, scope.$parent.metadata.get("text"));
 
             // construction de l'affichage d'une ligne
             var line = $("<div>").html(highLighted);

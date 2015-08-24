@@ -26,7 +26,7 @@
         <EntityTypeShape EntityType="TakeDocModel.DataFieldType" Width="1.5" PointX="21.25" PointY="4.125" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldType" />
         <EntityTypeShape EntityType="TakeDocModel.View_TypeDocumentDataField" Width="1.5" PointX="15.125" PointY="0.5" />
-        <EntityTypeShape EntityType="TakeDocModel.DataFieldValue" Width="1.5" PointX="20.375" PointY="9.5" />
+        <EntityTypeShape EntityType="TakeDocModel.DataFieldValue" Width="4.25" PointX="20.375" PointY="9.5" />
         <AssociationConnector Association="TakeDocModel.FK_DataFieldValue_DataField" />
         <EntityTypeShape EntityType="TakeDocModel.Status_Document" Width="1.5" PointX="5.375" PointY="7" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Status_Document" />
