@@ -10,7 +10,7 @@
     </div>
     <div class="panel panel-info" id="divDetailDocument">
         <div class="panel-heading">
-            <h3 class="panel-title"><input ng-model="document.attributes.label" class="inbox-title" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true" />{{hasChanged()}}</h3>
+            <h3 class="panel-title"><input ng-model="document.attributes.label" class="inbox-title to-save-{{hasChanged()}}" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true" /></h3>
         </div>
         <div class="panel-body">
             <div role="tabpanel" id="myTabPanel">

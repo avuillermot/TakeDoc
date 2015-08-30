@@ -180,6 +180,10 @@ form {
     border:1px solid #ffffff
 }
 
+.to-save-true {
+    color: #DF3A01;
+}
+
 .form-group.required .control-label:after {
   content:"*";
   color:red;
