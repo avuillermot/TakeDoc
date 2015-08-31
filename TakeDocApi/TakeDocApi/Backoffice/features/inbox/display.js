@@ -80,6 +80,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             success: success,
             error: error
         };
+        $scope.isUpdate = false;
         myDocComplete.load(context);
     }
     
