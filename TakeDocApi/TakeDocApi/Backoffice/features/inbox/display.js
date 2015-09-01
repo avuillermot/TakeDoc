@@ -136,7 +136,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
-                debugger;
                 $rootScope.hideLoader();
 
                 $scope.isUpdate = false;

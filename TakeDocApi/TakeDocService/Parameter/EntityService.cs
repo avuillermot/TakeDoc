@@ -17,11 +17,6 @@ namespace TakeDocService.Parameter
             daoEntity.AddUser(user, entity);
         }
 
-        public void RemoveUser(TakeDocModel.UserTk user, TakeDocModel.Entity entity)
-        {
-            daoEntity.RemoveUser(user, entity);
-        }
-
         public void AddUser(Guid userId, Guid entityId)
         {
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();

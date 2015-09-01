@@ -15,6 +15,9 @@
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
         if ($.cookie('RefreshTokenTicks') < ticks) return false;
         return true;
+    },
+    getLoginUrl: function () {
+        return window.location.origin + window.location.pathname + "#/login"
     }
 }
 
@@ -27,7 +30,8 @@ var requestHelper = {
                 $.cookie('AccessTokenTicks', arguments[0].AccessTokenTicks, { expires: environnement.durationCookieDay });
             },
             error: function () {
-                alert("Vous n'avez pas accès à cette fonctionnalité.");
+                alert("Votre session a expirée (2).");
+                window.location = environnement.getLoginUrl();
             }
         };
         $.ajax({
@@ -39,9 +43,11 @@ var requestHelper = {
         });
     },
     beforeSend: function () {
+        
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
         if ($.cookie('RefreshTokenTicks') < ticks) {
-            alert("Vous n'avez pas accès à cette fonctionnalité.");
+            alert("Votre session a expirée (1).");
+            window.location = environnement.getLoginUrl();
             return false;
         }
         else if ($.cookie('AccessTokenTicks') < ticks) {

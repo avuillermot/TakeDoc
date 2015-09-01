@@ -15,12 +15,5 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.View_TypeDocumentDataField> dataFields = daoDataField.GetBy(x => x.TypeDocumentId == typeDocumentId && x.EntityId == entityId && x.EtatDeleteData == false);
             return dataFields;
         }
-
-        public ICollection<TakeDocModel.View_TypeDocumentDataField> GetDataField(ICollection<string> fields, Guid entityId)
-        {
-            ICollection<TakeDocModel.View_TypeDocumentDataField> dataFields = 
-                daoDataField.GetBy(x => fields.Contains(x.Reference) && x.EntityId == entityId && x.EtatDeleteData == false);
-            return dataFields;
-        }
     }
 }

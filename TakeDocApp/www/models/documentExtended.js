@@ -160,10 +160,11 @@ var DocumentsExtended = Backbone.Collection.extend({
         this.fetch({ success: param.success, error: param.error, beforeSend: requestHelper.beforeSend(), url: url, reset: true });
     },
     search: function (param) {
-        var url = (environnement.UrlBase + "document/search/{title}/{typeDocumentId}/{entityId}/{userId}").replace("{typeDocumentId}", param.typeDocumentId);
+        var url = (environnement.UrlBase + "document/search/{title}/{reference}/{typeDocumentId}/{entityId}/{userId}").replace("{typeDocumentId}", param.typeDocumentId);
         url = url.replace("{entityId}", param.entityId);
         url = url.replace("{userId}", param.userId);
-        url = url.replace("{title}", (param.title == "" || param.title == null)?"[EMPTY]":param.title);
+        url = url.replace("{title}", (param.title == "" || param.title == null) ? "[EMPTY]" : param.title);
+        url = url.replace("{reference}", (param.reference == "" || param.reference == null) ? "[EMPTY]" : param.reference);
 
         var data = new Array();
         if (param.conditions != null) {

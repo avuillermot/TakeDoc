@@ -15,6 +15,9 @@
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
         if (sessionStorage.getItem('RefreshTokenTicks') < ticks) return false;
         return true;
+    },
+    getLoginUrl: function () {
+        return window.location.origin + window.location.pathname + "#/login"
     }
 }
 
@@ -27,13 +30,14 @@ var requestHelper = {
                 sessionStorage.setItem('AccessTokenTicks', arguments[0].AccessTokenTicks);
             },
             error: function () {
-                alert("Vous n'avez pas accès à cette fonctionnalité.");
+                alert("Votre session a expirée (2).");
+                window.location = environnement.getLoginUrl();
             }
         };
         $.ajax({
             type: 'GET',
             async: false,
-            url: environnement.UrlBase + 'token/access/'+$.cookie('RefreshToken'),
+            url: environnement.UrlBase + 'token/access/' + sessionStorage.getItem('RefreshToken'),
             success: param.success,
             error: param.error
         });
@@ -41,7 +45,8 @@ var requestHelper = {
     beforeSend: function () {
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
         if (sessionStorage.getItem('RefreshTokenTicks') < ticks) {
-            alert("Vous n'avez pas accès à cette fonctionnalité.");
+            alert("Votre session a expirée (1).");
+            window.location = environnement.getLoginUrl();
             return false;
         }
         else if (sessionStorage.getItem('AccessTokenTicks') < ticks) {
