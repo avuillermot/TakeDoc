@@ -101,6 +101,12 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Environnement.cs" />
+    <Compile Include="Folder.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FolderType.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="GetWorkflowHistory_Result.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

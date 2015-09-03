@@ -73,6 +73,8 @@
     <Compile Include="Document\Interface\IDaoBackOfficeTypeDocument.cs" />
     <Compile Include="Document\Interface\IDaoMetaDataFile.cs" />
     <Compile Include="Document\Interface\IDaoView_DocumentExtended.cs" />
+    <Compile Include="Folder\DaoFolder.cs" />
+    <Compile Include="Folder\Interface\IDaoFolder.cs" />
     <Compile Include="Security\DaoUserTk.cs" />
     <Compile Include="Document\DaoVersion.cs" />
     <Compile Include="Document\DaoDataFieldAutoComplete.cs" />

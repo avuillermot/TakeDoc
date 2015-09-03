@@ -96,6 +96,8 @@
     <Compile Include="Document\Interface\ITypeDocumentService.cs" />
     <Compile Include="Document\Interface\IVersionService.cs" />
     <Compile Include="Document\MetaDataFileService.cs" />
+    <Compile Include="Folder\FolderService.cs" />
+    <Compile Include="Folder\Interface\IFolderService.cs" />
     <Compile Include="Parameter\EntityService.cs" />
     <Compile Include="Parameter\Interface\IEntityService.cs" />
     <Compile Include="Document\MetaDataService.cs" />

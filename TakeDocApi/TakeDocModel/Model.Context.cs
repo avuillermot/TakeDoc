@@ -56,6 +56,8 @@ namespace TakeDocModel
         public virtual DbSet<AccessToken> AccessToken { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
         public virtual DbSet<MetaDataFile> MetaDataFile { get; set; }
+        public virtual DbSet<Folder> Folder { get; set; }
+        public virtual DbSet<FolderType> FolderType { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {

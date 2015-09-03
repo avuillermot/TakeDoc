@@ -48,7 +48,7 @@
           </Key>
           <Property Name="CustomerId" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="CustomerName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar" MaxLength="400" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="DataField">
@@ -156,6 +156,43 @@
           <Property Name="EntityLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FolderReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolderDateStart" Type="datetimeoffset" Precision="7" />
+          <Property Name="FolderDateEnd" Type="datetimeoffset" Precision="7" />
+          <Property Name="FolderLabel" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="FolderPriority" Type="int" Nullable="false" />
+          <Property Name="FolderOwnerId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FolderTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" />
+        </EntityType>
+        <EntityType Name="FolderType">
+          <Key>
+            <PropertyRef Name="FolderTypeId" />
+          </Key>
+          <Property Name="FolderTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FolderTypeReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FolderTypeLabel" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="GroupTk">
           <Key>
             <PropertyRef Name="GroupTkId" />
@@ -171,8 +208,8 @@
           </Key>
           <Property Name="MetaDataId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MetaDataName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="MetaDataValue" Type="nvarchar(max)" />
-          <Property Name="MetaDataText" Type="nvarchar(max)" />
+          <Property Name="MetaDataValue" Type="nvarchar" MaxLength="400" />
+          <Property Name="MetaDataText" Type="nvarchar" MaxLength="400" />
           <Property Name="MetaDataVersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MetaDataMandatory" Type="bit" />
           <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
@@ -605,6 +642,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Folder_FolderType">
+          <End Role="FolderType" Type="Self.FolderType" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FolderType">
+              <PropertyRef Name="FolderTypeId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="FolderTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MetaData_DataField">
           <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -835,6 +884,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="Document" EntityType="Self.Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DocumentStatusHisto" EntityType="Self.DocumentStatusHisto" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Entity" EntityType="Self.Entity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Folder" EntityType="Self.Folder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FolderType" EntityType="Self.FolderType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupTk" EntityType="Self.GroupTk" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaData" EntityType="Self.MetaData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MetaDataFile" EntityType="Self.MetaDataFile" Schema="dbo" store:Type="Tables" />
@@ -945,6 +996,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_DocumentStatus_Entity" Association="Self.FK_DocumentStatus_Entity">
             <End Role="Entity" EntitySet="Entity" />
             <End Role="DocumentStatusHisto" EntitySet="DocumentStatusHisto" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Folder_FolderType" Association="Self.FK_Folder_FolderType">
+            <End Role="FolderType" EntitySet="FolderType" />
+            <End Role="Folder" EntitySet="Folder" />
           </AssociationSet>
           <AssociationSet Name="FK_MetaData_DataField" Association="Self.FK_MetaData_DataField">
             <End Role="DataField" EntitySet="DataField" />
@@ -1204,6 +1259,12 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <FunctionImport Name="GetMediaType" ReturnType="Collection(String)">
           <Parameter Name="extension" Mode="In" Type="String" />
           </FunctionImport>
+          <EntitySet Name="Folder" EntityType="TakeDocModel.Folder" />
+          <EntitySet Name="FolderType" EntityType="TakeDocModel.FolderType" />
+          <AssociationSet Name="FK_Folder_FolderType" Association="TakeDocModel.FK_Folder_FolderType">
+            <End Role="FolderType" EntitySet="FolderType" />
+            <End Role="Folder" EntitySet="Folder" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1367,7 +1428,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           </Key>
           <Property Name="MetaDataId" Type="Guid" Nullable="false" />
           <Property Name="MetaDataName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="MetaDataValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataValue" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="DataFieldId" Type="Guid" Nullable="false" />
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="UserCreateData" Type="Guid" Nullable="false" />
@@ -1383,7 +1444,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="MetaDataDisplayIndex" Type="Int32" Nullable="false" />
           <Property Name="MetaDataMandatory" Type="Boolean" />
           <NavigationProperty Name="MetaDataFile" Relationship="TakeDocModel.FK_MetaDataFile_MetaData" FromRole="MetaData" ToRole="MetaDataFile" />
-          <Property Name="MetaDataText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataText" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_MetaData_DataField">
           <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
@@ -1689,7 +1750,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EntityId" Type="Guid" Nullable="false" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Entity" Relationship="TakeDocModel.FK_Client_Entity" FromRole="Customer" ToRole="Entity" />
-          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerName" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
           <Property Name="CustomerId" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <Association Name="FK_Client_Entity">
@@ -2078,6 +2139,57 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Principal>
             <Dependent Role="MetaDataFile">
               <PropertyRef Name="MetaDataId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Folder">
+          <Key>
+            <PropertyRef Name="FolderId" />
+          </Key>
+          <Property Name="FolderId" Type="Guid" Nullable="false" />
+          <Property Name="FolderReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolderDateStart" Type="DateTimeOffset" Precision="7" />
+          <Property Name="FolderDateEnd" Type="DateTimeOffset" Precision="7" />
+          <Property Name="FolderLabel" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="FolderPriority" Type="Int32" Nullable="false" />
+          <Property Name="FolderOwnerId" Type="Guid" Nullable="false" />
+          <Property Name="FolderTypeId" Type="Guid" Nullable="false" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" />
+          <NavigationProperty Name="FolderType" Relationship="TakeDocModel.FK_Folder_FolderType" FromRole="Folder" ToRole="FolderType" />
+        </EntityType>
+        <EntityType Name="FolderType">
+          <Key>
+            <PropertyRef Name="FolderTypeId" />
+          </Key>
+          <Property Name="FolderTypeId" Type="Guid" Nullable="false" />
+          <Property Name="FolderTypeReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FolderTypeLabel" Type="String" Nullable="false" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Folder" Relationship="TakeDocModel.FK_Folder_FolderType" FromRole="FolderType" ToRole="Folder" />
+        </EntityType>
+        <Association Name="FK_Folder_FolderType">
+          <End Type="TakeDocModel.FolderType" Role="FolderType" Multiplicity="1" />
+          <End Type="TakeDocModel.Folder" Role="Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FolderType">
+              <PropertyRef Name="FolderTypeId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="FolderTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2631,6 +2743,45 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="GetMediaType" FunctionName="TakeDocModel.Store.GetMediaType" />
+          <EntitySetMapping Name="Folder">
+            <EntityTypeMapping TypeName="TakeDocModel.Folder">
+              <MappingFragment StoreEntitySet="Folder">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="FolderTypeId" ColumnName="FolderTypeId" />
+                <ScalarProperty Name="FolderOwnerId" ColumnName="FolderOwnerId" />
+                <ScalarProperty Name="FolderPriority" ColumnName="FolderPriority" />
+                <ScalarProperty Name="FolderLabel" ColumnName="FolderLabel" />
+                <ScalarProperty Name="FolderDateEnd" ColumnName="FolderDateEnd" />
+                <ScalarProperty Name="FolderDateStart" ColumnName="FolderDateStart" />
+                <ScalarProperty Name="FolderReference" ColumnName="FolderReference" />
+                <ScalarProperty Name="FolderId" ColumnName="FolderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FolderType">
+            <EntityTypeMapping TypeName="TakeDocModel.FolderType">
+              <MappingFragment StoreEntitySet="FolderType">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="FolderTypeLabel" ColumnName="FolderTypeLabel" />
+                <ScalarProperty Name="FolderTypeReference" ColumnName="FolderTypeReference" />
+                <ScalarProperty Name="FolderTypeId" ColumnName="FolderTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
