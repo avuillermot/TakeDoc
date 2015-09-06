@@ -136,6 +136,19 @@
         }
     });
 
+    $stateProvider.state('agenda', {
+        url: "/agenda",
+        views: {
+            "viewMenu": {
+                templateUrl: "features/menu/menu.html",
+                controller: 'menuController'
+            },
+            "viewRight": {
+                templateUrl: "features/agenda/agenda.html",
+                controller: 'agendaController'
+            }
+        }
+    });
 
     // if none of the above states are matched, use this as the fallback
     $urlRouterProvider.otherwise('/login');

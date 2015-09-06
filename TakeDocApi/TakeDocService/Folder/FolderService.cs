@@ -38,5 +38,54 @@ namespace TakeDocService.Folder
 
             return folder;
         }
+
+        public void Delete(Guid folderId, Guid userId, Guid entityId)
+        {
+            daoFolder.Delete(folderId, userId, entityId);
+        }
+
+        public TakeDocModel.Folder Update(JObject jfolder)
+        {
+            Guid folderId = new Guid(jfolder.Value<string>("folderId"));
+            Guid entityId = new Guid(jfolder.Value<string>("entityId"));
+            Guid userUpdateId = new Guid(jfolder.Value<string>("userUpdateId"));
+            Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
+            Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypId"));
+
+
+            TakeDocModel.Folder folder = daoFolder.GetBy(x => x.FolderId == folderId && x.EntityId == entityId).First();
+
+            folder.FolderLabel = jfolder.Value<string>("label");
+            folder.FolderOwnerId = ownerId;
+            folder.UserUpdateData = userUpdateId;
+            folder.DateUpdateData = System.DateTimeOffset.UtcNow;
+            
+            if (string.IsNullOrEmpty(jfolder.Value<string>("dateStart")) == false)
+            {
+                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("dateStart"));
+            }
+
+            if (string.IsNullOrEmpty(jfolder.Value<string>("dateEnd")) == false)
+            {
+                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("dateEnd"));
+            }
+
+            daoFolder.Update(folder, userUpdateId, entityId);
+
+            return folder;
+        }
+
+        public ICollection<TakeDocModel.Folder> GetByPeriod(Guid ownerId, DateTime start, DateTime end)
+        {
+            ICollection<TakeDocModel.Folder> folders = daoFolder.GetBy(x => x.FolderOwnerId == ownerId
+                && x.EtatDeleteData == false
+                && (
+                    (x.FolderDateStart <= start && start >= x.FolderDateEnd)
+                    || (x.FolderDateStart <= end && end <= x.FolderDateEnd)
+                    || (x.FolderDateStart >= start && end <= x.FolderDateEnd)
+                )
+            );
+            return folders.ToList();
+        }
     }
 }

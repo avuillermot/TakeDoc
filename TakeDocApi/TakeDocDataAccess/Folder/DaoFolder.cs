@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace TakeDocDataAccess.Folder
 {
@@ -20,6 +21,24 @@ namespace TakeDocDataAccess.Folder
             base.Context.SaveChanges();
 
             return toCreate;
+        }
+
+
+        public void Delete(Guid folderId, Guid userId, Guid entityId)
+        {
+            TakeDocModel.Folder folder = base.GetBy(x => x.FolderId == folderId && x.EntityId == entityId).First();
+            folder.EtatDeleteData = true;
+            folder.UserDeleteData = userId;
+            folder.DateDeleteData = System.DateTimeOffset.UtcNow;
+            base.Update(folder);
+        }
+
+        public TakeDocModel.Folder Update(TakeDocModel.Folder toUpdate, Guid userUpdateId, Guid entityId)
+        {
+            toUpdate.UserUpdateData = userUpdateId;
+            toUpdate.DateUpdateData = System.DateTimeOffset.UtcNow;
+            base.Update(toUpdate);
+            return toUpdate;
         }
     }
 }
