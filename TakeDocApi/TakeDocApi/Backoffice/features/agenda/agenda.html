@@ -1,3 +1,6 @@
-﻿<div class="panel panel-info">
-    <div ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources"></div>
+﻿<div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block; width:80%"></div>
+<div id="detail" style="display:inline-block">
+    <input id="title" ng-model="current.title" />
+    <input id="start" type="datetime" ng-model="current.start" />
+    <input id="end" type="datetime" ng-model="current.end" />
 </div>
