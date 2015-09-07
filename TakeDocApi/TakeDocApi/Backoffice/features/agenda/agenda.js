@@ -15,19 +15,19 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
       { title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2) },
       { id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false },
       { id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false },
-      { title: 'Birthday Party', start: new Date(y, m, d + 1, 19, 0), end: new Date(y, m, d + 1, 22, 30), allDay: false }
+      { title: 'Birthday Party', start: new Date(y, m, d + 1, 19, 0), end: new Date(y, m, d + 1, 22, 30), allDay: false },
     ];
 
     /* Change View */
-    $scope.changeView = function (view, calendar) {
+    /*$scope.changeView = function (view, calendar) {
         uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
-    };
+    };*/
     /* Change View */
-    $scope.renderCalender = function (calendar) {
+    /*$scope.renderCalender = function (calendar) {
         if (uiCalendarConfig.calendars[calendar]) {
             uiCalendarConfig.calendars[calendar].fullCalendar('render');
         }
-    };
+    };*/
 
     /* config object */
     $scope.uiConfig = {
@@ -38,8 +38,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 right: 'month,basicWeek,basicDay'
             },
             height: 650,
-            selectable: true,
-            //editable: true,
+            //selectable: true,
+            editable: true,
             businessHours: true,
             lang: 'fr',
             eventRender: function (event, el) {
@@ -51,10 +51,24 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                         $('<div class="tzo"/>').text(event.start.format('hh:mm') + end)
                     );
                 }
-            },            eventClick: function (calEvent, jsEvent, view) {
+            },
+            eventClick: function (calEvent, jsEvent, view) {
+                alert(22);
                 $scope.current = calEvent;
-            }        }
+            },
+            eventResize: function () {
+                alert(555);
+            },
+            eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
+                alert(11);
+            }
+        }
     };
     /* event sources array*/
-    $scope.eventSources = [events];
+    $scope.eventSources = [events,
+        {
+            className: 'gcal-event', 
+            currentTimezone: 'Europe/Paris'
+        }
+    ];
 }]);

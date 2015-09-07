@@ -1,5 +1,5 @@
 ﻿'use strict';
-var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection','angularLoad','flow','ui.calendar']);
+var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection', 'angularLoad', 'flow', 'ui.calendar', 'ngAnimate', 'ui.bootstrap']);
 
 backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
 
@@ -69,7 +69,7 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
 
     if ($rootScope.getUser() != null) {
         var culture = $rootScope.getUser().Culture;
-        angularLoad.loadScript('../Scripts/lib/moment/locale/' + culture + '.js').then(function () {
+        angularLoad.loadScript('../Scripts/bower_components/moment/locale/' + culture + '.js').then(function () {
             $timeout(moment.locale(culture), 2500);
         }).catch(function () {
             alert("Culture can't be load");
