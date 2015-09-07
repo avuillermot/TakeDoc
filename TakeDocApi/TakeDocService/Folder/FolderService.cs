@@ -75,14 +75,14 @@ namespace TakeDocService.Folder
             return folder;
         }
 
-        public ICollection<TakeDocModel.Folder> GetByPeriod(Guid ownerId, DateTime start, DateTime end)
+        public ICollection<TakeDocModel.Folder> GetByPeriod(Guid ownerId, DateTimeOffset start, DateTimeOffset end)
         {
             ICollection<TakeDocModel.Folder> folders = daoFolder.GetBy(x => x.FolderOwnerId == ownerId
                 && x.EtatDeleteData == false
                 && (
-                    (x.FolderDateStart <= start && start >= x.FolderDateEnd)
-                    || (x.FolderDateStart <= end && end <= x.FolderDateEnd)
-                    || (x.FolderDateStart >= start && end <= x.FolderDateEnd)
+                    (start <= x.FolderDateStart && x.FolderDateStart <= end)
+                    || (end <= x.FolderDateEnd && x.FolderDateEnd <= end)
+                    || (start >= x.FolderDateStart && x.FolderDateEnd <= end)
                 )
             );
             return folders.ToList();

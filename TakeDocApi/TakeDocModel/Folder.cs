@@ -30,6 +30,7 @@ namespace TakeDocModel
         public Nullable<System.Guid> UserDeleteData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public Nullable<bool> EtatDeleteData { get; set; }
+        public System.Guid FolderStatusId { get; set; }
     
         public virtual FolderType FolderType { get; set; }
     }

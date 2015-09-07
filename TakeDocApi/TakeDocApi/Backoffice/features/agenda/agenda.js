@@ -4,30 +4,27 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     $("#viewLeft").css("width", "0%");
     $("#viewRight").css("width", "99%");
 
+
     var date = new Date();
     var d = date.getDate();
     var m = date.getMonth();
     var y = date.getFullYear();
 
-    /* event source that contains custom events on the scope */
-    var events = [
-      { title: 'All Day Event', start: new Date(y, m, 1), backgroundColor: 'red' },
-      { title: 'Long Event', start: new Date(y, m, d - 5), end: new Date(y, m, d - 2) },
-      { id: 999, title: 'Repeating Event', start: new Date(y, m, d - 3, 16, 0), allDay: false },
-      { id: 999, title: 'Repeating Event', start: new Date(y, m, d + 4, 16, 0), allDay: false },
-      { title: 'Birthday Party', start: new Date(y, m, d + 1, 19, 0), end: new Date(y, m, d + 1, 22, 30), allDay: false },
-    ];
+    var events = [];
 
-    /* Change View */
-    /*$scope.changeView = function (view, calendar) {
-        uiCalendarConfig.calendars[calendar].fullCalendar('changeView', view);
-    };*/
-    /* Change View */
-    /*$scope.renderCalender = function (calendar) {
-        if (uiCalendarConfig.calendars[calendar]) {
-            uiCalendarConfig.calendars[calendar].fullCalendar('render');
+    $.ajax({
+        type: 'GET',
+        url: environnement.UrlBase + "folder/get/A90CEA2D-7599-437B-88D3-A5405BE3EF93",
+        beforeSend: requestHelper.beforeSend(),
+        success: function () {
+            $.each(arguments[0], function (index, value) {
+                $scope.eventSources[0].push(value);
+            });
+        },
+        error: function () {
+            alert("err");
         }
-    };*/
+    });
 
     /* config object */
     $scope.uiConfig = {
@@ -35,23 +32,15 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             header: {
                 left: 'prev,next today',
                 center: 'title',
-                right: 'month,basicWeek,basicDay'
+                right: 'agendaWeek,agendaDay'
             },
+            defaultView: 'agendaWeek',
             height: 650,
-            //selectable: true,
+            selectable: true,
             editable: true,
-            businessHours: true,
+            //businessHours: true,
             lang: 'fr',
-            eventRender: function (event, el) {
-                // render the timezone offset below the event title
-                if (event.start.hasZone()) {
-                    var end = (event.end == null) ? "" : (" - " + event.end.format('hh:mm'));
 
-                    el.find('.fc-title').after(
-                        $('<div class="tzo"/>').text(event.start.format('hh:mm') + end)
-                    );
-                }
-            },
             eventClick: function (calEvent, jsEvent, view) {
                 alert(22);
                 $scope.current = calEvent;

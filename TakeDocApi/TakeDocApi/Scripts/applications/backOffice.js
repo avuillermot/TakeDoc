@@ -1,5 +1,5 @@
 ﻿'use strict';
-var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection', 'angularLoad', 'flow', 'ui.calendar', 'ngAnimate', 'ui.bootstrap']);
+var backOffice = angular.module("backOffice", ['ui.router', 'ui.grid', 'ui.grid.edit', 'ui.grid.resizeColumns', 'ui.grid.pagination', 'ui.grid.autoResize', 'ui.grid.selection', 'angularLoad', 'flow', 'ui.calendar', 'ui.bootstrap']);
 
 backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
 

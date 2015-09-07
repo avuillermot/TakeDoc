@@ -22,6 +22,15 @@
                     <li role="presentation"><a href="#history" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Workflow</a></li>
                 </ul>
 
+                <div class="col-md-6">
+                    <p class="input-group">
+                        <input type="date" class="form-control" datepicker-popup ng-required="true" close-text="Close" />
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </p>
+                </div>
+
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="detail">
@@ -61,7 +70,8 @@
                                             <input flow-btn="" type="file" />
                                         </div>
                                     </div>
-                                    <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="date" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <!--<input   type="date" value="{{metadata.attributes.value}}"  />-->
+                                    <datepicker ng-disabled="document.isReadOnly()" ng-switch-when="date" ng-model="dt" show-weeks="true" class="well well-sm form-control inbox-item-input" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" mandatory="{{metadata.attributes.mandatory}}" tabindex="{{metadata.attributes.index}}"></datepicker>
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
                                     <textarea ng-switch-when="textarea" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
                                     <input ng-switch-when="autocomplete" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.text" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />

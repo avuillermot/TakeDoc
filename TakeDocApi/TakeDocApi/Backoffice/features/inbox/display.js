@@ -6,6 +6,18 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     var answers = new WorkflowAnswers();
     var cloneData = new Array();
 
+    $scope.open = function ($event) {
+        $scope.status.opened = true;
+    };
+
+    $scope.disabled = function (date, mode) {
+        return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
+    };
+
+    $scope.status = {
+        opened: false
+    };
+
     // clone metadata to compare if data has changed before save
     var clone = function () {
         cloneData = new Array();

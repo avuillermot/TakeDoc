@@ -16,6 +16,9 @@ namespace TakeDocDataAccess.Folder
             toCreate.DateCreateData = System.DateTimeOffset.UtcNow;
             toCreate.UserCreateData = userCreateId;
             toCreate.EntityId = entityId;
+            toCreate.EtatDeleteData = false;
+            toCreate.FolderTypeId = new Guid("FAC8EFBC-001D-4C4B-85EF-8ACDDE1EA724");
+            toCreate.FolderStatusId = new Guid("26D38D75-BBD0-4F95-A743-92172683E237");
 
             base.Context.Folder.Add(toCreate);
             base.Context.SaveChanges();
