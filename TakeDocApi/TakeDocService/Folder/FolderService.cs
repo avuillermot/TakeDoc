@@ -20,18 +20,18 @@ namespace TakeDocService.Folder
             Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
             Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypId"));
 
-            folder.FolderLabel = jfolder.Value<string>("label");
+            folder.FolderLabel = jfolder.Value<string>("title");
             folder.FolderTypeId = folderTypeId;
             folder.FolderOwnerId = ownerId;
 
-            if (string.IsNullOrEmpty(jfolder.Value<string>("dateStart")) == false)
+            if (string.IsNullOrEmpty(jfolder.Value<string>("start")) == false)
             {
-                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("dateStart"));
+                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"),System.Globalization.CultureInfo.InvariantCulture);
             }
 
-            if (string.IsNullOrEmpty(jfolder.Value<string>("dateEnd")) == false)
+            if (string.IsNullOrEmpty(jfolder.Value<string>("end")) == false)
             {
-                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("dateEnd"));
+                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"),System.Globalization.CultureInfo.InvariantCulture);
             }
 
             daoFolder.Create(folder, userCreateData, entityId);
@@ -50,24 +50,22 @@ namespace TakeDocService.Folder
             Guid entityId = new Guid(jfolder.Value<string>("entityId"));
             Guid userUpdateId = new Guid(jfolder.Value<string>("userUpdateId"));
             Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
-            Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypId"));
-
 
             TakeDocModel.Folder folder = daoFolder.GetBy(x => x.FolderId == folderId && x.EntityId == entityId).First();
 
-            folder.FolderLabel = jfolder.Value<string>("label");
+            folder.FolderLabel = jfolder.Value<string>("title");
             folder.FolderOwnerId = ownerId;
             folder.UserUpdateData = userUpdateId;
             folder.DateUpdateData = System.DateTimeOffset.UtcNow;
             
-            if (string.IsNullOrEmpty(jfolder.Value<string>("dateStart")) == false)
+            if (string.IsNullOrEmpty(jfolder.Value<string>("start")) == false)
             {
-                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("dateStart"));
+                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
             }
 
-            if (string.IsNullOrEmpty(jfolder.Value<string>("dateEnd")) == false)
+            if (string.IsNullOrEmpty(jfolder.Value<string>("end")) == false)
             {
-                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("dateEnd"));
+                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
             }
 
             daoFolder.Update(folder, userUpdateId, entityId);

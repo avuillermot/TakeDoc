@@ -4,27 +4,39 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     $("#viewLeft").css("width", "0%");
     $("#viewRight").css("width", "99%");
 
+    var update = function (event) {
+        var myUrl = environnement.UrlBase + "folder/set/{userId}"
+                .replace("{userId}", $rootScope.getUser().Id);
 
-    var date = new Date();
-    var d = date.getDate();
-    var m = date.getMonth();
-    var y = date.getFullYear();
-
-    var events = [];
-
-    $.ajax({
-        type: 'GET',
-        url: environnement.UrlBase + "folder/get/A90CEA2D-7599-437B-88D3-A5405BE3EF93",
-        beforeSend: requestHelper.beforeSend(),
-        success: function () {
-            $.each(arguments[0], function (index, value) {
-                $scope.eventSources[0].push(value);
-            });
-        },
-        error: function () {
-            alert("err");
+        var data = {
+            id: event.id,
+            folderId: event.folderId,
+            entityId: event.entityId,
+            ownerId: event.ownerId,
+            title: event.title,
+            start: event.start.toJSON(),
+            end: event.end.toJSON()
         }
-    });
+
+        $.ajax({
+            type: 'POST',
+            data: { '': angular.toJson(data) },
+            url: myUrl,
+            beforeSend: requestHelper.beforeSend(),
+            success: function () {
+                $.each($scope.eventSources[2], function (index, value) {
+                    if (value.id == event.id) {
+                        $scope.eventSources[2][index] = event;
+                    }
+                });
+                if (!$scope.$$phase) $scope.$apply();
+            },
+            error: function () {
+                $rootScope.showError({ message: "Votre rendez-vous n'a pas été modifié" });
+            }
+        });
+    }
+
 
     /* config object */
     $scope.uiConfig = {
@@ -38,26 +50,55 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             height: 650,
             selectable: true,
             editable: true,
-            //businessHours: true,
+            minTime: '08:00:00',
+            maxTime: '23:00:00',
+            slotDuration: '00:15:00',
             lang: 'fr',
-
             eventClick: function (calEvent, jsEvent, view) {
-                alert(22);
                 $scope.current = calEvent;
             },
-            eventResize: function () {
-                alert(555);
+            eventResize: function (event, delta, revertFunc, jsEvent, ui, view) {
+                update(event);
             },
             eventDrop: function(event, delta, revertFunc, jsEvent, ui, view) {
-                alert(11);
+                update(event);
+            },
+            select: function (start, end) {
+                var data = {
+                    /*id: event.id,
+                    folderId: event.folderId,
+                    entityId: event.entityId,
+                    ownerId: event.ownerId,*/
+                    title: event.title,
+                    start: start.toJSON(),
+                    end: end.toJSON()
+                };
+                $scope.eventSources[2].push(data);
             }
         }
     };
+
     /* event sources array*/
-    $scope.eventSources = [events,
+    $scope.eventSources = [[],
         {
-            className: 'gcal-event', 
-            currentTimezone: 'Europe/Paris'
-        }
+            className: 'gcal-event'
+        },[]
     ];
+
+    $scope.doSave = function () {
+        update($scope.current);
+    }
+
+    $.ajax({
+        type: 'GET',
+        url: environnement.UrlBase + "folder/get/" + $rootScope.getUser().Id,
+        beforeSend: requestHelper.beforeSend(),
+        success: function () {
+            $scope.eventSources[2] = arguments[0];
+            if (!$scope.$$phase) $scope.$apply();
+        },
+        error: function () {
+            $rootScope.showError("La liste des événements de votre agenda n'est pas disponible.");
+        }
+    });
 }]);

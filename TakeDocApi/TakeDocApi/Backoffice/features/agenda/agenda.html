@@ -1,6 +1,11 @@
-﻿<div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block; width:80%"></div>
-<div id="detail" style="display:inline-block">
-    <input id="title" ng-model="current.title" />
-    <input id="start" type="datetime" ng-model="current.start" />
-    <input id="end" type="datetime" ng-model="current.end" />
+﻿<div>
+    <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
+    <div id="detail" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
+        <div id="toolbarTakeDoc">
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Archiver" ng-hide="ArchiveIsEnable() == false" data-placement="bottom" ng-click="doArchive()"></button>
+        </div>
+        <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px"/>
+        <input id="detail" ng-model="current.detail" style="width:100%" />
+    </div>
 </div>
