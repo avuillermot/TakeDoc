@@ -48,8 +48,8 @@ namespace TakeDocApi.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("set/{userId}")]
+        [HttpPut]
+        [Route("put/{userId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
         public HttpResponseMessage Set(Guid userId, [FromBody]string value)
         {
@@ -58,7 +58,58 @@ namespace TakeDocApi.Controllers
                 Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
                 data.Add("userUpdateId",userId.ToString());
                 IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
+                TakeDocModel.Folder folder = servFolder.Create(data);
+
+                var json = new
+                {
+                    id = folder.FolderId,
+                    folderId = folder.FolderId,
+                    title = folder.FolderLabel,
+                    start = folder.FolderDateStart,
+                    end = folder.FolderDateEnd,
+                    allDay = false,
+                    entityId = folder.EntityId,
+                    ownerId = folder.FolderOwnerId,
+                    folderTypeId = folder.FolderTypeId,
+                };
+
+                return Request.CreateResponse(json);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("set/{userId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage Put(Guid userId, [FromBody]string value)
+        {
+            try
+            {
+                Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+                data.Add("userUpdateId", userId.ToString());
+                IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
                 servFolder.Update(data);
+
+                return Request.CreateResponse("OK");
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("delete/{folderId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage Put(Guid folderId, Guid userId, Guid entityId)
+        {
+            try
+            {
+                IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
+                servFolder.Delete(folderId, userId, entityId);
 
                 return Request.CreateResponse("OK");
             }

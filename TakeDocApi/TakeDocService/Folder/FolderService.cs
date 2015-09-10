@@ -18,21 +18,14 @@ namespace TakeDocService.Folder
             Guid entityId = new Guid(jfolder.Value<string>("entityId"));
             Guid userCreateData = new Guid(jfolder.Value<string>("userCreateId"));
             Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
-            Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypId"));
+            Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypeId"));
 
             folder.FolderLabel = jfolder.Value<string>("title");
             folder.FolderTypeId = folderTypeId;
             folder.FolderOwnerId = ownerId;
 
-            if (string.IsNullOrEmpty(jfolder.Value<string>("start")) == false)
-            {
-                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"),System.Globalization.CultureInfo.InvariantCulture);
-            }
-
-            if (string.IsNullOrEmpty(jfolder.Value<string>("end")) == false)
-            {
-                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"),System.Globalization.CultureInfo.InvariantCulture);
-            }
+            folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"),System.Globalization.CultureInfo.InvariantCulture);
+            folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"),System.Globalization.CultureInfo.InvariantCulture);
 
             daoFolder.Create(folder, userCreateData, entityId);
 

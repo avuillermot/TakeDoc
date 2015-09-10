@@ -165,6 +165,7 @@
           <Property Name="FolderDateStart" Type="datetimeoffset" Precision="7" />
           <Property Name="FolderDateEnd" Type="datetimeoffset" Precision="7" />
           <Property Name="FolderLabel" Type="nvarchar" MaxLength="400" Nullable="false" />
+          <Property Name="FolderDetail" Type="nvarchar" MaxLength="800" />
           <Property Name="FolderPriority" Type="int" Nullable="false" />
           <Property Name="FolderOwnerId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="FolderTypeId" Type="uniqueidentifier" Nullable="false" />
@@ -2165,6 +2166,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="EtatDeleteData" Type="Boolean" />
           <NavigationProperty Name="FolderType" Relationship="TakeDocModel.FK_Folder_FolderType" FromRole="Folder" ToRole="FolderType" />
           <Property Name="FolderStatusId" Type="Guid" Nullable="false" />
+          <Property Name="FolderDetail" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FolderType">
           <Key>
@@ -2748,6 +2750,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Folder">
             <EntityTypeMapping TypeName="TakeDocModel.Folder">
               <MappingFragment StoreEntitySet="Folder">
+                <ScalarProperty Name="FolderDetail" ColumnName="FolderDetail" />
                 <ScalarProperty Name="FolderStatusId" ColumnName="FolderStatusId" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
                 <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />

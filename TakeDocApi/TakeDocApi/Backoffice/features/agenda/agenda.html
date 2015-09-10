@@ -2,10 +2,48 @@
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
     <div id="detail" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
         <div id="toolbarTakeDoc">
-            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Archiver" ng-hide="ArchiveIsEnable() == false" data-placement="bottom" ng-click="doArchive()"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
         </div>
-        <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px"/>
+        <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px" />
         <input id="detail" ng-model="current.detail" style="width:100%" />
+    </div>
+</div>
+
+<div class="modal fade tk-modal" id="modalSelectTypeDoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Type de document</h4>
+            </div>
+            <div class="modal-body">
+                <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px" />
+                <div style="height:5px"></div>
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedEntity.Label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" onclick="return false;" ng-repeat="entity in entitys | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                    </ul>
+                </div>
+                <div style="height:5px"></div>
+                <div class="dropdown search-dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{selectedTypeDoc.attributes.label}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="typeDoc.Id" ng-click="doSelectTypeDoc();" onclick="return false;" ng-repeat="typeDoc in typeDocs| orderBy:['label']"><a role="menuitem" tabindex="-1" href="#">{{typeDoc.attributes.label}}</a></li>
+                    </ul>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-default glyphicon glyphicon-floppy-disk" ng-click="doValidCreate()" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
