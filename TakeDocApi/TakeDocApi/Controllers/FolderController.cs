@@ -11,15 +11,19 @@ namespace TakeDocApi.Controllers
     [RoutePrefix("folder")]
     public class FolderController : ApiController
     {
-        [HttpGet]
+        [HttpPost]
         [Route("get/{userId}")]
         [TakeDocApi.Controllers.Security.AuthorizeTk()]
-        public HttpResponseMessage Get(Guid userId)
+        public HttpResponseMessage Get(Guid userId, [FromBody]string value)
         {
             try
             {
+                Newtonsoft.Json.Linq.JObject data = Newtonsoft.Json.Linq.JObject.Parse(value);
+                DateTimeOffset start = DateTimeOffset.Parse(data.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
+                DateTimeOffset end = DateTimeOffset.Parse(data.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
+
                 IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
-                ICollection<TakeDocModel.Folder> folders = servFolder.GetByPeriod(userId, System.DateTimeOffset.UtcNow.AddYears(-1), System.DateTimeOffset.UtcNow.AddYears(1));
+                ICollection<TakeDocModel.Folder> folders = servFolder.GetByPeriod(userId, start, end);
 
                 IList<object> items = new List<object>();
 

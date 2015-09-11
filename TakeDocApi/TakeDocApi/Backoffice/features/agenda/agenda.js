@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarConfig', function ($scope, $rootScope, $uiCalendarConfig) {
+backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarConfig', '$timeout', function ($scope, $rootScope, $uiCalendarConfig, $timeout) {
 
     $("#viewLeft").css("width", "0%");
     $("#viewRight").css("width", "99%");
@@ -92,10 +92,31 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         });
     };
 
+    var get = function (start, end) {
+        var data = {
+            start: start.toJSON(),
+            end: end.toJSON()
+        };
+
+        $.ajax({
+            type: 'POST',
+            data: { '': angular.toJson(data) },
+            url: environnement.UrlBase + "folder/get/" + $rootScope.getUser().Id,
+            beforeSend: requestHelper.beforeSend(),
+            success: function () {
+                $scope.eventSources[2] = arguments[0];
+                if (!$scope.$$phase) $scope.$apply();
+            },
+            error: function () {
+                $rootScope.showError("La liste des événements de votre agenda n'est pas disponible.");
+            }
+        });
+    };
+
     /* config object */
     $scope.uiConfig = {
         calendar: {
-            header: {
+           header: {
                 left: 'prev,next today',
                 center: 'title',
                 right: 'agendaWeek,agendaDay'
@@ -140,19 +161,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     $scope.doDelete = function () {
         remove($scope.current);
     };
-
-    $.ajax({
-        type: 'GET',
-        url: environnement.UrlBase + "folder/get/" + $rootScope.getUser().Id,
-        beforeSend: requestHelper.beforeSend(),
-        success: function () {
-            $scope.eventSources[2] = arguments[0];
-            if (!$scope.$$phase) $scope.$apply();
-        },
-        error: function () {
-            $rootScope.showError("La liste des événements de votre agenda n'est pas disponible.");
-        }
-    });
 
     $scope.entitys = $rootScope.getUser().Entitys;
 
@@ -199,4 +207,30 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         $("#modalSelectTypeDoc").modal("hide");
         create(data);
     }
+
+
+    //*******************************************
+    // event next an previous
+    //*******************************************
+    $scope.$on('$viewContentLoaded', function () {
+        var fnEvent = function () {
+
+            $(".fc-prev-button.fc-button").click(function () {
+                var end = $('#calendar').fullCalendar('getView').intervalEnd;
+                var start = $('#calendar').fullCalendar('getView').intervalStart;
+                get(start, end);
+            });
+            $(".fc-next-button.fc-button").click(function () {
+                var end = $('#calendar').fullCalendar('getView').intervalEnd;
+                var start = $('#calendar').fullCalendar('getView').intervalStart;
+                get(start, end);
+            });
+
+            var end = $('#calendar').fullCalendar('getView').intervalEnd;
+            var start = $('#calendar').fullCalendar('getView').intervalStart;
+            get(start, end);
+        };
+
+        $("#calendar").ready(function () { $timeout(fnEvent, 1000); });
+    });
 }]);

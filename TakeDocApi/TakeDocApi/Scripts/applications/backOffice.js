@@ -20,7 +20,7 @@ backOffice.run(function ($rootScope, $location, $timeout, angularLoad) {
 
     $rootScope.showLoader = function () {
         var msg = "Traitement en cours....";
-        if (arguments[0] != null) msg = arguments[0];;
+        if (arguments[0] != null) msg = arguments[0];
         $("#span-loader-message").html(msg);
         $(".btn-loader-container").css("display", "block");
     };
