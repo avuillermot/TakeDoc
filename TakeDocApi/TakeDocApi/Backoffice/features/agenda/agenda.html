@@ -5,8 +5,24 @@
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
         </div>
-        <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px" />
-        <input id="detail" ng-model="current.detail" style="width:100%" />
+        <div class="cadre">
+            <label for="title" class="form-tk-label">Evénement</label>
+            <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
+            <div>Détail<input id="detail" ng-model="current.detail" style="width:100%" /></div>
+            <div>Type<input id="typeDocument" ng-model="current.detail" style="width:100%" /></div>
+            <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" /></div>
+        </div>
+        <div class="cadre">
+            <label for="inputFindAgenda" class="form-tk-label">Recherche agenda</label>
+            <input type="text" style="display:none" id="inputFindAgenda" mandatory="false" ng-model="searchUserId">
+            <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
+        </div>
+        <div class="cadre">
+            <div style="height:20px" ng-repeat="agenda in agendas">
+                <div style="padding:3px; display:inline-block; width:75%; cursor:pointer" ng-click="doRemoveAgenda()">{{agenda.name}}</div>
+                <div style="display: inline-block"><input type="checkbox" ng-checked="agenda.display" /></div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -19,6 +35,16 @@
             </div>
             <div class="modal-body">
                 <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px" />
+                <div style="height:5px"></div>
+                <div class="dropdown" style="display:inline-block">
+                    <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
+                        {{agenda.name}}
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li role="presentation" ng-model="" ng-click="" onclick="return false;" ng-repeat="agenda in agendas | orderBy:['name']"><a role="menuitem" tabindex="-1" href="#">{{agenda.name}}</a></li>
+                    </ul>
+                </div>
                 <div style="height:5px"></div>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">

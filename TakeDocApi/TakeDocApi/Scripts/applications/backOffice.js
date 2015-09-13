@@ -124,7 +124,7 @@ backOffice.directive('tkAutocompleteUsertk', ['$http', '$rootScope', function ($
                     url = url.toUpperCase().replace("{VALUE}", scope.searchUserName);
                     if (scope.searchEntityId != null) url = url.toUpperCase().replace("{ENTITYID}", scope.searchEntityId);
                     else url = url.toUpperCase().replace("{ENTITYID}", "");
-                    $http.get(url).success(function (data) {
+                    $http.get(url, { headers: { 'Authorization': requestHelper.getAccessToken() } }).success(function (data) {
                         response(data);
                     });
                 },

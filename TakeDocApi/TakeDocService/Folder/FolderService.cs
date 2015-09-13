@@ -10,6 +10,7 @@ namespace TakeDocService.Folder
     public class FolderService : Interface.IFolderService
     {
         TakeDocDataAccess.Folder.Interface.IDaoFolder daoFolder = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Folder.Interface.IDaoFolder>();
+        TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         public TakeDocModel.Folder Create(JObject jfolder)
         {
@@ -66,9 +67,9 @@ namespace TakeDocService.Folder
             return folder;
         }
 
-        public ICollection<TakeDocModel.Folder> GetByPeriod(Guid ownerId, DateTimeOffset start, DateTimeOffset end)
+        public ICollection<TakeDocModel.Folder> GetByPeriod(ICollection<Guid> agendas, DateTimeOffset start, DateTimeOffset end)
         {
-            ICollection<TakeDocModel.Folder> folders = daoFolder.GetBy(x => x.FolderOwnerId == ownerId
+            ICollection<TakeDocModel.Folder> folders = daoFolder.GetBy(x => agendas.Contains(x.FolderOwnerId)
                 && x.EtatDeleteData == false
                 && (
                     (start <= x.FolderDateStart && x.FolderDateStart <= end)
@@ -77,6 +78,35 @@ namespace TakeDocService.Folder
                 )
             );
             return folders.ToList();
+        }
+
+        public ICollection<object> GetJsonByPeriod(ICollection<Guid> agendas, DateTimeOffset start, DateTimeOffset end)
+        {
+            ICollection<TakeDocModel.Entity> entitys = daoEntity.GetAll();
+            ICollection<TakeDocModel.Folder> folders = this.GetByPeriod(agendas, start, end);
+            IList<object> items = new List<object>();
+
+            foreach (TakeDocModel.Folder folder in folders)
+            {
+                TakeDocModel.Entity entity = entitys.First(x => x.EntityId == folder.EntityId);
+                var json = new
+                {
+                    id = folder.FolderId,
+                    folderId = folder.FolderId,
+                    title = folder.FolderLabel,
+                    start = folder.FolderDateStart,
+                    end = folder.FolderDateEnd,
+                    allDay = false,
+                    entityId = folder.EntityId,
+                    entityLabel = entity.EntityLabel,
+                    ownerId = folder.FolderOwnerId,
+                    folderTypeId = folder.FolderTypeId,
+                    readOnly = false
+                };
+                items.Add(json);
+            }
+
+            return items;
         }
     }
 }

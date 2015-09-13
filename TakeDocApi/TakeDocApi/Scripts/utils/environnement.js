@@ -56,5 +56,17 @@ var requestHelper = {
         return function (xhr, settings) {
             xhr.setRequestHeader("Authorization", $.cookie('AccessToken'));
         }
+    },
+    getAccessToken: function () {
+        var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
+        if ($.cookie('RefreshTokenTicks') < ticks) {
+            alert("Votre session a expirée (1).");
+            window.location = environnement.getLoginUrl();
+            return false;
+        }
+        else if ($.cookie('AccessTokenTicks') < ticks) {
+            this.getNewAccessToken();
+        }
+        return $.cookie('AccessToken');
     }
 };

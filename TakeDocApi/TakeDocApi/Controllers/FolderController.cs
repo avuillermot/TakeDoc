@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TakeDocService.Folder.Interface;
+using Newtonsoft.Json.Linq;
 
 namespace TakeDocApi.Controllers
 {
@@ -22,29 +23,17 @@ namespace TakeDocApi.Controllers
                 DateTimeOffset start = DateTimeOffset.Parse(data.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
                 DateTimeOffset end = DateTimeOffset.Parse(data.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
 
-                IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
-                ICollection<TakeDocModel.Folder> folders = servFolder.GetByPeriod(userId, start, end);
-
-                IList<object> items = new List<object>();
-
-                foreach (TakeDocModel.Folder folder in folders)
+                string agendas = data.Value<string>("agendas");
+                ICollection<Guid> myAgendas = new List<Guid>();
+                foreach (JValue agenda in Newtonsoft.Json.Linq.JArray.Parse(agendas))
                 {
-                    var json = new
-                    {
-                        id = folder.FolderId,
-                        folderId = folder.FolderId,
-                        title = folder.FolderLabel,
-                        start = folder.FolderDateStart,
-                        end = folder.FolderDateEnd,
-                        allDay = false,
-                        entityId = folder.EntityId,
-                        ownerId = folder.FolderOwnerId,
-                        folderTypeId = folder.FolderTypeId,
-                    };
-                    items.Add(json);
+                    myAgendas.Add(new Guid(agenda.Value<string>()));
                 }
 
-                return Request.CreateResponse(items);
+                IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();
+                ICollection<object> folders = servFolder.GetJsonByPeriod(myAgendas, start, end);
+
+                return Request.CreateResponse(folders);
             }
             catch (Exception ex)
             {

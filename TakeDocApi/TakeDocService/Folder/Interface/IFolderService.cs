@@ -11,6 +11,7 @@ namespace TakeDocService.Folder.Interface
         TakeDocModel.Folder Create(Newtonsoft.Json.Linq.JObject jfolder);
         void Delete(Guid folderId, Guid userId, Guid entityId);
         TakeDocModel.Folder Update(Newtonsoft.Json.Linq.JObject jfolder);
-        ICollection<TakeDocModel.Folder> GetByPeriod(Guid ownerId, DateTimeOffset start, DateTimeOffset end);
+        ICollection<TakeDocModel.Folder> GetByPeriod(ICollection<Guid> agendas, DateTimeOffset start, DateTimeOffset end);
+        ICollection<object> GetJsonByPeriod(ICollection<Guid> agendas, DateTimeOffset start, DateTimeOffset end);
     }
 }
