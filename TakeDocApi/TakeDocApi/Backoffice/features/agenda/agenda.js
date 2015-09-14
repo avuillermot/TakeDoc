@@ -4,12 +4,14 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     $("#viewLeft").css("width", "0%");
     $("#viewRight").css("width", "99%");
 
+    var userEntitys = new UserEntitys();
     $scope.agendas = [];
     $scope.agendas.push({
         id: $rootScope.getUser().Id,
         name: $rootScope.getUser().FirstName + " " + $rootScope.getUser().LastName,
         display: true
     });
+    $scope.entitys = [];
     /* event sources array*/
     $scope.eventSources = [[]];
     $scope.currentSource = 0;
@@ -17,7 +19,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
 
     var myTypeDocs = new TypeDocuments();
     var myOwnerId = $rootScope.getUser().Id;
-    var myEntityId = "55C72E33-8864-4E0E-9BC8-C82378B2BF8C";
 
     var update = function (event, changeDate) {
         var myUrl = environnement.UrlBase + "folder/set/{userId}"
@@ -59,9 +60,9 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         var data = {
             id: null,
             folderId: null,
-            entityId: myEntityId,
+            entityId: event.entityId,
             folderTypeId: "FAC8EFBC-001D-4C4B-85EF-8ACDDE1EA724",
-            ownerId: myOwnerId,
+            ownerId: event.ownerId,
             title: event.title,
             start: event.start.toJSON(),
             end: event.end.toJSON(),
@@ -115,7 +116,9 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             end: end.toJSON()
         };
         var agendas = []
-        agendas.push($rootScope.getUser().Id);
+        $.each($scope.agendas, function (index, value) {
+            agendas.push(value.id);
+        });
 
         data.agendas =  angular.toJson(agendas);
         $.ajax({
@@ -124,10 +127,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: environnement.UrlBase + "folder/get/" + $rootScope.getUser().Id,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                if (arguments[0].length > 0) {
-                    $scope.eventSources[$scope.currentSource] = arguments[0];
-                    if (!$scope.$$phase) $scope.$apply();
-                }
+                $scope.eventSources[$scope.currentSource] = arguments[0];
+                if (!$scope.$$phase) $scope.$apply();
             },
             error: function () {
                 $rootScope.showError("La liste des événements de votre agenda n'est pas disponible.");
@@ -177,35 +178,75 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         remove($scope.current);
     };
 
-    $scope.entitys = $rootScope.getUser().Entitys;
+    $scope.doSelectOwner = function () {
+        $scope.selectedAgenda = this.agenda;
+        var loadEntity = function (agendaId) {
+            var onSuccess = function () {
+                $.each(arguments[0].models, function (index, value) {
+
+                        for (var i = 0; i < $rootScope.getUser().Entitys.length; i++) {
+                            var ok = ($rootScope.getUser().Entitys[i].Id === value.get("id") && value.get("enable") === true);
+                            if (ok) {
+                                $scope.entitys.push({
+                                    id: value.get("id"),
+                                    label: value.get("label")
+                                });
+                                break;
+                            }
+                        }
+
+                });
+                if (!$scope.$$phase) $scope.$apply();
+            };
+
+            var onError = function () {
+                $rootScope.showError({ message: "Une erreur est survenue lors du chargement des entitées." });
+            };
+
+            var param = {
+                userId: agendaId,
+                success: onSuccess,
+                error: onError
+            };
+            userEntitys.loadByUser(param)
+        };
+        $scope.entitys.clear();
+        $scope.selectedEntity = null;
+        $scope.typeDocs = null;
+        $scope.selectedTypeDoc = null;
+        if (!$scope.$$phase) $scope.$apply();
+
+        loadEntity($scope.selectedAgenda.id);
+    };
 
     $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
         $scope.selectedTypeDoc = null;
-        loadTypeDocument($scope.selectedEntity.Id);
-    };
+        var loadTypeDocument = function (entityId) {
+            var onSuccess = function () {
+                $scope.typeDocs = myTypeDocs.models;
+                if ($scope.typeDocs.length > 0) {
+                    $scope.selectedTypeDoc = $scope.typeDocs[0];
+                }
+                if (!$scope.$$phase) $scope.$apply();
+            };
 
-    var loadTypeDocument = function (entityId) {
-        var onSuccess = function () {
-            $scope.typeDocs = myTypeDocs.models;
-            if ($scope.typeDocs.length > 0) {
-                $scope.selectedTypeDoc = $scope.typeDocs[0];
-            }
-            if (!$scope.$$phase) $scope.$apply();
+            var onError = function () {
+                $rootScope.showError({ message: "Une erreur est survenue lors de la préparation de l'écran de recherche." });
+            };
+
+            var param = {
+                entityId: entityId,
+                deleted: false,
+                success: onSuccess,
+                error: onError
+            };
+
+            myTypeDocs.load(param)
         };
-
-        var onError = function () {
-            $rootScope.showError({ message: "Une erreur est survenue lors de la préparation de l'écran de recherche." });
-        };
-
-        var param = {
-            entityId: entityId,
-            deleted: false,
-            success: onSuccess,
-            error: onError
-        };
-
-        myTypeDocs.load(param)
+        $scope.selectedTypeDoc = null;
+        $scope.typeDocs = null;
+        loadTypeDocument($scope.selectedEntity.id);
     };
 
     $scope.doSelectTypeDoc = function () {
@@ -213,16 +254,22 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     };
 
     $scope.doValidCreate = function () {
-
-        var data = {
-            start: $scope.current.start,
-            end: $scope.current.end,
-            title: $scope.current.title
-        };
-        $("#modalSelectTypeDoc").modal("hide");
-        create(data);
+        if ($scope.selectedAgenda.id != null
+            && $scope.selectedEntity.id != null
+            && $scope.selectedTypeDoc.get("id") != null
+            && $scope.current.title != null) {
+                var data = {
+                    ownerId: $scope.selectedAgenda.id,
+                    start: $scope.current.start,
+                    end: $scope.current.end,
+                    title: $scope.current.title,
+                    typeDoc: $scope.selectedTypeDoc.get("id"),
+                    entityId: $scope.selectedEntity.id
+                };
+                $("#modalSelectTypeDoc").modal("hide");
+                create(data);
+        }
     }
-
 
     //*******************************************
     // event next an previous
@@ -231,19 +278,13 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         var fnEvent = function () {
 
             $(".fc-prev-button.fc-button").click(function () {
-                var end = $('#calendar').fullCalendar('getView').intervalEnd;
-                var start = $('#calendar').fullCalendar('getView').intervalStart;
-                get(start, end);
+                refreshCalendar();
             });
             $(".fc-next-button.fc-button").click(function () {
-                var end = $('#calendar').fullCalendar('getView').intervalEnd;
-                var start = $('#calendar').fullCalendar('getView').intervalStart;
-                get(start, end);
+                refreshCalendar();
             });
 
-            var end = $('#calendar').fullCalendar('getView').intervalEnd;
-            var start = $('#calendar').fullCalendar('getView').intervalStart;
-            get(start, end);
+            refreshCalendar();
         };
 
         $("#calendar").ready(function () { $timeout(fnEvent, 1000); });
@@ -271,6 +312,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 $scope.agendas.push(agenda);
                 $scope.searchUserId = null;
                 $scope.searchUserName = null;
+                
+                refreshCalendar();
             }
         }
     };
@@ -281,5 +324,13 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             if (value.id == $scope.searchUserId) place = 1;
         });
         $scope.agendas.splice(place, 1);
+
+        refreshCalendar();
+    };
+
+    var refreshCalendar = function () {
+        var end = $('#calendar').fullCalendar('getView').intervalEnd;
+        var start = $('#calendar').fullCalendar('getView').intervalStart;
+        get(start, end);
     };
 }]);

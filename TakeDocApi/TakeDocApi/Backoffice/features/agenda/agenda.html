@@ -38,21 +38,21 @@
                 <div style="height:5px"></div>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
-                        {{agenda.name}}
+                        {{selectedAgenda.name}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" ng-model="" ng-click="" onclick="return false;" ng-repeat="agenda in agendas | orderBy:['name']"><a role="menuitem" tabindex="-1" href="#">{{agenda.name}}</a></li>
+                        <li role="presentation" ng-model="agenda.id" ng-click="doSelectOwner();" onclick="return false;" ng-repeat="agenda in agendas | orderBy:['name']"><a role="menuitem" tabindex="-1" href="#">{{agenda.name}}</a></li>
                     </ul>
                 </div>
                 <div style="height:5px"></div>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
-                        {{selectedEntity.Label}}
+                        {{selectedEntity.label}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" ng-model="entity.Id" ng-click="doSelectEntity();" onclick="return false;" ng-repeat="entity in entitys | orderBy:['Label']"><a role="menuitem" tabindex="-1" href="#">{{entity.Label}}</a></li>
+                        <li role="presentation" ng-model="entity.id" ng-click="doSelectEntity();" onclick="return false;" ng-repeat="entity in entitys | orderBy:['label']"><a role="menuitem" tabindex="-1" href="#">{{entity.label}}</a></li>
                     </ul>
                 </div>
                 <div style="height:5px"></div>

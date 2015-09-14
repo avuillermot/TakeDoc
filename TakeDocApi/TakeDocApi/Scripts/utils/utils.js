@@ -13,3 +13,9 @@
         return !(i > 0);
     }
 }
+
+Array.prototype.clear = function () {
+    while (this.length) {
+        this.pop();
+    }
+};
