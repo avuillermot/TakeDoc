@@ -3,19 +3,19 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
 
     $("#viewLeft").css("width", "0%");
     $("#viewRight").css("width", "99%");
-
+    
     var userEntitys = new UserEntitys();
     $scope.agendas = [];
+    var agendasColor = ['blue', 'red', 'green', 'orange', 'pink'];
     $scope.agendas.push({
         id: $rootScope.getUser().Id,
         name: $rootScope.getUser().FirstName + " " + $rootScope.getUser().LastName,
+        color: agendasColor[$scope.agendas.length],
+        events: [],
         display: true
     });
     $scope.entitys = [];
-    /* event sources array*/
     $scope.eventSources = [[]];
-    $scope.currentSource = 0;
-
 
     var myTypeDocs = new TypeDocuments();
     var myOwnerId = $rootScope.getUser().Id;
@@ -40,12 +40,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $.each($scope.eventSources[$scope.currentSource], function (index, value) {
-                    if (value.id == event.id) {
-                        $scope.eventSources[$scope.currentSource][index] = event;
-                    }
-                });
-                if (!$scope.$$phase) $scope.$apply();
+                $scope.eventSources = [[]];
+                refreshCalendar();
             },
             error: function () {
                 $rootScope.showError({ message: "Votre rendez-vous n'a pas été modifié" });
@@ -75,8 +71,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $scope.eventSources[$scope.currentSource].push(arguments[0]);
-                if (!$scope.$$phase) $scope.$apply();
+                $scope.eventSources = [[]];
+                refreshCalendar();
             },
             error: function () {
                 $rootScope.showError({ message: "Votre rendez-vous n'a pas été créé" });
@@ -95,13 +91,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                var events = [];
-                $.each($scope.eventSources[$scope.currentSource], function (index, value) {
-                    if (value.id != event.id) events.push(value);
-                });
-                $scope.eventSources[$scope.currentSource] = null;
-                $scope.eventSources[$scope.currentSource] = events;
-                if (!$scope.$$phase) $scope.$apply();
+                $scope.eventSources = [[]];
+                refreshCalendar();
             },
             error: function () {
                 $rootScope.showError({ message: "Votre rendez-vous n'a pas été supprimé" });
@@ -127,14 +118,31 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: environnement.UrlBase + "folder/get/" + $rootScope.getUser().Id,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $scope.eventSources[$scope.currentSource] = arguments[0];
-                if (!$scope.$$phase) $scope.$apply();
+                fillDataSet(arguments[0]);
             },
             error: function () {
                 $rootScope.showError("La liste des événements de votre agenda n'est pas disponible.");
             }
         });
     };
+
+    var fillDataSet = function () {
+        // ventile les evenements par agenda
+        var data = arguments[0];
+        $.each($scope.agendas, function (iagenda, vagenda) {
+            vagenda.events.clear();
+            for (var i = 0; i < data.length; i++) {
+                if (vagenda.id == data[i].ownerId) {
+                    data[i].color = vagenda.color;
+                    vagenda.events.push(data[i]);
+                }
+            }
+
+            $scope.eventSources.push(vagenda.events);
+            $scope.uiConfig.calendar.eventsSource = $scope.eventSources;
+        });
+        if (!$scope.$$phase) $scope.$apply();
+    }
 
     /* config object */
     $scope.uiConfig = {
@@ -313,7 +321,10 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             if (exist == false) {
                 var agenda = {
                     id: $scope.searchUserId,
-                    name: $scope.searchUserName
+                    name: $scope.searchUserName,
+                    color: agendasColor[$scope.agendas.length],
+                    events: [],
+                    display: true
                 };
                 $scope.agendas.push(agenda);
                 $scope.searchUserId = null;
@@ -335,6 +346,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     };
 
     var refreshCalendar = function () {
+        debugger;
         var end = $('#calendar').fullCalendar('getView').intervalEnd;
         var start = $('#calendar').fullCalendar('getView').intervalStart;
         get(start, end);
