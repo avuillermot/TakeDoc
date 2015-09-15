@@ -1,4 +1,5 @@
 ﻿<div>
+    <input type="button" ng-click="doNext()" />
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
     <div id="detail" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
         <div id="toolbarTakeDoc">
@@ -18,7 +19,7 @@
             <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
         </div>
         <div class="cadre">
-            <div style="height:20px;color:{{agenda.color}}" ng-repeat="agenda in agendas">
+            <div style="height:20px;" ng-style="{'color':agenda.color}" ng-repeat="agenda in agendas">
                 <div style="padding:3px; display:inline-block; width:75%; cursor:pointer" ng-click="doRemoveAgenda()">{{agenda.name}}</div>
                 <div style="display: inline-block"><input type="checkbox" ng-checked="agenda.display" /></div>
             </div>

@@ -40,7 +40,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $scope.eventSources = [[]];
                 refreshCalendar();
             },
             error: function () {
@@ -71,7 +70,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $scope.eventSources = [[]];
                 refreshCalendar();
             },
             error: function () {
@@ -91,7 +89,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
-                $scope.eventSources = [[]];
                 refreshCalendar();
             },
             error: function () {
@@ -129,6 +126,9 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     var fillDataSet = function () {
         // ventile les evenements par agenda
         var data = arguments[0];
+        $scope.uiConfig.calendar.eventsSource = null;
+        $scope.eventSources.clear();
+       
         $.each($scope.agendas, function (iagenda, vagenda) {
             vagenda.events.clear();
             for (var i = 0; i < data.length; i++) {
@@ -139,8 +139,9 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             }
 
             $scope.eventSources.push(vagenda.events);
-            $scope.uiConfig.calendar.eventsSource = $scope.eventSources;
         });
+        $scope.uiConfig.calendar.eventsSource = $scope.eventSources;
+        debugger;
         if (!$scope.$$phase) $scope.$apply();
     }
 
@@ -290,14 +291,13 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     //*******************************************
     $scope.$on('$viewContentLoaded', function () {
         var fnEvent = function () {
-
             $(".fc-prev-button.fc-button").click(function () {
                 refreshCalendar();
             });
             $(".fc-next-button.fc-button").click(function () {
+                alert(2);
                 refreshCalendar();
             });
-
             refreshCalendar();
         };
 
@@ -351,4 +351,10 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         var start = $('#calendar').fullCalendar('getView').intervalStart;
         get(start, end);
     };
+
+    $scope.doNext = function () {
+        debugger;
+        $('#calendar').fullCalendar('next');
+        refreshCalendar();
+    }
 }]);
