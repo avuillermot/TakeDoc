@@ -165,7 +165,13 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 $scope.current = {};
                 $scope.current.start = start;
                 $scope.current.end = end;
-                $("#modalSelectTypeDoc").modal("show");
+                $("#modalAddFolder").modal("show");
+
+                $scope.selectedAgenda = null;
+                $scope.entitys.clear();
+                $scope.selectedEntity = null;
+                $scope.typeDocs = null;
+                $scope.selectedTypeDoc = null;
             }
         }
     };
@@ -266,7 +272,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                     typeDoc: $scope.selectedTypeDoc.get("id"),
                     entityId: $scope.selectedEntity.id
                 };
-                $("#modalSelectTypeDoc").modal("hide");
+                $("#modalAddFolder").modal("hide");
                 create(data);
         }
     }

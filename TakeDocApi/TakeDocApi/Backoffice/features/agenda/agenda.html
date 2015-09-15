@@ -26,7 +26,7 @@
     </div>
 </div>
 
-<div class="modal fade tk-modal" id="modalSelectTypeDoc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade tk-modal" id="modalAddFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-sm">
         <div class="modal-content">
             <div class="modal-header">
@@ -34,10 +34,11 @@
                 <h4 class="modal-title">Type de document</h4>
             </div>
             <div class="modal-body">
-                <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px" />
+                 <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px;font-size:12px" class="cadre" placeholder="Titre"/>
                 <div style="height:5px"></div>
+                <label class="col-md-3 control-label" style="padding-top:5px">Agenda</label>
                 <div class="dropdown" style="display:inline-block">
-                    <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
+                    <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true" placeholder="tt">
                         {{selectedAgenda.name}}
                         <span class="caret"></span>
                     </button>
@@ -46,6 +47,7 @@
                     </ul>
                 </div>
                 <div style="height:5px"></div>
+                <label class="col-md-3 control-label" style="padding-top:5px">Entité</label>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                         {{selectedEntity.label}}
@@ -56,6 +58,7 @@
                     </ul>
                 </div>
                 <div style="height:5px"></div>
+                <label class="col-md-3 control-label" style="padding-top:5px">Type</label>
                 <div class="dropdown search-dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                         {{selectedTypeDoc.attributes.label}}
