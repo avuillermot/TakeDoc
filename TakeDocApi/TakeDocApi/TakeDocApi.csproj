@@ -189,6 +189,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\DocumentCompleteController.cs" />
     <Compile Include="Controllers\FolderController.cs" />
+    <Compile Include="Controllers\oData\FolderTypesController.cs" />
     <Compile Include="Controllers\Security\AuthorizeTk.cs" />
     <Compile Include="Controllers\AutoComplete\UserTk.cs" />
     <Compile Include="Controllers\AutoComplete\CustomerController.cs" />

@@ -8,7 +8,7 @@ namespace TakeDocDataAccess.Document
 {
     public class DaoDocument : DaoBase<TakeDocModel.Document>, Interface.IDaoDocument
     {
-        public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel)
+        public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel, Guid? folderId)
         {
             TakeDocModel.Status_Document status = base.Context.Status_Document.Where(x => x.StatusDocumentReference == TakeDocModel.Status_Document.Create && x.EntityId == entityId).ToList().First();
  
@@ -19,6 +19,7 @@ namespace TakeDocDataAccess.Document
             retour.DateCreateData = System.DateTimeOffset.UtcNow;
             retour.Status_Document = status;
             retour.DocumentStatusId = status.StatusDocumentId;
+            retour.DocumentFolderId = folderId;
 
             retour.DocumentLabel = documentLabel;
             retour.DocumentTypeId = typeDocumentId;

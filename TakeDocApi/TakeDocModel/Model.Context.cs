@@ -58,6 +58,7 @@ namespace TakeDocModel
         public virtual DbSet<MetaDataFile> MetaDataFile { get; set; }
         public virtual DbSet<Folder> Folder { get; set; }
         public virtual DbSet<FolderType> FolderType { get; set; }
+        public virtual DbSet<StatusFolder> StatusFolder { get; set; }
     
         public virtual ObjectResult<string> GetNewReference(string table, ObjectParameter reference)
         {
@@ -245,6 +246,15 @@ namespace TakeDocModel
                 new ObjectParameter("extension", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<string>("GetMediaType", extensionParameter);
+        }
+    
+        public virtual int InsertOrUpdateFolderType(Nullable<System.Guid> typeDocumentId)
+        {
+            var typeDocumentIdParameter = typeDocumentId.HasValue ?
+                new ObjectParameter("typeDocumentId", typeDocumentId) :
+                new ObjectParameter("typeDocumentId", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertOrUpdateFolderType", typeDocumentIdParameter);
         }
     }
 }

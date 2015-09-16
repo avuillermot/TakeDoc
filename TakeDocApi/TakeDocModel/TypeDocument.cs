@@ -33,9 +33,11 @@ namespace TakeDocModel
         public bool EtatDeleteData { get; set; }
         public bool TypeDocumentPageNeed { get; set; }
         public System.Guid TypeDocumentWorkflowTypeId { get; set; }
+        public System.Guid FolderTypeId { get; set; }
     
         public virtual ICollection<Document> Document { get; set; }
         public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
         public virtual WorkflowType WorkflowType { get; set; }
+        public virtual FolderType FolderType { get; set; }
     }
 }

@@ -12,7 +12,14 @@ namespace TakeDocDataAccess.Document
         {
             base.Context.Type_Document.Add(typeDocument);
             base.Context.SaveChanges();
+            base.Context.InsertOrUpdateFolderType(typeDocument.TypeDocumentId);
             return typeDocument;
+        }
+
+        public new void Update(TakeDocModel.TypeDocument typeDocument)
+        {
+            base.Update(typeDocument);
+            base.Context.InsertOrUpdateFolderType(typeDocument.TypeDocumentId);
         }
     }
 }

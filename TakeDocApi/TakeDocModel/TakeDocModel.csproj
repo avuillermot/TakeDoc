@@ -151,6 +151,9 @@
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Security\UserTk.cs" />
+    <Compile Include="StatusFolder.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Status_Document.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>

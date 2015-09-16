@@ -4,38 +4,57 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Transactions;
 
 namespace TakeDocService.Folder
 {
     public class FolderService : Interface.IFolderService
     {
+        TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder> daoStatusFolder = new TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder>();
+
         TakeDocDataAccess.Folder.Interface.IDaoFolder daoFolder = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Folder.Interface.IDaoFolder>();
+        TakeDocDataAccess.Document.Interface.IDaoTypeDocument daoTypeDoc = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoTypeDocument>();
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
+
+        TakeDocService.Document.Interface.IDocumentService servDocument = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.IDocumentService>();
 
         public TakeDocModel.Folder Create(JObject jfolder)
         {
-            TakeDocModel.Folder folder = new TakeDocModel.Folder();
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                TakeDocModel.Folder folder = new TakeDocModel.Folder();
 
-            Guid entityId = new Guid(jfolder.Value<string>("entityId"));
-            Guid userCreateData = new Guid(jfolder.Value<string>("userCreateId"));
-            Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
-            Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypeId"));
+                Guid entityId = new Guid(jfolder.Value<string>("entityId"));
+                Guid userCreateData = new Guid(jfolder.Value<string>("userCreateId"));
+                Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
+                Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypeId"));
 
-            folder.FolderLabel = jfolder.Value<string>("title");
-            folder.FolderTypeId = folderTypeId;
-            folder.FolderOwnerId = ownerId;
+                TakeDocModel.StatusFolder status = daoStatusFolder.GetBy(x => x.StatusFolderReference == "OPEN").First();
+                TakeDocModel.TypeDocument typeDoc = daoTypeDoc.GetBy(x => x.FolderTypeId == folderTypeId).First();
 
-            folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"),System.Globalization.CultureInfo.InvariantCulture);
-            folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"),System.Globalization.CultureInfo.InvariantCulture);
+                folder.FolderLabel = jfolder.Value<string>("title");
+                folder.FolderTypeId = folderTypeId;
+                folder.FolderOwnerId = ownerId;
+                folder.FolderStatusId = status.StatusFolderId;
 
-            daoFolder.Create(folder, userCreateData, entityId);
+                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
+                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
 
-            return folder;
+                daoFolder.Create(folder, userCreateData, entityId);
+                servDocument.Create(userCreateData, folder.EntityId, typeDoc.TypeDocumentId, folder.FolderLabel, folder.FolderId);
+                transaction.Complete();
+                return folder;
+            }
         }
 
         public void Delete(Guid folderId, Guid userId, Guid entityId)
         {
-            daoFolder.Delete(folderId, userId, entityId);
+            using (TransactionScope transaction = new TransactionScope())
+            {
+                daoFolder.Delete(folderId, userId, entityId);
+                servDocument.DeleteByFolderId(folderId, entityId, userId);
+                transaction.Complete();
+            }
         }
 
         public TakeDocModel.Folder Update(JObject jfolder)

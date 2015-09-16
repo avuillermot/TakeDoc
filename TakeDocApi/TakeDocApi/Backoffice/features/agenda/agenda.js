@@ -56,7 +56,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             id: null,
             folderId: null,
             entityId: event.entityId,
-            folderTypeId: "FAC8EFBC-001D-4C4B-85EF-8ACDDE1EA724",
+            folderTypeId: event.folderTypeId,
             ownerId: event.ownerId,
             title: event.title,
             start: event.start.toJSON(),
@@ -141,7 +141,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             $scope.eventSources.push(vagenda.events);
         });
         $scope.uiConfig.calendar.eventsSource = $scope.eventSources;
-        debugger;
         if (!$scope.$$phase) $scope.$apply();
     }
 
@@ -179,8 +178,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 $scope.selectedAgenda = null;
                 $scope.entitys.clear();
                 $scope.selectedEntity = null;
-                $scope.typeDocs = null;
-                $scope.selectedTypeDoc = null;
+                $scope.folderTypes = null;
+                $scope.selectedFolderType = null;
             }
         }
     };
@@ -227,8 +226,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         };
         $scope.entitys.clear();
         $scope.selectedEntity = null;
-        $scope.typeDocs = null;
-        $scope.selectedTypeDoc = null;
+        $scope.folderTypes = null;
+        $scope.selectedFolderType = null;
         if (!$scope.$$phase) $scope.$apply();
 
         loadEntity($scope.selectedAgenda.id);
@@ -236,12 +235,12 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
 
     $scope.doSelectEntity = function () {
         $scope.selectedEntity = this.entity;
-        $scope.selectedTypeDoc = null;
+        $scope.selectedFolderType = null;
         var loadTypeDocument = function (entityId) {
             var onSuccess = function () {
-                $scope.typeDocs = myTypeDocs.models;
-                if ($scope.typeDocs.length > 0) {
-                    $scope.selectedTypeDoc = $scope.typeDocs[0];
+                $scope.folderTypes = arguments[0].value;
+                if ($scope.folderTypes.length > 0) {
+                    $scope.selectedFolderType = $scope.folderTypes[0];
                 }
                 if (!$scope.$$phase) $scope.$apply();
             };
@@ -257,28 +256,34 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 error: onError
             };
 
-            myTypeDocs.load(param)
+            $.ajax({
+                type: 'GET',
+                url: environnement.UrlBase + "odata/FolderTypes?$filter=EntityId eq guid'" + param.entityId + "' and EtatDeleteData eq false",
+                beforeSend: requestHelper.beforeSend(),
+                success: onSuccess,
+                error: onError
+            });
         };
-        $scope.selectedTypeDoc = null;
-        $scope.typeDocs = null;
+        $scope.selectedFolderType = null;
+        $scope.folderTypes = null;
         loadTypeDocument($scope.selectedEntity.id);
     };
 
-    $scope.doSelectTypeDoc = function () {
-        $scope.selectedTypeDoc = this.typeDoc;
+    $scope.doSelectFolderType = function () {
+        $scope.selectedFolderType = this.folderType;
     };
 
     $scope.doValidCreate = function () {
         if ($scope.selectedAgenda.id != null
             && $scope.selectedEntity.id != null
-            && $scope.selectedTypeDoc.get("id") != null
+            && $scope.selectedFolderType.FolderTypeId != null
             && $scope.current.title != null) {
                 var data = {
                     ownerId: $scope.selectedAgenda.id,
                     start: $scope.current.start,
                     end: $scope.current.end,
                     title: $scope.current.title,
-                    typeDoc: $scope.selectedTypeDoc.get("id"),
+                    folderTypeId: $scope.selectedFolderType.FolderTypeId,
                     entityId: $scope.selectedEntity.id
                 };
                 $("#modalAddFolder").modal("hide");
@@ -346,14 +351,12 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     };
 
     var refreshCalendar = function () {
-        debugger;
         var end = $('#calendar').fullCalendar('getView').intervalEnd;
         var start = $('#calendar').fullCalendar('getView').intervalStart;
         get(start, end);
     };
 
     $scope.doNext = function () {
-        debugger;
         $('#calendar').fullCalendar('next');
         refreshCalendar();
     }

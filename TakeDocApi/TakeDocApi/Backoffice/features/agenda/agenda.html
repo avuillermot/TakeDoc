@@ -28,14 +28,14 @@
 </div>
 
 <div class="modal fade tk-modal" id="modalAddFolder" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog modal-sm" style="width:50%">
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Type de document</h4>
             </div>
             <div class="modal-body">
-                 <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px;font-size:12px" class="cadre" placeholder="Titre"/>
+                <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px;font-size:12px" class="cadre" placeholder="Titre" />
                 <div style="height:5px"></div>
                 <label class="col-md-3 control-label" style="padding-top:5px">Agenda</label>
                 <div class="dropdown" style="display:inline-block">
@@ -62,11 +62,11 @@
                 <label class="col-md-3 control-label" style="padding-top:5px">Type</label>
                 <div class="dropdown search-dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
-                        {{selectedTypeDoc.attributes.label}}
+                        {{selectedFolderType.FolderTypeLabel}}
                         <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                        <li role="presentation" ng-model="typeDoc.Id" ng-click="doSelectTypeDoc();" onclick="return false;" ng-repeat="typeDoc in typeDocs| orderBy:['label']"><a role="menuitem" tabindex="-1" href="#">{{typeDoc.attributes.label}}</a></li>
+                        <li role="presentation" ng-model="folderType.FolderTypeId" ng-click="doSelectFolderType();" onclick="return false;" ng-repeat="folderType in folderTypes| orderBy:['FolderTypeLabel']"><a role="menuitem" tabindex="-1" href="#">{{folderType.FolderTypeLabel}}</a></li>
                     </ul>
                 </div>
 

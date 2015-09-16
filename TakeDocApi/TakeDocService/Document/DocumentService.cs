@@ -23,12 +23,17 @@ namespace TakeDocService.Document
                 
         public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel)
         {
+            return this.Create(userId, entityId, typeDocumentId, documentLabel, null);
+        }
+
+        public TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel, Guid? folderId)
+        {
             using (TransactionScope transaction = new TransactionScope())
             {
                 this.Logger.Info(string.Format("Create document by {0}", userId));
                 Guid documentId = System.Guid.NewGuid();
                 Guid versionId = documentId;
-                TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel);
+                TakeDocModel.Document document = daoDocument.Create(userId, entityId, documentId, versionId, typeDocumentId, documentLabel, folderId);
 
                 TakeDocModel.Version version = servVersion.CreateMajor(userId, entityId, versionId, documentId, typeDocumentId);
 
@@ -163,6 +168,12 @@ namespace TakeDocService.Document
 
                 transaction.Complete();
             }
+        }
+
+        public void DeleteByFolderId(Guid folderId, Guid entityId, Guid userId)
+        {
+            TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentFolderId == folderId).First();
+            this.Delete(document.DocumentId, entityId, userId);
         }
 
         public ICollection<TakeDocModel.View_DocumentExtended> Search(string title, string reference, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> searchs, Guid userId, Guid entityId)

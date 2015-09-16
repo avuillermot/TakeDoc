@@ -35,10 +35,12 @@ namespace TakeDocModel
         public Nullable<System.Guid> DocumentCurrentVersionId { get; set; }
         public System.Guid DocumentStatusId { get; set; }
         public System.Guid DocumentOwnerId { get; set; }
+        public Nullable<System.Guid> DocumentFolderId { get; set; }
     
         public virtual ICollection<Version> Version { get; set; }
         public virtual TypeDocument Type_Document { get; set; }
         public virtual Status_Document Status_Document { get; set; }
         public virtual ICollection<DocumentStatusHisto> DocumentStatusHisto { get; set; }
+        public virtual Folder Folder { get; set; }
     }
 }

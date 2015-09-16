@@ -63,9 +63,13 @@
         <AssociationConnector Association="TakeDocModel.FK_AccessToken_RefreshToken" />
         <EntityTypeShape EntityType="TakeDocModel.MetaDataFile" Width="1.5" PointX="7.375" PointY="12.75" />
         <AssociationConnector Association="TakeDocModel.FK_MetaDataFile_MetaData" />
-        <EntityTypeShape EntityType="TakeDocModel.Folder" Width="1.5" PointX="14.625" PointY="20" />
+        <EntityTypeShape EntityType="TakeDocModel.Folder" Width="1.5" PointX="15.875" PointY="20" />
         <EntityTypeShape EntityType="TakeDocModel.FolderType" Width="1.5" PointX="12.375" PointY="20.5" />
         <AssociationConnector Association="TakeDocModel.FK_Folder_FolderType" />
+        <AssociationConnector Association="TakeDocModel.FK_Document_Folder" />
+        <EntityTypeShape EntityType="TakeDocModel.StatusFolder" Width="1.5" PointX="0.75" PointY="20" />
+        <AssociationConnector Association="TakeDocModel.FK_Folder_StatusFolder" />
+        <AssociationConnector Association="TakeDocModel.FK_Type_Document_FolderType" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

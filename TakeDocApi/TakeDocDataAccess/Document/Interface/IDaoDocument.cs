@@ -9,7 +9,7 @@ namespace TakeDocDataAccess.Document.Interface
 {
     public interface IDaoDocument
     {
-        TakeDocModel.Document Create( Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel);
+        TakeDocModel.Document Create( Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel, Guid? folderId);
         ICollection<TakeDocModel.Document> GetBy(Expression<Func<TakeDocModel.Document, bool>> where, params Expression<Func<TakeDocModel.Document, object>>[] properties);
         void Update(TakeDocModel.Document document);
     }

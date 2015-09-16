@@ -18,6 +18,7 @@ namespace TakeDocService.Document.Interface
         /// <param name="documentLabel"></param>
         /// <returns></returns>
         TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel);
+        TakeDocModel.Document Create(Guid userId, Guid entityId, Guid typeDocumentId, string documentLabel, Guid? folderId);
         /// <summary>
         /// Add page to an document
         /// </summary>
@@ -40,6 +41,7 @@ namespace TakeDocService.Document.Interface
         /// <param name="entityId"></param>
         /// <param name="userId"></param>
         void Delete(Guid documentId, Guid entityId, Guid userId);
+        void DeleteByFolderId(Guid folderId, Guid entityId, Guid userId);
         ICollection<TakeDocModel.View_DocumentExtended> Search(string title, string reference, Guid typeDocumentId, ICollection<TakeDocModel.Dto.Document.SearchMetadata> metadatas, Guid userId, Guid entityId);
     }
 }

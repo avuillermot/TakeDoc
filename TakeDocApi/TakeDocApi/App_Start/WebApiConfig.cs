@@ -43,6 +43,7 @@ namespace TakeDocApi
             builder.EntitySet<TakeDocModel.Workflow>("Workflows");
             builder.EntitySet<TakeDocModel.WorkflowType>("WorkflowTypes");
             builder.EntitySet<TakeDocModel.WorkflowAnswer>("WorkflowAnswers");
+            builder.EntitySet<TakeDocModel.FolderType>("FolderTypes");
                
             config.Routes.MapODataRoute("odata", "odata", builder.GetEdmModel());
         }

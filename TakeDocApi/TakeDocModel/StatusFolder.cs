@@ -12,25 +12,25 @@ namespace TakeDocModel
     using System;
     using System.Collections.Generic;
     
-    public partial class FolderType
+    public partial class StatusFolder
     {
-        public FolderType()
+        public StatusFolder()
         {
-            this.Type_Document = new HashSet<TypeDocument>();
+            this.Folder = new HashSet<Folder>();
         }
     
-        public System.Guid FolderTypeId { get; set; }
-        public string FolderTypeReference { get; set; }
-        public string FolderTypeLabel { get; set; }
+        public System.Guid StatusFolderId { get; set; }
+        public string StatusFolderReference { get; set; }
+        public string StatusFolderLabel { get; set; }
         public System.Guid EntityId { get; set; }
         public System.Guid UserCreateData { get; set; }
-        public System.DateTimeOffset DateCreateData { get; set; }
         public Nullable<System.Guid> UserUpdateData { get; set; }
-        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
         public Nullable<System.Guid> UserDeleteData { get; set; }
+        public System.DateTimeOffset DateCreateData { get; set; }
+        public Nullable<System.DateTimeOffset> DateUpdateData { get; set; }
         public Nullable<System.DateTimeOffset> DateDeleteData { get; set; }
         public bool EtatDeleteData { get; set; }
     
-        public virtual ICollection<TypeDocument> Type_Document { get; set; }
+        public virtual ICollection<Folder> Folder { get; set; }
     }
 }

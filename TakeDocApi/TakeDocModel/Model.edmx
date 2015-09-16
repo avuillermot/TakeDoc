@@ -133,6 +133,7 @@
           <Property Name="UserDeleteData" Type="uniqueidentifier" />
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+          <Property Name="DocumentFolderId" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="DocumentStatusHisto">
           <Key>
@@ -316,6 +317,22 @@
           <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="StatusFolder">
+          <Key>
+            <PropertyRef Name="StatusFolderId" />
+          </Key>
+          <Property Name="StatusFolderId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="StatusFolderReference" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="StatusFolderLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="EntityId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserCreateData" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="UserUpdateData" Type="uniqueidentifier" />
+          <Property Name="UserDeleteData" Type="uniqueidentifier" />
+          <Property Name="DateCreateData" Type="datetimeoffset" Precision="7" Nullable="false" />
+          <Property Name="DateUpdateData" Type="datetimeoffset" Precision="7" />
+          <Property Name="DateDeleteData" Type="datetimeoffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -343,6 +360,7 @@
           <Property Name="EtatDeleteData" Type="bit" Nullable="false" />
           <Property Name="TypeDocumentPageNeed" Type="bit" Nullable="false" />
           <Property Name="TypeDocumentWorkflowTypeId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FolderTypeId" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="UserTk">
           <Key>
@@ -596,6 +614,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Document_Folder">
+          <End Role="Folder" Type="Self.Folder" Multiplicity="0..1" />
+          <End Role="Document" Type="Self.Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="DocumentFolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Document_Status_Document">
           <End Role="Status_Document" Type="Self.Status_Document" Multiplicity="1" />
           <End Role="Document" Type="Self.Document" Multiplicity="*" />
@@ -656,6 +686,18 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_UserEntity' n'a pas de clé p
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Folder_StatusFolder">
+          <End Role="StatusFolder" Type="Self.StatusFolder" Multiplicity="1" />
+          <End Role="Folder" Type="Self.Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusFolder">
+              <PropertyRef Name="StatusFolderId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="FolderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_MetaData_DataField">
           <End Role="DataField" Type="Self.DataField" Multiplicity="1" />
           <End Role="MetaData" Type="Self.MetaData" Multiplicity="*" />
@@ -704,6 +746,18 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             </Principal>
             <Dependent Role="Page">
               <PropertyRef Name="PageVersionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type_Document_FolderType">
+          <End Role="FolderType" Type="Self.FolderType" Multiplicity="1" />
+          <End Role="Type_Document" Type="Self.Type_Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FolderType">
+              <PropertyRef Name="FolderTypeId" />
+            </Principal>
+            <Dependent Role="Type_Document">
+              <PropertyRef Name="FolderTypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -862,6 +916,9 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="documentId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
         </Function>
+        <Function Name="InsertOrUpdateFolderType" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="typeDocumentId" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="SearchUserTk" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="currentUserId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="firstName" Type="nvarchar(max)" Mode="In" />
@@ -896,6 +953,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySet Name="RefreshToken" EntityType="Self.RefreshToken" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Document" EntityType="Self.Status_Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status_Version" EntityType="Self.Status_Version" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusFolder" EntityType="Self.StatusFolder" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Type_Document" EntityType="Self.Type_Document" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserTk" EntityType="Self.UserTk" Schema="dbo" store:Type="Tables" />
@@ -983,6 +1041,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="DataField" EntitySet="DataField" />
             <End Role="DataFieldValue" EntitySet="DataFieldValue" />
           </AssociationSet>
+          <AssociationSet Name="FK_Document_Folder" Association="Self.FK_Document_Folder">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
           <AssociationSet Name="FK_Document_Status_Document" Association="Self.FK_Document_Status_Document">
             <End Role="Status_Document" EntitySet="Status_Document" />
             <End Role="Document" EntitySet="Document" />
@@ -1003,6 +1065,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="FolderType" EntitySet="FolderType" />
             <End Role="Folder" EntitySet="Folder" />
           </AssociationSet>
+          <AssociationSet Name="FK_Folder_StatusFolder" Association="Self.FK_Folder_StatusFolder">
+            <End Role="StatusFolder" EntitySet="StatusFolder" />
+            <End Role="Folder" EntitySet="Folder" />
+          </AssociationSet>
           <AssociationSet Name="FK_MetaData_DataField" Association="Self.FK_MetaData_DataField">
             <End Role="DataField" EntitySet="DataField" />
             <End Role="MetaData" EntitySet="MetaData" />
@@ -1018,6 +1084,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <AssociationSet Name="FK_Page_Version" Association="Self.FK_Page_Version">
             <End Role="Version" EntitySet="Version" />
             <End Role="Page" EntitySet="Page" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type_Document_FolderType" Association="Self.FK_Type_Document_FolderType">
+            <End Role="FolderType" EntitySet="FolderType" />
+            <End Role="Type_Document" EntitySet="Type_Document" />
           </AssociationSet>
           <AssociationSet Name="FK_Type_Document_WorkflowType" Association="Self.FK_Type_Document_WorkflowType">
             <End Role="WorkflowType" EntitySet="WorkflowType" />
@@ -1267,6 +1337,22 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="FolderType" EntitySet="FolderType" />
             <End Role="Folder" EntitySet="Folder" />
           </AssociationSet>
+          <AssociationSet Name="FK_Document_Folder" Association="TakeDocModel.FK_Document_Folder">
+            <End Role="Folder" EntitySet="Folder" />
+            <End Role="Document" EntitySet="Document" />
+          </AssociationSet>
+          <FunctionImport Name="InsertOrUpdateFolderType">
+          <Parameter Name="typeDocumentId" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <EntitySet Name="StatusFolder" EntityType="TakeDocModel.StatusFolder" />
+          <AssociationSet Name="FK_Folder_StatusFolder" Association="TakeDocModel.FK_Folder_StatusFolder">
+            <End Role="StatusFolder" EntitySet="StatusFolder" />
+            <End Role="Folder" EntitySet="Folder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type_Document_FolderType" Association="TakeDocModel.FK_Type_Document_FolderType">
+            <End Role="FolderType" EntitySet="FolderType" />
+            <End Role="TypeDocument" EntitySet="Type_Document" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -1299,6 +1385,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="Status_Document" Relationship="TakeDocModel.FK_Document_Status_Document" FromRole="Document" ToRole="Status_Document" />
           <Property Name="DocumentOwnerId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="DocumentStatusHisto" Relationship="TakeDocModel.FK_DocumentStatus_Document" FromRole="Document" ToRole="DocumentStatusHisto" />
+          <Property Name="DocumentFolderId" Type="Guid" />
+          <NavigationProperty Name="Folder" Relationship="TakeDocModel.FK_Document_Folder" FromRole="Document" ToRole="Folder" />
           </EntityType>
         <EntityType Name="Page">
           <Key>
@@ -1389,6 +1477,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" FromRole="TypeDocument" ToRole="BackOfficeTypeDocument" />
           <Property Name="TypeDocumentWorkflowTypeId" Type="Guid" Nullable="false" />
           <NavigationProperty Name="WorkflowType" Relationship="TakeDocModel.FK_Type_Document_WorkflowType" FromRole="TypeDocument" ToRole="WorkflowType" />
+          <Property Name="FolderTypeId" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="FolderType" Relationship="TakeDocModel.FK_Type_Document_FolderType" FromRole="TypeDocument" ToRole="FolderType" />
           </EntityType>
         <Association Name="FK_Document_Type_Document">
           <End Type="TakeDocModel.TypeDocument" Role="Type_Document" Multiplicity="1" />
@@ -2167,6 +2257,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <NavigationProperty Name="FolderType" Relationship="TakeDocModel.FK_Folder_FolderType" FromRole="Folder" ToRole="FolderType" />
           <Property Name="FolderStatusId" Type="Guid" Nullable="false" />
           <Property Name="FolderDetail" Type="String" MaxLength="800" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Folder" FromRole="Folder" ToRole="Document" />
+          <NavigationProperty Name="StatusFolder" Relationship="TakeDocModel.FK_Folder_StatusFolder" FromRole="Folder" ToRole="StatusFolder" />
         </EntityType>
         <EntityType Name="FolderType">
           <Key>
@@ -2183,7 +2275,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserDeleteData" Type="Guid" />
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Folder" Relationship="TakeDocModel.FK_Folder_FolderType" FromRole="FolderType" ToRole="Folder" />
+          <NavigationProperty Name="Type_Document" Relationship="TakeDocModel.FK_Type_Document_FolderType" FromRole="FolderType" ToRole="TypeDocument" />
         </EntityType>
         <Association Name="FK_Folder_FolderType">
           <End Type="TakeDocModel.FolderType" Role="FolderType" Multiplicity="1" />
@@ -2193,6 +2285,59 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               <PropertyRef Name="FolderTypeId" />
             </Principal>
             <Dependent Role="Folder">
+              <PropertyRef Name="FolderTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Document_Folder">
+          <End Type="TakeDocModel.Folder" Role="Folder" Multiplicity="0..1" />
+          <End Type="TakeDocModel.Document" Role="Document" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Folder">
+              <PropertyRef Name="FolderId" />
+            </Principal>
+            <Dependent Role="Document">
+              <PropertyRef Name="DocumentFolderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="StatusFolder">
+          <Key>
+            <PropertyRef Name="StatusFolderId" />
+          </Key>
+          <Property Name="StatusFolderId" Type="Guid" Nullable="false" />
+          <Property Name="StatusFolderReference" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="StatusFolderLabel" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="EntityId" Type="Guid" Nullable="false" />
+          <Property Name="UserCreateData" Type="Guid" Nullable="false" />
+          <Property Name="UserUpdateData" Type="Guid" />
+          <Property Name="UserDeleteData" Type="Guid" />
+          <Property Name="DateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
+          <Property Name="DateUpdateData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
+          <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Folder" Relationship="TakeDocModel.FK_Folder_StatusFolder" FromRole="StatusFolder" ToRole="Folder" />
+        </EntityType>
+        <Association Name="FK_Folder_StatusFolder">
+          <End Type="TakeDocModel.StatusFolder" Role="StatusFolder" Multiplicity="1" />
+          <End Type="TakeDocModel.Folder" Role="Folder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="StatusFolder">
+              <PropertyRef Name="StatusFolderId" />
+            </Principal>
+            <Dependent Role="Folder">
+              <PropertyRef Name="FolderStatusId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type_Document_FolderType">
+          <End Type="TakeDocModel.FolderType" Role="FolderType" Multiplicity="1" />
+          <End Type="TakeDocModel.TypeDocument" Role="TypeDocument" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FolderType">
+              <PropertyRef Name="FolderTypeId" />
+            </Principal>
+            <Dependent Role="TypeDocument">
               <PropertyRef Name="FolderTypeId" />
             </Dependent>
           </ReferentialConstraint>
@@ -2226,6 +2371,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Document">
             <EntityTypeMapping TypeName="TakeDocModel.Document">
               <MappingFragment StoreEntitySet="Document">
+                <ScalarProperty Name="DocumentFolderId" ColumnName="DocumentFolderId" />
                 <ScalarProperty Name="DocumentOwnerId" ColumnName="DocumentOwnerId" />
                 <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
                 <ScalarProperty Name="DocumentCurrentVersionId" ColumnName="DocumentCurrentVersionId" />
@@ -2290,6 +2436,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="Type_Document">
             <EntityTypeMapping TypeName="TakeDocModel.TypeDocument">
               <MappingFragment StoreEntitySet="Type_Document">
+                <ScalarProperty Name="FolderTypeId" ColumnName="FolderTypeId" />
                 <ScalarProperty Name="TypeDocumentWorkflowTypeId" ColumnName="TypeDocumentWorkflowTypeId" />
                 <ScalarProperty Name="TypeDocumentPageNeed" ColumnName="TypeDocumentPageNeed" />
                 <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
@@ -2785,6 +2932,24 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
                 <ScalarProperty Name="FolderTypeLabel" ColumnName="FolderTypeLabel" />
                 <ScalarProperty Name="FolderTypeReference" ColumnName="FolderTypeReference" />
                 <ScalarProperty Name="FolderTypeId" ColumnName="FolderTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="InsertOrUpdateFolderType" FunctionName="TakeDocModel.Store.InsertOrUpdateFolderType" />
+          <EntitySetMapping Name="StatusFolder">
+            <EntityTypeMapping TypeName="TakeDocModel.StatusFolder">
+              <MappingFragment StoreEntitySet="StatusFolder">
+                <ScalarProperty Name="EtatDeleteData" ColumnName="EtatDeleteData" />
+                <ScalarProperty Name="DateDeleteData" ColumnName="DateDeleteData" />
+                <ScalarProperty Name="DateUpdateData" ColumnName="DateUpdateData" />
+                <ScalarProperty Name="DateCreateData" ColumnName="DateCreateData" />
+                <ScalarProperty Name="UserDeleteData" ColumnName="UserDeleteData" />
+                <ScalarProperty Name="UserUpdateData" ColumnName="UserUpdateData" />
+                <ScalarProperty Name="UserCreateData" ColumnName="UserCreateData" />
+                <ScalarProperty Name="EntityId" ColumnName="EntityId" />
+                <ScalarProperty Name="StatusFolderLabel" ColumnName="StatusFolderLabel" />
+                <ScalarProperty Name="StatusFolderReference" ColumnName="StatusFolderReference" />
+                <ScalarProperty Name="StatusFolderId" ColumnName="StatusFolderId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,6 +14,11 @@ namespace TakeDocModel
     
     public partial class Folder
     {
+        public Folder()
+        {
+            this.Document = new HashSet<Document>();
+        }
+    
         public System.Guid FolderId { get; set; }
         public string FolderReference { get; set; }
         public Nullable<System.DateTimeOffset> FolderDateStart { get; set; }
@@ -34,5 +39,7 @@ namespace TakeDocModel
         public string FolderDetail { get; set; }
     
         public virtual FolderType FolderType { get; set; }
+        public virtual ICollection<Document> Document { get; set; }
+        public virtual StatusFolder StatusFolder { get; set; }
     }
 }
