@@ -898,6 +898,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
         <Function Name="DeleteEntityUser" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
         </Function>
+        <Function Name="DeleteFolder" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="folderId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="userDelete" Type="uniqueidentifier" Mode="In" />
+        </Function>
         <Function Name="DeleteUserToEntity" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="userRef" Type="nvarchar" Mode="In" />
           <Parameter Name="entityRef" Type="nvarchar" Mode="In" />
@@ -930,6 +935,11 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Parameter Name="currentUserId" Type="uniqueidentifier" Mode="In" />
           <Parameter Name="value" Type="nvarchar(max)" Mode="In" />
           <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
+        </Function>
+        <Function Name="UpdateFolderStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="folderId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="entityId" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="status" Type="uniqueidentifier" Mode="In" />
         </Function>
         <EntityContainer Name="TakeDocModelStoreContainer">
           <EntitySet Name="AccessToken" EntityType="Self.AccessToken" Schema="dbo" store:Type="Tables" />
@@ -1353,6 +1363,16 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
             <End Role="FolderType" EntitySet="FolderType" />
             <End Role="TypeDocument" EntitySet="Type_Document" />
           </AssociationSet>
+          <FunctionImport Name="UpdateFolderStatus">
+            <Parameter Name="folderId" Mode="In" Type="Guid" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
+            <Parameter Name="status" Mode="In" Type="Guid" />
+          </FunctionImport>
+          <FunctionImport Name="DeleteFolder">
+            <Parameter Name="folderId" Mode="In" Type="Guid" />
+            <Parameter Name="entityId" Mode="In" Type="Guid" />
+            <Parameter Name="userDelete" Mode="In" Type="Guid" />
+          </FunctionImport>
           </EntityContainer>
         <EntityType Name="Counter">
           <Key>
@@ -2953,6 +2973,8 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="UpdateFolderStatus" FunctionName="TakeDocModel.Store.UpdateFolderStatus" />
+          <FunctionImportMapping FunctionImportName="DeleteFolder" FunctionName="TakeDocModel.Store.DeleteFolder" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

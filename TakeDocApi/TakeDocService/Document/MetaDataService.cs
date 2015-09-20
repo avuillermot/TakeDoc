@@ -168,8 +168,11 @@ namespace TakeDocService.Document
                 }
                 else if (myType == typeof(System.DateTimeOffset))
                 {
-                   var ci = new CultureInfo("en-GB");
-                   DateTimeOffset.Parse(value, ci.DateTimeFormat);
+                    if (string.IsNullOrEmpty(value) == false)
+                    {
+                        var ci = new CultureInfo("en-GB");
+                        DateTimeOffset.Parse(value, ci.DateTimeFormat);
+                    }
                 }
                 else if (myType == typeof(System.Boolean))
                 {

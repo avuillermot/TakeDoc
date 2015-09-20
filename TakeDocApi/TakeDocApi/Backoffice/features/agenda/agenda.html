@@ -9,8 +9,9 @@
             <label for="title" class="form-tk-label">Evénement</label>
             <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
             <div>Détail<input id="detail" ng-model="current.detail" style="width:100%" /></div>
-            <div>Type<input id="typeDocument" ng-model="current.detail" style="width:100%" /></div>
-            <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" /></div>
+            <div>Type<input id="typeDocument" ng-model="current.folderTypeLabel" style="width:100%" readonly="readonly" disabled="disabled"/></div>
+            <div>Statut<input id="status" ng-model="current.status" style="width:100%" readonly="readonly" disabled="disabled" /></div>
+            <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>
         </div>
         <div class="cadre">
             <label for="inputFindAgenda" class="form-tk-label">Recherche agenda</label>

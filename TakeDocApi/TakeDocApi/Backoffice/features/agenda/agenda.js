@@ -29,6 +29,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             entityId: event.entityId,
             ownerId: event.ownerId,
             title: event.title,
+            detail: event.detail,
             start: (changeDate == true) ? event.start : "",
             end: (changeDate == true) ? event.end : ""
         };
@@ -271,6 +272,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                     folderTypeId: $scope.selectedFolderType.FolderTypeId,
                     entityId: $scope.selectedEntity.id
                 };
+                debugger;
                 $("#modalAddFolder").modal("hide");
                 create(data);
         }

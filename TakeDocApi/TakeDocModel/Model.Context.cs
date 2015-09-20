@@ -256,5 +256,39 @@ namespace TakeDocModel
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("InsertOrUpdateFolderType", typeDocumentIdParameter);
         }
+    
+        public virtual int UpdateFolderStatus(Nullable<System.Guid> folderId, Nullable<System.Guid> entityId, Nullable<System.Guid> status)
+        {
+            var folderIdParameter = folderId.HasValue ?
+                new ObjectParameter("folderId", folderId) :
+                new ObjectParameter("folderId", typeof(System.Guid));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            var statusParameter = status.HasValue ?
+                new ObjectParameter("status", status) :
+                new ObjectParameter("status", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("UpdateFolderStatus", folderIdParameter, entityIdParameter, statusParameter);
+        }
+    
+        public virtual int DeleteFolder(Nullable<System.Guid> folderId, Nullable<System.Guid> entityId, Nullable<System.Guid> userDelete)
+        {
+            var folderIdParameter = folderId.HasValue ?
+                new ObjectParameter("folderId", folderId) :
+                new ObjectParameter("folderId", typeof(System.Guid));
+    
+            var entityIdParameter = entityId.HasValue ?
+                new ObjectParameter("entityId", entityId) :
+                new ObjectParameter("entityId", typeof(System.Guid));
+    
+            var userDeleteParameter = userDelete.HasValue ?
+                new ObjectParameter("userDelete", userDelete) :
+                new ObjectParameter("userDelete", typeof(System.Guid));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("DeleteFolder", folderIdParameter, entityIdParameter, userDeleteParameter);
+        }
     }
 }

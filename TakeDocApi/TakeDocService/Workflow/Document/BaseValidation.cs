@@ -19,6 +19,8 @@ namespace TakeDocService.Workflow.Document
         protected IDaoWorkflow daoWorkflow = UnityHelper.Resolve<IDaoWorkflow>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType> daoWorkflowType = new TakeDocDataAccess.DaoBase<TakeDocModel.WorkflowType>();
         protected TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document> daoStDocument = new TakeDocDataAccess.DaoBase<TakeDocModel.Status_Document>();
+
+        protected TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder> daoStFolder = new TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder>();
         
         
         protected Print.Interface.IReportVersionService servReportVersion = UnityHelper.Resolve<Print.Interface.IReportVersionService>();
@@ -28,6 +30,19 @@ namespace TakeDocService.Workflow.Document
         protected void SetStatus(TakeDocModel.Document document, string status, Guid userId)
         {
             servStatus.SetStatus(document, status, userId, true);
+            if (document.DocumentFolderId != null && document.DocumentFolderId != System.Guid.Empty)
+            {
+                TakeDocModel.StatusFolder stFolder = null;
+                if (status == TakeDocModel.Status_Document.Approve || status == TakeDocModel.Status_Document.Archive)
+                    stFolder = daoStFolder.GetBy(x => x.EntityId == document.EntityId && x.StatusFolderReference == "CLOSE").First();
+                else if (status == TakeDocModel.Status_Document.Create)
+                    stFolder = daoStFolder.GetBy(x => x.EntityId == document.EntityId && x.StatusFolderReference == "OPEN").First();
+                else if (status == TakeDocModel.Status_Document.Complete || status == TakeDocModel.Status_Document.Incomplete 
+                    || status == TakeDocModel.Status_Document.Refuse || status == TakeDocModel.Status_Document.ToValidate)
+                    stFolder = daoStFolder.GetBy(x => x.EntityId == document.EntityId && x.StatusFolderReference == "INPROGRESS").First();
+
+                this.context.UpdateFolderStatus(document.DocumentFolderId, document.EntityId, stFolder.StatusFolderId);
+            }
         }
 
         /// <summary>

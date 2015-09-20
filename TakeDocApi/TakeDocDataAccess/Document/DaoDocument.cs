@@ -34,5 +34,12 @@ namespace TakeDocDataAccess.Document
 
             return retour;
         }
+
+        public void Update(TakeDocModel.Document document)
+        {
+            base.Update(document);
+            if (document.DocumentFolderId != null && document.DocumentFolderId != System.Guid.Empty)
+                base.Context.DeleteFolder(document.DocumentFolderId, document.EntityId, document.UserDeleteData);
+        }
     }
 }

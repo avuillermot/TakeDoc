@@ -11,6 +11,7 @@ namespace TakeDocService.Folder
     public class FolderService : Interface.IFolderService
     {
         TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder> daoStatusFolder = new TakeDocDataAccess.DaoBase<TakeDocModel.StatusFolder>();
+        TakeDocDataAccess.DaoBase<TakeDocModel.FolderType> daoFolderType = new TakeDocDataAccess.DaoBase<TakeDocModel.FolderType>();
 
         TakeDocDataAccess.Folder.Interface.IDaoFolder daoFolder = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Folder.Interface.IDaoFolder>();
         TakeDocDataAccess.Document.Interface.IDaoTypeDocument daoTypeDoc = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoTypeDocument>();
@@ -29,7 +30,7 @@ namespace TakeDocService.Folder
                 Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
                 Guid folderTypeId = new Guid(jfolder.Value<string>("folderTypeId"));
 
-                TakeDocModel.StatusFolder status = daoStatusFolder.GetBy(x => x.StatusFolderReference == "OPEN").First();
+                TakeDocModel.StatusFolder status = daoStatusFolder.GetBy(x => x.StatusFolderReference == "OPEN" && x.EntityId == entityId).First();
                 TakeDocModel.TypeDocument typeDoc = daoTypeDoc.GetBy(x => x.FolderTypeId == folderTypeId).First();
 
                 folder.FolderLabel = jfolder.Value<string>("title");
@@ -41,7 +42,7 @@ namespace TakeDocService.Folder
                 folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
 
                 daoFolder.Create(folder, userCreateData, entityId);
-                servDocument.Create(userCreateData, folder.EntityId, typeDoc.TypeDocumentId, folder.FolderLabel, folder.FolderId);
+                servDocument.Create(ownerId, folder.EntityId, typeDoc.TypeDocumentId, folder.FolderLabel, folder.FolderId);
                 transaction.Complete();
                 return folder;
             }
@@ -67,6 +68,7 @@ namespace TakeDocService.Folder
             TakeDocModel.Folder folder = daoFolder.GetBy(x => x.FolderId == folderId && x.EntityId == entityId).First();
 
             folder.FolderLabel = jfolder.Value<string>("title");
+            folder.FolderDetail = jfolder.Value<string>("detail");
             folder.FolderOwnerId = ownerId;
             folder.UserUpdateData = userUpdateId;
             folder.DateUpdateData = System.DateTimeOffset.UtcNow;
@@ -105,7 +107,8 @@ namespace TakeDocService.Folder
             foreach (JObject agenda in agendas) agendaIds.Add(new Guid(agenda.Value<string>("id")));
 
             ICollection<TakeDocModel.Entity> entitys = daoEntity.GetAll();
-
+            ICollection<TakeDocModel.FolderType> types = daoFolderType.GetAll();
+            ICollection<TakeDocModel.StatusFolder> status = daoStatusFolder.GetAll();
 
             ICollection<TakeDocModel.Folder> folders = this.GetByPeriod(agendaIds, start, end);
             IList<object> items = new List<object>();
@@ -113,6 +116,9 @@ namespace TakeDocService.Folder
             foreach (TakeDocModel.Folder folder in folders)
             {
                 TakeDocModel.Entity entity = entitys.First(x => x.EntityId == folder.EntityId);
+                TakeDocModel.FolderType ctype = types.First(x => x.FolderTypeId == folder.FolderTypeId);
+                TakeDocModel.StatusFolder cstatus = status.First(x => x.StatusFolderId == folder.FolderStatusId);
+
                 string color = string.Empty;
                 ICollection<JObject> currentAgenda = agendas.Where(x => new Guid(x.Value<string>("id")) == folder.FolderOwnerId).ToList();
                 if (currentAgenda.Count() > 0) color = currentAgenda.First().Value<string>("color");
@@ -120,7 +126,10 @@ namespace TakeDocService.Folder
                 {
                     id = folder.FolderId,
                     folderId = folder.FolderId,
+                    folderTypeLabel = ctype.FolderTypeLabel,
                     title = folder.FolderLabel,
+                    detail = folder.FolderDetail,
+                    status = cstatus.StatusFolderLabel,
                     start = folder.FolderDateStart,
                     end = folder.FolderDateEnd,
                     allDay = false,
