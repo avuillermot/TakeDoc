@@ -24,10 +24,10 @@ namespace TakeDocApi.Controllers
                 DateTimeOffset end = DateTimeOffset.Parse(data.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
 
                 string agendas = data.Value<string>("agendas");
-                ICollection<Guid> myAgendas = new List<Guid>();
-                foreach (JValue agenda in Newtonsoft.Json.Linq.JArray.Parse(agendas))
+                ICollection<JObject> myAgendas = new List<JObject>();
+                foreach (JObject agenda in Newtonsoft.Json.Linq.JArray.Parse(agendas))
                 {
-                    myAgendas.Add(new Guid(agenda.Value<string>()));
+                    myAgendas.Add(agenda);
                 }
 
                 IFolderService servFolder = Utility.MyUnityHelper.UnityHelper.Resolve<IFolderService>();

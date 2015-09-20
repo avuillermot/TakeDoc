@@ -1,5 +1,4 @@
 ﻿<div>
-    <input type="button" ng-click="doNext()" />
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
     <div id="detail" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
         <div id="toolbarTakeDoc">
@@ -20,8 +19,8 @@
         </div>
         <div class="cadre">
             <div style="height:20px;" ng-style="{'color':agenda.color}" ng-repeat="agenda in agendas">
-                <div style="padding:3px; display:inline-block; width:75%; cursor:pointer" ng-click="doRemoveAgenda()">{{agenda.name}}</div>
-                <div style="display: inline-block"><input type="checkbox" ng-checked="agenda.display" /></div>
+                <div style="padding:3px; display:inline-block; width:75%; cursor:pointer" ng-click="doRemoveAgenda(agenda.id)">{{agenda.name}}</div>
+                <div style="display: inline-block"><input type="checkbox" ng-click="doDisplay(agenda.id)" ng-checked="agenda.display" ng-model="agenda.display"/></div>
             </div>
         </div>
     </div>
@@ -32,12 +31,12 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Type de document</h4>
+                <h4 class="modal-title">Rendez-vous</h4>
             </div>
             <div class="modal-body">
                 <input id="title" ng-model="current.title" style="width:100%;margin-top:15px;margin-bottom:15px;font-size:12px" class="cadre" placeholder="Titre" />
                 <div style="height:5px"></div>
-                <label class="col-md-3 control-label" style="padding-top:5px">Agenda</label>
+                <label class="col-md-3 control-label" style="padding-top:5px"><span class="input-metadata-required">*</span>Agenda</label>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true" placeholder="tt">
                         {{selectedAgenda.name}}
@@ -48,7 +47,7 @@
                     </ul>
                 </div>
                 <div style="height:5px"></div>
-                <label class="col-md-3 control-label" style="padding-top:5px">Entité</label>
+                <label class="col-md-3 control-label" style="padding-top:5px"><span class="input-metadata-required">*</span>Entité</label>
                 <div class="dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                         {{selectedEntity.label}}
@@ -59,7 +58,7 @@
                     </ul>
                 </div>
                 <div style="height:5px"></div>
-                <label class="col-md-3 control-label" style="padding-top:5px">Type</label>
+                <label class="col-md-3 control-label" style="padding-top:5px"><span class="input-metadata-required">*</span>Type</label>
                 <div class="dropdown search-dropdown" style="display:inline-block">
                     <button class="btn btn-default dropdown-toggle search-dropdown" type="button" data-toggle="dropdown" aria-expanded="true">
                         {{selectedFolderType.FolderTypeLabel}}

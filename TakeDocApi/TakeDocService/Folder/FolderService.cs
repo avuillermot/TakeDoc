@@ -99,15 +99,23 @@ namespace TakeDocService.Folder
             return folders.ToList();
         }
 
-        public ICollection<object> GetJsonByPeriod(ICollection<Guid> agendas, DateTimeOffset start, DateTimeOffset end)
+        public ICollection<object> GetJsonByPeriod(ICollection<JObject> agendas, DateTimeOffset start, DateTimeOffset end)
         {
+            ICollection<Guid> agendaIds = new List<Guid>();
+            foreach (JObject agenda in agendas) agendaIds.Add(new Guid(agenda.Value<string>("id")));
+
             ICollection<TakeDocModel.Entity> entitys = daoEntity.GetAll();
-            ICollection<TakeDocModel.Folder> folders = this.GetByPeriod(agendas, start, end);
+
+
+            ICollection<TakeDocModel.Folder> folders = this.GetByPeriod(agendaIds, start, end);
             IList<object> items = new List<object>();
 
             foreach (TakeDocModel.Folder folder in folders)
             {
                 TakeDocModel.Entity entity = entitys.First(x => x.EntityId == folder.EntityId);
+                string color = string.Empty;
+                ICollection<JObject> currentAgenda = agendas.Where(x => new Guid(x.Value<string>("id")) == folder.FolderOwnerId).ToList();
+                if (currentAgenda.Count() > 0) color = currentAgenda.First().Value<string>("color");
                 var json = new
                 {
                     id = folder.FolderId,
@@ -120,7 +128,8 @@ namespace TakeDocService.Folder
                     entityLabel = entity.EntityLabel,
                     ownerId = folder.FolderOwnerId,
                     folderTypeId = folder.FolderTypeId,
-                    readOnly = false
+                    readOnly = false,
+                    color = color
                 };
                 items.Add(json);
             }
