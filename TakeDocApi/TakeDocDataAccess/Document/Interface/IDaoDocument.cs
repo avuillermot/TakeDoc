@@ -12,5 +12,6 @@ namespace TakeDocDataAccess.Document.Interface
         TakeDocModel.Document Create( Guid userId, Guid entityId, Guid documentId, Guid versionId, Guid typeDocumentId, string documentLabel, Guid? folderId);
         ICollection<TakeDocModel.Document> GetBy(Expression<Func<TakeDocModel.Document, bool>> where, params Expression<Func<TakeDocModel.Document, object>>[] properties);
         void Update(TakeDocModel.Document document);
+        void Delete(TakeDocModel.Document document);
     }
 }

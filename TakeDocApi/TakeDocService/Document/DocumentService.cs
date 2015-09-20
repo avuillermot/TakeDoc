@@ -164,7 +164,7 @@ namespace TakeDocService.Document
                 document.EtatDeleteData = true;
                 document.DateDeleteData = System.DateTime.UtcNow;
                 document.UserDeleteData = userId;
-                daoDocument.Update(document);
+                daoDocument.Delete(document);
                 transaction.Complete();
             }
         }
