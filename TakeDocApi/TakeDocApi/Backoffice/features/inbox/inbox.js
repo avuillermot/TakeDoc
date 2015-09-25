@@ -10,7 +10,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $("#viewLeft").css("width", "98%");
         
         documentDisplay.data.document = null;
-        documentDisplay.data.viewType = null;
+        //documentDisplay.data.viewType = null;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
         if (!$scope.$$phase) $scope.$apply();
     }
@@ -20,7 +20,7 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
         $("#viewRight").show();
         $("#viewLeft").css("width", "49%");
         documentDisplay.data.document = document;
-        documentDisplay.data.viewType = viewType;
+        //documentDisplay.data.viewType = viewType;
         documentDisplay.data.calls = documentDisplay.data.calls + 1;
     }
     

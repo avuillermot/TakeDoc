@@ -1,14 +1,18 @@
-﻿<div>
+﻿<div id="divGoBack">
+    <button class="btn-xs btn-default glyphicon glyphicon-fast-backward" ng-click="doDisplayAgenda();" data-toggle="tooltip" title="Retour" data-placement="bottom"></button>
+ </div>
+<div id="divAgenda">
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
-    <div id="detail" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
-        <div id="toolbarTakeDoc">
-            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
-            <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
+    <div id="divDetailFolder" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
+        <div id="toolbarTakeDoc" style="height:25px">
+            <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" ng-show="current != null" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" ng-show="current != null" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
+            <button class="btn-xs btn-default glyphicon glyphicon-pencil" ng-click="doDisplayDocument();" ng-show="current != null" data-toggle="tooltip" title="Détail" data-placement="bottom"></button>
         </div>
         <div class="cadre">
             <label for="title" class="form-tk-label">Evénement</label>
             <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
-            <div>Détail<input id="detail" ng-model="current.detail" style="width:100%" /></div>
+            <div>Détail<input id="detailFolder" ng-model="current.detail" style="width:100%" /></div>
             <div>Type<input id="typeDocument" ng-model="current.folderTypeLabel" style="width:100%" readonly="readonly" disabled="disabled"/></div>
             <div>Statut<input id="status" ng-model="current.status" style="width:100%" readonly="readonly" disabled="disabled" /></div>
             <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>

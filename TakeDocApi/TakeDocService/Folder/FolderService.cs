@@ -138,7 +138,13 @@ namespace TakeDocService.Folder
                     ownerId = folder.FolderOwnerId,
                     folderTypeId = folder.FolderTypeId,
                     readOnly = false,
-                    color = color
+                    color = color,
+                    documentId = folder.Document.First().DocumentId,
+                    documentVersionId = folder.Document.First().DocumentCurrentVersionId,
+                    documentReference = folder.Document.First().DocumentReference,
+                    typeDocumentId = folder.Document.First().DocumentTypeId,
+                    documentStatutReference = folder.Document.First().Status_Document.StatusDocumentReference
+
                 };
                 items.Add(json);
             }

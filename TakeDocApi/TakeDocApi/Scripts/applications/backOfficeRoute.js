@@ -144,6 +144,10 @@
                 controller: 'menuController'
             },
             "viewRight": {
+                templateUrl: "features/inbox/display.html",
+                controller: 'displayController'
+            },
+            "viewLeft": {
                 templateUrl: "features/agenda/agenda.html",
                 controller: 'agendaController'
             }

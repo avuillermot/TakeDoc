@@ -266,7 +266,7 @@ backOffice.factory('documentDisplay', function () {
     return {
         set: function () {
             data.document = arguments[0];
-            data.viewType = arguments[2];
+            //data.viewType = arguments[2];
             data.calls = data.calls + 1;
         },
         data: data

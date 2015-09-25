@@ -80,7 +80,7 @@ namespace TakeDocService.Print
             ULibre.Drivers.Interface.IDriver model = new ULibre.Drivers.Implementation.OdtDriver();
             model.Open(destination.FullName);
             ICollection<string> title = new List<string>();
-            title.Add("");
+            title.Add("Titre");
             title.Add(version.Document.DocumentLabel);
             model.AddLine("TabMetadata", title.ToArray<string>());
             ICollection<string> reference = new List<string>();

@@ -1,9 +1,7 @@
 ﻿'use strict';
-backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarConfig', '$timeout', function ($scope, $rootScope, uiCalendarConfig, $timeout) {
+backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarConfig', '$timeout', 'documentDisplay', function ($scope, $rootScope, uiCalendarConfig, $timeout, documentDisplay) {
 
-    $("#viewLeft").css("width", "0%");
-    $("#viewRight").css("width", "99%");
-    
+    var myDocs = new DocumentsExtended();
     var userEntitys = new UserEntitys();
     $scope.agendas = [];
     var agendasColor = ['blue', 'red', 'green', 'orange', 'pink'];
@@ -272,7 +270,6 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                     folderTypeId: $scope.selectedFolderType.FolderTypeId,
                     entityId: $scope.selectedEntity.id
                 };
-                debugger;
                 $("#modalAddFolder").modal("hide");
                 create(data);
         }
@@ -283,6 +280,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     //*******************************************
     $scope.$on('$viewContentLoaded', function () {
         var fnEvent = function () {
+            $scope.doDisplayAgenda();
             get();
         };
 
@@ -332,5 +330,43 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         $scope.agendas.splice(place, 1);
         get();
     };
+
+
+    $scope.doDisplayAgenda = function () {
+        $("#viewRight").css("width", "0%");
+        $("#viewLeft").css("width", "95%");
+
+        $("#divDetailFolder").show();
+        $("#calendar").css("width", "70%");
+        $("#divDetailFolder").css("width", "28%");
+
+        $("#divGoBack").hide();
+        $("#viewRight").hide();
+
+        documentDisplay.data.document = null;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
+        if (!$scope.$$phase) $scope.$apply();
+    }
+
+    $scope.doDisplayDocument = function () {
+            var toDisplay = new DocumentExtended();
+
+            toDisplay.set("entityId", $scope.current.entityId);
+            toDisplay.set("versionId", $scope.current.documentVersionId);
+            toDisplay.set("statusReference", $scope.current.documentStatutReference);
+            $("#viewRight").css("width", "47%");
+            $("#viewLeft").css("width", "47%");
+
+            $("#divDetailFolder").hide();
+            $("#calendar").css("width", "90%");
+            $("#divDetailFolder").css("width", "0%");
+
+            $("#divGoBack").show();
+            $("#viewRight").show();
+
+            documentDisplay.data.document = toDisplay;
+            documentDisplay.data.calls = documentDisplay.data.calls + 1;
+            if (!$scope.$$phase) $scope.$apply();
+    }
 
 }]);
