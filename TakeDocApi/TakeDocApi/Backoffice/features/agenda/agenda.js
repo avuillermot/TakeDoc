@@ -1,7 +1,6 @@
 ﻿'use strict';
 backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarConfig', '$timeout', 'documentDisplay', function ($scope, $rootScope, uiCalendarConfig, $timeout, documentDisplay) {
 
-    var myDocs = new DocumentsExtended();
     var userEntitys = new UserEntitys();
     $scope.agendas = [];
     var agendasColor = ['blue', 'red', 'green', 'orange', 'pink'];
@@ -14,6 +13,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
     });
     $scope.entitys = [];
     $scope.eventSources = [[]];
+    $scope.GroupReference = $rootScope.getUser().GroupReference;
 
     var myOwnerId = $rootScope.getUser().Id;
 
@@ -336,11 +336,8 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
         $("#viewRight").css("width", "0%");
         $("#viewLeft").css("width", "95%");
 
-        $("#divDetailFolder").show();
-        $("#calendar").css("width", "70%");
-        $("#divDetailFolder").css("width", "28%");
-
         $("#divGoBack").hide();
+        $("#divAgenda").show()
         $("#viewRight").hide();
 
         documentDisplay.data.document = null;
@@ -354,14 +351,11 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             toDisplay.set("entityId", $scope.current.entityId);
             toDisplay.set("versionId", $scope.current.documentVersionId);
             toDisplay.set("statusReference", $scope.current.documentStatutReference);
-            $("#viewRight").css("width", "47%");
-            $("#viewLeft").css("width", "47%");
-
-            $("#divDetailFolder").hide();
-            $("#calendar").css("width", "90%");
-            $("#divDetailFolder").css("width", "0%");
+            $("#viewRight").css("width", "60%");
+            $("#viewLeft").css("width", "35%");
 
             $("#divGoBack").show();
+            $("#divAgenda").hide();
             $("#viewRight").show();
 
             documentDisplay.data.document = toDisplay;

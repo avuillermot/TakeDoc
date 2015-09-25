@@ -1,9 +1,9 @@
-﻿<div id="divGoBack">
+﻿<div id="divGoBack" style="padding-left:95%">
     <button class="btn-xs btn-default glyphicon glyphicon-fast-backward" ng-click="doDisplayAgenda();" data-toggle="tooltip" title="Retour" data-placement="bottom"></button>
  </div>
 <div id="divAgenda">
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
-    <div id="divDetailFolder" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
+    <div id="divDetailFolder" ng-show="current != null" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
         <div id="toolbarTakeDoc" style="height:25px">
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" ng-show="current != null" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" ng-show="current != null" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
@@ -13,11 +13,11 @@
             <label for="title" class="form-tk-label">Evénement</label>
             <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
             <div>Détail<input id="detailFolder" ng-model="current.detail" style="width:100%" /></div>
-            <div>Type<input id="typeDocument" ng-model="current.folderTypeLabel" style="width:100%" readonly="readonly" disabled="disabled"/></div>
+            <div>Type<input id="typeDocument" ng-model="current.folderTypeLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>
             <div>Statut<input id="status" ng-model="current.status" style="width:100%" readonly="readonly" disabled="disabled" /></div>
             <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>
         </div>
-        <div class="cadre">
+        <div class="cadre" ng-show="GroupReference != 'USER'">
             <label for="inputFindAgenda" class="form-tk-label">Recherche agenda</label>
             <input type="text" style="display:none" id="inputFindAgenda" mandatory="false" ng-model="searchUserId">
             <input type="text" tk-autocomplete-usertk="" class="form-control form-tk-item" id="inputBackofficeName" mandatory="false" ng-model="searchUserName">
@@ -25,7 +25,7 @@
         <div class="cadre">
             <div style="height:20px;" ng-style="{'color':agenda.color}" ng-repeat="agenda in agendas">
                 <div style="padding:3px; display:inline-block; width:75%; cursor:pointer" ng-click="doRemoveAgenda(agenda.id)">{{agenda.name}}</div>
-                <div style="display: inline-block"><input type="checkbox" ng-click="doDisplay(agenda.id)" ng-checked="agenda.display" ng-model="agenda.display"/></div>
+                <div style="display: inline-block"><input type="checkbox" ng-click="doDisplay(agenda.id)" ng-checked="agenda.display" ng-model="agenda.display" /></div>
             </div>
         </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="modal-dialog modal-sm" style="width:50%">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button class="close" data-dismiss="modal" aria-label="Close" ng-click="current = null"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">Rendez-vous</h4>
             </div>
             <div class="modal-body">
