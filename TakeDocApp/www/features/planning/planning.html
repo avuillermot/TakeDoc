@@ -1,0 +1,20 @@
+﻿<ion-view view-title="Informations">
+   <ion-content>
+       <section>
+           <ion-list id="ion-list-folder">
+               <ion-item ng-repeat="folder in folders" class="fd-row-result">
+                   {{folder.title}}-{{folder.start}}-{{folder.end}}
+
+               </ion-item>
+           </ion-list>
+       </section>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <div go-back="true"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" valid-input="doSave(false)"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" go-click-class="ion-jet" valid-input="doSave(true)"></div>
+            <div back-button ng-show="mode == 'READ'"></div>
+        </div>
+    </ion-footer-bar>
+</ion-view>

@@ -94,8 +94,8 @@ namespace TakeDocService.Folder
                 && x.EtatDeleteData == false
                 && (
                     (start <= x.FolderDateStart && x.FolderDateStart <= end)
-                    || (end <= x.FolderDateEnd && x.FolderDateEnd <= end)
-                    || (start >= x.FolderDateStart && x.FolderDateEnd <= end)
+                    || (start <= x.FolderDateEnd && x.FolderDateEnd <= end)
+                    || (start <= x.FolderDateStart && x.FolderDateEnd <= end)
                 )
             );
             return folders.ToList();

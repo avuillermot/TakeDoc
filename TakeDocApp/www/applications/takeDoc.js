@@ -67,6 +67,10 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/findDocument", to: "#/metadata/mode/READ" },
         { from: "#/metadata", to: "#/menu" }
     ];
+    var scenarioPlanning = [
+        { from: "#/menu", to: "#/planning" },
+        { from: "#/planning", to: "#/menu" }
+    ];
 
     $rootScope.Scenario.init("addDocument", scenarioAddDocument);
     $rootScope.Scenario.init("findComplet", scenarioFindComplet);
@@ -76,6 +80,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("findRefuse", scenarioFindRefuse);
     $rootScope.Scenario.init("detailMetadataUpdate", scenarioDetailMetadataUpdate);
     $rootScope.Scenario.init("detailMetadataReadOnly", scenarioDetailMetadataReadOnly);
+    $rootScope.Scenario.init("planning", scenarioPlanning);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -111,7 +116,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false, "/id/:id"))
         .state('upload', _routeHelper.get("upload", false, "/id/:id"))
-
+        .state('planning', _routeHelper.get("planning", false))
         .state('findDocument', _routeHelper.get("findDocument", false, "/search/:search"));
 
     // if none of the above states are matched, use this as the fallback

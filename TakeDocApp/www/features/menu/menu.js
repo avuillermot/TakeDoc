@@ -10,8 +10,10 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
         { title: 'Validé', id: 6, scenario: "findApprove", url: null, cssClassName: "ion-paperclip", count: "APPROVE" },
         { title: 'Refusé', id: 7, scenario: "findRefuse", url: null, cssClassName: "ion-heart-broken", count: "REFUSE" },
         { title: '', id: 8, scenario: null, url: null, cssClassName: "menu-empty" },
-        { title: 'Profil', id: 9, scenario: null, url: "#/profil", cssClassName: "ion-person" },
-        { title: 'Informations', id: 10, scenario: null, url: "#/about", cssClassName: "ion-information-circled" }
+        { title: 'Planning', id: 9, scenario: "planning", url: null, cssClassName: "ion-calendar" },
+        { title: '', id: 10, scenario: null, url: null, cssClassName: "menu-empty" },
+        { title: 'Profil', id: 11, scenario: null, url: "#/profil", cssClassName: "ion-person" },
+        { title: 'Informations', id: 12, scenario: null, url: "#/about", cssClassName: "ion-information-circled" }
     ];
 
     $scope.show = function (scenario, url) {

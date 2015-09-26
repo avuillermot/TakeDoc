@@ -129,7 +129,6 @@ var MetaDatas = Backbone.Collection.extend({
             var mandatory = current.get("mandatory");
 
             if (current.get("htmlType") == "list") {
-                debugger;
                 var value = current.get("value");
                 // we have the value, we find text
                 var values = current.get("valueList").where({ key: value });

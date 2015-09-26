@@ -40,6 +40,8 @@
     <Content Include="www\features\login\login.js" />
     <Content Include="www\features\metadata\metadata.html" />
     <Content Include="www\features\metadata\metadata.js" />
+    <Content Include="www\features\planning\planning.html" />
+    <Content Include="www\features\planning\planning.js" />
     <Content Include="www\features\profil\profil.html" />
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
@@ -263,6 +265,7 @@
     <Content Include="www\models\metadata.js" />
     <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />
+    <Content Include="www\models\page.js" />
     <Content Include="www\models\readOnlyMetadata.js" />
     <Content Include="www\models\typeDocument.js" />
     <Content Include="www\utils\autocomplete.js" />

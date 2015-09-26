@@ -69,7 +69,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
             $rootScope.PopupHelper.show("Création", msg);
 		};
 		try {
-			documentService.create($rootScope.myTakeDoc, success, error);
+		    documentService.addPage($rootScope.myTakeDoc, 1, success, error);
 		}
         catch (ex) {
             $ionicLoading.hide();

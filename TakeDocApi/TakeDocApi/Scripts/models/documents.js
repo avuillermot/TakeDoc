@@ -32,29 +32,20 @@ function documentService() {
 }
 
 documentService.create = function (document, onSuccess, onError) {
-	if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Une photographie est requise.");
-    console.log("documents.prototype.create:start");
-    $.ajax({
-	        type: 'PUT',
-	        url: environnement.UrlBase + "odata/Documents(0)",
-	        beforeSend: requestHelper.beforeSend(),
-	        data: {
-	            EntityId: document.get("EntityId"), UserCreateData: document.get("UserCreateData"), DocumentTypeId: document.get("DocumentTypeId"), DocumentLabel: document.get("DocumentLabel")
-            },
-            success: function () {
-                document.set("DocumentId", arguments[0].DocumentId);
-                document.set("DocumentCurrentVersionId", arguments[0].DocumentCurrentVersionId);
-                var current = arguments[0];
-                if (document.Pages != null && document.Pages.length > 0) documentService.addPage(document, 1, onSuccess, onError);
-                else documentService.SetIncomplete(document, onSuccess, onError);
-            },
-            error: function () {
-			    onError();
-           }
-    });
+    var req = new DocumentComplete();
+    var context = {
+        userId: document.get("UserCreateData"),
+        typeDocumentId: document.get("DocumentTypeId"),
+        entityId: document.get("EntityId"),
+        label: document.get("DocumentLabel"),
+        success: onSuccess,
+        error: onError
+    };
+    req.add(context);
 }
 
 documentService.addPage = function (document, index, onSuccess, onError) {
+    if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Une photographie est requise.");
     console.log("documents.prototype.addPage:start");
     var currentPage = document.Pages.where({ pageNumber: index })[0];
     var nextPages = document.Pages.where({ pageNumber: index + 1 });

@@ -54,5 +54,32 @@ namespace TakeDocApi.Controllers
                 return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("{typeDocumentId}/{userId}/{entityId}")]
+        [TakeDocApi.Controllers.Security.AuthorizeTk()]
+        public HttpResponseMessage Put(Guid typeDocumentId, Guid userId, Guid entityId, [FromBody]string label)
+        {
+            TakeDocService.Document.Interface.IDocumentService servDoc = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.IDocumentService>();
+            TakeDocService.Document.Interface.IDocumentCompleteService servDocTk = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Document.Interface.IDocumentCompleteService>();
+                        
+            try
+            {
+                TakeDocModel.Document document = servDoc.Create(userId, entityId, typeDocumentId, label);
+                TakeDocModel.Dto.Document.DocumentComplete documentComplete = servDocTk.GetByVersion(document.DocumentCurrentVersionId.Value, userId, entityId);
+                
+                var back = new
+                {
+                    MetaDatas = new List<TakeDocModel.MetaData>(),
+                    Document = documentComplete.Document,
+                    Pages = new List<TakeDocModel.Page>()
+                };
+                return Request.CreateResponse(back);
+            }
+            catch (Exception ex)
+            {
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
     }
 }

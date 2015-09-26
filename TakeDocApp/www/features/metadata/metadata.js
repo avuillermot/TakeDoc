@@ -13,7 +13,6 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
         $scope.mode = states.stateParams.mode;
-        debugger;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
