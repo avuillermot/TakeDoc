@@ -37,5 +37,9 @@ namespace TakeDocModel
         public System.DateTimeOffset DocumentDateCreateData { get; set; }
         public System.Guid DocumentStatusId { get; set; }
         public System.Guid TypeDocumentId { get; set; }
+        public string DocumentUserUpdateReference { get; set; }
+        public Nullable<System.Guid> DocumentUserUpdateId { get; set; }
+        public string DocumentUserUpdateFullName { get; set; }
+        public Nullable<System.DateTimeOffset> DocumentDateUpdate { get; set; }
     }
 }

@@ -16,7 +16,6 @@ namespace TakeDocModel
     {
         public TypeDocument()
         {
-            this.Document = new HashSet<Document>();
             this.BackOfficeTypeDocument = new HashSet<BackOfficeTypeDocument>();
         }
     
@@ -35,7 +34,6 @@ namespace TakeDocModel
         public System.Guid TypeDocumentWorkflowTypeId { get; set; }
         public System.Guid FolderTypeId { get; set; }
     
-        public virtual ICollection<Document> Document { get; set; }
         public virtual ICollection<BackOfficeTypeDocument> BackOfficeTypeDocument { get; set; }
         public virtual WorkflowType WorkflowType { get; set; }
         public virtual FolderType FolderType { get; set; }

@@ -475,6 +475,10 @@ avertissement 6002: La table/vue 'TakeDoc.dbo.View_DocumentExtended' n'a pas de 
           <Property Name="DocumentOwnerReference" Type="nvarchar" MaxLength="50" />
           <Property Name="DocumentOwnerId" Type="uniqueidentifier" />
           <Property Name="DocumentOwnerFullName" Type="nvarchar" MaxLength="401" />
+          <Property Name="DocumentUserUpdateReference" Type="nvarchar" MaxLength="50" />
+          <Property Name="DocumentUserUpdateId" Type="uniqueidentifier" />
+          <Property Name="DocumentUserUpdateFullName" Type="nvarchar" MaxLength="401" />
+          <Property Name="DocumentDateUpdate" Type="datetimeoffset" Precision="7" />
           <Property Name="DocumentStatusId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="DocumentStatusReference" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="DocumentStatusLabel" Type="nvarchar" MaxLength="200" Nullable="false" />
@@ -983,6 +987,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
     [View_DocumentExtended].[DocumentOwnerReference] AS [DocumentOwnerReference], 
     [View_DocumentExtended].[DocumentOwnerId] AS [DocumentOwnerId], 
     [View_DocumentExtended].[DocumentOwnerFullName] AS [DocumentOwnerFullName], 
+    [View_DocumentExtended].[DocumentUserUpdateReference] AS [DocumentUserUpdateReference], 
+    [View_DocumentExtended].[DocumentUserUpdateId] AS [DocumentUserUpdateId], 
+    [View_DocumentExtended].[DocumentUserUpdateFullName] AS [DocumentUserUpdateFullName], 
+    [View_DocumentExtended].[DocumentDateUpdate] AS [DocumentDateUpdate], 
     [View_DocumentExtended].[DocumentStatusId] AS [DocumentStatusId], 
     [View_DocumentExtended].[DocumentStatusReference] AS [DocumentStatusReference], 
     [View_DocumentExtended].[DocumentStatusLabel] AS [DocumentStatusLabel], 
@@ -1492,7 +1500,6 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="UserDeleteData" Type="Guid" />
           <Property Name="DateDeleteData" Type="DateTimeOffset" Precision="7" />
           <Property Name="EtatDeleteData" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Document" Relationship="TakeDocModel.FK_Document_Type_Document" FromRole="Type_Document" ToRole="Document" />
           <Property Name="TypeDocumentPageNeed" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="BackOfficeTypeDocument" Relationship="TakeDocModel.FK_BackOfficeTypeDocument_Type_Document" FromRole="TypeDocument" ToRole="BackOfficeTypeDocument" />
           <Property Name="TypeDocumentWorkflowTypeId" Type="Guid" Nullable="false" />
@@ -1853,6 +1860,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="DocumentDateCreateData" Type="DateTimeOffset" Nullable="false" Precision="7" />
           <Property Name="DocumentStatusId" Type="Guid" Nullable="false" />
           <Property Name="TypeDocumentId" Type="Guid" Nullable="false" />
+          <Property Name="DocumentUserUpdateReference" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentUserUpdateId" Type="Guid" />
+          <Property Name="DocumentUserUpdateFullName" Type="String" MaxLength="401" FixedLength="false" Unicode="true" />
+          <Property Name="DocumentDateUpdate" Type="DateTimeOffset" Precision="7" />
         </EntityType>
         <EntityType Name="Customer">
           <Key>
@@ -2662,6 +2673,10 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="View_DocumentExtended">
             <EntityTypeMapping TypeName="IsTypeOf(TakeDocModel.View_DocumentExtended)">
               <MappingFragment StoreEntitySet="View_DocumentExtended">
+                <ScalarProperty Name="DocumentDateUpdate" ColumnName="DocumentDateUpdate" />
+                <ScalarProperty Name="DocumentUserUpdateFullName" ColumnName="DocumentUserUpdateFullName" />
+                <ScalarProperty Name="DocumentUserUpdateId" ColumnName="DocumentUserUpdateId" />
+                <ScalarProperty Name="DocumentUserUpdateReference" ColumnName="DocumentUserUpdateReference" />
                 <ScalarProperty Name="TypeDocumentId" ColumnName="TypeDocumentId" />
                 <ScalarProperty Name="DocumentStatusId" ColumnName="DocumentStatusId" />
                 <ScalarProperty Name="DocumentReference" ColumnName="DocumentReference" />

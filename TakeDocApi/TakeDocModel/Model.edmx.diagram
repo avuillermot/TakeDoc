@@ -7,10 +7,10 @@
       <Diagram DiagramId="3fe3ef94d1244635a36d73c688384101" Name="Diagram1" ZoomLevel="77">
         <EntityTypeShape EntityType="TakeDocModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TakeDocModel.Counter" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="6" PointY="1" />
+        <EntityTypeShape EntityType="TakeDocModel.Document" Width="1.5" PointX="7.5" PointY="1" />
         <EntityTypeShape EntityType="TakeDocModel.Page" Width="1.5" PointX="12.875" PointY="2.875" />
         <AssociationConnector Association="TakeDocModel.FK_PAGE_DOCUMENT" />
-        <EntityTypeShape EntityType="TakeDocModel.Version" Width="1.5" PointX="9" PointY="3.75" />
+        <EntityTypeShape EntityType="TakeDocModel.Version" Width="1.5" PointX="3.375" PointY="2.125" />
         <AssociationConnector Association="TakeDocModel.FK_Version_Document" />
         <AssociationConnector Association="TakeDocModel.FK_Page_Version" />
         <AssociationConnector Association="TakeDocModel.FK_Document_Version" />
@@ -34,7 +34,7 @@
         <AssociationConnector Association="TakeDocModel.FK_Version_Status_Version" />
         <EntityTypeShape EntityType="TakeDocModel.DataFieldAutoComplete" Width="1.5" PointX="20.375" PointY="14.625" />
         <AssociationConnector Association="TakeDocModel.FK_DataField_DataFieldAutoComplete" />
-        <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="2.75" PointX="4.125" PointY="11.75" />
+        <EntityTypeShape EntityType="TakeDocModel.View_DocumentExtended" Width="2.75" PointX="3.75" PointY="12" />
         <EntityTypeShape EntityType="TakeDocModel.Customer" Width="1.5" PointX="10.625" PointY="14.75" />
         <AssociationConnector Association="TakeDocModel.FK_Client_Entity" />
         <AssociationConnector Association="TakeDocModel.UserTkView_UserEntity" />

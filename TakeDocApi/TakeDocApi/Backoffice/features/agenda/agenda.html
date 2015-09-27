@@ -3,13 +3,13 @@
  </div>
 <div id="divAgenda">
     <div id="calendar" ui-calendar="uiConfig.calendar" class="span8 calendar" ng-model="eventSources" style="display:inline-block;width:70%;vertical-align:top"></div>
-    <div id="divDetailFolder" ng-show="current != null" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
+    <div id="divDetailFolder" style="padding-left:10px;display:inline-block;width:28%;padding-top:50px">
         <div id="toolbarTakeDoc" style="height:25px">
             <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave();" ng-show="current != null && GroupReference != 'USER'" data-toggle="tooltip" title="Enregistrer" data-placement="bottom"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-remove" data-toggle="tooltip" ng-show="current != null  && GroupReference != 'USER'" title="Supprimer" data-placement="bottom" ng-click="doDelete()"></button>
             <button class="btn-xs btn-default glyphicon glyphicon-pencil" ng-click="doDisplayDocument();" ng-show="current != null" data-toggle="tooltip" title="Détail" data-placement="bottom"></button>
         </div>
-        <div class="cadre">
+        <div class="cadre" ng-show="current != null">
             <label for="title" class="form-tk-label">Evénement</label>
             <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
             <div>Détail<input id="detailFolder" ng-model="current.detail" style="width:100%" /></div>
