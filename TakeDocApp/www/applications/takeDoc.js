@@ -21,9 +21,13 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/CREATE/status/" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture" },
-        //{ from: "#/takePicture", to: "#/autocomplete" },
         { from: "#/takePicture", to: "#/metadata/mode/ADD" },
         { from: "#/metadata", to: "#/menu" }
+    ];
+    var scenarioAddDocumentFromPlanning = [
+       { from: "#/planning", to: "#/takePicture" },
+       { from: "#/takePicture", to: "#/metadata/mode/ADD" },
+       { from: "#/metadata", to: "#/menu" }
     ];
     var scenarioFindIncomplet = [
         { from: "#/menu", to: "#/selectEntity/status/INCOMPLETE" },
@@ -81,6 +85,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("detailMetadataUpdate", scenarioDetailMetadataUpdate);
     $rootScope.Scenario.init("detailMetadataReadOnly", scenarioDetailMetadataReadOnly);
     $rootScope.Scenario.init("planning", scenarioPlanning);
+    $rootScope.Scenario.init("addDocumentFromPlanning", scenarioAddDocumentFromPlanning);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

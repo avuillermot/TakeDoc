@@ -1,12 +1,6 @@
 ﻿'use strict';
 takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatform', '$route', '$location', '$ionicLoading', function ($scope, $rootScope, $ionicPlatform, $route, $location, $ionicLoading) {
     
-    var fRefresh = function () {
-        if (!$scope.$$phase) {
-            try { $scope.$apply(); } catch (ex) { }
-        }
-    };
-
     var get = function () {
         var context = {
             agendas: angular.toJson([{ id: $rootScope.User.Id }]),
@@ -20,6 +14,10 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
             beforeSend: requestHelper.beforeSend(),
             success: function () {
                 $scope.folders = arguments[0];
+                $.each($scope.folders, function (index, value) {
+                    value.startLabel = moment(value.start).format("lll");
+                    value.endLabel = moment(value.end).format("lll");
+                });
                 if (!$scope.$$phase) $scope.$apply();
             },
             error: function () {
@@ -28,18 +26,26 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
         });
     };
 
-    $scope.$on("metadata$refreshPage", fRefresh);
-    
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        /*var step = $rootScope.Scenario.next();
-        $scope.nextUrl = step.to;
-        $scope.mode = states.stateParams.mode;*/
+        $scope.folders = null;
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         get();
     });
 
-
-    
+    $scope.doOpen = function () {
+        var current = this.folder;
+        var step = $rootScope.Scenario.start("addDocumentFromPlanning");
+            
+        $rootScope.myTakeDoc = new CreateDocumentTk();
+        $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current.documentVersionId);
+        $rootScope.myTakeDoc.set("EntityId", current.entityId);
+        $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
+        $rootScope.User.CurrentEntity = {
+            Id: current.entityId
+        }
+        $location.path(step.to.substr(2));
+        if (!$scope.$$phase) $scope.$apply();
+    }
 }]);

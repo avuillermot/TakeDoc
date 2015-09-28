@@ -42,7 +42,6 @@
         this.set("updaterReference", current.DocumentUserUpdateReference);
         this.set("updaterFullName", current.DocumentUserUpdateFullName);
         this.set("dateUpdate", moment(current.DocumentDateUpdate).format("L"));
-        debugger;
         return this;
     },
     isReadOnly: function () {

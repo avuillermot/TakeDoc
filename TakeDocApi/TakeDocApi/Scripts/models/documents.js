@@ -63,7 +63,7 @@ documentService.addPage = function (document, index, onSuccess, onError) {
         success: function () {
             if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
             else {
-                documentService.SetIncomplete(document, onSuccess, onError);
+                documentService.getMetaData(document, onSuccess, onError);
 			}
 
         },
@@ -88,25 +88,6 @@ documentService.SetArchive = function (param, onSuccess, onError) {
         },
         error: function () {
 
-        }
-    });
-}
-
-documentService.SetIncomplete = function (document, onSuccess, onError) {
-    console.log("documents.prototype.SetIncomplete:start");
-    var url = environnement.UrlBase + "Document/SetIncomplete/<documentId/>/<userId/>";
-    url = url.replace("<documentId/>", document.get("DocumentId"));
-    url = url.replace("<userId/>", document.get("UserCreateData"));
-
-    $.ajax({
-        type: 'GET',
-        url: url,
-        beforeSend: requestHelper.beforeSend(),
-        success: function () {
-            documentService.getMetaData(document, onSuccess, onError);
-        },
-        error: function () {
-			onError();
         }
     });
 }

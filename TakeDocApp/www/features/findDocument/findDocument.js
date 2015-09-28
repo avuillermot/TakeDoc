@@ -60,11 +60,10 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
             var onSuccess = function () {
-                var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "scenarioDetailDocument" : "scenarioDetailDocument";
-                    var step = $rootScope.Scenario.start("");
-                    step = $rootScope.Scenario.start(starter);
-                    $location.path(step.to.substr(2));
-                    $scope.$broadcast("findDocument$refreshPage");
+                var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
+                var step = $rootScope.Scenario.start(starter);
+                $location.path(step.to.substr(2));
+                $scope.$broadcast("findDocument$refreshPage");
                 };
                 var onError = function() {
                     $rootScope.PopupHelper.show("Une erreur est survenue lors de l'obtention des informations");

@@ -39,10 +39,6 @@ div.button-bar {
 }
 
 /* find document resultat*/
-.fd-typeDocument {
-    font-size: 10px;
-}
-
 .fd-row-result {
     border-top: none;
     font-size:14px;
@@ -207,4 +203,8 @@ div.button-bar {
     height:30px;
     padding-left:5px;
     font-style:italic;
+}
+
+.small-label {
+    font-size: 10px;
 }

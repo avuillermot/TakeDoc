@@ -66,24 +66,28 @@ namespace TakeDocService.Folder
             Guid ownerId = new Guid(jfolder.Value<string>("ownerId"));
 
             TakeDocModel.Folder folder = daoFolder.GetBy(x => x.FolderId == folderId && x.EntityId == entityId).First();
-
-            folder.FolderLabel = jfolder.Value<string>("title");
-            folder.FolderDetail = jfolder.Value<string>("detail");
-            folder.FolderOwnerId = ownerId;
-            folder.UserUpdateData = userUpdateId;
-            folder.DateUpdateData = System.DateTimeOffset.UtcNow;
-            
-            if (string.IsNullOrEmpty(jfolder.Value<string>("start")) == false)
+            if (folder.StatusFolder.StatusFolderReference.Equals("OPEN"))
             {
-                folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
-            }
 
-            if (string.IsNullOrEmpty(jfolder.Value<string>("end")) == false)
-            {
-                folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
-            }
+                folder.FolderLabel = jfolder.Value<string>("title");
+                folder.FolderDetail = jfolder.Value<string>("detail");
+                folder.FolderOwnerId = ownerId;
+                folder.UserUpdateData = userUpdateId;
+                folder.DateUpdateData = System.DateTimeOffset.UtcNow;
 
-            daoFolder.Update(folder, userUpdateId, entityId);
+                if (string.IsNullOrEmpty(jfolder.Value<string>("start")) == false)
+                {
+                    folder.FolderDateStart = DateTimeOffset.Parse(jfolder.Value<string>("start"), System.Globalization.CultureInfo.InvariantCulture);
+                }
+
+                if (string.IsNullOrEmpty(jfolder.Value<string>("end")) == false)
+                {
+                    folder.FolderDateEnd = DateTimeOffset.Parse(jfolder.Value<string>("end"), System.Globalization.CultureInfo.InvariantCulture);
+                }
+
+                daoFolder.Update(folder, userUpdateId, entityId);
+            }
+            else throw new Exception("Impossible de modifier un rendez-vous en cours ou terminé.");
 
             return folder;
         }
@@ -130,6 +134,7 @@ namespace TakeDocService.Folder
                     title = folder.FolderLabel,
                     detail = folder.FolderDetail,
                     status = cstatus.StatusFolderLabel,
+                    statusReference = cstatus.StatusFolderReference,
                     start = folder.FolderDateStart,
                     end = folder.FolderDateEnd,
                     allDay = false,

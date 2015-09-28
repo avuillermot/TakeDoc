@@ -11,11 +11,11 @@
         </div>
         <div class="cadre" ng-show="current != null">
             <label for="title" class="form-tk-label">Evénement</label>
-            <div>Titre<input id="title" ng-model="current.title" style="width:100%" /></div>
-            <div>Détail<input id="detailFolder" ng-model="current.detail" style="width:100%" /></div>
+            <div>Titre<input id="title" ng-model="current.title" style="width:100%" ng-disabled="current.statusReference != 'OPEN'" /></div>
             <div>Type<input id="typeDocument" ng-model="current.folderTypeLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>
             <div>Statut<input id="status" ng-model="current.status" style="width:100%" readonly="readonly" disabled="disabled" /></div>
             <div>Entité<input id="entity" ng-model="current.entityLabel" style="width:100%" readonly="readonly" disabled="disabled" /></div>
+            <div>Détail<textarea id="detailFolder" ng-model="current.detail" style="width:100%" rows="8" ng-disabled="current.statusReference != 'OPEN'" /></div>
         </div>
         <div class="cadre" ng-show="GroupReference != 'USER'">
             <label for="inputFindAgenda" class="form-tk-label">Recherche agenda</label>

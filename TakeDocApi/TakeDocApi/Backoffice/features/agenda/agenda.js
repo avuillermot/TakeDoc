@@ -41,7 +41,9 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
                 $timeout(get(), 1500);
             },
             error: function () {
-                $rootScope.showError({ message: "Votre rendez-vous n'a pas été modifié" });
+                if (arguments[0] != null && arguments[0].responseJSON != null) $rootScope.showError({ message: arguments[0].responseJSON.Message });
+                else $rootScope.showError({ message: "Votre rendez-vous n'a pas été modifié" });
+                $timeout(get(), 1500);
             }
         });
     };
