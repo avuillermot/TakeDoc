@@ -20,21 +20,17 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/menu", to: "#/selectEntity/status/" },
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/CREATE/status/" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
-        { from: "#/createDocument", to: "#/takePicture" },
+        { from: "#/createDocument", to: "#/takePicture/mode/ADD" },
         { from: "#/takePicture", to: "#/metadata/mode/ADD" },
         { from: "#/metadata", to: "#/menu" }
     ];
-    var scenarioAddDocumentFromPlanning = [
-       { from: "#/planning", to: "#/takePicture" },
-       { from: "#/takePicture", to: "#/metadata/mode/ADD" },
-       { from: "#/metadata", to: "#/menu" }
-    ];
+
     var scenarioFindIncomplet = [
         { from: "#/menu", to: "#/selectEntity/status/INCOMPLETE" },
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/INCOMPLETE" },
         { from: "#/selectTypeDocument", to: "#/findDocument/search/INCOMPLETE" },
         { from: "#/findDocument", to: "#/menu" }
-        ];
+    ];
     var scenarioFindComplet = [
         { from: "#/menu", to: "#/selectEntity/status/COMPLETE" },
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/COMPLETE" },
@@ -57,20 +53,33 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     ];
 
     var scenarioFindRefuse = [
-                { from: "#/menu", to: "#/selectEntity/status/REFUSE" },
-                { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/REFUSE" },
-                { from: "#/selectTypeDocument", to: "#/findDocument/search/REFUSE" },
-                { from: "#/findDocument", to: "#/menu" }
+            { from: "#/menu", to: "#/selectEntity/status/REFUSE" },
+            { from: "#/selectEntity", to: "#/selectTypeDocument/mode/SEARCH/status/REFUSE" },
+            { from: "#/selectTypeDocument", to: "#/findDocument/search/REFUSE" },
+            { from: "#/findDocument", to: "#/menu" }
     ];
 
     var scenarioDetailMetadataUpdate = [
-        { from: "#/findDocument", to: "#/metadata/mode/UPDATE" },
+        { from: "#/findDocument", to: "#/takePicture/mode/UPDATE"},
+        { from: "#/takePicture", to: "#/metadata/mode/UPDATE" },
         { from: "#/metadata", to: "#/menu" }
     ];
     var scenarioDetailMetadataReadOnly = [
-        { from: "#/findDocument", to: "#/metadata/mode/READ" },
+        { from: "#/findDocument", to: "#/takePicture/mode/READ" },
+        { from: "#/takePicture", to: "#/metadata/mode/READ" },
         { from: "#/metadata", to: "#/menu" }
     ];
+    var scenarioDocumentFromPlanningUpdate =[
+        { from: "#/planning", to: "#/takePicture/mode/UPDATE" },
+        { from: "#/takePicture", to: "#/metadata/mode/UPDATE" },
+        { from: "#/metadata", to: "#/menu" }
+    ];
+    var scenarioDocumentFromPlanningReadOnly =[
+        { from: "#/planning", to: "#/takePicture/mode/READ" },
+        { from: "#/takePicture", to: "#/metadata/mode/READ" },
+        { from: "#/metadata", to: "#/menu" }
+    ];
+
     var scenarioPlanning = [
         { from: "#/menu", to: "#/planning" },
         { from: "#/planning", to: "#/menu" }
@@ -85,7 +94,8 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     $rootScope.Scenario.init("detailMetadataUpdate", scenarioDetailMetadataUpdate);
     $rootScope.Scenario.init("detailMetadataReadOnly", scenarioDetailMetadataReadOnly);
     $rootScope.Scenario.init("planning", scenarioPlanning);
-    $rootScope.Scenario.init("addDocumentFromPlanning", scenarioAddDocumentFromPlanning);
+    $rootScope.Scenario.init("documentFromPlanningReadOnly", scenarioDocumentFromPlanningReadOnly);
+    $rootScope.Scenario.init("documentFromPlanningUpdate", scenarioDetailMetadataUpdate);
     
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -117,7 +127,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
         .state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))
-        .state('takePicture', _routeHelper.get("takePicture", false))
+        .state('takePicture', _routeHelper.get("takePicture", false, "/mode/:mode"))
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false, "/id/:id"))
         .state('upload', _routeHelper.get("upload", false, "/id/:id"))

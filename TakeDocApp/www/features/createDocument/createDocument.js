@@ -2,7 +2,7 @@
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        $rootScope.myTakeDoc = new CreateDocumentTk();
+        $rootScope.myTakeDoc = new DocumentComplete();
         $rootScope.myTakeDoc.set("DocumentLabel", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("label") : "");
         $rootScope.myTakeDoc.set("EntityId", $rootScope.User.CurrentEntity.Id);
         $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);

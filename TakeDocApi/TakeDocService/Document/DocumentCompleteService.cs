@@ -34,17 +34,27 @@ namespace TakeDocService.Document
             using (TransactionScope transaction = new TransactionScope())
             {
                 Newtonsoft.Json.Linq.JArray data = Newtonsoft.Json.Linq.JArray.Parse(json);
-                Newtonsoft.Json.Linq.JObject document = String.IsNullOrEmpty(data[0].ToString()) ? null : (Newtonsoft.Json.Linq.JObject)data[0];
-                Newtonsoft.Json.Linq.JArray metadatas = String.IsNullOrEmpty(data[1].ToString()) ? null : (Newtonsoft.Json.Linq.JArray)data[1];
-                Newtonsoft.Json.Linq.JArray pages = String.IsNullOrEmpty(data[2].ToString()) ? null : (Newtonsoft.Json.Linq.JArray)data[2];
+                Newtonsoft.Json.Linq.JObject context = String.IsNullOrEmpty(data[0].ToString()) ? null : (Newtonsoft.Json.Linq.JObject)data[0];
+                Newtonsoft.Json.Linq.JObject document = String.IsNullOrEmpty(data[1].ToString()) ? null : (Newtonsoft.Json.Linq.JObject)data[1];
+                Newtonsoft.Json.Linq.JArray metadatas = String.IsNullOrEmpty(data[2].ToString()) ? null : (Newtonsoft.Json.Linq.JArray)data[2];
+                Newtonsoft.Json.Linq.JArray pages = String.IsNullOrEmpty(data[3].ToString()) ? null : (Newtonsoft.Json.Linq.JArray)data[3];
                 Guid versionId = new Guid(document.Value<string>("versionId"));
+                bool onlyPage = false;
+                try
+                {
+                    onlyPage = context.Value<bool>("onlyPage");
+                }
+                catch (Exception ex)
+                {
+                    onlyPage = false;
+                }
 
                 TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
                 TakeDocModel.Version version = servVersion.GetById(versionId);
                 TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
 
-                if (pages != null) servPage.Update(pages, userId, entity.EntityId);
-                servDocument.Update(user, entity, version, document, metadatas, startWorkflow);
+                if (pages != null) servPage.Update(pages, userId, versionId, entity.EntityId);
+                if (onlyPage == false) servDocument.Update(user, entity, version, document, metadatas, startWorkflow);
                 transaction.Complete();
             }
         }

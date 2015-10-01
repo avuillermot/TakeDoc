@@ -93,7 +93,7 @@ namespace TakeDocService.Document
                     id = page.PageId,
                     pageNumber = page.PageNumber,
                     base64Image = servPage.GetBase64(page.PageId),
-                    rotation = page.PageRotation
+                    rotation = String.Format("{0:000}", page.PageRotation)
                 };
                 back.Add(current);
             }

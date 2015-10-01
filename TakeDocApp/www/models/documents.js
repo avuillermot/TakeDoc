@@ -1,18 +1,4 @@
-﻿var Picture = Backbone.Model.extend({
-    defaults: {
-        id: null,
-        imageURI: null,
-        state: null,
-        pageNumber: null,
-        rotation: 0
-    }
-});
-
-var Pictures = Backbone.Collection.extend({
-    model: Picture
-});
-
-var CreateDocumentTk = Backbone.Model.extend({
+﻿var CreateDocumentTk = Backbone.Model.extend({
     defaults: {
             DocumentId: null,
             EntityId: null,
@@ -21,7 +7,6 @@ var CreateDocumentTk = Backbone.Model.extend({
             DocumentPageNeed: null,
             DocumentCurrentVersionId: null,
             DocumentLabel: null,
-            Pages: new Pictures(),
             Extension: "png",
             Metadatas: null
         }
@@ -44,36 +29,6 @@ documentService.create = function (document, onSuccess, onError) {
     req.add(context);
 }
 
-documentService.addPage = function (document, index, onSuccess, onError) {
-    if (document.get("DocumentPageNeed") == true && (document.Pages == null || document.Pages.length <= 0)) throw new Error("Une photographie est requise.");
-    console.log("documents.prototype.addPage:start");
-    var currentPage = document.Pages.where({ pageNumber: index })[0];
-    var nextPages = document.Pages.where({ pageNumber: index + 1 });
-
-    var urlAddPage = environnement.UrlBase + "Page/Add?userId=<userId/>&entityId=<entityId/>&versionId=<versionId/>&extension=<extension/>&rotation=<rotation/>";
-    urlAddPage = urlAddPage.replace("<userId/>", document.get("UserCreateData"));
-    urlAddPage = urlAddPage.replace("<entityId/>", document.get("EntityId"));
-    urlAddPage = urlAddPage.replace("<versionId/>", document.get("DocumentCurrentVersionId"));
-    urlAddPage = urlAddPage.replace("<extension/>", document.get("Extension"));
-    urlAddPage = urlAddPage.replace("<rotation/>", currentPage.get("rotation"));
-    $.ajax({
-        type: 'POST',
-        url: urlAddPage,
-        data: { '': currentPage.get("imageURI") },
-        success: function () {
-            if (nextPages.length > 0) documentService.addPage(document, index + 1, onSuccess, onError);
-            else {
-                documentService.getMetaData(document, onSuccess, onError);
-			}
-
-        },
-        error: function () {
-			onError();
-        },
-        beforeSend: requestHelper.beforeSend()
-    });
-}
-
 documentService.SetArchive = function (param, onSuccess, onError) {
     var url = environnement.UrlBase + "Document/SetArchive/<documentId/>/<userId/>";
     url = url.replace("<documentId/>", param.documentId);
@@ -90,19 +45,4 @@ documentService.SetArchive = function (param, onSuccess, onError) {
 
         }
     });
-}
-
-documentService.getMetaData = function (document, onSuccess, onError) {
-    metas = new MetaDatas();
-    var fn = function (collection) {
-       document.Metadatas = collection;
-       onSuccess();
-    };
-    var param = {
-        versionId:  document.get("DocumentCurrentVersionId"),
-        entityId:  document.get("EntityId"),
-        success: fn, 
-        error: onError
-    };
-    metas.load(param);
 }

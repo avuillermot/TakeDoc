@@ -39,6 +39,9 @@
         this.set("versionDateCreate", current.VersionDateCreateData);
         this.set("documentDateCreate", current.DocumentDateCreateData);
         this.set("formatDate", moment(current.VersionDateCreateData).format("L"));
+        this.set("updaterReference", current.DocumentUserUpdateReference);
+        this.set("updaterFullName", current.DocumentUserUpdateFullName);
+        this.set("dateUpdate", moment(current.DocumentDateUpdate).format("L"));
         return this;
     },
     isReadOnly: function () {

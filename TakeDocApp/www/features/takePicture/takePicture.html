@@ -2,27 +2,27 @@
     <ion-content>
         <section>
             <ion-list>
-                <ion-item ng-repeat="Page in Pages | orderBy:['attributes.pageNumber']">
-                    <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate000" data-ng-src="{{Page.attributes.imageURI}}" />
+                <ion-item ng-repeat="Page in Pages.models | filter: pageNotDeleted | orderBy:['attributes.pageNumber']">
+                    <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate{{Page.attributes.rotation}}" data-ng-src="{{Page.attributes.base64Image}}" />
                     <span class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</span>
-				    <div style="display:inline-block">
-					    <div class="container-takePicture">
-                            <div class="button button-small button-light ion-arrow-up-a" ng-click="moveUp('{{Page.attributes.id}}')"></div>
-                            <div class="button button-small button-light ion-arrow-down-a" ng-click="moveDown('{{Page.attributes.id}}')"></div>
-					    </div>
-					    <div class="container-takePicture">
-                            <div class="button button-small button-light ion-android-sync take-picture-rotate" ng-click="rotate('{{Page.attributes.id}}')"></div>
-                            <div class="button button-small button-light ion-trash-a" ng-click="delete('{{Page.attributes.id}}')"></div>
-					    </div>
-				    </div>
+                    <div style="display:inline-block">
+                        <div class="container-takePicture">
+                            <div ng-show="mode != 'READ'" class="button button-small button-light ion-arrow-up-a" ng-click="moveUp('{{Page.attributes.id}}')"></div>
+                            <div ng-show="mode != 'READ'" class="button button-small button-light ion-arrow-down-a" ng-click="moveDown('{{Page.attributes.id}}')"></div>
+                        </div>
+                        <div class="container-takePicture">
+                            <div ng-show="mode != 'READ'" class="button button-small button-light ion-android-sync take-picture-rotate" ng-click="rotate('{{Page.attributes.id}}')"></div>
+                            <div ng-show="mode != 'READ'" class="button button-small button-light ion-trash-a" ng-click="delete('{{Page.attributes.id}}')"></div>
+                        </div>
+                    </div>
                 </ion-item>
             </ion-list>
         </section>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">
-            <div go-back="false" message="Les données de ce document seront perdues."></div>
-            <div class="button button-stable ion-camera" ng-click="takePicture()"></div>
+            <div go-back="true" message="Les données de ce document seront perdues."></div>
+            <div class="button button-stable ion-camera" ng-click="takePicture()" ng-show="mode != 'READ'"></div>
             <div go-click="{{nextUrl}}" valid-input="doSave()"></div>
         </div>
     </ion-footer-bar>

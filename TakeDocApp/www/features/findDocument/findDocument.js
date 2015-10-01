@@ -4,15 +4,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
     var mode = null;
     var extDocuments = null
     var detailModal = new modalHelper($ionicModal, $scope, 'read-only-metadata');
-    var readOnlyMetadata = new ReadOnlyMetadatas();
 
-    var fRefresh = function () {
-        if (!$scope.$$phase) {
-            try { $scope.$apply(); } catch (ex) { }
-        }
-    };
-    $scope.$on("findDocument$refreshPage", fRefresh);
-    
     var onSuccess = function (collection) {
         extDocuments = collection;
         $scope.documents = extDocuments.models;
@@ -59,20 +51,18 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         });
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-            var onSuccess = function () {
-                var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
-                var step = $rootScope.Scenario.start(starter);
-                $location.path(step.to.substr(2));
-                $scope.$broadcast("findDocument$refreshPage");
-                };
-                var onError = function() {
-                    $rootScope.PopupHelper.show("Une erreur est survenue lors de l'obtention des informations");
-                };
                 $rootScope.myTakeDoc = new CreateDocumentTk();
                 $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current[0].get("versionId"));
                 $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
-                documentService.getMetaData($rootScope.myTakeDoc, onSuccess, onError);
+                $rootScope.User.CurrentEntity = {
+                    Id: current[0].get("entityId")
+                }
+
+                var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
+                var step = $rootScope.Scenario.start(starter);
+                $location.path(step.to.substr(2));
+                if (!$scope.$$phase) $scope.$apply();
         }
     };
 

@@ -63,7 +63,7 @@ namespace TakeDocService.Document
             daoPage.Update(page);
         }
 
-        public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, Guid entityId)
+        public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, Guid versionId, Guid entityId)
         {
             foreach (Newtonsoft.Json.Linq.JObject page in pages)
             {
@@ -74,7 +74,11 @@ namespace TakeDocService.Document
                 if (string.IsNullOrEmpty(action) == false)
                 {
                     bool delete = action.ToUpper().Equals("DELETE");
-                    this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                    bool add = action.ToUpper().Equals("ADD");
+                    bool update = action.ToUpper().Equals("UPDATE");
+                    if (delete) this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                    else if (add) this.Add(userId, entityId, versionId, "", "", rotation);
+                    else if (update) this.Update(id, rotation, pageNumber, delete, userId, entityId);
                 }
             }
         }

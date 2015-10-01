@@ -36,7 +36,7 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
 
     $scope.doOpen = function () {
         var current = this.folder;
-        var step = $rootScope.Scenario.start("addDocumentFromPlanning");
+        var step = $rootScope.Scenario.start("detailMetadataUpdate");
             
         $rootScope.myTakeDoc = new CreateDocumentTk();
         $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current.documentVersionId);
@@ -44,7 +44,7 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
         $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
         $rootScope.User.CurrentEntity = {
             Id: current.entityId
-        }
+        };
         $location.path(step.to.substr(2));
         if (!$scope.$$phase) $scope.$apply();
     }

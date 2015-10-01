@@ -16,7 +16,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        if (metas.length == 0) $scope.doSave(true);
+        if ($rootScope.myTakeDoc.Metadatas.length == 0) $scope.doSave(true);
     });
 
     $scope.doAutocompleteOnFocus = function (id) {
@@ -70,8 +70,8 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
 
         var error = function () {
             $ionicLoading.hide();
-            var msg = (arguments[0].message != null) ? arguments[0].message : arguments[0].responseJSON.Message;
-            $rootScope.PopupHelper.show("Informations", msg);
+            var msg = (arguments[0].responseJSON != null) ? arguments[0].responseJSON : "Une erreur est survenue.";
+            $rootScope.PopupHelper.show("Erreur", arguments[0].responseJSON);
         };
 
         var fn = function () {

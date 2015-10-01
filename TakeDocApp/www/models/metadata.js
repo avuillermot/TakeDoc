@@ -169,6 +169,7 @@ var MetaDatas = Backbone.Collection.extend({
         var parameters = arguments;
         var fnSave = function (myModels, context) {
             var arr = new Array();
+            arr.push("");
             arr.push({versionId: context.versionId});
             arr.push(myModels);
             arr.push("");
@@ -193,7 +194,8 @@ var MetaDatas = Backbone.Collection.extend({
 
         this.each(function (model, index) {
             if (model.get("type") == "date") {
-                model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
+                if (model.get("value") == "Invalid date") model.set("value","");
+                else model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
             else if (model.get("type") == "file") {
                 var hasFile = model.get("file").get("path") != null && model.get("file").get("path") != "";
