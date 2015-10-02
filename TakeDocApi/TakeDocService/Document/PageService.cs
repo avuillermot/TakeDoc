@@ -65,9 +65,18 @@ namespace TakeDocService.Document
 
         public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, Guid versionId, Guid entityId)
         {
-            foreach (Newtonsoft.Json.Linq.JObject page in pages)
+            foreach (Newtonsoft.Json.Linq.JObject page in pages.OrderBy(obj => obj["pageNumber"]))
             {
-                Guid id = new Guid(page.Value<string>("id"));
+                Guid id = Guid.Empty;
+                try
+                {
+                    id = new Guid(page.Value<string>("id"));
+                }
+                catch (Exception ex)
+                {
+                    id = Guid.Empty;
+                }
+                
                 int rotation = page.Value<int>("rotation");
                 int pageNumber = page.Value<int>("pageNumber");
                 string action = page.Value<string>("action");
@@ -76,9 +85,19 @@ namespace TakeDocService.Document
                     bool delete = action.ToUpper().Equals("DELETE");
                     bool add = action.ToUpper().Equals("ADD");
                     bool update = action.ToUpper().Equals("UPDATE");
-                    if (delete) this.Update(id, rotation, pageNumber, delete, userId, entityId);
-                    else if (add) this.Add(userId, entityId, versionId, "", "", rotation);
-                    else if (update) this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                    if (delete && id != Guid.Empty)
+                    {
+                        this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                    }
+                    else if (add)
+                    {
+                        string extension = page.Value<string>("base64Image").Split(';')[0].Replace("data:image/", string.Empty);
+                        this.Add(userId, entityId, versionId, page.Value<string>("base64Image"), extension, rotation);
+                    }
+                    else if (update && id != Guid.Empty)
+                    {
+                        this.Update(id, rotation, pageNumber, delete, userId, entityId);
+                    }
                 }
             }
         }

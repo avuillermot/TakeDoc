@@ -28,3 +28,21 @@ documentService.create = function (document, onSuccess, onError) {
     };
     req.add(context);
 }
+
+documentService.SetArchive = function (param, onSuccess, onError) {
+    var url = environnement.UrlBase + "Document/SetArchive/<documentId/>/<userId/>";
+    url = url.replace("<documentId/>", param.documentId);
+    url = url.replace("<userId/>", param.userId);
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        beforeSend: requestHelper.beforeSend(),
+        success: function () {
+            
+        },
+        error: function () {
+
+        }
+    });
+}

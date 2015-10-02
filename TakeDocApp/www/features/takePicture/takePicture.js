@@ -3,18 +3,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 
     var myDocComplete = new DocumentComplete();
 
-    var fRefresh = function () {
-        if (!$scope.$$phase)  $scope.$apply();
-    };
-    $scope.$on("takePicture$refreshPage", fRefresh);
-
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
 
         $scope.mode = states.stateParams.mode;
         var success = function () {
-            debugger;
             var imageToBase64 = function (url, number) {
                 var img = new Image();
                 img.onload = function () {
@@ -22,20 +16,22 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(this, 0, 0);
                     var data = canvas.toDataURL("image/" + $rootScope.myTakeDoc.get("Extension"));
-                    $scope.Pages.push({ attributes: { id: "P" + number, base64Image: data, state: "toAdd", pageNumber: number + 1 } });
-                    $scope.$broadcast('takePicture$refreshPage');
+                    $scope.Pages.add({action: 'ADD', id: "P" + number, base64Image: data, rotation: "000", pageNumber: number + 1 });
+                    if (!$scope.$$phase) $scope.$apply();
                 };
                 img.src = url;
             }
-            if (arguments[0].pages.length == 0) {
-                $scope.Pages = [];
+            if (arguments[0].pages.length == 0 && environnement.isApp == false) {
+                $scope.Pages = new Pages();
                 imageToBase64("img/page1.png", 0);
                 imageToBase64("img/page2.png", 1);
                 imageToBase64("img/page3.png", 2);
+                if (!$scope.$$phase) $scope.$apply();
+    
             }
             else $scope.Pages = arguments[0].pages;
             $rootScope.myTakeDoc.Metadatas = arguments[0].metadatas;
-            $scope.$broadcast('takePicture$refreshPage');
+            if (!$scope.$$phase) $scope.$apply();
         }
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
@@ -59,7 +55,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
     $scope.doSave = function () {
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
-            $scope.$broadcast('takePicture$refreshPage');
+            if (!$scope.$$phase) $scope.$apply();
         }
         else {
             var context = {
@@ -70,12 +66,13 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
                 onlyPage: true,
                 success: function () {
                     $location.path($scope.nextUrl.replace("#/", ""));
-                    $scope.$broadcast('takePicture$refreshPage');
+                    if (!$scope.$$phase) $scope.$apply();
                 },
                 error: function () {
                     $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
                 }
             };
+            myDocComplete.pages = $scope.Pages;
             myDocComplete.save(context);
         }
     };
@@ -89,65 +86,63 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', 'takePictur
 			var pageToMove = $scope.Pages.where({ pageNumber: currentIndex -1 });
 			page[0].set('pageNumber', currentIndex -1);
 			pageToMove[0].set('pageNumber', currentIndex);
-			fRefresh();
-    }
+			if (!$scope.$$phase) $scope.$apply();
+        }
     };
-$scope.moveDown = function (id) {
-    var size = $scope.Pages.length;
-    var page = $scope.Pages.where({
-    id: id });
-    var currentIndex = page[0].get('pageNumber');
-    if (currentIndex < size) {
-        var pageToMove = $scope.Pages.where({ pageNumber: currentIndex +1 });
-        page[0].set('pageNumber', currentIndex +1);
-        pageToMove[0].set('pageNumber', currentIndex);
-        fRefresh();
-    }
-    }
-$scope.rotate = function (id) {
-    var elem = angular.element("#img-page-" +id);
-    var prefix = "take-picture-rotate";
-    var r000 = elem.hasClass(prefix + "000");
-    var r090 = elem.hasClass(prefix + "090");
-    var r180 = elem.hasClass(prefix + "180");
-    var r270 = elem.hasClass(prefix + "270");
 
-    elem.removeClass(prefix + "000");
-    elem.removeClass(prefix + "090");
-    elem.removeClass(prefix + "180");
-    elem.removeClass(prefix + "270");
-
-    var rotation = 0;
-    if (r000) {
-        elem.addClass(prefix + "090");
-        rotation = 90;
-    }
-        else if (r090) {
-            elem.addClass(prefix + "180");
-            rotation = 180;
-        }
-        else if (r180) {
-            elem.addClass(prefix + "270");
-            rotation = 270;
-        }
-        else if (r270) {
-            elem.addClass(prefix + "000");
-            rotation = 0;
-        }
+    $scope.moveDown = function (id) {
+        var size = $scope.Pages.length;
         var page = $scope.Pages.where({
-    id: id
-    });
-    page[0].set('rotation', rotation);
-    page[0].set('action', 'UPDATE');
+        id: id });
+        var currentIndex = page[0].get('pageNumber');
+        if (currentIndex < size) {
+            var pageToMove = $scope.Pages.where({ pageNumber: currentIndex +1 });
+            page[0].set('pageNumber', currentIndex +1);
+            pageToMove[0].set('pageNumber', currentIndex);
+            if (!$scope.$$phase) $scope.$apply();
+        }
+    }
+    $scope.rotate = function (id) {
+        var elem = angular.element("#img-page-" +id);
+        var prefix = "take-picture-rotate";
+        var r000 = elem.hasClass(prefix + "000");
+        var r090 = elem.hasClass(prefix + "090");
+        var r180 = elem.hasClass(prefix + "180");
+        var r270 = elem.hasClass(prefix + "270");
+
+        elem.removeClass(prefix + "000");
+        elem.removeClass(prefix + "090");
+        elem.removeClass(prefix + "180");
+        elem.removeClass(prefix + "270");
+
+        var rotation = 0;
+        if (r000) {
+            elem.addClass(prefix + "090");
+            rotation = 90;
+        }
+            else if (r090) {
+                elem.addClass(prefix + "180");
+                rotation = 180;
+            }
+            else if (r180) {
+                elem.addClass(prefix + "270");
+                rotation = 270;
+            }
+            else if (r270) {
+                elem.addClass(prefix + "000");
+                rotation = 0;
+            }
+            var page = $scope.Pages.where({ id: id});
+        page[0].set('rotation', rotation);
+        if (page[0].get('action') == null || page[0].get('action') == '') page[0].set('action', 'UPDATE');
     }
 
     $scope.delete = function (id) {
         var size = $scope.Pages.length;
-        var page = $scope.Pages.where({
-        id: id });
-		page[0].set('action', 'DELETE');
-		fRefresh();
-		$scope.numeroter(1, size);
+        var page = $scope.Pages.where({ id: id });
+        page[0].set('action', 'DELETE');
+        $scope.numeroter(1, size);
+        if (!$scope.$$phase) $scope.$apply();
     }
 
     $scope.numeroter = function (startIndex, size) {
@@ -187,7 +182,7 @@ $scope.rotate = function (id) {
 	    };
 
 	$scope.pageNotDeleted = function (item) {
-	    return item.get("action") != "DELETE";
+        return item.attributes.action != "DELETE";
 	};
 }]);
 
@@ -198,17 +193,17 @@ takeDoc.service('takePictureService', ['$http', '$rootScope', function ($http, $
         try {
             var myPageNumber = $scope.Pages.length + 1;
             var data = "data:image/" + $rootScope.myTakeDoc.get("Extension") + ";base64," + imageURI;
-            $scope.Pages.push({ attributes: { id: "P" + myPageNumber, base64Image: data, state: "toAdd", pageNumber: number + 1 } });
+            $scope.Pages.add({ action: 'ADD', id: "P" + myPageNumber, base64Image: data, rotation: "000", pageNumber: number + 1 });
         }
         catch (ex) {
             $rootScope.PopupHelper.show("Camera", ex.message);
         }
-        $rootScope.$broadcast('takePicture$refreshPage');
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     this.onFail = function () {
         //$rootScope.PopupHelper.show("Camera", "Une erreur est survenue lors de la prise de vue.");
-        $rootScope.$broadcast('takePicture$refreshPage');
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     this.takePicture = function (index) {

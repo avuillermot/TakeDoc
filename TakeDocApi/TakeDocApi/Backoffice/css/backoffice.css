@@ -221,14 +221,14 @@ form {
     border-radius: 5px;
 }
 
-.inbox-thumbnail-rotate0 {
+.inbox-thumbnail-rotate000 {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
     -o-transform: rotate(0deg);
     transform: rotate(0deg);
 }
 
-.inbox-thumbnail-rotate90 {
+.inbox-thumbnail-rotate090 {
     -webkit-transform: rotate(90deg);
     -moz-transform: rotate(90deg);
     -o-transform: rotate(90deg);

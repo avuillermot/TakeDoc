@@ -33,9 +33,11 @@
         var result = this.metadatas.check();
         if (result.valid) {
             var data = new Array();
+            data.push(context);
             data.push(this.document);
             data.push(this.metadatas);
             data.push(this.pages);
+
 
             var json = JSON.stringify(data);
 

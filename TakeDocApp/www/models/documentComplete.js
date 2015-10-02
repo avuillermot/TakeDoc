@@ -30,8 +30,8 @@
         this.pages.parse(arguments[0].Pages);
     },
     save: function (context) {
-        var result = this.metadatas.check();
-        if (true == true) {
+        var result = (context.onlyPage != null && context.onlyPage == true) ? { valid: true } : this.metadatas.check();
+        if (result.valid) {
             var data = new Array();
             data.push(context);
             data.push(this.document);

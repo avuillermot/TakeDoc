@@ -347,19 +347,19 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     $scope.doTurn = function (id) {
         var elem = angular.element("#img-page-" + id);
         var prefix = "inbox-thumbnail-rotate";
-        var r000 = elem.hasClass(prefix + "0");
-        var r090 = elem.hasClass(prefix + "90");
+        var r000 = elem.hasClass(prefix + "000");
+        var r090 = elem.hasClass(prefix + "090");
         var r180 = elem.hasClass(prefix + "180");
         var r270 = elem.hasClass(prefix + "270");
 
-        elem.removeClass(prefix + "0");
-        elem.removeClass(prefix + "90");
+        elem.removeClass(prefix + "000");
+        elem.removeClass(prefix + "090");
         elem.removeClass(prefix + "180");
         elem.removeClass(prefix + "270");
 
         var rotation = 0;
         if (r000) {
-            elem.addClass(prefix + "90");
+            elem.addClass(prefix + "090");
             rotation = 90;
         }
         else if (r090) {
@@ -371,7 +371,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             rotation = 270;
         }
         else if (r270) {
-            elem.addClass(prefix + "0");
+            elem.addClass(prefix + "000");
             rotation = 0;
         }
         var page = $scope.pages.where({ id: id });
