@@ -47,7 +47,7 @@ namespace TakeDocService.Document
             using (TransactionScope transaction = new TransactionScope())
             {
                 TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentId == documentId).First();
-                servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation);
+                servPage.Add(userId, entityId, document.DocumentCurrentVersionId.Value, imageString, extension, rotation, Int32.MinValue);
 
                 transaction.Complete();
             }

@@ -21,7 +21,7 @@ namespace TakeDocApi.Controllers
             IPageService servPage = Utility.MyUnityHelper.UnityHelper.Resolve<IPageService>();
             try
             {
-                servPage.Add(userId, entityId, versionId, value, extension, rotation);
+                servPage.Add(userId, entityId, versionId, value, extension, rotation, Int32.MinValue);
                 return Request.CreateResponse(true);
             }
             catch (Exception ex)

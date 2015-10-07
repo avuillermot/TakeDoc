@@ -56,7 +56,8 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
                 $rootScope.User.CurrentEntity = {
-                    Id: current[0].get("entityId")
+                    Id: current[0].get("entityId"),
+                    Label: current[0].get("entityId")
                 }
 
                 var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";

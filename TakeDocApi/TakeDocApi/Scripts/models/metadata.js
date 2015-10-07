@@ -147,18 +147,18 @@ var MetaDatas = Backbone.Collection.extend({
         }
         if (msg.length > 3 && msg.substr(0, 3) == " - ") msg = msg.substring(3, msg.length);
         if (retour.valid == false) {
-            if (nbError > 1) retour.message = "Les champs [<field/>] sont obligatoires.".replace("<field/>", msg);
-            else retour.message = "Le champ [<field/>] est obligatoire.".replace("<field/>", msg);
+            if (nbError > 1) retour.responseJSON = "Les champs [<field/>] sont obligatoires.".replace("<field/>", msg);
+            else retour.responseJSON = "Le champ [<field/>] est obligatoire.".replace("<field/>", msg);
         }
         return retour;
     },
 
     save: function (ctx, onSucces, onError) {
-        var retour = this.check();
-        if (retour.valid) {
+       var retour =  this.check();
+       if (retour.valid) {
             this.update(ctx, onSucces, onError);
-        }
-        else onError(retour);
+       }
+       else onError(retour);
     },
 
     update: function (ctx, onSucces, onError) {

@@ -16,7 +16,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     });
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        if ($rootScope.myTakeDoc.Metadatas.length == 0) $scope.doSave(true);
+        if ($rootScope.CurrentDocument.metadatas.length == 0) $scope.doSave(true);
     });
 
     $scope.doAutocompleteOnFocus = function (id) {
@@ -30,7 +30,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
     };
 
     $scope.doCancelDocument = function (id) {
-        var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
         if (current.length > 0) {
             current[0].set("value", "");
             var metaFile = current[0].get("file");
@@ -52,7 +52,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
             $ionicLoading.hide();
             $rootScope.PopupHelper.show("Une erreur est survenue lors du chargement du document.");
         };
-        var current = $rootScope.myTakeDoc.Metadatas.where({ id: id });
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
         if (current.length > 0) {
             if ($rootScope.isApp == false) fileHelper.readFileUrl(current[0].get("id"), current[0].get("entityId"), success, error);
             else fileHelper.download(current[0].get("id"), current[0].get("entityId"), "medatafile", current[0].get("file").get("mimeType"), success, error);
@@ -80,7 +80,7 @@ takeDoc.controller('metadataController', ['$scope', '$rootScope', '$ionicPlatfor
                     template: 'Enregistrement...'
                 });
 
-                $rootScope.myTakeDoc.Metadatas.save({
+                $rootScope.CurrentDocument.metadatas.save({
                     userId: $rootScope.User.Id,
                     entityId: $rootScope.myTakeDoc.get("EntityId"),
                     versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),

@@ -14,6 +14,14 @@
         this.set("action", "");
         this.set("base64Image", current.base64Image);
         return this;
+    },
+    setUpdate: function () {
+        var action = this.get("action");
+        if (action != 'ADD' && action != 'DELETE') this.set("action", "UPDATE");
+    },
+    setAdd: function () {
+        var action = this.get("action");
+        if (action != 'DELETE') this.set("action", "ADD");
     }
 });
 

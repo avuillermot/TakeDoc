@@ -14,11 +14,11 @@ namespace TakeDocService.Document
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
 
         IDaoPage daoPage = UnityHelper.Resolve<IDaoPage>();
-        
-        private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation)
+
+        private void AddPage(Guid userId, Guid entityId, Guid versionId, byte[] data, string extension, int rotation, int pageNumber)
         {
             base.Logger.DebugFormat("AddPage: add page to version [{0}], extension : [{1}], rotation [{2}]", versionId, extension, rotation);
-            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, extension, rotation);
+            TakeDocModel.Page page = daoPage.Add(userId, entityId, versionId, extension, rotation, pageNumber);
 
             TakeDocModel.Entity entity = daoEntity.GetBy(x => x.EntityId == entityId).First();
 
@@ -36,12 +36,12 @@ namespace TakeDocService.Document
             daoPage.Update(page);
         }
 
-        public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)
+        public void Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation, int pageNumber)
         {
             this.Logger.Debug("PageService.Add(Guid userId, Guid entityId, Guid versionId, string imageString, string extension, int rotation)");
             imageString = imageString.Replace(string.Format("data:image/{0};base64,", extension), string.Empty);
             byte[] bytes = Convert.FromBase64String(imageString);
-            this.AddPage(userId, entityId, versionId, bytes, extension, rotation);
+            this.AddPage(userId, entityId, versionId, bytes, extension, rotation, pageNumber);
         }
 
         private void Update(Guid pageId, int rotation, int pageNumber, bool delete, Guid userId, Guid entityId)
@@ -92,7 +92,7 @@ namespace TakeDocService.Document
                     else if (add)
                     {
                         string extension = page.Value<string>("base64Image").Split(';')[0].Replace("data:image/", string.Empty);
-                        this.Add(userId, entityId, versionId, page.Value<string>("base64Image"), extension, rotation);
+                        this.Add(userId, entityId, versionId, page.Value<string>("base64Image"), extension, rotation, pageNumber);
                     }
                     else if (update && id != Guid.Empty)
                     {
