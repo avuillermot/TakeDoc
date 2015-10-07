@@ -21,6 +21,7 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$locati
         var error = function () {
             $rootScope.PopupHelper.show("Document", "Une erreur est survenue lors de l'enregistrement.");
         };
+
         if (ok == false) {
             $rootScope.PopupHelper.show("Document", "Veuillez saisir un nom de document.");
         }

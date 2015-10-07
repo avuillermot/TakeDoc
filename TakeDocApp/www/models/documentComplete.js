@@ -13,12 +13,11 @@
         this.fetch({ url: url, success: context.success, error: context.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     add: function (context) {
-        var label = JSON.stringify(context.label);
         var url = environnement.UrlBase + "DocumentComplete/{{typeDocumentId}}/{{userId}}/{{entityId}}"
             .replace("{{typeDocumentId}}", context.typeDocumentId)
             .replace("{{userId}}", context.userId)
             .replace("{{entityId}}", context.entityId);
-        this.fetch({ url: url, type: 'PUT', data: { '': label }, success: context.success, error: context.error, beforeSend: requestHelper.beforeSend(), reset: true });
+        this.fetch({ url: url, type: 'PUT', data: { '': context.label }, success: context.success, error: context.error, beforeSend: requestHelper.beforeSend(), reset: true });
     },
     parse: function () {
         this.document = new DocumentExtended();
@@ -37,7 +36,6 @@
             data.push(this.document);
             data.push(this.metadatas);
             data.push(this.pages);
-
 
             var json = JSON.stringify(data);
 
@@ -58,6 +56,7 @@
     },
     startWorkflow: function (context) {
         var data = new Array();
+        data.push("");
         data.push({ versionId: this.document.get("versionId") });
         data.push("");
         data.push("");

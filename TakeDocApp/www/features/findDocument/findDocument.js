@@ -55,6 +55,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
                 $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current[0].get("versionId"));
                 $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
                 $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
+                $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
                 $rootScope.User.CurrentEntity = {
                     Id: current[0].get("entityId"),
                     Label: current[0].get("entityId")

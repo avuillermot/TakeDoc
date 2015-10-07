@@ -12,6 +12,7 @@ namespace TakeDocService.Document
     public class PageService : BaseService, Interface.IPageService
     {
         TakeDocDataAccess.Parameter.Interface.IDaoEntity daoEntity = UnityHelper.Resolve<TakeDocDataAccess.Parameter.Interface.IDaoEntity>();
+        TakeDocDataAccess.Document.Interface.IDaoTypeDocument daoTypeDocument = UnityHelper.Resolve<TakeDocDataAccess.Document.Interface.IDaoTypeDocument>();
 
         IDaoPage daoPage = UnityHelper.Resolve<IDaoPage>();
 
@@ -63,8 +64,17 @@ namespace TakeDocService.Document
             daoPage.Update(page);
         }
 
-        public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, Guid versionId, Guid entityId)
+        public void Update(Newtonsoft.Json.Linq.JArray pages, Guid userId, TakeDocModel.Version version, Guid entityId)
         {
+            TakeDocModel.TypeDocument typeDoc = daoTypeDocument.GetBy(x => x.TypeDocumentId == version.Document.DocumentTypeId).First();
+
+            if (typeDoc.TypeDocumentPageNeed)
+            {
+                int nb = pages.Where(obj => obj.Value<string>("pageNumber") != "-1").Count();
+                if (nb == 0) throw new Exception("Une photographie est obligatoire.");
+
+            }
+
             foreach (Newtonsoft.Json.Linq.JObject page in pages.OrderBy(obj => obj["pageNumber"]))
             {
                 Guid id = Guid.Empty;
@@ -92,7 +102,7 @@ namespace TakeDocService.Document
                     else if (add)
                     {
                         string extension = page.Value<string>("base64Image").Split(';')[0].Replace("data:image/", string.Empty);
-                        this.Add(userId, entityId, versionId, page.Value<string>("base64Image"), extension, rotation, pageNumber);
+                        this.Add(userId, entityId, version.VersionId, page.Value<string>("base64Image"), extension, rotation, pageNumber);
                     }
                     else if (update && id != Guid.Empty)
                     {

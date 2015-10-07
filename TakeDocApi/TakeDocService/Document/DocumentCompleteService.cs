@@ -53,7 +53,7 @@ namespace TakeDocService.Document
                 TakeDocModel.Version version = servVersion.GetById(versionId);
                 TakeDocModel.UserTk user = daoUser.GetBy(x => x.UserTkId == userId).First();
 
-                if (pages != null) servPage.Update(pages, userId, versionId, entity.EntityId);
+                if (pages != null) servPage.Update(pages, userId, version, entity.EntityId);
                 if (onlyPage == false) servDocument.Update(user, entity, version, document, metadatas, startWorkflow);
                 transaction.Complete();
             }

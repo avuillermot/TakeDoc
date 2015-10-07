@@ -45,5 +45,13 @@ var Pages = Backbone.Collection.extend({
                 current.set("pageNumber", -1);
             }
         }
+    },
+    CountNotDeleted: function () {
+        var nb = 0;
+        for (var i = 0; i < this.models.length; i++) {
+            var current = this.models[i];
+            if (current.get("pageNumber") != -1) nb++;
+        }
+        return nb;
     }
 });

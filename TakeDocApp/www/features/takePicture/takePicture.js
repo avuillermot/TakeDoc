@@ -63,10 +63,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             if (!$scope.$$phase) $scope.$apply();
         }
         else {
-            $ionicLoading.show({
-                template: 'Enregistrement...'
-            });
-
             var context = {
                 versionId: $rootScope.CurrentDocument.document.get("versionId"),
                 userId: $rootScope.User.Id,
@@ -83,8 +79,17 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                     $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
                 }
             };
-            myDocComplete.pages = $scope.Pages;
-            myDocComplete.save(context);
+            if ($scope.Pages.CountNotDeleted() == 0 && $rootScope.myTakeDoc.get("DocumentPageNeed") == true) {
+                $rootScope.PopupHelper.show("Erreur", "Une photographie est obligatoire.");
+            }
+            else {
+                $ionicLoading.show({
+                    template: 'Enregistrement...'
+                });
+
+                myDocComplete.pages = $scope.Pages;
+                myDocComplete.save(context);
+            }
         }
     };
 

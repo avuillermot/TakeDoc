@@ -42,6 +42,7 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
         $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current.documentVersionId);
         $rootScope.myTakeDoc.set("EntityId", current.entityId);
         $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
+        $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
         $rootScope.User.CurrentEntity = {
             Id: current.entityId
         };
