@@ -27,7 +27,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 imageToBase64("img/page2.png", 1);
                 imageToBase64("img/page3.png", 2);
                 if (!$scope.$$phase) $scope.$apply();
-    
             }
             else $scope.Pages = arguments[0].pages;
             $rootScope.CurrentDocument = arguments[0];
@@ -47,9 +46,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 $rootScope.PopupHelper.show("Erreur","Erreur lors du chargement du document.")
             }
         };
-        $ionicLoading.show({
-            template: 'Chargement...'
-        });
+        $ionicLoading.show({ template: 'Chargement...' });
+        if (!$scope.$$phase) $scope.$apply();
+
         myDocComplete.load(context);
     });
 

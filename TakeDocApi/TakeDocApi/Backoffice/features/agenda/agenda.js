@@ -70,6 +70,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
+                $scope.current = null;
                 $timeout(get(), 1500);
             },
             error: function () {
@@ -89,6 +90,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             url: myUrl,
             beforeSend: requestHelper.beforeSend(),
             success: function () {
+                $scope.current = null;
                 $timeout(get(), 1500);
             },
             error: function () {
