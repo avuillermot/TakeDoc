@@ -2,9 +2,10 @@
    <ion-content>
        <section>
            <ion-list id="ion-list-folder">
-               <ion-item ng-repeat="folder in folders" class="fd-row-result">
-                   <div>{{folder.title}}</div>
-                   <div class="small-label">Entité&#160;:&#160;{{folder.entityLabel}}&#160;Statut&#160;:&#160;{{folder.status}}</div>
+               <ion-item ng-repeat="folder in folders" class="cadre">
+                   <div class="ion-android-arrow-dropright" style="font-size:12px">&#160;{{folder.title}}</div>
+                   <div><span class="visible-label">Type&#160;:</span>&#160;{{folder.folderTypeLabel}}</div>
+                   <div><span class="visible-label">Entité&#160;:</span>&#160;{{folder.entityLabel}}&#160;<span class="visible-label">Statut&#160;</span>:&#160;{{folder.status}}</div>
                    <div>Du&#160;{{folder.startLabel}}</div>
                    <div>Au&#160;{{folder.endLabel}}</div>
                    <div>

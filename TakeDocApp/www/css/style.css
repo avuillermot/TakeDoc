@@ -39,23 +39,17 @@ div.button-bar {
 }
 
 /* find document resultat*/
-.fd-row-result {
-    border-top: none;
-    font-size:14px;
-    padding: 5px 0px 10px 5px; 
-    margin: 0px 0px 0px 0px; 
-    cursor: pointer;
+.cadre {
+    margin: 3px !important;
+    padding: 10px !important;
+    border:1px medium gray;
+    background-color: #F6D8CE;
+    border-radius: 5px;
+    font-size:11px;
 }
 
-.fd-col0-result {
-    width: 46%;
-    font-size: 12px;
-    display: inline-block;
-}
-.fd-col1-result {
-    width: 50%;
-    font-size: 12px;
-    display: inline-block;
+.visible-label {
+    font-weight:bold;
 }
 
 /* formulaire METADATA */

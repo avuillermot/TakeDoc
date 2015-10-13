@@ -3,12 +3,11 @@
         <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">{{User.CurrentEntity.Label}}&#160;/&#160;{{User.CurrentTypeDocument.attributes.label}}</h5>
         <section>
             <ion-list>
-                <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="fd-row-result">
-                    <div class="ion-android-arrow-dropright">&#160;{{document.attributes.label}}&#160;<span class="small-label">({{document.attributes.typeLabel}})</span></div>
-                    <div class="fd-col0-result">Status&#160;:&#160;<span>{{document.attributes.statusLabel}}</span></div>
-                    <div class="fd-col1-result">Création&#160;:&#160;<span>{{document.attributes.formatDate}}</span></div><br />
-                    <div class="fd-col0-result"></div>
-                    <div class="fd-col1-result">Prop.&#160;:&#160;<span>{{document.attributes.ownerFullName}}</span></div><br />
+                <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="cadre">
+                    <div class="ion-android-arrow-dropright" style="font-size:12px">&#160;{{document.attributes.label}}</div>
+                    <div><span class="visible-label">Status&#160;</span>:&#160;<span>{{document.attributes.statusLabel}}</span>&#160;<span class="small-label">({{document.attributes.typeLabel}})</span></div>
+                    <div><span class="visible-label">Création&#160;</span>:&#160;<span>{{document.attributes.formatDate}}</span></div>
+                    <div><span class="visible-label">Prop.&#160;</span>:&#160;<span>{{document.attributes.ownerFullName}}</span></div>
                     <div>
                         <div ng-click='viewDocument("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-document" ng-hide="document.attributes.statusReference != 'TO_VALIDATE'"></div>
                         <div ng-click='openMetadata("{{document.attributes.reference}}","{{document.attributes.entityReference}}")' class="button button-small button-light ion-eye" style="margin-left:15px"></div>
