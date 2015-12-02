@@ -8,6 +8,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
 
         $scope.mode = states.stateParams.mode;
+        $scope.loading = ($scope.mode != "ADD");
         var success = function () {
             var imageToBase64 = function (url, number) {
                 var img = new Image();
@@ -30,7 +31,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             }
             else $scope.Pages = arguments[0].pages;
             $rootScope.CurrentDocument = arguments[0];
-            $ionicLoading.hide();
+
+            $scope.loading = false;
             if (!$scope.$$phase) $scope.$apply();
         }
         var step = $rootScope.Scenario.next();
@@ -42,12 +44,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             entityId: $rootScope.myTakeDoc.get("EntityId"),
             success: success,
             error: function () {
-                $ionicLoading.hide();
                 $rootScope.PopupHelper.show("Erreur","Erreur lors du chargement du document.")
             }
         };
-        $ionicLoading.show({ template: 'Chargement...' });
-        if (!$scope.$$phase) $scope.$apply();
 
         myDocComplete.load(context);
     });
@@ -185,9 +184,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	};
 
 	$scope.enlarge = function (id) {
-	    var page = $scope.Pages.where({
-	    id: id
-	})[0];
+	    var page = $scope.Pages.where({ id: id	})[0];
 
 	    var elem = angular.element("#img-page-" + id);
 	    var prefix = "take-picture-rotate";
@@ -196,7 +193,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	    if (elem.hasClass(prefix + "180")) cssRotation = prefix + "180";
 	    if (elem.hasClass(prefix + "270")) cssRotation = prefix + "270";
 
-	    var img = "<img style='width:100%;height:100%' class='" + cssRotation + "' src='" +page.get("imageURI") + "' />";
+	    var img = "<img style='width:100%;height:100%' class='" + cssRotation + "' src='" +page.get("base64Image") + "' />";
 	    enlargePage.show("Page " +page.get("pageNumber") + " - Zoom", img);
 	    };
 

@@ -91,7 +91,6 @@ namespace TakeDocApi.Controllers
 
         [HttpGet]
         [Route("activate/{userReference}")]
-        [TakeDocApi.Controllers.Security.AuthorizeTk(Roles.Backoffice, Roles.Administrator)]
         public HttpResponseMessage ActivateUser(string userReference)
         {
             TakeDocService.Workflow.Security.Interface.IAccount servAccount = Utility.MyUnityHelper.UnityHelper.Resolve<TakeDocService.Workflow.Security.Interface.IAccount>();

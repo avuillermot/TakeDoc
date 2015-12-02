@@ -202,3 +202,12 @@ div.button-bar {
 .small-label {
     font-size: 10px;
 }
+
+.waitMessage {
+    margin-top:30px;
+    color: black;
+    background-color: rgba(0, 0, 0, 0.2);
+    font-weight:bold;
+    font-size: 12px;
+    border-radius: 10px;
+}

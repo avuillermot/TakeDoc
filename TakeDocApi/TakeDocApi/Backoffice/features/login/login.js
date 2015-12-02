@@ -2,8 +2,8 @@
 backOffice.controller('loginController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
 
     $scope.identity = {
-        login: "avuillermot@gmail.com",
-        password: "password"
+        login: (sessionStorage.getItem('login') != null)?sessionStorage.getItem('login'):"",
+        password: ""
     };
 
     $scope.onKeyPress = function (event) {
@@ -21,6 +21,7 @@ backOffice.controller('loginController', ['$scope', '$rootScope', '$location', f
         var success = function () {
             $rootScope.setUser(new userTk(arguments[0], true));
             $location.path("/home");
+            sessionStorage.setItem('login', $scope.identity.login);
             $scope.$apply();
         };
 

@@ -1,7 +1,8 @@
 ﻿'use strict';
-takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
+takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $scope.loading = false;
         $rootScope.myTakeDoc = new CreateDocumentTk();
         $rootScope.myTakeDoc.set("DocumentLabel", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("label") : "");
         $rootScope.myTakeDoc.set("EntityId", $rootScope.User.CurrentEntity.Id);
@@ -16,16 +17,26 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$locati
             $rootScope.myTakeDoc.set("DocumentId", arguments[0].document.get("id"));
             $rootScope.myTakeDoc.set("DocumentCurrentVersionId", arguments[0].document.get("versionId"));
             $location.path($rootScope.Scenario.next().to.substr(2));
-            if (!$scope.$$phase) $scope.$apply();
+
+            $scope.loading = false;
+            $scope.$apply();
         };
         var error = function () {
+            $scope.loading = false;
+            $scope.$apply();
+
             $rootScope.PopupHelper.show("Document", "Une erreur est survenue lors de l'enregistrement.");
         };
 
         if (ok == false) {
             $rootScope.PopupHelper.show("Document", "Veuillez saisir un nom de document.");
         }
-        else documentService.create($rootScope.myTakeDoc, success, error);
+        else {
+            $scope.loading = true;
+            $scope.$apply();
+
+            documentService.create($rootScope.myTakeDoc, success, error);
+        }
         return false;
     }
 }]);

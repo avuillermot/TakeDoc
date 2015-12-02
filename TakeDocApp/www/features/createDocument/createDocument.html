@@ -1,11 +1,14 @@
 ﻿<ion-view view-title="Création">
     <ion-content>
-        <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">Nom du document</h5>
-        <section class="section-down">
-            <label class="item item-input ion-document-text metadata-mandatory-true" style="border-top:none">
-                &#160;<input type="text" id="documentLabel" placeholder="Nom du document" ng-model="myTakeDoc.attributes.DocumentLabel" />
-            </label>
-        </section>
+        <div ng-show="loading == true" class="waitMessage">&#160;&#160;Création en cours.....</div>
+        <div ng-show="loading == false">
+            <h5 style="border-bottom-color:black; border-bottom-width:1px; border-bottom-style:double">Nom du document</h5>
+            <section class="section-down">
+                <label class="item item-input ion-document-text metadata-mandatory-true" style="border-top:none">
+                    &#160;<input type="text" id="documentLabel" placeholder="Nom du document" ng-model="myTakeDoc.attributes.DocumentLabel" />
+                </label>
+            </section>
+        </div>
     </ion-content>
     <ion-footer-bar>
         <div class="button-bar">

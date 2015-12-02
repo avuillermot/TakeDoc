@@ -1,7 +1,7 @@
 ﻿'use strict';
 takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
     $scope.identity = {
-        login: "avuillermot@gmail.com",
+        login: (sessionStorage.getItem('login') != null) ? sessionStorage.getItem('login') : "contact@takedoc.fr",
         password: "password"
     };
 
@@ -15,10 +15,10 @@ takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$io
             $ionicLoading.hide();
             $rootScope.User = null;
             try {
-                $rootScope.PopupHelper.show("Authentification", arguments[0].responseJSON.Message);
+                alert(arguments[0].responseJSON.Message);
             }
             catch (ex) {
-                $rootScope.PopupHelper.show("Authentification", "Une erreur est survenue lors de l'authentification.");
+                alert("Une erreur est survenue lors de l'authentification.");
             }
         };
         var success = function () {
