@@ -3,7 +3,7 @@
         <section>
             <div ng-show="loading == true" class="waitMessage">&#160;&#160;Chargement en cours.....</div>
             <ion-list ng-show="loading == false">
-                <ion-item ng-repeat="Page in Pages.models | filter: pageNotDeleted | orderBy:['attributes.pageNumber']">
+                <ion-item ng-repeat="Page in myDoc.pages.models | filter: pageNotDeleted | orderBy:['attributes.pageNumber']">
                     <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate{{Page.attributes.rotation}}" data-ng-src="{{Page.attributes.base64Image}}" />
                     <span class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</span>
                     <div style="display:inline-block">

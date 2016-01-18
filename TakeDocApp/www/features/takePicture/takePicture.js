@@ -1,7 +1,7 @@
 ﻿'use strict';
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location', '$ionicModal', '$ionicLoading', '$timeout', function ($scope, $rootScope, $location, $ionicModal, $ionicLoading, $timeout) {
 
-    var myDocComplete = new DocumentComplete();
+    $scope.myDoc = new DocumentComplete();
 
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
@@ -16,20 +16,20 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                     var canvas = document.createElement('CANVAS');
                     var ctx = canvas.getContext('2d');
                     ctx.drawImage(this, 0, 0);
-                    var data = canvas.toDataURL("image/" + $rootScope.myTakeDoc.get("Extension"));
-                    $scope.Pages.add({action: 'ADD', id: "P" + number, base64Image: data, rotation: "000", pageNumber: number + 1 });
+                    var data = canvas.toDataURL("image/png");
+                    $scope.myDoc.pages.add({action: 'ADD', id: "P" + number, base64Image: data, rotation: "000", pageNumber: number + 1 });
                     if (!$scope.$$phase) $scope.$apply();
                 };
                 img.src = url;
             }
             if (arguments[0].pages.length == 0 && environnement.isApp == false) {
-                $scope.Pages = new Pages();
+                $scope.myDoc.pages = new Pages();
                 imageToBase64("img/page1.png", 0);
                 imageToBase64("img/page2.png", 1);
                 imageToBase64("img/page3.png", 2);
                 if (!$scope.$$phase) $scope.$apply();
             }
-            else $scope.Pages = arguments[0].pages;
+            else $scope.myDoc.pages = arguments[0].pages;
             $rootScope.CurrentDocument = arguments[0];
 
             $scope.loading = false;
@@ -39,16 +39,16 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         $scope.nextUrl = step.to;
 
         var context = {
-            versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
+            versionId: states.stateParams.versionId,
             userId: $rootScope.User.Id,
-            entityId: $rootScope.myTakeDoc.get("EntityId"),
+            entityId: states.stateParams.entityId,
             success: success,
             error: function () {
                 $rootScope.PopupHelper.show("Erreur","Erreur lors du chargement du document.")
             }
         };
 
-        myDocComplete.load(context);
+        $scope.myDoc.load(context);
     });
 
     $scope.takePicture = function () {
@@ -62,9 +62,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         }
         else {
             var context = {
-                versionId: $rootScope.CurrentDocument.document.get("versionId"),
+                versionId: $scope.myDoc.document.get("versionId"),
                 userId: $rootScope.User.Id,
-                entityId: $rootScope.CurrentDocument.document.get("entityId"),
+                entityId: $scope.myDoc.document.get("entityId"),
                 startWorkflow: false,
                 onlyPage: true,
                 success: function () {
@@ -77,7 +77,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                     $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
                 }
             };
-            if ($scope.Pages.CountNotDeleted() == 0 && $rootScope.myTakeDoc.get("DocumentPageNeed") == true) {
+            debugger;
+            if ($scope.myDoc.pages.CountNotDeleted() == 0 && $scope.myDoc.document.get("pageNeed") == true) {
                 $rootScope.PopupHelper.show("Erreur", "Une photographie est obligatoire.");
             }
             else {
@@ -85,18 +86,17 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                     template: 'Enregistrement...'
                 });
 
-                myDocComplete.pages = $scope.Pages;
-                myDocComplete.save(context);
+                $scope.myDoc.save(context);
             }
         }
     };
 
     $scope.moveUp = function (id) {
-		var size = $scope.Pages.length;
-		var page = $scope.Pages.where({ id: id });
+		var size = $scope.myDoc.pages.length;
+		var page = $scope.myDoc.pages.where({ id: id });
 		var currentIndex = page[0].get('pageNumber');
 		if (currentIndex > 1) {
-			var pageToMove = $scope.Pages.where({ pageNumber: currentIndex -1 });
+			var pageToMove = $scope.myDoc.pages.where({ pageNumber: currentIndex -1 });
 			page[0].set('pageNumber', currentIndex -1);
 			pageToMove[0].set('pageNumber', currentIndex);
 
@@ -108,11 +108,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.moveDown = function (id) {
-        var size = $scope.Pages.length;
-        var page = $scope.Pages.where({ id: id });
+        var size = $scope.myDoc.pages.length;
+        var page = $scope.myDoc.pages.where({ id: id });
         var currentIndex = page[0].get('pageNumber');
         if (currentIndex < size) {
-            var pageToMove = $scope.Pages.where({ pageNumber: currentIndex +1 });
+            var pageToMove = $scope.myDoc.pages.where({ pageNumber: currentIndex +1 });
             page[0].set('pageNumber', currentIndex +1);
             pageToMove[0].set('pageNumber', currentIndex);
 
@@ -152,21 +152,21 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 elem.addClass(prefix + "000");
                 rotation = 0;
             }
-            var page = $scope.Pages.where({ id: id});
+            var page = $scope.myDoc.pages.where({ id: id});
         page[0].set('rotation', rotation);
         page[0].setUpdate();
     }
 
     $scope.delete = function (id) {
-        var size = $scope.Pages.length;
-        var page = $scope.Pages.where({ id: id });
+        var size = $scope.myDoc.pages.length;
+        var page = $scope.myDoc.pages.where({ id: id });
         page[0].set('action', 'DELETE');
         $scope.numeroter(1, size);
         if (!$scope.$$phase) $scope.$apply();
     }
 
     $scope.numeroter = function (startIndex, size) {
-        var toDelete = $scope.Pages.where({ action: 'DELETE' });
+        var toDelete = $scope.myDoc.pages.where({ action: 'DELETE' });
         $.each(toDelete, function (index, value) {
             value.set('pageNumber', '-1');
         });
@@ -174,7 +174,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 		var index = startIndex;
 		var nb = startIndex;
 		while(index <= size + 10) {
-			var page = $scope.Pages.where({ pageNumber: index });
+			var page = $scope.myDoc.pages.where({ pageNumber: index });
 			if (page.length > 0) {
 			    page[0].set('pageNumber', nb++);
 			    page[0].setUpdate();
@@ -184,7 +184,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	};
 
 	$scope.enlarge = function (id) {
-	    var page = $scope.Pages.where({ id: id	})[0];
+	    var page = $scope.myDoc.pages.where({ id: id	})[0];
 
 	    var elem = angular.element("#img-page-" + id);
 	    var prefix = "take-picture-rotate";
@@ -203,9 +203,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     
 	var takePictureOnSuccess = function (imageURI) {
 	    try {
-	        var number = $scope.Pages.length + 1;
+	        var number = $scope.myDoc.pages.length + 1;
 	        var data = "data:image/png;base64," + imageURI;
-	        $scope.Pages.add({ action: 'ADD', id: "P" + number, base64Image: data, rotation: "000", pageNumber: number });
+	        $scope.myDoc.pages.add({ action: 'ADD', id: "P" + number, base64Image: data, rotation: "000", pageNumber: number });
 	    }
 	    catch (ex) {
 	        $rootScope.PopupHelper.show("Camera", ex.message);

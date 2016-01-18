@@ -41,5 +41,6 @@ namespace TakeDocModel
         public Nullable<System.Guid> DocumentUserUpdateId { get; set; }
         public string DocumentUserUpdateFullName { get; set; }
         public Nullable<System.DateTimeOffset> DocumentDateUpdate { get; set; }
+        public bool DocumentPageNeed { get; set; }
     }
 }

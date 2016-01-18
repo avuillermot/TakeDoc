@@ -1,7 +1,7 @@
 ﻿'use strict';
 takeDoc.controller('loginController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
     $scope.identity = {
-        login: (sessionStorage.getItem('login') != null) ? sessionStorage.getItem('login') : "contact@takedoc.fr",
+        login: (sessionStorage.getItem('login') != null) ? sessionStorage.getItem('login') : "avuillermot@gmail.com",
         password: "password"
     };
 

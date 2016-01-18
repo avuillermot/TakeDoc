@@ -1,4 +1,4 @@
-﻿var CreateDocumentTk = Backbone.Model.extend({
+﻿/*var CreateDocumentTk = Backbone.Model.extend({
     defaults: {
             DocumentId: null,
             EntityId: null,
@@ -14,19 +14,6 @@
 
 function documentService() {
 
-}
-
-documentService.create = function (document, onSuccess, onError) {
-    var req = new DocumentComplete();
-    var context = {
-        userId: document.get("UserCreateData"),
-        typeDocumentId: document.get("DocumentTypeId"),
-        entityId: document.get("EntityId"),
-        label: document.get("DocumentLabel"),
-        success: onSuccess,
-        error: onError
-    };
-    req.add(context);
 }
 
 documentService.SetArchive = function (param, onSuccess, onError) {
@@ -46,3 +33,4 @@ documentService.SetArchive = function (param, onSuccess, onError) {
         }
     });
 }
+*/

@@ -1,41 +1,46 @@
 ﻿'use strict';
 takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$location', '$ionicLoading', function ($scope, $rootScope, $location, $ionicLoading) {
 
+    $scope.myDoc = new DocumentComplete();
+    $scope.myDoc.document = new DocumentExtended();
+    var context = {};
+
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.loading = false;
-        $rootScope.myTakeDoc = new CreateDocumentTk();
-        $rootScope.myTakeDoc.set("DocumentLabel", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("label") : "");
-        $rootScope.myTakeDoc.set("EntityId", $rootScope.User.CurrentEntity.Id);
-        $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
-        $rootScope.myTakeDoc.set("DocumentTypeId", $rootScope.User.CurrentTypeDocument.get("id"));
-        $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
+
+        context.typeDocumentId = $rootScope.User.CurrentTypeDocument.get("id");
+        context.userId = $rootScope.User.Id;
+        context.entityId = $rootScope.User.CurrentEntity.Id;
+        $scope.myDoc.document.set("label", $rootScope.User.CurrentTypeDocument.get("label"));
 	});
 
     $scope.doCheck = function () {
-        var ok = !($rootScope.myTakeDoc.get("DocumentLabel") == "");
+        var ok = !($scope.myDoc.document.get("label") == "" || $scope.myDoc.document.get("label") == null);
         var success = function () {
-            $rootScope.myTakeDoc.set("DocumentId", arguments[0].document.get("id"));
-            $rootScope.myTakeDoc.set("DocumentCurrentVersionId", arguments[0].document.get("versionId"));
-            $location.path($rootScope.Scenario.next().to.substr(2));
-
+            var versionId = arguments[0].document.get("id");
+            var entityId = arguments[0].document.get("entityId");
+             var go = $rootScope.Scenario.next().to.substr(2) + versionId + "/entity/" + entityId;
+            $location.path(go);
             $scope.loading = false;
-            $scope.$apply();
+            if (!$scope.$$phase) $scope.$apply();
         };
         var error = function () {
             $scope.loading = false;
-            $scope.$apply();
+            if (!$scope.$$phase) $scope.$apply();
 
             $rootScope.PopupHelper.show("Document", "Une erreur est survenue lors de l'enregistrement.");
         };
+        context.success = success;
+        context.error = error;
+        context.label = $scope.myDoc.document.get("label");
 
         if (ok == false) {
             $rootScope.PopupHelper.show("Document", "Veuillez saisir un nom de document.");
         }
         else {
             $scope.loading = true;
-            $scope.$apply();
-
-            documentService.create($rootScope.myTakeDoc, success, error);
+            if (!$scope.$$phase) $scope.$apply();
+            $scope.myDoc.add(context);
         }
         return false;
     }

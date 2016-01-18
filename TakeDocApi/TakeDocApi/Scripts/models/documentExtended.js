@@ -2,22 +2,27 @@
     defaults: {
         id: null,
         reference: null,
+        label: null,
         entityId: null,
         entityReference: null,
         entityLabel : null,
-        label: null,
         typeLabel: null,
-        statusLabel: null,
         statusId: null,
         statusReference: null,
+        statusLabel: null,
         ownerId: null,
         ownerReference: null,
         ownerFullName: null,
-        documentDateCreate: null,
         versionId: null,
         versionReference: null,
         versionDateCreate: null,
-        formatDate: null
+        documentDateCreate: null,
+        documentDateCreate: null,
+        formatDate: null,
+        updaterReference: null,
+        updaterFullName: null,
+        dateUpdate: null,
+        pageNeed: null
     },
     parse: function () {
         var current = arguments[0];
@@ -42,6 +47,7 @@
         this.set("updaterReference", current.DocumentUserUpdateReference);
         this.set("updaterFullName", current.DocumentUserUpdateFullName);
         this.set("dateUpdate", moment(current.DocumentDateUpdate).format("L"));
+        this.set("pageNeed", current.DocumentPageNeed);
         return this;
     },
     isReadOnly: function () {
