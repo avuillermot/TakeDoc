@@ -1,4 +1,4 @@
-﻿<div id="divInboxDisplay" class="panel panel-primary" style="padding:5px;" ng-show="document.attributes.label != null">
+﻿<div id="divInboxDisplay" class="panel-primary" style="padding:5px;" ng-show="document.attributes.label != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
         <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
@@ -8,7 +8,7 @@
         <button class="btn-xs btn-default glyphicon glyphicon-thumbs-up" data-toggle="tooltip" title="Workflow" ng-hide="workflowIsEnable == false" data-placement="bottom" ng-click="showAnswer()"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-folder-close" data-toggle="tooltip" title="Archiver" ng-hide="ArchiveIsEnable() == false" data-placement="bottom" ng-click="doArchive()"></button>
     </div>
-    <div class="panel panel-info" id="divDetailDocument">
+    <div class="panel-info" id="divDetailDocument">
         <div class="panel-heading">
             <h3 class="panel-title"><input ng-model="document.attributes.label" class="inbox-title to-save-{{hasChanged()}}" ng-disabled="document.isReadOnly()" ng-keypress="isUpdate = true" /></h3>
         </div>
@@ -124,8 +124,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        </div>1
+    </div>2
 </div>
 
 <!-- Modal anwswer worfkfow -->
