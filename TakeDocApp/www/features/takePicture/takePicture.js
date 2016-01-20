@@ -55,6 +55,42 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         takePictureGo();
     };
 
+    /*
+    $scope.$on("metadata$refreshPage", fRefresh);
+
+        var success = function () {
+            $ionicLoading.hide();
+            $location.path($scope.nextUrl.replace("#/", ""));
+            $scope.$broadcast("metadata$refreshPage");
+        };
+
+        var error = function () {
+            $ionicLoading.hide();
+            var msg = (arguments[0].responseJSON != null) ? arguments[0].responseJSON : "Une erreur est survenue.";
+            $rootScope.PopupHelper.show("Erreur", arguments[0].responseJSON);
+        };
+
+        var fn = function () {
+            if (arguments[0] === "Ok") {
+                $ionicLoading.show({
+                    template: 'Enregistrement...'
+                });
+
+                $rootScope.CurrentDocument.metadatas.save({
+                    userId: $rootScope.User.Id,
+                    entityId: $rootScope.myTakeDoc.get("EntityId"),
+                    versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
+                    startWorkflow: startWorkflow
+                }, success, error);
+            }
+        };
+
+        if (startWorkflow) {
+            $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
+        }
+        else fn("Ok");
+        return false;*/
+
     $scope.doSave = function () {
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
@@ -92,110 +128,27 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.moveUp = function (id) {
-		var size = $scope.myDoc.pages.length;
-		var page = $scope.myDoc.pages.where({ id: id });
-		var currentIndex = page[0].get('pageNumber');
-		if (currentIndex > 1) {
-			var pageToMove = $scope.myDoc.pages.where({ pageNumber: currentIndex -1 });
-			page[0].set('pageNumber', currentIndex -1);
-			pageToMove[0].set('pageNumber', currentIndex);
-
-			page[0].setUpdate();
-            pageToMove[0].setUpdate();
-
-			if (!$scope.$$phase) $scope.$apply();
-        }
+        photo.moveUp($scope.myDoc, id);
+        if (!$scope.$$phase) $scope.$apply();
     };
 
     $scope.moveDown = function (id) {
-        var size = $scope.myDoc.pages.length;
-        var page = $scope.myDoc.pages.where({ id: id });
-        var currentIndex = page[0].get('pageNumber');
-        if (currentIndex < size) {
-            var pageToMove = $scope.myDoc.pages.where({ pageNumber: currentIndex +1 });
-            page[0].set('pageNumber', currentIndex +1);
-            pageToMove[0].set('pageNumber', currentIndex);
-
-            page[0].setUpdate();
-            pageToMove[0].setUpdate();
-
-            if (!$scope.$$phase) $scope.$apply();
-        }
+        photo.moveDown($scope.myDoc, id);
     }
     $scope.rotate = function (id) {
-        var elem = angular.element("#img-page-" +id);
-        var prefix = "take-picture-rotate";
-        var r000 = elem.hasClass(prefix + "000");
-        var r090 = elem.hasClass(prefix + "090");
-        var r180 = elem.hasClass(prefix + "180");
-        var r270 = elem.hasClass(prefix + "270");
-
-        elem.removeClass(prefix + "000");
-        elem.removeClass(prefix + "090");
-        elem.removeClass(prefix + "180");
-        elem.removeClass(prefix + "270");
-
-        var rotation = 0;
-        if (r000) {
-            elem.addClass(prefix + "090");
-            rotation = 90;
-        }
-            else if (r090) {
-                elem.addClass(prefix + "180");
-                rotation = 180;
-            }
-            else if (r180) {
-                elem.addClass(prefix + "270");
-                rotation = 270;
-            }
-            else if (r270) {
-                elem.addClass(prefix + "000");
-                rotation = 0;
-            }
-            var page = $scope.myDoc.pages.where({ id: id});
-        page[0].set('rotation', rotation);
-        page[0].setUpdate();
-    }
-
-    $scope.delete = function (id) {
-        var size = $scope.myDoc.pages.length;
-        var page = $scope.myDoc.pages.where({ id: id });
-        page[0].set('action', 'DELETE');
-        $scope.numeroter(1, size);
+        photo.rotate($scope.myDoc, id);
         if (!$scope.$$phase) $scope.$apply();
     }
 
-    $scope.numeroter = function (startIndex, size) {
-        var toDelete = $scope.myDoc.pages.where({ action: 'DELETE' });
-        $.each(toDelete, function (index, value) {
-            value.set('pageNumber', '-1');
-        });
+    $scope.delete = function (id) {
+        photo.delete($scope.myDoc, id);
+        if (!$scope.$$phase) $scope.$apply();
+    }
 
-		var index = startIndex;
-		var nb = startIndex;
-		while(index <= size + 10) {
-			var page = $scope.myDoc.pages.where({ pageNumber: index });
-			if (page.length > 0) {
-			    page[0].set('pageNumber', nb++);
-			    page[0].setUpdate();
-		    }
-			index++;
-		}
-	};
-
-	$scope.enlarge = function (id) {
-	    var page = $scope.myDoc.pages.where({ id: id	})[0];
-
-	    var elem = angular.element("#img-page-" + id);
-	    var prefix = "take-picture-rotate";
-	    var cssRotation = prefix + "000";
-	    if (elem.hasClass(prefix + "090")) cssRotation = prefix + "090";
-	    if (elem.hasClass(prefix + "180")) cssRotation = prefix + "180";
-	    if (elem.hasClass(prefix + "270")) cssRotation = prefix + "270";
-
-	    var img = "<img style='width:100%;height:100%' class='" + cssRotation + "' src='" +page.get("base64Image") + "' />";
-	    enlargePage.show("Page " +page.get("pageNumber") + " - Zoom", img);
-	    };
+    $scope.enlarge = function (id) {
+        var data = photo.enlarge($scope.myDoc, id);
+        enlargePage.show("Page " + data.pageNumber + " - Zoom", data.img);
+    };
 
 	$scope.pageNotDeleted = function (item) {
         return item.attributes.action != "DELETE";

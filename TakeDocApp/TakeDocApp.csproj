@@ -46,6 +46,10 @@
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
+    <Content Include="www\features\takePicture\metadata.js" />
+    <Content Include="www\features\takePicture\photo.html" />
+    <Content Include="www\features\takePicture\metadata.html" />
+    <Content Include="www\features\takePicture\photo.js" />
     <Content Include="www\features\upload\upload.html" />
     <Content Include="www\features\upload\upload.js" />
     <Content Include="www\img\add.png" />
@@ -783,6 +787,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
