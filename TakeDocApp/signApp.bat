@@ -1,0 +1,1 @@
+"C:\Program Files\Java\jdk1.8.0_31\jre\bin\keytool.exe" -genkey -v -keystore "C:\Projets\TakeDoc\TakeDocApp\keystore" -alias TakeDoc -keyalg RSA -keysize 2048 -validity 10000
