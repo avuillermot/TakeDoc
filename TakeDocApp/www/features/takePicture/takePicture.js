@@ -51,45 +51,14 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         $scope.myDoc.load(context);
     });
 
+    $scope.doAutocompleteOnFocus = function (id) {
+        $location.path("autocomplete/id/" + id);
+        if (!$scope.$$phase) $scope.$apply();
+    };
+
     $scope.takePicture = function () {
         takePictureGo();
     };
-
-    /*
-    $scope.$on("metadata$refreshPage", fRefresh);
-
-        var success = function () {
-            $ionicLoading.hide();
-            $location.path($scope.nextUrl.replace("#/", ""));
-            $scope.$broadcast("metadata$refreshPage");
-        };
-
-        var error = function () {
-            $ionicLoading.hide();
-            var msg = (arguments[0].responseJSON != null) ? arguments[0].responseJSON : "Une erreur est survenue.";
-            $rootScope.PopupHelper.show("Erreur", arguments[0].responseJSON);
-        };
-
-        var fn = function () {
-            if (arguments[0] === "Ok") {
-                $ionicLoading.show({
-                    template: 'Enregistrement...'
-                });
-
-                $rootScope.CurrentDocument.metadatas.save({
-                    userId: $rootScope.User.Id,
-                    entityId: $rootScope.myTakeDoc.get("EntityId"),
-                    versionId: $rootScope.myTakeDoc.get("DocumentCurrentVersionId"),
-                    startWorkflow: startWorkflow
-                }, success, error);
-            }
-        };
-
-        if (startWorkflow) {
-            $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
-        }
-        else fn("Ok");
-        return false;*/
 
     $scope.doSave = function () {
         if ($scope.mode == "READ") {
@@ -113,7 +82,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                     $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
                 }
             };
-            debugger;
             if ($scope.myDoc.pages.CountNotDeleted() == 0 && $scope.myDoc.document.get("pageNeed") == true) {
                 $rootScope.PopupHelper.show("Erreur", "Une photographie est obligatoire.");
             }

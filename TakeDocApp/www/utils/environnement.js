@@ -1,7 +1,7 @@
 ﻿var environnement = {
-    isApp: false,
-    //UrlBase: "http://192.168.0.10/TakeDocApi/",
-    UrlBase: "http://localhost/TakeDocApi/",
+    isApp: true,
+    UrlBase: "http://192.168.0.12/TakeDocApi/",
+    //UrlBase: "http://localhost/TakeDocApi/",
     //UrlBase: "https://dev-takedoc.cloudapp.net/",
     setToken: function (user) {
         sessionStorage.setItem('AccessToken', user.AccessToken);
