@@ -6,7 +6,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "ADD");
         var success = function () {

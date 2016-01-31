@@ -6,14 +6,14 @@
         </div>
 
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
-            <select ng-switch-when="list" ng-disabled="mode == 'READ'" ng-model="metadata.attributes.value" ng-class="form-input-field" tabindex="{{metadata.attributes.index}}">
+            <select ng-switch-when="list" ng-disabled="mode == 'READ'" ng-model="metadata.attributes.value" class="form-input-field" tabindex="{{metadata.attributes.index}}">
                 <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}" ng-selected="metadata.attributes.value == item.attributes.key">{{item.attributes.text}}</option>
             </select>
             <div ng-switch-when="textarea">
-                <textarea ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2" placeholder="Saisir" ng-class="form-input-field"></textarea>
+                <textarea ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="2" placeholder="Saisir" class="form-input-field"></textarea>
             </div>
             <div ng-switch-when="autocomplete">
-                <textarea ng-disabled="mode == 'READ'" rows="5" ng-class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.text" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
+                <textarea ng-disabled="mode == 'READ'" rows="5" class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.text" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
                 <div class="button button-stable ion-ios-fastforward" style="width:10px" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" ng-show="mode != 'READ'"></div>
             </div>
             <!--<div ng-switch-when="file" ng-readonly="mode == 'READ'">
@@ -23,8 +23,8 @@
                 <div ng-hide="mode == 'READ'" ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search" style="margin-left:10px;"></div>
             </div>-->
 
-            <input ng-switch-when="date" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder="Saisir" ng-class="form-input-field" />
-            <input ng-switch-when="number" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder="Saisir" ng-class="form-input-field" />
+            <input ng-switch-when="date" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder="Saisir" class="form-input-field" />
+            <input ng-switch-when="number" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder="Saisir" class="form-input-field" />
             <input ng-switch-default="" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder="Saisir" class="form-input-field" />
         </div>
 

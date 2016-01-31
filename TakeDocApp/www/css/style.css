@@ -88,6 +88,7 @@ div.button-bar {
     margin-left:2px; 
     margin-bottom:0px; 
     margin-right:0px;
+    padding-top: 15px;
 }
 
 /* LOGIN - page de login */
@@ -121,6 +122,7 @@ div.button-bar {
         padding-top: 20px;
         padding-bottom: 20px;
 		width: 46%;
+        font-size: medium;
 	}
 }
 
@@ -216,5 +218,6 @@ div.button-bar {
 
 .form-input-field {
     width: 50% !important;
-    background-color: #F7819F !important;
+    background-color: red;
+    height: 30px !important;
 }
