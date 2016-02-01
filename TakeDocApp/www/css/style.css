@@ -1,9 +1,8 @@
 body {
-    font-size:medium;
+    font-size:small;
 }
 /* Empty. Add your own CSS if you like */
 .counter-round {
-    /*font-size: 10px;*/
     border-radius: 25px;
 }
 
@@ -25,10 +24,10 @@ div.button-bar {
 
 .row-result {
     border-top: none;
-    /*font-size:14px;*/
     padding: 20px 0px 20px 5px; 
     margin: 0px 0px 0px 0px; 
     cursor: pointer;
+    font-size: small !important;
 }
 
 .no-row-result {
@@ -47,7 +46,6 @@ div.button-bar {
     border:1px medium gray;
     background-color: #F6D8CE;
     border-radius: 5px;
-    /*font-size:11px;*/
 }
 
 .visible-label {
@@ -60,7 +58,6 @@ div.button-bar {
     vertical-align:top; 
     width:40%; 
     padding-top:5px; 
-    /*font-size:12px;*/
 }
 
 .metadata-label-ion-toggle {
@@ -68,7 +65,6 @@ div.button-bar {
     padding-left:0px;
     border:none; 
     vertical-align:top;
-    /*font-size: 12px;*/
 }
 
 .metadata-mandatory-true {
@@ -89,6 +85,7 @@ div.button-bar {
     margin-bottom:0px; 
     margin-right:0px;
     padding-top: 15px;
+    font-size: small !important;
 }
 
 /* LOGIN - page de login */
@@ -130,17 +127,11 @@ div.button-bar {
     background-color:#D8D8D8 !important;
 }
 
-/*@media screen and (min-width: 320px) and  (max-width: 400px) {
-    .menu-small {
-        font-size: 10px !important;
-    }
-}*/
 /* PRISE PHOTO */
 .takePictureThumbnail {
     width:50px;
     height: 50px;
 	float: left;
-
 }
 
 .container-takePicture {
@@ -161,7 +152,14 @@ div.button-bar {
 }
 
 .take-picture-page-number {
-    /*font-size: 8px;*/
+    font-size: 8px;
+    padding-left: 2px;
+}
+
+.form-input-field {
+    width: 50% !important;
+    background-color: lightgray !important;
+    height: 30px !important;
 }
 
 .take-picture-rotate000 {
@@ -212,12 +210,5 @@ div.button-bar {
     color: black;
     background-color: rgba(0, 0, 0, 0.2);
     font-weight:bold;
-    /*font-size: 12px;*/
     border-radius: 10px;
-}
-
-.form-input-field {
-    width: 50% !important;
-    background-color: red;
-    height: 30px !important;
 }
