@@ -38,8 +38,8 @@
     <Content Include="www\features\findDocument\findDocument.html" />
     <Content Include="www\features\login\login.html" />
     <Content Include="www\features\login\login.js" />
-    <Content Include="www\features\metadata\metadata.html" />
-    <Content Include="www\features\metadata\metadata.js" />
+    <Content Include="www\features\metadata\metadata2.html" />
+    <Content Include="www\features\metadata\metadata2.js" />
     <Content Include="www\features\planning\planning.html" />
     <Content Include="www\features\planning\planning.js" />
     <Content Include="www\features\profil\profil.html" />

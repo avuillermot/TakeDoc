@@ -34,12 +34,16 @@ takeDoc.controller('autocompleteController', ['$scope', '$rootScope', '$location
         if (key != null) {
             $scope.current.value = key;
             $scope.current.text = value;
-            $location.path("metadata/mode/UPDATE");
+            var versionId = $rootScope.CurrentDocument.document.get("versionId");
+            var entityId = $rootScope.CurrentDocument.document.get("entityId");
+            $location.path("takePicture/mode/UPDATE/versionId/" + versionId + "/entity/" + entityId);
         }
     };
 
     $scope.doReset = function () {
-        $location.path("metadata/mode/UPDATE");
+        var versionId = $rootScope.CurrentDocument.document.get("versionId");
+        var entityId = $rootScope.CurrentDocument.document.get("entityId");
+        $location.path("takePicture/mode/UPDATE/versionId/" + versionId + "/entity/" + entityId);
     };
 
     $scope.onType = function () {

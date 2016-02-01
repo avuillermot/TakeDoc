@@ -21,8 +21,7 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
         { from: "#/selectEntity", to: "#/selectTypeDocument/mode/CREATE/status/" },
         { from: "#/selectTypeDocument", to: "#/createDocument" },
         { from: "#/createDocument", to: "#/takePicture/mode/ADD/versionId/" },
-        { from: "#/takePicture", to: "#/metadata/mode/ADD" },
-        { from: "#/metadata", to: "#/menu" }
+        { from: "#/takePicture", to: "#/menu" }
     ];
 
     var scenarioFindIncomplet = [
@@ -126,7 +125,7 @@ takeDoc.config(function ($stateProvider, $urlRouterProvider) {
         .state('selectTypeDocument', _routeHelper.get("selectTypeDocument", false, "/mode/:mode/status/:status"))
         .state('profil', _routeHelper.get("profil", false))
         .state('about', _routeHelper.get("about", false))
-        .state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))
+        //.state('metadata', _routeHelper.get("metadata", false, "/mode/:mode"))
         .state('takePicture', _routeHelper.get("takePicture", false, "/mode/:mode/versionId/:versionId/entity/:entityId"))
         .state('menu', _routeHelper.get("menu", false))
         .state('autocomplete', _routeHelper.get("autocomplete", false, "/id/:id"))

@@ -7,7 +7,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.mode = states.stateParams.mode;
-        $scope.loading = ($scope.mode != "ADD");
+        $scope.loading = ($scope.mode != "ADD" && $scope.mode != "UPDATE");
         var success = function () {
             var imageToBase64 = function (url, number) {
                 var img = new Image();
@@ -46,8 +46,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 $rootScope.PopupHelper.show("Erreur","Erreur lors du chargement du document.")
             }
         };
-
-        $scope.myDoc.load(context);
+        if ($scope.mode != "UPDATE") $scope.myDoc.load(context);
     });
 
     $scope.doAutocompleteOnFocus = function (id) {
