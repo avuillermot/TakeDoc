@@ -47,6 +47,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             }
         };
         if ($scope.mode != "UPDATE") $scope.myDoc.load(context);
+        else $scope.myDoc = $rootScope.CurrentDocument;
     });
 
     $scope.doAutocompleteOnFocus = function (id) {
@@ -69,7 +70,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 userId: $rootScope.User.Id,
                 entityId: $scope.myDoc.document.get("entityId"),
                 startWorkflow: false,
-                onlyPage: true,
                 success: function () {
                     $ionicLoading.hide();
                     $location.path($scope.nextUrl.replace("#/", ""));
