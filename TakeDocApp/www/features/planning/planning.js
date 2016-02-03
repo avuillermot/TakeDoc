@@ -36,17 +36,13 @@ takeDoc.controller('planningController', ['$scope', '$rootScope', '$ionicPlatfor
 
     $scope.doOpen = function () {
         var current = this.folder;
-        var step = $rootScope.Scenario.start("detailMetadataUpdate");
-            
-        $rootScope.myTakeDoc = new CreateDocumentTk();
-        $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current.documentVersionId);
-        $rootScope.myTakeDoc.set("EntityId", current.entityId);
-        $rootScope.myTakeDoc.set("UserCreateData", $rootScope.User.Id);
-        $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
-        $rootScope.User.CurrentEntity = {
-            Id: current.entityId
-        };
-        $location.path(step.to.substr(2));
+        
+        var starter = "detailMetadataUpdate";
+        var step = $rootScope.Scenario.start(starter);
+        var versionId = current.documentVersionId;
+        var entityId = current.entityId;
+        var go = step.to.substr(2) + versionId + "/entity/" + entityId;
+        $location.path(go);
         if (!$scope.$$phase) $scope.$apply();
     }
 }]);

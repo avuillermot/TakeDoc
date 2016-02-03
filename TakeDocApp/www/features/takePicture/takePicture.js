@@ -9,7 +9,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "ADD" && $scope.mode != "UPDATE");
         var success = function () {
-            var imageToBase64 = function (url, number) {
+             var imageToBase64 = function (url, number) {
                 var img = new Image();
                 img.onload = function () {
                     var canvas = document.createElement('CANVAS');
@@ -46,7 +46,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 $rootScope.PopupHelper.show("Erreur","Erreur lors du chargement du document.")
             }
         };
-        if ($scope.mode != "UPDATE") $scope.myDoc.load(context);
+        if ($scope.mode != "BACK") $scope.myDoc.load(context);
         else $scope.myDoc = $rootScope.CurrentDocument;
     });
 

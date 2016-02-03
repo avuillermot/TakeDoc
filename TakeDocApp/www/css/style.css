@@ -46,6 +46,7 @@ div.button-bar {
     border:1px medium gray;
     background-color: #F6D8CE;
     border-radius: 5px;
+    font-size: small;
 }
 
 .visible-label {

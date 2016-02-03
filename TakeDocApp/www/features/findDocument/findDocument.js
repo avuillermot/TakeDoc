@@ -51,19 +51,12 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
         });
         var current = extDocuments.where({ reference: docRef, entityReference: entityRef });
         if (current.length > 0) {
-                $rootScope.myTakeDoc = new CreateDocumentTk();
-                $rootScope.myTakeDoc.set("DocumentCurrentVersionId", current[0].get("versionId"));
-                $rootScope.myTakeDoc.set("EntityId", current[0].get("entityId"));
-                $rootScope.myTakeDoc.set("UserUpdateData", $rootScope.User.Id);
-                $rootScope.myTakeDoc.set("DocumentPageNeed", ($rootScope.User.CurrentTypeDocument != null) ? $rootScope.User.CurrentTypeDocument.get("pageNeed") : true);
-                $rootScope.User.CurrentEntity = {
-                    Id: current[0].get("entityId"),
-                    Label: current[0].get("entityId")
-                }
-
                 var starter = (mode == "INCOMPLETE" || mode == "COMPLETE") ? "detailMetadataUpdate" : "detailMetadataReadOnly";
                 var step = $rootScope.Scenario.start(starter);
-                $location.path(step.to.substr(2));
+                var versionId = current[0].get("id");
+                var entityId = current[0].get("entityId");
+                var go = $rootScope.Scenario.next().to.substr(2) + versionId + "/entity/" + entityId;
+                $location.path(go);
                 if (!$scope.$$phase) $scope.$apply();
         }
     };

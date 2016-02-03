@@ -59,14 +59,13 @@ takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionic
     ];
 
     var scenarioDetailMetadataUpdate = [
-        { from: "#/findDocument", to: "#/takePicture/mode/UPDATE"},
-        { from: "#/takePicture", to: "#/metadata/mode/UPDATE" },
-        { from: "#/metadata", to: "#/menu" }
+
+        { from: "#/findDocument", to: "#/takePicture/mode/UPDATE/versionId/"},
+        { from: "#/takePicture", to: "#/menu" }
     ];
     var scenarioDetailMetadataReadOnly = [
-        { from: "#/findDocument", to: "#/takePicture/mode/READ" },
-        { from: "#/takePicture", to: "#/metadata/mode/READ" },
-        { from: "#/metadata", to: "#/menu" }
+        { from: "#/findDocument", to: "#/takePicture/mode/READ/versionId/" },
+        { from: "#/takePicture", to: "#/menu" }
     ];
     var scenarioDocumentFromPlanningUpdate =[
         { from: "#/planning", to: "#/takePicture/mode/UPDATE" },

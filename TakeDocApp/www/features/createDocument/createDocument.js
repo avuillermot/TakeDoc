@@ -19,7 +19,7 @@ takeDoc.controller('createDocumentController', ['$scope', '$rootScope', '$locati
         var success = function () {
             var versionId = arguments[0].document.get("id");
             var entityId = arguments[0].document.get("entityId");
-             var go = $rootScope.Scenario.next().to.substr(2) + versionId + "/entity/" + entityId;
+            var go = $rootScope.Scenario.next().to.substr(2) + versionId + "/entity/" + entityId;
             $location.path(go);
             $scope.loading = false;
             if (!$scope.$$phase) $scope.$apply();

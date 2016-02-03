@@ -4,7 +4,7 @@
         <section>
             <ion-list>
                 <ion-item ng-repeat="document in documents | orderBy:['-attributes.versionDateCreate']" class="cadre">
-                    <div class="ion-android-arrow-dropright" style="font-size:12px">&#160;{{document.attributes.label}}</div>
+                    <div class="ion-android-arrow-dropright"> &#160;{{document.attributes.label}}</div>
                     <div><span class="visible-label">Status&#160;</span>:&#160;<span>{{document.attributes.statusLabel}}</span>&#160;<span class="small-label">({{document.attributes.typeLabel}})</span></div>
                     <div><span class="visible-label">Création&#160;</span>:&#160;<span>{{document.attributes.formatDate}}</span></div>
                     <div><span class="visible-label">Prop.&#160;</span>:&#160;<span>{{document.attributes.ownerFullName}}</span></div>
