@@ -16,6 +16,10 @@
                 <textarea ng-disabled="mode == 'READ'" rows="5" class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.text" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
                 <div class="ion-ios-fastforward" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" ng-show="mode != 'READ'"></div>
             </div>
+            <div ng-switch-when="barcode">
+                <textarea ng-disabled="mode == 'READ'" rows="5" class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
+                <div class="ion-ios-fastforward" ng-click="doReadBarCode(metadata.attributes.id)" ng-show="mode != 'READ'"></div>
+            </div>
             <!--<div ng-switch-when="file" ng-readonly="mode == 'READ'">
                 <div class="metadata-item-filename">{{metadata.attributes.value}}</div>
                 <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doOpenDocument(metadata.attributes.id)" class="button button-small button-light ion-document"></div>

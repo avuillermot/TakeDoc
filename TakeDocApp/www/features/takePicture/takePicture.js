@@ -59,7 +59,26 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         takePictureGo();
     };
 
-    $scope.doSave = function () {
+    $scope.doReadBarCode = function (id) {
+        cordova.plugins.barcodeScanner.scan(
+              function (result) {
+                  var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+                  if (current.length > 0) {
+                      current[0].set("value", result.text);
+                  }
+                  /*alert("We got a barcode\n" +
+                        "Result: " + result.text + "\n" +
+                        "Format: " + result.format + "\n" +
+                        "Cancelled: " + result.cancelled);*/
+              },
+              function (error) {
+                  alert("Scanning failed: " + error);
+              }
+            );
+    };
+
+    $scope.doSave = function (startWorkflow) {
+        
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
             if (!$scope.$$phase) $scope.$apply();
@@ -69,15 +88,16 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 versionId: $scope.myDoc.document.get("versionId"),
                 userId: $rootScope.User.Id,
                 entityId: $scope.myDoc.document.get("entityId"),
-                startWorkflow: false,
+                startWorkflow: startWorkflow,
                 success: function () {
                     $ionicLoading.hide();
                     $location.path($scope.nextUrl.replace("#/", ""));
                     if (!$scope.$$phase) $scope.$apply();
                 },
-                error: function () {
+                error: function (withMessage) {
                     $ionicLoading.hide()
-                    $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
+                    if (!$scope.$$phase) $scope.$apply();
+                    if (withMessage == true || withMessage == null) $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
                 }
             };
             if ($scope.myDoc.pages.CountNotDeleted() == 0 && $scope.myDoc.document.get("pageNeed") == true) {

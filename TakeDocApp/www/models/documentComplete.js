@@ -52,7 +52,10 @@
                 beforeSend: requestHelper.beforeSend()
             });
         }
-        else alert(result.message);
+        else {
+            alert(result.message);
+            context.error(false);
+        }
     },
     startWorkflow: function (context) {
         var data = new Array();
