@@ -35,6 +35,8 @@
         else if (this.get("inputType") == "number") return "Nombre";
         else if (this.get("inputType") == "date") return "Date";
         else if (this.get("inputType") == "ion-toggle") return "Oui/Non";
+        else if (this.get("inputType") == "barcode") return "Code barre";
+        else if (this.get("inputType") == "signature") return "Signature";
         else return "(Inconnu)";
     },
     parse: function () {

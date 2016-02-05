@@ -29,6 +29,7 @@
         this.pages.parse(arguments[0].Pages);
     },
     save: function (context) {
+        debugger;
         var result = this.metadatas.check();
         if (result.valid) {
             var data = new Array();
@@ -56,7 +57,7 @@
             alert(result.message);
             context.error(false);
         }
-    },
+    }/*,
     startWorkflow: function (context) {
         var data = new Array();
         data.push("");
@@ -78,5 +79,5 @@
             error: context.error,
             beforeSend: requestHelper.beforeSend()
         });
-    }
+    }*/
 });

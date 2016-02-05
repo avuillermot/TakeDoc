@@ -126,7 +126,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             entityId: $scope.document.get("entityId"),
             userId: $rootScope.getUser().Id,
             success: function () {
-                alert(2);
                 $rootScope.hideLoader();
                 documentsDirectory.data.documents.remove(documentDisplay.data.document);
                 documentsDirectory.data.calls = documentsDirectory.data.calls + 1;

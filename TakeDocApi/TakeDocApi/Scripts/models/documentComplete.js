@@ -53,7 +53,7 @@
             });
         }
         else alert(result.message);
-    },
+    }/*,
     startWorkflow: function (context) {
         var data = new Array();
         data.push("");
@@ -75,5 +75,5 @@
             error: context.error,
             beforeSend: requestHelper.beforeSend()
         });
-    }
+    }*/
 });

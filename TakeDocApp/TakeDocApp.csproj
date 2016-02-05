@@ -175,6 +175,7 @@
     <Content Include="www\lib\ionic\release\js\ionic.js" />
     <Content Include="www\lib\ionic\release\js\ionic.min.js" />
     <Content Include="www\lib\jquery.cookie.js" />
+    <Content Include="www\lib\jSignature.min.noconflict.js" />
     <Content Include="www\lib\moment\locale\af.js" />
     <Content Include="www\lib\moment\locale\ar-ma.js" />
     <Content Include="www\lib\moment\locale\ar-sa.js" />

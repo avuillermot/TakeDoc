@@ -5,9 +5,18 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        //$(document).ready(function () {
+            var f = function () {
+                $(".form-input-field-signature").jSignature();
+            };
+            $timeout(f, 1000);
+        //})
+    });
+
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.mode = states.stateParams.mode;
-        $scope.loading = ($scope.mode != "ADD" && $scope.mode != "UPDATE");
+        $scope.loading = ($scope.mode != "BACK");
         var success = function () {
              var imageToBase64 = function (url, number) {
                 var img = new Image();
@@ -60,21 +69,27 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doReadBarCode = function (id) {
-        cordova.plugins.barcodeScanner.scan(
-              function (result) {
-                  var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
-                  if (current.length > 0) {
-                      current[0].set("value", result.text);
+        if (environnement.isApp == true) {
+            cordova.plugins.barcodeScanner.scan(
+                  function (result) {
+                      var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+                      if (current.length > 0) {
+                          alert(result.text);
+                          current[0].set("value", result.text);
+                          if (!$scope.$$phase) $scope.$apply();
+                      }
+                  },
+                  function (error) {
+                      alert("Scanning failed: " + error);
                   }
-                  /*alert("We got a barcode\n" +
-                        "Result: " + result.text + "\n" +
-                        "Format: " + result.format + "\n" +
-                        "Cancelled: " + result.cancelled);*/
-              },
-              function (error) {
-                  alert("Scanning failed: " + error);
-              }
-            );
+             );
+        }
+        else {
+            var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+            if (current.length > 0) {
+                current[0].set("value", "lu code barre");
+            }
+        }
     };
 
     $scope.doSave = function (startWorkflow) {

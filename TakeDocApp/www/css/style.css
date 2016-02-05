@@ -79,7 +79,18 @@ div.button-bar {
 }
 
 .metadata-item-list {
-    height:80px;
+    height:90px;
+    padding:0px; 
+    margin-top:2px; 
+    margin-left:2px; 
+    margin-bottom:0px; 
+    margin-right:0px;
+    padding-top: 15px;
+    font-size: small !important;
+}
+
+.metadata-item-list-signature {
+    height:190px;
     padding:0px; 
     margin-top:2px; 
     margin-left:2px; 
@@ -161,6 +172,19 @@ div.button-bar {
     width: 50% !important;
     background-color: lightgray !important;
     height: 30px !important;
+}
+
+.form-input-field-signature {
+    margin-left:5px !important;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    width: 95% !important;
+    background-color: lightgray !important;
+    height: 120px !important;
+}
+
+.jSignature {
+    height:120px !important;
 }
 
 .take-picture-rotate000 {

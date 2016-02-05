@@ -1,11 +1,11 @@
 ﻿<ion-list ng-show="loading == false" id="ion-list-metadata">
-    <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in CurrentDocument.metadatas.models | orderBy:['attributes.index']">
+    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | orderBy:['attributes.index']">
 
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
             {{metadata.attributes.label}}
         </div>
 
-        <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
+        <div ng-if="metadata.attributes.htmlType != 'ion-toggle' && metadata.attributes.htmlType != 'signature'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
             <select ng-switch-when="list" ng-disabled="mode == 'READ'" ng-model="metadata.attributes.value" class="form-input-field" tabindex="{{metadata.attributes.index}}">
                 <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}" ng-selected="metadata.attributes.value == item.attributes.key">{{item.attributes.text}}</option>
             </select>
@@ -36,6 +36,9 @@
             <ion-toggle ng-disabled="mode == 'READ'" ng-model=" metadata.attributes.value" toggle-class="toggle-calm" class="metadata-label-ion-toggle metadata-mandatory-{{metadata.attributes.mandatory}}" tabindex="{{metadata.attributes.index}}">
                 {{metadata.attributes.label}}
             </ion-toggle>
+        </div>
+        <div ng-if="metadata.attributes.htmlType == 'signature'">
+            <div ng-disabled="mode == 'READ'" class="form-input-field-signature" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
         </div>
     </ion-item>
 </ion-list>
