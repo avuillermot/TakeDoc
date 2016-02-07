@@ -55,9 +55,10 @@ div.button-bar {
 
 /* formulaire METADATA */
 .metadata-label {
-    display: inline-block; 
+    display: block; 
     vertical-align:top; 
-    width:40%; 
+    width:90%; 
+    padding-left: 2px;
     padding-top:5px; 
 }
 
@@ -66,6 +67,7 @@ div.button-bar {
     padding-left:0px;
     border:none; 
     vertical-align:top;
+    font-size: small !important;
 }
 
 .metadata-mandatory-true {
@@ -85,18 +87,18 @@ div.button-bar {
     margin-left:2px; 
     margin-bottom:0px; 
     margin-right:0px;
-    padding-top: 15px;
+    padding-top: 5px;
     font-size: small !important;
 }
 
 .metadata-item-list-signature {
-    height:190px;
+    height:220px;
     padding:0px; 
     margin-top:2px; 
     margin-left:2px; 
     margin-bottom:0px; 
     margin-right:0px;
-    padding-top: 15px;
+    padding-top: 5px;
     font-size: small !important;
 }
 
@@ -169,9 +171,10 @@ div.button-bar {
 }
 
 .form-input-field {
-    width: 50% !important;
+    width: 90% !important;
     background-color: lightgray !important;
     height: 30px !important;
+    margin-left: 5px;
 }
 
 .form-input-field-signature {
@@ -180,11 +183,11 @@ div.button-bar {
     margin-bottom: 5px;
     width: 95% !important;
     background-color: lightgray !important;
-    height: 120px !important;
+    height: 170px !important;
 }
 
 .jSignature {
-    height:120px !important;
+    height: 170px !important;
 }
 
 .take-picture-rotate000 {

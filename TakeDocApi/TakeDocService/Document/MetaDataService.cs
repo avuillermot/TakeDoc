@@ -52,31 +52,10 @@ namespace TakeDocService.Document
                 meta.MetaDataValue = obj.Value<string>("value");
                 meta.MetaDataText = obj.Value<string>("text");
 
-                if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("FILE"))
-                {
-                    string fileName = obj.GetValue("file").Value<string>("name");
-                    string filePath = obj.GetValue("file").Value<string>("path");
-                    string dataFile = obj.GetValue("file").Value<string>("data");
-
-                    // if no metadatavalue, it's to delete
-                    bool toDel = string.IsNullOrEmpty(meta.MetaDataValue);
-                    bool toUpdate = string.IsNullOrEmpty(fileName) == false && string.IsNullOrEmpty(dataFile) == true;
-                    bool toAdd = string.IsNullOrEmpty(fileName) == false && string.IsNullOrEmpty(dataFile) == false;
-
-                    if (toDel) servMdFile.Delete(meta.MetaDataId, userId);
-                    else if (toAdd)
-                    {
-                        meta.MetaDataFile = new List<TakeDocModel.MetaDataFile>();
-                        TakeDocModel.MetaDataFile file = new TakeDocModel.MetaDataFile();
-
-                        file.EtatDeleteData = false;
-                        file.MetaDataFilePath = filePath;
-                        file.MetaDataId = meta.MetaDataId;
-                        file.MetaDataFileName = servMdFile.GetFile(filePath).Name;
-                        file.MetaDataFileData = Convert.FromBase64String(dataFile.Substring(dataFile.IndexOf(";base64,") + 8));
-
-                        files.Add(file);
-                    }
+                if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("SIGNATURE")) {
+                    meta.MetaDataBlob = obj.Value<string>("value");
+                    meta.MetaDataText = null;
+                    meta.MetaDataValue = null;
                 }
             }
 
@@ -86,18 +65,7 @@ namespace TakeDocService.Document
             try
             {
                 daoMetaData.SetMetaData(userId, document.EntityId, document.DocumentTypeId, metadatas);
-                foreach (TakeDocModel.MetaData metadata in metadatas)
-                {
-                    ICollection<TakeDocModel.MetaDataFile> metaFiles = files.Where(x => x.MetaDataId == metadata.MetaDataId).ToList();
-                    if (metaFiles.Count() > 0)
-                    {
-                        foreach (TakeDocModel.MetaDataFile file in metaFiles)
-                        {
-                            if (file.MetaDataFileData != null) servMdFile.Update(file.MetaDataFilePath, file.MetaDataFileData, metadata.MetaDataId, userId, entity);
-                        }
-                    }
-                }
-            }
+             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex1)
             {
                 base.Logger.Error(ex1);
@@ -119,7 +87,8 @@ namespace TakeDocService.Document
                 ICollection<TakeDocModel.View_TypeDocumentDataField> field = fields.Where(x => x.Reference == meta.MetaDataName && x.TypeDocumentId == document.DocumentTypeId).ToList();
                 if (field.Count() > 0)
                 {
-                    bool ok = this.BeProven(field.First().TypeId, meta.MetaDataValue, field.First().Mandatory);
+                    string value = (string.IsNullOrEmpty(meta.MetaDataValue) == false) ? meta.MetaDataValue : meta.MetaDataBlob;
+                    bool ok = this.BeProven(field.First().TypeId, value, field.First().Mandatory);
                     if (ok == false) throw new Exception(string.Format("Champ [{0}] non valide : {1}.", field.First().Label, meta.MetaDataValue));
                 }
             }

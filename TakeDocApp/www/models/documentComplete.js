@@ -29,7 +29,6 @@
         this.pages.parse(arguments[0].Pages);
     },
     save: function (context) {
-        debugger;
         var result = this.metadatas.check();
         if (result.valid) {
             var data = new Array();

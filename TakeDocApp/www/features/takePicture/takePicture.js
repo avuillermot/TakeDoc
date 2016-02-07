@@ -64,8 +64,31 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         if (!$scope.$$phase) $scope.$apply();
     };
 
+    $scope.doResetAutocomplete = function (id) {
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            current[0].set("text", "");
+            if (!$scope.$$phase) $scope.$apply();
+        }
+    };
+
     $scope.takePicture = function () {
         takePictureGo();
+    };
+
+    $scope.doResetSignature = function (id) {
+        alert(id);
+        var elem = $("#" + id);
+        elem.jSignature("reset");
+    };
+
+    $scope.doResetBarCode = function (id) {
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            if (!$scope.$$phase) $scope.$apply();
+        }
     };
 
     $scope.doReadBarCode = function (id) {
@@ -74,7 +97,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                   function (result) {
                       var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
                       if (current.length > 0) {
-                          alert(result.text);
                           current[0].set("value", result.text);
                           if (!$scope.$$phase) $scope.$apply();
                       }
@@ -93,7 +115,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doSave = function (startWorkflow) {
-        
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
             if (!$scope.$$phase) $scope.$apply();

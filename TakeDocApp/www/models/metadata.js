@@ -133,11 +133,8 @@ var MetaDatas = Backbone.Collection.extend({
                 // we have the value, we find text
                 var values = current.get("valueList").where({ key: value });
                 if (values.length > 0) current.set("text", values[0].get("text"));
-
-               
             }
             else if (current.get("htmlType") == "signature") {
-                debugger;
                 var value = $("#input-"+current.get("id")+"-"+current.get("name")).jSignature("getData", "default")
                 current.set("value", value);
             }

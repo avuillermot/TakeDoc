@@ -35,6 +35,7 @@ namespace TakeDocModel
         public int MetaDataDisplayIndex { get; set; }
         public Nullable<bool> MetaDataMandatory { get; set; }
         public string MetaDataText { get; set; }
+        public string MetaDataBlob { get; set; }
     
         public virtual DataField DataField { get; set; }
         public virtual Version Version { get; set; }

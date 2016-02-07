@@ -213,6 +213,7 @@
           <Property Name="MetaDataName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="MetaDataValue" Type="nvarchar" MaxLength="400" />
           <Property Name="MetaDataText" Type="nvarchar" MaxLength="400" />
+          <Property Name="MetaDataBlob" Type="ntext" />
           <Property Name="MetaDataVersionId" Type="uniqueidentifier" Nullable="false" />
           <Property Name="MetaDataMandatory" Type="bit" />
           <Property Name="DataFieldId" Type="uniqueidentifier" Nullable="false" />
@@ -1567,6 +1568,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <Property Name="MetaDataMandatory" Type="Boolean" />
           <NavigationProperty Name="MetaDataFile" Relationship="TakeDocModel.FK_MetaDataFile_MetaData" FromRole="MetaData" ToRole="MetaDataFile" />
           <Property Name="MetaDataText" Type="String" MaxLength="400" FixedLength="false" Unicode="true" />
+          <Property Name="MetaDataBlob" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           </EntityType>
         <Association Name="FK_MetaData_DataField">
           <End Type="TakeDocModel.DataField" Role="DataField" Multiplicity="1" />
@@ -2511,6 +2513,7 @@ avertissement 6035: La relation 'FK_MetaData_DataField_ref' a des colonnes qui n
           <EntitySetMapping Name="MetaData">
             <EntityTypeMapping TypeName="TakeDocModel.MetaData">
               <MappingFragment StoreEntitySet="MetaData">
+                <ScalarProperty Name="MetaDataBlob" ColumnName="MetaDataBlob" />
                 <ScalarProperty Name="MetaDataText" ColumnName="MetaDataText" />
                 <ScalarProperty Name="MetaDataMandatory" ColumnName="MetaDataMandatory" />
                 <ScalarProperty Name="MetaDataDisplayIndex" ColumnName="MetaDataDisplayIndex" />
