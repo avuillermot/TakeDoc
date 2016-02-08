@@ -71,6 +71,34 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         $scope.currentAnswer = this.answer;
     };
 
+    var loadSignature = function () {
+        alert(2);
+        $(".form-input-field-signature").jSignature();
+    };
+    var loadHistory = function () {
+        var success = function () {
+            $scope.historys = arguments[0];
+            if ($scope.document.get("ownerId") == $rootScope.getUser().Id) $scope.workflowIsEnable = false;
+            else {
+                var steps = $scope.historys.where({ statusId: $scope.document.get("statusId") });
+                if (steps.length > 0) {
+                    $scope.workflowIsEnable = steps[0].actions.length > 0;
+                }
+            }
+            if (!$scope.$$phase) $scope.$apply();
+            $timeout(loadSignature, 2000);
+        };
+
+        var param = {
+            entityId: $scope.document.get("entityId"),
+            documentId: $scope.document.get("id"),
+            success: success,
+            error: function () {
+                $rootScope.showError({ message: "L'historique n'est pas disponible" });
+            }
+        };
+        wfHistory.load(param);
+    };
     var loadComplete = function () {
         var success = function () {
             var data = arguments[0];
@@ -78,7 +106,8 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.metadatas = data.metadatas;
             $scope.pages = data.pages;
             $scope.historys = [];
-            if (!$scope.$$phase) $scope.$apply();
+            if (!$scope.$$phase) $scope.$apply(); 
+
             clone();
             loadHistory();
         };
@@ -199,30 +228,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         }
         else $('#myTabPanel a[href="#detail"]').tab("show");
     };
-
-    var loadHistory = function () {
-        var success = function () {
-            $scope.historys = arguments[0];
-            if ($scope.document.get("ownerId") == $rootScope.getUser().Id) $scope.workflowIsEnable = false;
-            else {
-                var steps = $scope.historys.where({ statusId: $scope.document.get("statusId") });
-                if (steps.length > 0) {
-                    $scope.workflowIsEnable = steps[0].actions.length > 0;
-                }
-            }
-            if (!$scope.$$phase) $scope.$apply();
-        };
-
-        var param = {
-            entityId: $scope.document.get("entityId"),
-            documentId: $scope.document.get("id"),
-            success: success,
-            error: function () {
-                $rootScope.showError({ message: "L'historique n'est pas disponible" });
-            }
-        };
-        wfHistory.load(param);
-    };
     /***********************************************/
     // Workflow answer
     /***********************************************/
@@ -287,55 +292,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         };
         documentService.SetArchive(param);
     }
-
-    /***********************************************/
-    // FILE TO UPLOAD
-    /***********************************************/
-    $scope.fileAdd = function ($file, $event, $flow, metadataId) {
-        $scope.isUpdate = true;
-        var base64;
-        var fileReader = new FileReader();
-        fileReader.onload = function (event) {
-            var current = $scope.metadatas.where({ id: metadataId });
-            if (current.length > 0) {
-                base64 = event.target.result;
-                var file = current[0].get("file");
-                file.set("data", base64);
-                file.set("name", $file.name);
-                file.set("path", $file.name);
-                current[0].set("value", $file.name);
-                if (!$scope.$$phase) $scope.$apply();
-            }
-        };
-        fileReader.readAsDataURL($file.file);
-    };
-
-    $scope.fileRemove = function (metadataId) {
-        $scope.isUpdate = true;
-        var current = $scope.metadatas.where({ id: metadataId });
-        if (current.length > 0) {
-            var file = current[0].get("file");
-            file.set("data", null);
-            file.set("name", null);
-            current[0].set("value", null);
-            if (!$scope.$$phase) $scope.$apply();
-        }
-    };
-    
-    // display pdf of this document
-    $scope.doOpenFile = function (id) {
-        if ($scope.hasChanged()) {
-            $rootScope.showError({ message: "Veuillez enregistrer les modifications." });
-            return false;
-        }
-        var success = function () {
-
-        };
-        var error = function () {
-            $rootScope.showError("Impossible d'ouvrir le document.")
-        };
-        fileHelper.readFileUrl(id, documentDisplay.data.document.get("entityId"), success, error);
-    };
 
     /***********************************************/
     // PANE PAGE

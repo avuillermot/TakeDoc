@@ -6,12 +6,10 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        //$(document).ready(function () {
-            var f = function () {
-                $(".form-input-field-signature").jSignature();
-            };
-            $timeout(f, 1000);
-        //})
+        var f = function () {
+            $(".form-input-field-signature").jSignature();
+        };
+        $timeout(f, 1000);
     });
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {

@@ -1533,6 +1533,7 @@
     <Content Include="Scripts\bower_components\jquery\dist\jquery.min.map" />
     <Content Include="Scripts\bower_components\jquery\src\sizzle\dist\sizzle.min.map" />
     <Content Include="Scripts\lib\calendar.js" />
+    <Content Include="Scripts\lib\flashcanvas.js" />
     <Content Include="Scripts\lib\highcharts.js" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\external\jquery\jquery.js" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\images\ui-bg_diagonals-thick_18_b81900_40x40.png" />
@@ -1559,6 +1560,7 @@
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\jquery-ui.theme.css" />
     <Content Include="Scripts\lib\jquery-ui-1.11.4.custom\jquery-ui.theme.min.css" />
     <Content Include="Scripts\lib\jquery.cookie.js" />
+    <Content Include="Scripts\lib\jSignature.min.noconflict.js" />
     <Content Include="Scripts\lib\modernizr-2.6.2.js" />
     <Content Include="Scripts\lib\respond.js" />
     <Content Include="Scripts\lib\respond.min.js" />

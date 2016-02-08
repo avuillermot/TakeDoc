@@ -70,14 +70,8 @@
                                     <select ng-switch-when="list" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" ng-change="isUpdate = true">
                                         <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                                     </select>
-
-                                    <div ng-switch-when="file" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}">
-                                        <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-info glyphicon glyphicon-eye-open" style="cursor:pointer" ng-click="doOpenFile(metadata.attributes.id)">&#160;{{metadata.attributes.value}}</span>
-                                        <span ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" class="label label-danger glyphicon glyphicon-remove" style="cursor:pointer" ng-click="fileRemove(metadata.attributes.id)" ng-hide="document.isReadOnly()">&#160;</span>
-                                        <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" flow-init=""
-                                             flow-file-added="fileAdd($file, $event, $flow, metadata.attributes.id)" ng-hide="document.isReadOnly()">
-                                            <input flow-btn="" type="file" />
-                                        </div>
+                                    <div ng-switch-when="signature">
+                                        <div ng-disabled="mode == 'READ'" class="form-input-field-signature" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
                                     </div>
                                     <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="date" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />

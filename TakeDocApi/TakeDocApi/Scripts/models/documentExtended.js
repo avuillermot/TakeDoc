@@ -5,7 +5,7 @@
         label: null,
         entityId: null,
         entityReference: null,
-        entityLabel : null,
+        entityLabel: null,
         typeLabel: null,
         statusId: null,
         statusReference: null,

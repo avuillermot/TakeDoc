@@ -42,8 +42,7 @@ namespace TakeDocService.Document
         public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, Newtonsoft.Json.Linq.JArray jsonMetaData)
         {
             ICollection<TakeDocModel.MetaData> metadatas = daoMetaData.GetBy(x => x.MetaDataVersionId == document.DocumentCurrentVersionId && x.EtatDeleteData == false && x.EntityId == document.EntityId);
-            ICollection<TakeDocModel.MetaDataFile> files = new List<TakeDocModel.MetaDataFile>();
-
+            
             foreach (Newtonsoft.Json.Linq.JObject obj in jsonMetaData)
             {
                 string name = obj.Value<string>("name");
@@ -230,38 +229,6 @@ namespace TakeDocService.Document
                     };
                     back.Add(itemAutoComplete);
                 }
-                else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("FILE"))
-                {
-                    TakeDocModel.MetaDataFile file = null;
-                    ICollection<TakeDocModel.MetaDataFile> files = metadata.MetaDataFile.Where(x => x.EtatDeleteData == false).ToList();
-                    if (files.Count() > 0) file = files.First();
-                    else file = new TakeDocModel.MetaDataFile();
-
-                    var itemFile = new
-                    {
-                        id = metadata.MetaDataId,
-                        index = metadata.MetaDataDisplayIndex,
-                        name = metadata.MetaDataName,
-                        value = metadata.MetaDataValue,
-                        text = metadata.MetaDataText,
-                        mandatory = metadata.MetaDataMandatory,
-                        label = metadata.DataField.DataFieldLabel,
-                        type = metadata.DataField.DataFieldType.DataFieldInputType,
-                        htmlType = metadata.HtmlType,
-                        entityId = metadata.EntityId,
-                        file = new
-                        {
-                            id = file.MetaDataFileId,
-                            reference = file.MetaDataFileReference,
-                            data = file.MetaDataFileData,
-                            path = file.MetaDataFilePath,
-                            name = file.MetaDataFileName,
-                            mimeType = file.MetaDataFileMimeType,
-                            extension = file.MetaDataFileExtension
-                        }
-                    };
-                    back.Add(itemFile);
-                }
                 else
                 {
                     string inputType = metadata.DataField.DataFieldType.DataFieldTypeId;
@@ -277,6 +244,8 @@ namespace TakeDocService.Document
                             if (value.ToString().ToUpper().Equals("FALSE")) value = false;
                             else value = true;
                         }
+                        else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))
+                            value = metadata.MetaDataBlob;
                     }
                     var itemSimple = new
                     {
@@ -290,6 +259,9 @@ namespace TakeDocService.Document
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId
                     };
+
+                    
+
                     back.Add(itemSimple);
                 }
             }
@@ -311,7 +283,9 @@ namespace TakeDocService.Document
             ro.Value = metadata.MetaDataValue;
             ro.Text = metadata.MetaDataText;
             ro.Type = metadata.DataField.DataFieldType.DataFieldInputType;
-            
+
+            if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))
+                ro.Value = metadata.MetaDataBlob;
             return ro;
         }
 

@@ -27,13 +27,6 @@
             <div ng-switch-when="barcode">
                 <textarea ng-disabled="mode == 'READ'" rows="5" class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
             </div>
-            <!--<div ng-switch-when="file" ng-readonly="mode == 'READ'">
-                <div class="metadata-item-filename">{{metadata.attributes.value}}</div>
-                <div ng-hide="metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doOpenDocument(metadata.attributes.id)" class="button button-small button-light ion-document"></div>
-                <div ng-hide="mode == 'READ' || metadata.attributes.value == '' || metadata.attributes.value == null" ng-click="doCancelDocument(metadata.attributes.id)" class="button button-small button-light ion-android-cancel" style="margin-left:10px;"></div>
-                <div ng-hide="mode == 'READ'" ng-click="doMetadataFileOnFocus(metadata.attributes.id)" class="button button-small button-light ion-search" style="margin-left:10px;"></div>
-            </div>-->
-
             <input ng-switch-when="date" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
             <input ng-switch-when="number" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
             <input ng-switch-default="" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
@@ -45,7 +38,7 @@
             </ion-toggle>
         </div>
         <div ng-if="metadata.attributes.htmlType == 'signature'">
-            <div ng-disabled="mode == 'READ'" class="form-input-field-signature" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
+            <div ng-disabled="mode == 'READ'" class="form-input-field-signature" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
        </div>
     </ion-item>
 </ion-list>

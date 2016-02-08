@@ -19,30 +19,6 @@
     }
 });
 
-var MetaDataFile = Backbone.Model.extend({
-    defaults: {
-        id: null,
-        reference: null,
-        name: null,
-        path: null,
-        data: null,
-        extension: null,
-        mimeType: null
-    },
-    parse: function () {
-        var current = arguments[0];
-        this.set("id", current.id);
-        this.set("reference", current.reference);
-        this.set("id", current.id);
-        this.set("name", current.name);
-        this.set("path", current.path);
-        this.set("data", current.data);
-        this.set("extension", current.extension);
-        this.set("mimeType", current.mimeType);
-        return this;
-    }
-});
-
 var MetaDataValues = Backbone.Collection.extend({
     model: MetaDataValue,
     parse: function () {
@@ -74,8 +50,7 @@ var MetaData = Backbone.Model.extend({
         autoCompleteTitle: null,
         autoCompletePlaceHolder: null,
         autoCompleteUrl: null,
-        autoCompleteReference: null,
-        file: null
+        autoCompleteReference: null
     },
     parse: function () {
         var current = arguments[0];
@@ -98,11 +73,6 @@ var MetaData = Backbone.Model.extend({
             var values = new MetaDataValues();
             values.parse(current.valueList);
             this.set("valueList", values);
-        }
-        if (current.file != null) {
-            var file = new MetaDataFile();
-            file.parse(current.file);
-            this.set("file", file);
         }
         return this;
     }
@@ -166,9 +136,6 @@ var MetaDatas = Backbone.Collection.extend({
     },
 
     update: function (ctx, onSucces, onError) {
-        var nbFile = this.where({ type: "file" }).length;
-        var count = 0;
-
         var that = this;
         var parameters = arguments;
         var fnSave = function (myModels, context) {
@@ -201,27 +168,8 @@ var MetaDatas = Backbone.Collection.extend({
                 if (model.get("value") == "Invalid date") model.set("value","");
                 else model.set("value", moment(model.get("value")).format("YYYY-MM-DD"));
             }
-            else if (model.get("type") == "file") {
-                var hasFile = model.get("file").get("path") != null && model.get("file").get("path") != "";
-                count++;
-                if (hasFile) {
-                    var currentModel = model;
-                    fileHelper.read(currentModel.get("file").get("path")).then(function (fileBin) {
-                        if (fileBin != null) {
-                            var metaFile = currentModel.get("file");
-                            metaFile.set("data", fileBin);
-                        }
-                        if (count == nbFile) fnSave(that.models, ctx);
-                    });
-                }
-                else {
-                    var metaFile = model.get("file");
-                    metaFile.set("data", null);
-                    if (count == nbFile) fnSave(that.models, ctx);
-                }
-            }
         });
-        if (nbFile == 0) fnSave(this.models, ctx);
+        fnSave(this.models, ctx);
     },
     load: function (param) {
         var url = (environnement.UrlBase + "metadata/version/<versionId/>/<entityId/>").replace("<versionId/>", param.versionId).replace("<entityId/>", param.entityId);
