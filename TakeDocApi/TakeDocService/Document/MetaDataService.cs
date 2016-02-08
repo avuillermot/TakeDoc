@@ -244,9 +244,10 @@ namespace TakeDocService.Document
                             if (value.ToString().ToUpper().Equals("FALSE")) value = false;
                             else value = true;
                         }
-                        else if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))
-                            value = metadata.MetaDataBlob;
                     }
+                    else if (string.IsNullOrEmpty(metadata.MetaDataBlob) == false)
+                        value = metadata.MetaDataBlob;
+                    
                     var itemSimple = new
                     {
                         id = metadata.MetaDataId,
@@ -259,9 +260,7 @@ namespace TakeDocService.Document
                         htmlType = metadata.HtmlType,
                         entityId = metadata.EntityId
                     };
-
                     
-
                     back.Add(itemSimple);
                 }
             }

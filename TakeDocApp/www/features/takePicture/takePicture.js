@@ -118,32 +118,41 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             if (!$scope.$$phase) $scope.$apply();
         }
         else {
-            var context = {
-                versionId: $scope.myDoc.document.get("versionId"),
-                userId: $rootScope.User.Id,
-                entityId: $scope.myDoc.document.get("entityId"),
-                startWorkflow: startWorkflow,
-                success: function () {
-                    $ionicLoading.hide();
-                    $location.path($scope.nextUrl.replace("#/", ""));
-                    if (!$scope.$$phase) $scope.$apply();
-                },
-                error: function (withMessage) {
-                    $ionicLoading.hide()
-                    if (!$scope.$$phase) $scope.$apply();
-                    if (withMessage == true || withMessage == null) $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
+            var fn = function () {
+                if (arguments[0] === "Ok") {
+                    var context = {
+                        versionId: $scope.myDoc.document.get("versionId"),
+                        userId: $rootScope.User.Id,
+                        entityId: $scope.myDoc.document.get("entityId"),
+                        startWorkflow: startWorkflow,
+                        success: function () {
+                            $ionicLoading.hide();
+                            $location.path($scope.nextUrl.replace("#/", ""));
+                            if (!$scope.$$phase) $scope.$apply();
+                        },
+                        error: function (withMessage) {
+                            $ionicLoading.hide()
+                            if (!$scope.$$phase) $scope.$apply();
+                            if (withMessage == true || withMessage == null) $rootScope.PopupHelper.show("Erreur", "Une erreur est survenue lors de l'enregistrement.");
+                        }
+                    };
+                    if ($scope.myDoc.pages.CountNotDeleted() == 0 && $scope.myDoc.document.get("pageNeed") == true) {
+                        $rootScope.PopupHelper.show("Erreur", "Une photographie est obligatoire.");
+                    }
+                    else {
+                        $ionicLoading.show({
+                            template: 'Enregistrement...'
+                        });
+
+                        $scope.myDoc.save(context);
+                    }
                 }
             };
-            if ($scope.myDoc.pages.CountNotDeleted() == 0 && $scope.myDoc.document.get("pageNeed") == true) {
-                $rootScope.PopupHelper.show("Erreur", "Une photographie est obligatoire.");
-            }
-            else {
-                $ionicLoading.show({
-                    template: 'Enregistrement...'
-                });
 
-                $scope.myDoc.save(context);
+            if (startWorkflow) {
+                $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
             }
+            else fn("Ok");
         }
     };
 

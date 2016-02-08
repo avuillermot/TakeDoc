@@ -35,7 +35,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         for (var i = 0; i < cloneData.length; i++) {
             var current = cloneData[i];
             var meta = $scope.metadatas.where({ id: current.id });
-            if (meta[0].get("value") != current.value) return true;
+            if (meta != null && meta[0] != null && meta[0].get("value") != current.value) return true;
         }
         return false;
     };
@@ -71,10 +71,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         $scope.currentAnswer = this.answer;
     };
 
-    var loadSignature = function () {
-        alert(2);
-        $(".form-input-field-signature").jSignature();
-    };
     var loadHistory = function () {
         var success = function () {
             $scope.historys = arguments[0];
@@ -86,7 +82,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 }
             }
             if (!$scope.$$phase) $scope.$apply();
-            $timeout(loadSignature, 2000);
         };
 
         var param = {

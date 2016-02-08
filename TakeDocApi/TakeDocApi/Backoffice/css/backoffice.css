@@ -296,10 +296,6 @@ form {
     cursor:pointer;
 }
 
-.form-input-field-signature {
-    height: 170px !important;
-}
-
 /* admin type document */
 .document-field-container, .manager-typedoc-container {
     margin: 0px !important;
