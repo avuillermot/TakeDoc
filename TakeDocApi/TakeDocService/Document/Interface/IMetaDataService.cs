@@ -17,7 +17,7 @@ namespace TakeDocService.Document.Interface
         /// <param name="required"></param>
         /// <returns></returns>
         bool BeProven(string typeName, string value, bool required);
-        void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, Newtonsoft.Json.Linq.JArray jsonMetaData);
+        void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, bool startWorkflow, Newtonsoft.Json.Linq.JArray jsonMetaData);
         ICollection<TakeDocModel.MetaData> GetByVersion(Guid versionId, Guid entityId);
         ICollection<object> GetJson(ICollection<TakeDocModel.MetaData> metadatas);
         ICollection<TakeDocModel.Dto.Document.ReadOnlyMetadata> GetReadOnlyMetaData(Guid versionId, Guid entityId);

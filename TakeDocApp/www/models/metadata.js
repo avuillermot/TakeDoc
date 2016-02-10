@@ -89,6 +89,7 @@ var MetaDatas = Backbone.Collection.extend({
             this.length = this.models.length;
         }
     },
+    pngEmptySignature: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACqCAYAAAAX43IEAAAFYklEQVR4Xu3VwW1bUQxFQbuyJN2oJHUTp7OohLuxiSOM1x9+xJA4+vzwR4AAgYjAZ2ROYxIgQOBDsBwBAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQEBCuzKoMSICBYboAAgYyAYGVWZVACBATLDRAgkBEQrMyqDEqAgGC5AQIEMgKClVmVQQkQECw3QIBARkCwMqsyKAECguUGCBDICAhWZlUGJUBAsNwAAQIZAcHKrMqgBAgIlhsgQCAjIFiZVRmUAAHBcgMECGQE3iZYj8fj70v9d0beoAR+TuDr+Xz++bnnvu+ldwrW14vp1/dR+c8EsgL/XsF6ix/ztwlW9pQMToDALCBYM5UPCRC4FhCs6w14nwCBWUCwZiofEiBwLSBY1xvwPgECs4BgzVQ+JEDgWkCwrjfgfQIEZgHBmql8SIDAtYBgXW/A+wQIzAKCNVP5kACBawHBut6A9wkQmAUEa6byIQEC1wKCdb0B7xMgMAsI1kzlQwIErgUE63oD3idAYBYQrJnKhwQIXAsI1vUGvE+AwCwgWDOVDwkQuBYQrOsNeJ8AgVlAsGYqHxIgcC0gWNcb8D4BArOAYM1UPiRA4FpAsK434H0CBGYBwZqpfEiAwLWAYF1vwPsECMwCgjVT+ZAAgWsBwbregPcJEJgFBGum8iEBAtcCgnW9Ae8TIDALCNZM5UMCBK4FBOt6A94nQGAWEKyZyocECFwLCNb1BrxPgMAs8B8hEgqrYoatoQAAAABJRU5ErkJggg==",
     check: function () {
         var retour = { message: "", valid: true };
 
@@ -104,15 +105,11 @@ var MetaDatas = Backbone.Collection.extend({
                 var values = current.get("valueList").where({ key: value });
                 if (values.length > 0) current.set("text", values[0].get("text"));
             }
-            else if (current.get("htmlType") == "signature") {
-                var value = $("#input-"+current.get("id")+"-"+current.get("name")).jSignature("getData", "default")
-                current.set("value", value);
-            }
             
             if (mandatory == true) {
                 var myValue = (current.get("type") != "date") ? current.get("value") : moment(current.get("value")).format("YYYY-MM-DD");
-
-                if (myValue == null || myValue == "") {
+                debugger;
+                if (myValue == null || myValue == "" || myValue == this.pngEmptySignature) {
                     nbError++;
                     retour.valid = false;
                     msg = msg + " - " + current.get("label");

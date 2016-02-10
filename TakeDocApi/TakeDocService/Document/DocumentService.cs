@@ -93,11 +93,21 @@ namespace TakeDocService.Document
             TakeDocModel.Document document = daoDocument.GetBy(x => x.DocumentCurrentVersionId == version.VersionId).First();
 
             if (jsonDocument != null && jsonDocument.Value<string>("label") != null) this.SetTitle(jsonDocument.Value<string>("label"), version.VersionId, user.UserTkId, entity.EntityId);
-            if (jsonMetadata != null) servMeta.SetMetaData(user.UserTkId, document, entity, jsonMetadata);
+            if (jsonMetadata != null) servMeta.SetMetaData(user.UserTkId, document, entity, startWorkflow, jsonMetadata);
 
-            // if there is exception, all metadata are ok -> so document is complete
-            if (jsonDocument != null) servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
-            if (startWorkflow) this.StartWorkflow(document, user, entity.EntityId, false);
+            bool ok = true;
+            try
+            {
+                ok = servMeta.BeProven(document, document.LastVersionMetadata);
+            }
+            catch (Exception ex) { ok = false; }
+            
+            if (jsonDocument != null && ok == true) servStatus.SetStatus(document, TakeDocModel.Status_Document.Complete, user.UserTkId, true);
+            if (startWorkflow)
+            {
+                if (ok == false) throw new Exception("MetaData non valide.");
+                this.StartWorkflow(document, user, entity.EntityId, false);
+            }
         }
 
         private void StartWorkflow(TakeDocModel.Document document, TakeDocModel.UserTk user, Guid entityId, bool checkValue)

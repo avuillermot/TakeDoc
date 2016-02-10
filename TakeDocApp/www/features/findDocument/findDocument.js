@@ -3,8 +3,7 @@ takeDoc.controller('findDocumentController', ['$scope', '$rootScope', '$location
 
     var mode = null;
     var extDocuments = null
-    var detailModal = new modalHelper($ionicModal, $scope, 'read-only-metadata');
-
+   
     var onSuccess = function (collection) {
         extDocuments = collection;
         $scope.documents = extDocuments.models;

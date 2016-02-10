@@ -268,7 +268,6 @@
     <Content Include="www\models\documentComplete.js" />
     <Content Include="www\models\dashboard.js" />
     <Content Include="www\models\metadata.js" />
-    <Content Include="www\models\documents.js" />
     <Content Include="www\models\entity.js" />
     <Content Include="www\models\page.js" />
     <Content Include="www\models\readOnlyMetadata.js" />

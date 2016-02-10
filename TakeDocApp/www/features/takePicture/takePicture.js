@@ -75,9 +75,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         takePictureGo();
     };
 
-    $scope.doResetSignature = function (id) {
-        alert(id);
-        var elem = $("#" + id);
+    $scope.doResetSignature = function (id, name) {
+        var elem = $("#input-" + id + "-" + name);
         elem.jSignature("reset");
     };
 
@@ -113,6 +112,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doSave = function (startWorkflow) {
+        var signatures = $scope.myDoc.getMetaDataByType("signature");
+        for (var current in signatures) {
+            var elem = $("#input-" + signatures[current].get("id") + "-" + signatures[current].get("name"));
+            signatures[current].set("value", elem.jSignature("getData","default"));
+        }
+
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
             if (!$scope.$$phase) $scope.$apply();

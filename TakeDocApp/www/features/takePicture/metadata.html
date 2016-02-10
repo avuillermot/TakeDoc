@@ -10,7 +10,7 @@
                 <div class="ion-close-circled" style="display:inline" ng-click="doResetBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
                 <div class="ion-ios-fastforward" style="display:inline;padding-left:20px" ng-click="doReadBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
                 
-                <div class="ion-close-circled" style="display:inline" ng-click="doResetSignature(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
+                <div class="ion-close-circled" style="display:inline" ng-click="doResetSignature(metadata.attributes.id,metadata.attributes.name)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
             </div>
         </div>
 

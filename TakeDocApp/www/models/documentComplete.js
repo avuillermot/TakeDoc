@@ -29,7 +29,12 @@
         this.pages.parse(arguments[0].Pages);
     },
     save: function (context) {
-        var result = this.metadatas.check();
+        var result = {
+            valid: (context.startWorkflow == false),
+            message: ""
+        };
+        if (context.startWorkflow == true) result = this.metadatas.check();
+
         if (result.valid) {
             var data = new Array();
             data.push(context);
@@ -56,27 +61,8 @@
             alert(result.message);
             context.error(false);
         }
-    }/*,
-    startWorkflow: function (context) {
-        var data = new Array();
-        data.push("");
-        data.push({ versionId: this.document.get("versionId") });
-        data.push("");
-        data.push("");
-
-        var json = JSON.stringify(data);
-
-        var url = environnement.UrlBase + "DocumentComplete/{{userId}}/{{entityId}}/{{startWorkflow}}"
-            .replace("{{startWorkflow}}", context.startWorkflow)
-            .replace("{{userId}}", context.userId)
-            .replace("{{entityId}}", this.document.get("entityId"));
-        $.ajax({
-            type: 'POST',
-            url: url,
-            data: { '': json },
-            success: context.success,
-            error: context.error,
-            beforeSend: requestHelper.beforeSend()
-        });
-    }*/
+    },
+    getMetaDataByType: function (typeRef) {
+        return this.metadatas.where({ type: typeRef });
+    }
 });

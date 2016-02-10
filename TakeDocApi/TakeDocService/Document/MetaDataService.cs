@@ -39,7 +39,7 @@ namespace TakeDocService.Document
             } 
         }
 
-        public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, Newtonsoft.Json.Linq.JArray jsonMetaData)
+        public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, bool startWorkflow, Newtonsoft.Json.Linq.JArray jsonMetaData)
         {
             ICollection<TakeDocModel.MetaData> metadatas = daoMetaData.GetBy(x => x.MetaDataVersionId == document.DocumentCurrentVersionId && x.EtatDeleteData == false && x.EntityId == document.EntityId);
             
@@ -57,9 +57,6 @@ namespace TakeDocService.Document
                     meta.MetaDataValue = null;
                 }
             }
-
-            bool ok = this.BeProven(document, metadatas);
-            if (ok == false) throw new Exception("MetaData non valide.");
 
             try
             {
