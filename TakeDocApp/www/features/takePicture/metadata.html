@@ -9,8 +9,8 @@
                 
                 <div class="ion-close-circled" style="display:inline" ng-click="doResetBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
                 <div class="ion-ios-fastforward" style="display:inline;padding-left:20px" ng-click="doReadBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
-                
-                <div class="ion-close-circled" style="display:inline" ng-click="doResetSignature(metadata.attributes.id,metadata.attributes.name)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
+
+                <div class="ion-checkmark-circled" style="display:inline" ng-click="doValidSignature(metadata.attributes.id,metadata.attributes.name)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
             </div>
         </div>
 
@@ -38,7 +38,10 @@
             </ion-toggle>
         </div>
         <div ng-if="metadata.attributes.htmlType == 'signature'">
-            <div ng-disabled="mode == 'READ'" class="form-input-field-signature" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
+            <div ng-if="metadata.attributes.value != '' && metadata.attributes.value != null" ng-click="doResetSignature(metadata.attributes.id,metadata.attributes.name)">
+                <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value}}" />
+            </div>
+            <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" class=" form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
        </div>
     </ion-item>
 </ion-list>

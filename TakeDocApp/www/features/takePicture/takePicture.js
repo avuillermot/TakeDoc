@@ -7,7 +7,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
         var f = function () {
-            $(".form-input-field-signature").jSignature();
+            var elems = $(".form-input-field-signature");
+            elems.jSignature();
         };
         $timeout(f, 1000);
     });
@@ -76,8 +77,25 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doResetSignature = function (id, name) {
-        var elem = $("#input-" + id + "-" + name);
-        elem.jSignature("reset");
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            if (!$scope.$$phase) $scope.$apply();
+            var f = function () {
+                var elem = $("#input-" + id + "-" + name);
+                elem.jSignature();
+            };
+            $timeout(f, 1000);
+        }
+    };
+
+    $scope.doValidSignature = function (id, name) {
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            var elem = $("#input-" + id + "-" + name);
+            current[0].set("value", elem.jSignature("getData", "default"));
+            if (!$scope.$$phase) $scope.$apply();
+        }
     };
 
     $scope.doResetBarCode = function (id) {
@@ -112,12 +130,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doSave = function (startWorkflow) {
-        var signatures = $scope.myDoc.getMetaDataByType("signature");
-        for (var current in signatures) {
-            var elem = $("#input-" + signatures[current].get("id") + "-" + signatures[current].get("name"));
-            signatures[current].set("value", elem.jSignature("getData","default"));
-        }
-
         if ($scope.mode == "READ") {
             $location.path($scope.nextUrl.replace("#/", ""));
             if (!$scope.$$phase) $scope.$apply();

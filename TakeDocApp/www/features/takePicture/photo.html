@@ -1,7 +1,7 @@
 ﻿<ion-list ng-show="loading == false">
     <ion-item ng-repeat="Page in myDoc.pages.models | filter: pageNotDeleted | orderBy:['attributes.pageNumber']" class="metadata-item-list">
         <div class="metadata-label" style="padding-left:2px">
-            <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate{{Page.attributes.rotation}}" data-ng-src="{{Page.attributes.base64Image}}" />
+            <img ng-click="enlarge('{{Page.attributes.id}}');" id="img-page-{{Page.attributes.id}}" class="takePictureThumbnail take-picture-rotate{{Page.attributes.rotation}}" data-ng-src="{{Page.attributes.base64Image}}" />{{Page.attributes.base64Image}}
             <div class="take-picture-page-number">&#160;Page&#160;{{Page.attributes.pageNumber}}</div>
         </div>
         <div style="display:inline-block">

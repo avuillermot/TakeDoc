@@ -10,8 +10,8 @@
         <div class="button-bar">
             <div go-back="true" message="Les données de ce document seront perdues."></div>
             <div class="button button-stable ion-camera" ng-click="takePicture()" ng-show="mode != 'READ'"></div>
-            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" go-click-class="ion-jet" valid-input="doSave(true)"></div>
             <div go-click="{{nextUrl}}" valid-input="doSave(false)"></div>
+            <div ng-show="mode != 'READ'" go-click="{{nextUrl}}" go-click-class="ion-jet" valid-input="doSave(true)"></div>
         </div>
     </ion-footer-bar>
 </ion-view>

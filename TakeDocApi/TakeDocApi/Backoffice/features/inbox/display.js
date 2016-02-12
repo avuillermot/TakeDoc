@@ -102,7 +102,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             $scope.pages = data.pages;
             $scope.historys = [];
             if (!$scope.$$phase) $scope.$apply(); 
-
             clone();
             loadHistory();
         };
