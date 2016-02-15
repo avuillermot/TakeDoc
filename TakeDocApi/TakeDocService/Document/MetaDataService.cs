@@ -278,10 +278,13 @@ namespace TakeDocService.Document
             ro.Label = metadata.DataField.DataFieldLabel;
             ro.Value = metadata.MetaDataValue;
             ro.Text = metadata.MetaDataText;
-            ro.Type = metadata.DataField.DataFieldType.DataFieldInputType;
+            ro.Type = (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))? "IMAGE" : metadata.DataField.DataFieldType.DataFieldInputType;
 
-            if (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))
+            if (ro.Type.ToUpper().Equals("IMAGE"))
+            {
                 ro.Value = metadata.MetaDataBlob;
+                ro.Text = metadata.MetaDataBlob;
+            }
             return ro;
         }
 

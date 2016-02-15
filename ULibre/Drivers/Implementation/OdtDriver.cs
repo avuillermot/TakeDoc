@@ -59,6 +59,45 @@ namespace ULibre.Drivers.Implementation
                 this.FillField(p.Name, p.GetValue(obj,null).ToString());
             }
         }
+
+        public void AddLineImage(string tableName, string title, string code, string base64)
+        {
+            XmlNamespaceManager ns = this.GetNamespaceManager(this._xmlContent);
+            XmlNode nodeTable = this.GetTable(tableName);
+            XmlNode lastRow = null;
+            foreach (XmlNode row in nodeTable.SelectNodes("table:table-row", ns))
+            {
+                lastRow = row;
+            }
+            lastRow = lastRow.CloneNode(true);
+            int index = 0;
+            foreach (XmlNode cell in lastRow.SelectNodes("table:table-cell", ns))
+            {
+                XmlNode txt = cell.SelectSingleNode("text:p", ns);
+                txt.RemoveAll();
+
+                ICollection<XmlNode> nodesInText = this.SplitLines(title);
+                if (index == 0 && nodesInText.Count() > 0)
+                {
+                    txt.AppendChild(nodesInText.First());
+                }
+                else if (index == 1)
+                {
+                    XmlNode nodeImage = _xmlContent.CreateElement("draw", "image", "draw"); //"//draw:frame[@draw:name='" + code + "']", ns);
+                    XmlAttribute att = _xmlContent.CreateAttribute("href", "xlink");
+                    att.Value = code;
+                    nodeImage.Attributes.Append(att);
+                    cell.AppendChild(nodeImage);
+
+                    byte[] data = Convert.FromBase64String(base64.Replace("data:image/png;base64,",string.Empty));
+                    MemoryStream ms = new MemoryStream(data);
+                    // remplacement de l'ancienne image
+                    zipManager.addZipEntry(this._officeDocument.FullName, code, ms);
+                }
+                index++;
+            }
+            nodeTable.AppendChild(lastRow);
+        }
         
         /// <summary>
         /// Ajout une ligne à un tableau avec les valeurs en parametres
@@ -167,6 +206,23 @@ namespace ULibre.Drivers.Implementation
             }
         }
 
+        /*private void AddImage(XmlNode nodeFrame, XmlNamespaceManager ns, string base64)
+        {
+            if (nodeFrame != null)
+            {
+                XmlNode nodeImage = nodeFrame.SelectSingleNode("draw:image", ns);
+                if (nodeImage != null)
+                {
+                    string odtImageName = nodeImage.Attributes["xlink:href"].Value;
+
+                    byte[] data = Convert.FromBase64String(base64);
+                    MemoryStream ms = new MemoryStream(data);
+                    // remplacement de l'ancienne image
+                    zipManager.addZipEntry(this._officeDocument.FullName, odtImageName, ms);
+                }
+            }
+        }*/
+
         private void FillImage(string imageName, FileInfo file)
         {
             // update document header
@@ -201,7 +257,7 @@ namespace ULibre.Drivers.Implementation
 
         /// <summary>
         /// Retourne une collection de noeud xml ou chaque noeud représente une ligne de la chaine en paramètre.
-        /// La scission est efectuée sur le motif \r\n
+        /// La scission est effectuée sur le motif \r\n
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>

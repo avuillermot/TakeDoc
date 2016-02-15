@@ -168,6 +168,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doSave = function (startWorkflow) {
+        debugger;
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {
@@ -205,17 +206,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
                 $rootScope.showLoader("Enregistrement....");
                 myDocComplete.save(context);
             }
-            if ($scope.hasChanged() == true && startWorkflow == true) {
-                var fn = function () {
-                    $rootScope.showLoader("Enregistrement....");
-                    myDocComplete.save(context);
-                };
-                $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
-            }
             else if (startWorkflow) {
                 var fn = function () {
                     $rootScope.showLoader("Enregistrement....");
-                    myDocComplete.startWorkflow(context);
+                    myDocComplete.save(context);
                 };
                 $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
             }

@@ -10,7 +10,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             var elems = $(".form-input-field-signature");
             elems.jSignature();
         };
-        $timeout(f, 1000);
+        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+        if (current.length > 0) $timeout(f, 3000);
     });
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
@@ -77,7 +78,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doResetSignature = function (id, name) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
         if (current.length > 0) {
             current[0].set("value", "");
             if (!$scope.$$phase) $scope.$apply();
@@ -85,7 +86,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 var elem = $("#input-" + id + "-" + name);
                 elem.jSignature();
             };
-            $timeout(f, 1000);
+            $timeout(f, 3000);
         }
     };
 

@@ -92,7 +92,8 @@ namespace TakeDocService.Print
                 ICollection<string> line = new List<string>();
                 line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
                 line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : servTraduction.Get("fr", ro.Text)));
-                model.AddLine("TabMetadata", line.ToArray<string>());
+                if (ro.Type.ToUpper().Equals("IMAGE")) model.AddLineImage("TabMetadata", ro.Label, ro.Name, ro.Value);
+                else model.AddLine("TabMetadata", line.ToArray<string>());
             }
             model.RemoveEmptyLine("TabMetadata");
 

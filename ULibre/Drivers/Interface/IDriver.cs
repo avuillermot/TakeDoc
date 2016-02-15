@@ -28,6 +28,12 @@ namespace ULibre.Drivers.Interface
         /// <param name="values"></param>
         void AddLine(string tableName, string[] values);
         /// <summary>
+        /// Ajout une ligne à un tableau avec les valeurs en parametres
+        /// </summary>
+        /// <param name="tableName"></param>
+        /// <param name="values"></param>
+        void AddLineImage(string tableName, string title, string code, string base64);
+        /// <summary>
         /// Retourne la valeur du champ
         /// </summary>
         /// <param name="fieldName"></param>
