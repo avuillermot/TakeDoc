@@ -142,8 +142,8 @@ namespace TakeDocService.Print
             }
             finally
             {
-                if (destinationOdt.Exists) destinationOdt.Delete();
-                if (destinationPdf.Exists) destinationPdf.Delete();
+                /*if (destinationOdt.Exists) destinationOdt.Delete();
+                if (destinationPdf.Exists) destinationPdf.Delete();*/
             }
             return data;
         }

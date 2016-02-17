@@ -83,16 +83,62 @@ namespace ULibre.Drivers.Implementation
                 }
                 else if (index == 1)
                 {
+                    
+                    /*
+                     * <draw:image d7p1:href="Pictures/SIGN_CLIENT.png" 
+                     * d7p2:href="simple" d7p3:href="onLoad" xmlns:d7p3="actuate" 
+                     * xmlns:d7p2="type" xmlns:d7p1="xlink" xmlns:draw="draw" />
+          </*/
+                    XmlNode nodeFrame = _xmlContent.CreateElement("draw", "frame", "draw");
+                    XmlAttribute attName = _xmlContent.CreateAttribute("draw", "name", "draw");
+                    attName.Value = code;
+                    nodeFrame.Attributes.Append(attName);
+
+                    XmlAttribute attStyle = _xmlContent.CreateAttribute("draw", "style-name", "draw");
+                    attStyle.Value = "fr1";
+                    nodeFrame.Attributes.Append(attStyle);
+
+                    XmlAttribute attAnchor = _xmlContent.CreateAttribute("text", "anchor-type", "draw");
+                    attAnchor.Value = "paragraph";
+                    nodeFrame.Attributes.Append(attAnchor);
+
+                    XmlAttribute attIndex = _xmlContent.CreateAttribute("text", "z-index", "draw");
+                    attIndex.Value = "1";
+                    nodeFrame.Attributes.Append(attIndex);
+
+                    XmlAttribute attHeight = _xmlContent.CreateAttribute("svg", "height", "draw");
+                    attHeight.Value = "1.852cm";
+                    nodeFrame.Attributes.Append(attHeight);
+
+                    XmlAttribute attWidth = _xmlContent.CreateAttribute("svg", "width", "draw");
+                    attIndex.Value = "3.627cm";
+                    nodeFrame.Attributes.Append(attIndex);
+
                     XmlNode nodeImage = _xmlContent.CreateElement("draw", "image", "draw"); //"//draw:frame[@draw:name='" + code + "']", ns);
-                    XmlAttribute att = _xmlContent.CreateAttribute("href", "xlink");
-                    att.Value = code;
-                    nodeImage.Attributes.Append(att);
-                    cell.AppendChild(nodeImage);
+                    
+                    XmlAttribute attHref = _xmlContent.CreateAttribute("xlink", "href","xlink");
+                    attHref.Value = string.Concat("Pictures/", code, ".png");
+                    nodeImage.Attributes.Append(attHref);
+
+                    XmlAttribute attType = _xmlContent.CreateAttribute("xlink", "type", "xlink");
+                    attType.Value = "simple";
+                    nodeImage.Attributes.Append(attType);
+
+                    XmlAttribute attShow = _xmlContent.CreateAttribute("xlink", "show", "xlink");
+                    attShow.Value = "embed";
+                    nodeImage.Attributes.Append(attShow);
+
+                    XmlAttribute attActuate = _xmlContent.CreateAttribute("xlink", "actuate", "xlink");
+                    attActuate.Value = "onLoad";
+                    nodeImage.Attributes.Append(attActuate);
+
+                    txt.AppendChild(nodeFrame);
+                    nodeFrame.AppendChild(nodeImage);
 
                     byte[] data = Convert.FromBase64String(base64.Replace("data:image/png;base64,",string.Empty));
                     MemoryStream ms = new MemoryStream(data);
                     // remplacement de l'ancienne image
-                    zipManager.addZipEntry(this._officeDocument.FullName, code, ms);
+                    zipManager.addZipEntry(this._officeDocument.FullName, string.Concat("Pictures/", code, ".png"), ms);
                 }
                 index++;
             }
