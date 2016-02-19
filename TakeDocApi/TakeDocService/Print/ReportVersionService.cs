@@ -79,6 +79,13 @@ namespace TakeDocService.Print
 
             ULibre.Drivers.Interface.IDriver model = new ULibre.Drivers.Implementation.OdtDriver();
             model.Open(destination.FullName);
+
+            foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
+            {
+                if (ro.Type.ToUpper().Equals("IMAGE") == true) model.FillImageBase64(ro.Name,ro.Value);
+                else model.FillField(ro.Name, ro.Label);
+            }
+
             ICollection<string> title = new List<string>();
             title.Add("Titre");
             title.Add(version.Document.DocumentLabel);
@@ -92,8 +99,8 @@ namespace TakeDocService.Print
                 ICollection<string> line = new List<string>();
                 line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
                 line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : servTraduction.Get("fr", ro.Text)));
-                if (ro.Type.ToUpper().Equals("IMAGE")) model.AddLineImage("TabMetadata", ro.Label, ro.Name, ro.Value);
-                else model.AddLine("TabMetadata", line.ToArray<string>());
+                if (ro.Type.ToUpper().Equals("IMAGE") == false)
+                    model.AddLine("TabMetadata", line.ToArray<string>());
             }
             model.RemoveEmptyLine("TabMetadata");
 

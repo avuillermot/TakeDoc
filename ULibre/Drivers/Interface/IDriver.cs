@@ -22,17 +22,17 @@ namespace ULibre.Drivers.Interface
         /// <param name="value">chemin d'accès complet ou paramètre ImagesDirectory(appSettings) plus la valeur en paramètre</param>
         void FillImage(string fieldName, string value);
         /// <summary>
-        /// Ajout une ligne à un tableau avec les valeurs en parametres
+        /// Rempli le champ avec une image
         /// </summary>
-        /// <param name="tableName"></param>
-        /// <param name="values"></param>
-        void AddLine(string tableName, string[] values);
+        /// <param name="fieldName"></param>
+        /// <param name="value">image format base 64</param>
+        void FillImageBase64(string fieldName, string base64);
         /// <summary>
         /// Ajout une ligne à un tableau avec les valeurs en parametres
         /// </summary>
         /// <param name="tableName"></param>
         /// <param name="values"></param>
-        void AddLineImage(string tableName, string title, string code, string base64);
+        void AddLine(string tableName, string[] values);
         /// <summary>
         /// Retourne la valeur du champ
         /// </summary>

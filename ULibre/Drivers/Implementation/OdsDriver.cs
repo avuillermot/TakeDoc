@@ -41,8 +41,6 @@ namespace ULibre.Drivers.Implementation
         public void AddLine(string tableName, string[] values) { this.ExceptionImplementation(); }
         public string GetFieldValue(string fieldName) { this.ExceptionImplementation(); return string.Empty; }
         public void RemoveEmptyLine(string tableName) { this.ExceptionImplementation(); }
-        public void AddLineImage(string tableName, string title, string code, string base64) { this.ExceptionImplementation(); }
-
- 
+        public void FillImageBase64(string fieldName, string base64) { this.ExceptionImplementation(); }
     }
 }

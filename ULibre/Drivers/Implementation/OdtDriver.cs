@@ -59,92 +59,7 @@ namespace ULibre.Drivers.Implementation
                 this.FillField(p.Name, p.GetValue(obj,null).ToString());
             }
         }
-
-        public void AddLineImage(string tableName, string title, string code, string base64)
-        {
-            XmlNamespaceManager ns = this.GetNamespaceManager(this._xmlContent);
-            XmlNode nodeTable = this.GetTable(tableName);
-            XmlNode lastRow = null;
-            foreach (XmlNode row in nodeTable.SelectNodes("table:table-row", ns))
-            {
-                lastRow = row;
-            }
-            lastRow = lastRow.CloneNode(true);
-            int index = 0;
-            foreach (XmlNode cell in lastRow.SelectNodes("table:table-cell", ns))
-            {
-                XmlNode txt = cell.SelectSingleNode("text:p", ns);
-                txt.RemoveAll();
-
-                ICollection<XmlNode> nodesInText = this.SplitLines(title);
-                if (index == 0 && nodesInText.Count() > 0)
-                {
-                    txt.AppendChild(nodesInText.First());
-                }
-                else if (index == 1)
-                {
-                    
-                    /*
-                     * <draw:image d7p1:href="Pictures/SIGN_CLIENT.png" 
-                     * d7p2:href="simple" d7p3:href="onLoad" xmlns:d7p3="actuate" 
-                     * xmlns:d7p2="type" xmlns:d7p1="xlink" xmlns:draw="draw" />
-          </*/
-                    XmlNode nodeFrame = _xmlContent.CreateElement("draw", "frame", "draw");
-                    XmlAttribute attName = _xmlContent.CreateAttribute("draw", "name", "draw");
-                    attName.Value = code;
-                    nodeFrame.Attributes.Append(attName);
-
-                    XmlAttribute attStyle = _xmlContent.CreateAttribute("draw", "style-name", "draw");
-                    attStyle.Value = "fr1";
-                    nodeFrame.Attributes.Append(attStyle);
-
-                    XmlAttribute attAnchor = _xmlContent.CreateAttribute("text", "anchor-type", "draw");
-                    attAnchor.Value = "paragraph";
-                    nodeFrame.Attributes.Append(attAnchor);
-
-                    XmlAttribute attIndex = _xmlContent.CreateAttribute("text", "z-index", "draw");
-                    attIndex.Value = "1";
-                    nodeFrame.Attributes.Append(attIndex);
-
-                    XmlAttribute attHeight = _xmlContent.CreateAttribute("svg", "height", "draw");
-                    attHeight.Value = "1.852cm";
-                    nodeFrame.Attributes.Append(attHeight);
-
-                    XmlAttribute attWidth = _xmlContent.CreateAttribute("svg", "width", "draw");
-                    attIndex.Value = "3.627cm";
-                    nodeFrame.Attributes.Append(attIndex);
-
-                    XmlNode nodeImage = _xmlContent.CreateElement("draw", "image", "draw"); //"//draw:frame[@draw:name='" + code + "']", ns);
-                    
-                    XmlAttribute attHref = _xmlContent.CreateAttribute("xlink", "href","xlink");
-                    attHref.Value = string.Concat("Pictures/", code, ".png");
-                    nodeImage.Attributes.Append(attHref);
-
-                    XmlAttribute attType = _xmlContent.CreateAttribute("xlink", "type", "xlink");
-                    attType.Value = "simple";
-                    nodeImage.Attributes.Append(attType);
-
-                    XmlAttribute attShow = _xmlContent.CreateAttribute("xlink", "show", "xlink");
-                    attShow.Value = "embed";
-                    nodeImage.Attributes.Append(attShow);
-
-                    XmlAttribute attActuate = _xmlContent.CreateAttribute("xlink", "actuate", "xlink");
-                    attActuate.Value = "onLoad";
-                    nodeImage.Attributes.Append(attActuate);
-
-                    txt.AppendChild(nodeFrame);
-                    nodeFrame.AppendChild(nodeImage);
-
-                    byte[] data = Convert.FromBase64String(base64.Replace("data:image/png;base64,",string.Empty));
-                    MemoryStream ms = new MemoryStream(data);
-                    // remplacement de l'ancienne image
-                    zipManager.addZipEntry(this._officeDocument.FullName, string.Concat("Pictures/", code, ".png"), ms);
-                }
-                index++;
-            }
-            nodeTable.AppendChild(lastRow);
-        }
-        
+                        
         /// <summary>
         /// Ajout une ligne à un tableau avec les valeurs en parametres
         /// </summary>
@@ -154,33 +69,36 @@ namespace ULibre.Drivers.Implementation
         {
             XmlNamespaceManager ns = this.GetNamespaceManager(this._xmlContent);
             XmlNode nodeTable = this.GetTable(tableName);
-            XmlNode lastRow = null;
-            foreach (XmlNode row in nodeTable.SelectNodes("table:table-row",ns))
+            if (nodeTable != null)
             {
-                lastRow = row;
-            }
-            lastRow = lastRow.CloneNode(true);
-            int index = 0;
-            foreach (XmlNode cell in lastRow.SelectNodes("table:table-cell",ns)) 
-            {
-                if (values.Length > index)
+                XmlNode lastRow = null;
+                foreach (XmlNode row in nodeTable.SelectNodes("table:table-row", ns))
                 {
-                    XmlNode txt = cell.SelectSingleNode("text:p", ns);
-                    txt.RemoveAll();
-                    ICollection<XmlNode> nodesInText = this.SplitLines(values[index]);
-                    foreach (XmlNode nodeText in nodesInText)
+                    lastRow = row;
+                }
+                lastRow = lastRow.CloneNode(true);
+                int index = 0;
+                foreach (XmlNode cell in lastRow.SelectNodes("table:table-cell", ns))
+                {
+                    if (values.Length > index)
                     {
-                        txt.AppendChild(nodeText);
-                        if (nodesInText.Count > 1)
+                        XmlNode txt = cell.SelectSingleNode("text:p", ns);
+                        txt.RemoveAll();
+                        ICollection<XmlNode> nodesInText = this.SplitLines(values[index]);
+                        foreach (XmlNode nodeText in nodesInText)
                         {
-                            XmlNode br = this._xmlContent.CreateElement("text", "line-break", "text");
-                            txt.AppendChild(br);
+                            txt.AppendChild(nodeText);
+                            if (nodesInText.Count > 1)
+                            {
+                                XmlNode br = this._xmlContent.CreateElement("text", "line-break", "text");
+                                txt.AppendChild(br);
+                            }
                         }
                     }
+                    index++;
                 }
-                index++;
+                nodeTable.AppendChild(lastRow);
             }
-            nodeTable.AppendChild(lastRow);
         }
 
         public void RemoveEmptyLine(string tableName)
@@ -226,6 +144,23 @@ namespace ULibre.Drivers.Implementation
             this.FillImage(imageName, file);
         }
 
+        public void FillImageBase64(string fieldName, string base64) {
+
+            string imgName = string.Empty;
+
+            XmlNamespaceManager ns = this.GetNamespaceManager(_xmlContent);
+            XmlNode nodeFrame = _xmlContent.SelectSingleNode("//draw:frame[@draw:name='" + fieldName + "']", ns);
+            if (nodeFrame != null)
+            {
+                XmlNode nodeImage = nodeFrame.SelectSingleNode("draw:image", ns);
+                if (nodeImage != null) imgName = nodeImage.Attributes["xlink:href"].Value;
+            }
+
+            byte[] data = Convert.FromBase64String(base64.Replace("data:image/png;base64,", string.Empty));
+            MemoryStream ms = new MemoryStream(data);
+            zipManager.addZipEntry(this._officeDocument.FullName, imgName, ms);
+        }
+
         public void AddInsertionMenuItem(string menuContainer, string newItemName, string value)
         {
             this.AddModule("ModuleFiducialOdt.xml","Odt");
@@ -251,23 +186,6 @@ namespace ULibre.Drivers.Implementation
                 }
             }
         }
-
-        /*private void AddImage(XmlNode nodeFrame, XmlNamespaceManager ns, string base64)
-        {
-            if (nodeFrame != null)
-            {
-                XmlNode nodeImage = nodeFrame.SelectSingleNode("draw:image", ns);
-                if (nodeImage != null)
-                {
-                    string odtImageName = nodeImage.Attributes["xlink:href"].Value;
-
-                    byte[] data = Convert.FromBase64String(base64);
-                    MemoryStream ms = new MemoryStream(data);
-                    // remplacement de l'ancienne image
-                    zipManager.addZipEntry(this._officeDocument.FullName, odtImageName, ms);
-                }
-            }
-        }*/
 
         private void FillImage(string imageName, FileInfo file)
         {
