@@ -28,6 +28,12 @@ namespace ULibre.Drivers.Interface
         /// <param name="value">image format base 64</param>
         void FillImageBase64(string fieldName, string base64);
         /// <summary>
+        /// Inique si l'objet existe dans le document
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        bool Exists(string name);
+        /// <summary>
         /// Ajout une ligne à un tableau avec les valeurs en parametres
         /// </summary>
         /// <param name="tableName"></param>

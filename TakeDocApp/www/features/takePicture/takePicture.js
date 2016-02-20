@@ -11,8 +11,30 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             elems.jSignature();
         };
         var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-        if (current.length > 0) $timeout(f, 3000);
+        if (current.length > 0) $timeout(f, 500);
     });
+
+    $scope.doResetSignature = function (id, name) {
+        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            if (!$scope.$$phase) $scope.$apply();
+            var f = function () {
+                var elem = $("#input-" + id + "-" + name);
+                elem.jSignature();
+            };
+            $timeout(f, 500);
+        }
+    };
+
+    $scope.doValidSignature = function (id, name) {
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            var elem = $("#input-" + id + "-" + name);
+            current[0].set("value", elem.jSignature("getData", "default"));
+            if (!$scope.$$phase) $scope.$apply();
+        }
+    };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.mode = states.stateParams.mode;
@@ -75,28 +97,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.takePicture = function () {
         takePictureGo();
-    };
-
-    $scope.doResetSignature = function (id, name) {
-        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-        if (current.length > 0) {
-            current[0].set("value", "");
-            if (!$scope.$$phase) $scope.$apply();
-            var f = function () {
-                var elem = $("#input-" + id + "-" + name);
-                elem.jSignature();
-            };
-            $timeout(f, 3000);
-        }
-    };
-
-    $scope.doValidSignature = function (id, name) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
-        if (current.length > 0) {
-            var elem = $("#input-" + id + "-" + name);
-            current[0].set("value", elem.jSignature("getData", "default"));
-            if (!$scope.$$phase) $scope.$apply();
-        }
     };
 
     $scope.doResetBarCode = function (id) {

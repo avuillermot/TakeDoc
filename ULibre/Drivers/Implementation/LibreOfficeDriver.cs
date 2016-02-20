@@ -317,5 +317,13 @@ namespace ULibre.Drivers.Implementation
         {
             throw new Exception("Cette fonction/propriété n'est pas implémentée.");
         }
+
+
+        public bool Exists(string name)
+        {
+            XmlNamespaceManager ns = this.GetNamespaceManager(this._xmlContent);
+            XmlNode node = _xmlContent.SelectSingleNode("//table:table[@table:name='" + name + "']", ns);
+            return node != null;
+        }
     }
 }

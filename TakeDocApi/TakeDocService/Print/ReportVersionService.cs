@@ -89,20 +89,23 @@ namespace TakeDocService.Print
             ICollection<string> title = new List<string>();
             title.Add("Titre");
             title.Add(version.Document.DocumentLabel);
-            model.AddLine("TabMetadata", title.ToArray<string>());
-            ICollection<string> reference = new List<string>();
-            reference.Add("Référence doc.");
-            reference.Add(version.Document.DocumentReference);
-            model.AddLine("TabMetadata", reference.ToArray<string>());
-            foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
+            if (model.Exists("TabMetadata"))
             {
-                ICollection<string> line = new List<string>();
-                line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
-                line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : servTraduction.Get("fr", ro.Text)));
-                if (ro.Type.ToUpper().Equals("IMAGE") == false)
-                    model.AddLine("TabMetadata", line.ToArray<string>());
+                model.AddLine("TabMetadata", title.ToArray<string>());
+                ICollection<string> reference = new List<string>();
+                reference.Add("Référence doc.");
+                reference.Add(version.Document.DocumentReference);
+                model.AddLine("TabMetadata", reference.ToArray<string>());
+                foreach (TakeDocModel.Dto.Document.ReadOnlyMetadata ro in roMetaDatas.OrderBy(x => x.DisplayIndex))
+                {
+                    ICollection<string> line = new List<string>();
+                    line.Add((string.IsNullOrEmpty(ro.Label) ? string.Empty : ro.Label));
+                    line.Add((string.IsNullOrEmpty(ro.Text) ? string.Empty : servTraduction.Get("fr", ro.Text)));
+                    if (ro.Type.ToUpper().Equals("IMAGE") == false)
+                        model.AddLine("TabMetadata", line.ToArray<string>());
+                }
+                model.RemoveEmptyLine("TabMetadata");
             }
-            model.RemoveEmptyLine("TabMetadata");
 
             FileInfo logo = new FileInfo(string.Concat(directoryEntity,@"\images\Logo.png"));
             if (logo.Exists) model.FillImage("Logo", logo.FullName);
@@ -149,8 +152,8 @@ namespace TakeDocService.Print
             }
             finally
             {
-                /*if (destinationOdt.Exists) destinationOdt.Delete();
-                if (destinationPdf.Exists) destinationPdf.Delete();*/
+                if (destinationOdt.Exists) destinationOdt.Delete();
+                if (destinationPdf.Exists) destinationPdf.Delete();
             }
             return data;
         }
