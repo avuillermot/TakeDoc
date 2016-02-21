@@ -32,6 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="www\css\literallycanvas.css" />
     <Content Include="www\features\autocomplete\autocomplete.html" />
     <Content Include="www\features\autocomplete\autocomplete.js" />
     <Content Include="www\features\findDocument\findDocument.js" />
@@ -47,6 +48,8 @@
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
     <Content Include="www\features\takePicture\metadata.js" />
+    <Content Include="www\features\takePicture\map.html" />
+    <Content Include="www\features\takePicture\drawMap.js" />
     <Content Include="www\features\takePicture\photo.html" />
     <Content Include="www\features\takePicture\metadata.html" />
     <Content Include="www\features\takePicture\photo.js" />
@@ -176,6 +179,7 @@
     <Content Include="www\lib\ionic\release\js\ionic.min.js" />
     <Content Include="www\lib\jquery.cookie.js" />
     <Content Include="www\lib\jSignature.min.noconflict.js" />
+    <Content Include="www\lib\literallycanvas.min.js" />
     <Content Include="www\lib\moment\locale\af.js" />
     <Content Include="www\lib\moment\locale\ar-ma.js" />
     <Content Include="www\lib\moment\locale\ar-sa.js" />
@@ -264,6 +268,7 @@
     <Content Include="www\lib\moment\min\moment-with-locales.min.js" />
     <Content Include="www\lib\moment\min\moment.min.js" />
     <Content Include="www\lib\moment\moment.js" />
+    <Content Include="www\lib\react-with-addons.js" />
     <Content Include="www\lib\underscore-min.js" />
     <Content Include="www\models\documentComplete.js" />
     <Content Include="www\models\dashboard.js" />

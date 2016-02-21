@@ -1,5 +1,5 @@
 ﻿'use strict';
-takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', function ($scope, $rootScope, $location) {
+takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', '$interval', function ($scope, $rootScope, $location, $interval) {
 
     $scope.items = [
         { title: 'Nouveau', id: 1, scenario: "addDocument", url: null, cssClassName: "ion-plus-circled" },
@@ -27,28 +27,31 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', funct
     };
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        
-        var success = function () {
-            $rootScope.Dashboards = arguments[0];
+        var fnCount = function () {
+            var success = function () {
+                $rootScope.Dashboards = arguments[0];
 
-            var count = $rootScope.Dashboards.countStatus("INCOMPLETE") + $rootScope.Dashboards.countStatus("CREATE");
-            angular.element("#span-INCOMPLETE").html("(" + count + ")");
+                var count = $rootScope.Dashboards.countStatus("INCOMPLETE") + $rootScope.Dashboards.countStatus("CREATE");
+                angular.element("#span-INCOMPLETE").html("(" + count + ")");
 
-            count = $rootScope.Dashboards.countStatus("COMPLETE");
-            angular.element("#span-COMPLETE").html("(" + count + ")");
+                count = $rootScope.Dashboards.countStatus("COMPLETE");
+                angular.element("#span-COMPLETE").html("(" + count + ")");
 
-            count = $rootScope.Dashboards.countStatus("TO_VALIDATE");
-            angular.element("#span-TO_VALIDATE").html("(" + count + ")");
+                count = $rootScope.Dashboards.countStatus("TO_VALIDATE");
+                angular.element("#span-TO_VALIDATE").html("(" + count + ")");
 
-            count = $rootScope.Dashboards.countStatus("APPROVE");
-            angular.element("#span-APPROVE").html("(" + count + ")");
+                count = $rootScope.Dashboards.countStatus("APPROVE");
+                angular.element("#span-APPROVE").html("(" + count + ")");
 
-            count = $rootScope.Dashboards.countStatus("REFUSE");
-            angular.element("#span-REFUSE").html("(" + count + ")");
-          };
-        var error = function () {
+                count = $rootScope.Dashboards.countStatus("REFUSE");
+                angular.element("#span-REFUSE").html("(" + count + ")");
+            };
+            var error = function () {
 
+            };
+            $rootScope.Dashboards.load($rootScope.User.Id, success, error);
         };
-        $rootScope.Dashboards.load($rootScope.User.Id, success, error);
+
+        $interval(fnCount,60000);
     });
 }]);

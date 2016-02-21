@@ -5,40 +5,35 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
-    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
-        var f = function () {
-            var elems = $(".form-input-field-signature");
-            elems.jSignature();
-        };
-        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-        if (current.length > 0) $timeout(f, 500);
-    });
+    $scope.onActivePane = function (paneName) {
+        $scope.ActivePane = paneName;
+        if ($scope.ActivePane == 'MAP') {
+            var MyTool = function(lc) {  // take lc as constructor arg
+                return {
+                    name: 'MyTool',
+                    iconName: 'line',
+                    strokeWidth: lc.opts.defaultStrokeWidth,
+                    optionsStyle: 'stroke-width'
 
-    $scope.doResetSignature = function (id, name) {
-        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-        if (current.length > 0) {
-            current[0].set("value", "");
-            if (!$scope.$$phase) $scope.$apply();
-            var f = function () {
-                var elem = $("#input-" + id + "-" + name);
-                elem.jSignature();
+                };
             };
-            $timeout(f, 500);
-        }
-    };
-
-    $scope.doValidSignature = function (id, name) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
-        if (current.length > 0) {
-            var elem = $("#input-" + id + "-" + name);
-            current[0].set("value", elem.jSignature("getData", "default"));
-            if (!$scope.$$phase) $scope.$apply();
+            var fn = function () {
+                LC.init(
+                    $('.literally').get(0),
+                    { 
+                        imageURLPrefix: 'img',
+                        tools: LC.defaultTools.concat([MyTool])
+                    }
+                );
+            };
+            $timeout(fn, 2000);
         }
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "BACK");
+        $scope.ActivePane = 'METADATA';
         var success = function () {
              var imageToBase64 = function (url, number) {
                 var img = new Image();
@@ -86,6 +81,17 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         if (!$scope.$$phase) $scope.$apply();
     };
 
+    $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+        var f = function () {
+            var elems = $(".form-input-field-signature");
+            elems.jSignature();
+        };
+        if ($scope.myDoc.metadatas != null) {
+            var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+            if (current.length > 0) $timeout(f, 3500);
+        }
+    });
+
     $scope.doResetAutocomplete = function (id) {
         var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
         if (current.length > 0) {
@@ -97,6 +103,28 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.takePicture = function () {
         takePictureGo();
+    };
+
+    $scope.doResetSignature = function (id, name) {
+        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+        if (current.length > 0) {
+            current[0].set("value", "");
+            if (!$scope.$$phase) $scope.$apply();
+            var f = function () {
+                var elem = $("#input-" + id + "-" + name);
+                elem.jSignature();
+            };
+            $timeout(f, 500);
+        }
+    };
+
+    $scope.doValidSignature = function (id, name) {
+        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        if (current.length > 0) {
+            var elem = $("#input-" + id + "-" + name);
+            current[0].set("value", elem.jSignature("getData", "default"));
+            if (!$scope.$$phase) $scope.$apply();
+        }
     };
 
     $scope.doResetBarCode = function (id) {
@@ -210,10 +238,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	    catch (ex) {
 	        $rootScope.PopupHelper.show("Camera", ex.message);
 	    }
+	    $scope.ActivePane = 'PHOTO';
 	    if (!$scope.$$phase) $scope.$apply();
 	};
 
 	var takePictureOnFail = function () {
+	    $scope.ActivePane = 'PHOTO';
 	    if (!$scope.$$phase) $scope.$apply();
 	};
 
@@ -234,5 +264,30 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	    catch (ex) {
 	        $rootScope.PopupHelper.show("Camera", ex.message);
 	    }
-	}
+	};
+
+	$scope.onDrawItem = function () {
+	    drawMap.canvas = $("#myMap")[0];
+	    drawMap.drawRect();
+	};
+
+	var points = [];
+	$scope.setPoint = function (e) {
+	    var c = {
+	        x: e.offsetX,
+            y: e.offsetY
+	    };
+	    points.push(c);
+
+	    if (points.length == 2) {
+	        debugger;
+	        drawMap.canvas = $("#myMap")[0];
+	        drawMap.drawLine(points);
+	    }
+
+	};
+
+	$scope.onMooseCanvas = function (e) {
+	    //debugger;
+	};
 }]);
