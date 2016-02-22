@@ -51,7 +51,7 @@ takeDoc.controller('menuController', ['$scope', '$rootScope', '$location', '$int
             };
             $rootScope.Dashboards.load($rootScope.User.Id, success, error);
         };
-
+        fnCount();
         $interval(fnCount,60000);
     });
 }]);

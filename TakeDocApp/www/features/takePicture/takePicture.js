@@ -8,23 +8,84 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     $scope.onActivePane = function (paneName) {
         $scope.ActivePane = paneName;
         if ($scope.ActivePane == 'MAP') {
-            var MyTool = function(lc) {  // take lc as constructor arg
-                return {
-                    name: 'MyTool',
-                    iconName: 'line',
-                    strokeWidth: lc.opts.defaultStrokeWidth,
-                    optionsStyle: 'stroke-width'
 
-                };
-            };
-            var fn = function () {
-                LC.init(
-                    $('.literally').get(0),
-                    { 
-                        imageURLPrefix: 'img',
-                        tools: LC.defaultTools.concat([MyTool])
+            var chambre = function (lc) {  // take lc as constructor arg
+
+                var self = this;
+                //self.drawing = 0;
+
+                return {
+                    usesSimpleAPI: false,  // DO NOT FORGET THIS!!!
+                    name: 'Chambre',
+                    iconName: 'rectangle',
+                    strokeWidth: lc.opts.defaultStrokeWidth,
+                    optionsStyle: 'stroke-width',
+
+                    didBecomeActive: function (lc) {
+
+                        var onPointerDown = function (pt) {
+                            self.currentShape = window.LC.createShape('Rectangle',
+                                {
+                                    x: pt.x, y: pt.y,
+                                    strokeWidth: self.strokeWidth, color: 'blue'
+                                }
+                            );
+                            lc.setShapesInProgress([self.currentShape]);
+                            lc.repaintLayer('main');
+                        };
+
+                        var onPointerDrag = function (pt) {
+                            console.log("Mouse moved to", pt);
+                            self.currentShape.width = pt.x - self.currentShape.x;
+                            self.currentShape.height = pt.y - self.currentShape.y;
+                            lc.drawShapeInProgress(self.currentShape);
+                        };
+
+                        var onPointerUp = function (pt) {
+                            console.log("save shape");
+                            lc.saveShape(self.currentShape);
+                            lc.setShapesInProgress([]);
+                            var t = lc.getSnapshot();
+                        };
+
+                        var onPointerMove = function (pt) {
+
+                        };
+
+                        // lc.on() returns a function that unsubscribes us. capture it.
+                        self.unsubscribeFuncs = [
+                            lc.on('lc-pointerdown', onPointerDown),
+                            lc.on('lc-pointerdrag', onPointerDrag),
+                            lc.on('lc-pointerup', onPointerUp),
+                            lc.on('lc-pointermove', onPointerMove),
+                        ];
+                    },
+
+                    willBecomeInactive: function (lc) {
+                        // call all the unsubscribe functions
+                        self.unsubscribeFuncs.map(function (f) { f() });
                     }
-                );
+                }
+            };
+ 
+            var fn = function () {
+                var img = (environnement.isApp == false) ? 'img' : '../img';
+               try {
+                    window.LC.init(
+                        $('#literally').get(0),
+                        { 
+                            imageURLPrefix: 'img',
+                            tools: [chambre]
+                        }
+                    );
+                }
+                catch (ex) {
+                    alert(ex.description);
+                    alert(ex.message);
+                    /*for (var i in ex) {
+                        alert(ex[i]);
+                    }*/
+                }
             };
             $timeout(fn, 2000);
         }
@@ -265,29 +326,5 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 	        $rootScope.PopupHelper.show("Camera", ex.message);
 	    }
 	};
-
-	$scope.onDrawItem = function () {
-	    drawMap.canvas = $("#myMap")[0];
-	    drawMap.drawRect();
-	};
-
-	var points = [];
-	$scope.setPoint = function (e) {
-	    var c = {
-	        x: e.offsetX,
-            y: e.offsetY
-	    };
-	    points.push(c);
-
-	    if (points.length == 2) {
-	        debugger;
-	        drawMap.canvas = $("#myMap")[0];
-	        drawMap.drawLine(points);
-	    }
-
-	};
-
-	$scope.onMooseCanvas = function (e) {
-	    //debugger;
-	};
+    	
 }]);
