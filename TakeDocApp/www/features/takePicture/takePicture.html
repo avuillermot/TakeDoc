@@ -4,7 +4,7 @@
             <div ng-show="loading == true" class="waitMessage">&#160;&#160;Chargement en cours.....</div>
             <div class="button button-small button-royal ion-navicon-round" ng-show="loading == false" style="width:25%" ng-click="onActivePane('METADATA');"></div>
             <div class="button button-small button-royal ion-image" ng-show="loading == false" style="width:25%" ng-click="onActivePane('PHOTO');"></div>
-            <div class="button button-small button-royal ion-map" ng-show="loading == false" style="width:25%" ng-click="onActivePane('MAP');"></div>
+            <div class="button button-small button-royal ion-map" ng-show="loading == false && hasMap == true" style="width:25%" ng-click="onActivePane('MAP');"></div>
 
             <div style="display:block" ng-show="ActivePane == 'METADATA'" ng-include="'features/takePicture/metadata.html'"></div>
             <div style="display:block" ng-show="ActivePane == 'PHOTO'" ng-include="'features/takePicture/photo.html'"></div>

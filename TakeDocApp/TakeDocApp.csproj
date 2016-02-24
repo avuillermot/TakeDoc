@@ -47,7 +47,6 @@
     <Content Include="www\features\profil\profil.js" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
-    <Content Include="www\features\takePicture\metadata.js" />
     <Content Include="www\features\takePicture\map.html" />
     <Content Include="www\features\takePicture\drawMap.js" />
     <Content Include="www\features\takePicture\photo.html" />
@@ -77,6 +76,7 @@
     <Content Include="www\img\mandatory.png" />
     <Content Include="www\img\map\background.png" />
     <Content Include="www\img\map\baignoire.png" />
+    <Content Include="www\img\map\bed.png" />
     <Content Include="www\img\map\checkerboard-8x8.png" />
     <Content Include="www\img\map\dashed-line.png" />
     <Content Include="www\img\map\ellipse.png" />

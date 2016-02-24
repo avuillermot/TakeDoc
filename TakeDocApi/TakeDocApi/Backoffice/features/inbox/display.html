@@ -60,7 +60,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="detail">
                         <form class="form-horizontal" style="padding-left:15px;">
-                            <div ng-repeat="metadata in metadatas.models | orderBy:['attributes.index']" class="form-group" ng-switch on="metadata.attributes.htmlType">
+                            <div ng-repeat="metadata in metadatas.models | orderBy:['attributes.index']" class="form-group" ng-switch="metadata.attributes.htmlType">
                                 <label class="col-md-3 control-label input-metadata-title">
                                     {{metadata.attributes.label}}
                                     <span ng-if="metadata.attributes.mandatory == true" class="input-metadata-required">*</span>
@@ -77,6 +77,7 @@
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
                                     <textarea ng-switch-when="textarea" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" rows="3" mandatory="{{metadata.attributes.mandatory}}"></textarea>
                                     <input ng-switch-when="autocomplete" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" class="form-control" tk-autocomplete="{{metadata.attributes.id}}" ng-model="metadata.attributes.text" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />
+                                    <input ng-switch-when="number" type="text" onkeypress="return ((event.keyCode >= 48 && event.keyCode <= 57) || event.keyCode == 46);" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                     <input ng-switch-default="" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                 </div>
                             </div>

@@ -2,29 +2,41 @@
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location', '$ionicModal', '$ionicLoading', '$timeout', function ($scope, $rootScope, $location, $ionicModal, $ionicLoading, $timeout) {
 
     $scope.myDoc = new DocumentComplete();
+    var isMapZoneInit = false;
+
+    $scope.filterFieldPaneMetaData = function (item) {
+        return item.get("htmlType") != 'map';
+    };
 
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
-    $scope.onActivePane = function (paneName) {
-        $scope.ActivePane = paneName;
-        if ($scope.ActivePane == 'MAP') {
-            var fn = function () {
-                var img = (environnement.isApp == false) ? 'img/map' : '../img/map';
-                var backgroundImage = new Image()
-                backgroundImage.src = 'img/map/background.png';
+    var fnInitMap = function () {
+        var context = {
+            backgroundImage: 'img/map/background.png',
+            imageURLPrefix: 'img/map',
+            elemSelector: '#literally'
+        };
+        drawMap.init(context);
+        var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+        if (current.length > 0) drawMap.lc.loadSnapshot(JSON.parse(current[0].get("value")));
+        isMapZoneInit = true;
+    };
 
-                window.LC.init(
-                        $('#literally').get(0),
-                        { 
-                            imageURLPrefix: img,
-                            tools: [mapTools.chambre, mapTools.baignoire],
-                            backgroundShapes: [
-                                LC.createShape('Image', { x: 0, y: 0, image: backgroundImage , scale: 2 })
-                            ]
-                        }
-                    );
-            };
-            $timeout(fn, 500);
+    $scope.onActivePane = function (paneName) {
+        if ($scope.ActivePane == "MAP") {
+            var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+            if (current.length > 0 && drawMap.lc != null) {
+                var mapData = drawMap.lc.getSnapshot();
+                if (mapData != null) current[0].set("value", JSON.stringify(mapData));
+            }
+        }
+        $scope.ActivePane = paneName;
+        if (isMapZoneInit == false) {
+            $timeout(fnInitMap, 500);
+        }
+        else {
+            var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+            if (current.length > 0) drawMap.lc.loadSnapshot(JSON.parse(current[0].get("value")));
         }
     };
 
@@ -80,6 +92,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
+
         var f = function () {
             var elems = $(".form-input-field-signature");
             elems.jSignature();
@@ -87,6 +100,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         if ($scope.myDoc.metadatas != null) {
             var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
             if (current.length > 0) $timeout(f, 3500);
+        }
+        if ($scope.myDoc.metadatas != null) {
+            var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+            if (current.length > 0) $scope.hasMap = true;
+            else $scope.hasMap = false;
         }
     });
 
@@ -187,6 +205,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                         $ionicLoading.show({
                             template: 'Enregistrement...'
                         });
+                        var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+                        if (current.length > 0 && drawMap.lc != null) {
+                            var mapData = drawMap.lc.getSnapshot();
+                            if (mapData != null) current[0].set("value", JSON.stringify(mapData));
+                        }
 
                         $scope.myDoc.save(context);
                     }

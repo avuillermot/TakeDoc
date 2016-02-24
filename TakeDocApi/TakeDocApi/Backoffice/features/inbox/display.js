@@ -168,7 +168,6 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doSave = function (startWorkflow) {
-        debugger;
         var ok = utils.setStateInputField("divDetailDocument");
         if (ok) {
             var success = function () {

@@ -1,4 +1,5 @@
 ﻿var drawMap = {
+    lc: null,
     checkAll: function (shapes) {
         var containers = [];
         var contents = []
@@ -76,30 +77,103 @@
             }
         }
         return parent != null;
+    },
+    init: function (context) {
+        var backgroundImage = new Image()
+        if (context.backgroundImage != null) backgroundImage.src = context.backgroundImage;
+
+        this.lc = window.LC.init(
+                $(context.elemSelector).get(0),
+                {
+                    imageURLPrefix: context.imageURLPrefix,
+                    tools: [mapTools.chambre, mapTools.baignoire],
+                    backgroundShapes: [
+                        window.LC.createShape('Image', { x: 0, y: 0, image: backgroundImage, scale: 1 })
+                    ]
+                }
+       );
+        $(".lc-options.horz-toolbar").hide();
+        $(".color-well").hide();
     }
 };
 
 var mapTools = {
-    baignoire: function(lc) {
+
+    _rectangle: function (lc, context) {  // take lc as constructor arg
+
         var self = this;
 
         return {
             usesSimpleAPI: false,  // DO NOT FORGET THIS!!!
-            name: 'Baignoire',
-            iconName: 'iv-baignoire',
-            strokeWidth: lc.opts.defaultStrokeWidth,
+            name: context.name,
+            iconName: context.icon,
+            optionsStyle: 'stroke-width',
+
+            didBecomeActive: function (lc) {
+
+                var onPointerDown = function (pt) {
+                    self.currentShape = window.LC.createShape('Rectangle',
+                        {
+                            x: pt.x, y: pt.y,
+                            strokeWidth: context.width,  
+                            strokeColor: context.borderColor,
+                            fillColor: context.fillColor //'#CEE3F6'
+                        }
+                    );
+                    lc.setShapesInProgress([self.currentShape]);
+                    lc.repaintLayer('main');
+                };
+
+                var onPointerDrag = function (pt) {
+                    self.currentShape.width = pt.x - self.currentShape.x;
+                    self.currentShape.height = pt.y - self.currentShape.y;
+                    lc.drawShapeInProgress(self.currentShape);
+                };
+
+                var onPointerUp = function (pt) {
+                    lc.saveShape(self.currentShape);
+                    lc.setShapesInProgress([]);
+                    var t = lc.getSnapshot();
+                };
+
+                var onPointerMove = function (pt) {
+
+                };
+
+                // lc.on() returns a function that unsubscribes us. capture it.
+                self.unsubscribeFuncs = [
+                    lc.on('lc-pointerdown', onPointerDown),
+                    lc.on('lc-pointerdrag', onPointerDrag),
+                    lc.on('lc-pointerup', onPointerUp),
+                    lc.on('lc-pointermove', onPointerMove),
+                ];
+            },
+
+            willBecomeInactive: function (lc) {
+                // call all the unsubscribe functions
+                self.unsubscribeFuncs.map(function (f) { f() });
+            }
+        }
+    },
+    _image: function(lc, context) {
+        var self = this;
+
+        return {
+            usesSimpleAPI: false,  // DO NOT FORGET THIS!!!
+            name: context.name,
+            iconName: context.name,
             optionsStyle: 'stroke-width',
 
             didBecomeActive: function(lc) {
 
                 var onPointerDown = function(pt) {
                     var newImage = new Image()
-                    newImage.src = 'img/map/baignoire.png';
-                    self.currentShape = LC.createShape('Image', 
+                    newImage.src = context.image
+                    self.currentShape = window.LC.createShape('Image', 
 						{
 						    x: pt.x, y: pt.y,
 						    image: newImage,
-						    code: 'BAIGNOIRE'
+						    code: context.code
 						}
 					);
                     lc.setShapesInProgress([self.currentShape]);
@@ -140,61 +214,23 @@ var mapTools = {
             }
         }
     },
-    chambre: function (lc) {  // take lc as constructor arg
-
-        var self = this;
-
-        return {
-            usesSimpleAPI: false,  // DO NOT FORGET THIS!!!
+    baignoire: function(lc) {
+        var context = {
+            icon: 'iv-baignoire',
+            name: 'Baignoire',
+            image: 'img/map/baignoire.png',
+            code: 'BAIGNOIRE'
+        };
+        return mapTools._image(lc, context);
+    },
+    chambre: function (lc) {
+        var context = {
+            icon: 'bed',
             name: 'Chambre',
-            iconName: 'bed',
-            strokeWidth: lc.opts.defaultStrokeWidth,
-            optionsStyle: 'stroke-width',
-
-            didBecomeActive: function (lc) {
-
-                var onPointerDown = function (pt) {
-                    self.currentShape = window.LC.createShape('Rectangle',
-                        {
-                            x: pt.x, y: pt.y,
-                            trokeWidth: 2,  
-                            strokeColor: 'blue',
-                            fillColor: '#CEE3F6'
-                        }
-                    );
-                    lc.setShapesInProgress([self.currentShape]);
-                    lc.repaintLayer('main');
-                };
-
-                var onPointerDrag = function (pt) {
-                    self.currentShape.width = pt.x - self.currentShape.x;
-                    self.currentShape.height = pt.y - self.currentShape.y;
-                    lc.drawShapeInProgress(self.currentShape);
-                };
-
-                var onPointerUp = function (pt) {
-                    lc.saveShape(self.currentShape);
-                    lc.setShapesInProgress([]);
-                    var t = lc.getSnapshot();
-                };
-
-                var onPointerMove = function (pt) {
-
-                };
-
-                // lc.on() returns a function that unsubscribes us. capture it.
-                self.unsubscribeFuncs = [
-                    lc.on('lc-pointerdown', onPointerDown),
-                    lc.on('lc-pointerdrag', onPointerDrag),
-                    lc.on('lc-pointerup', onPointerUp),
-                    lc.on('lc-pointermove', onPointerMove),
-                ];
-            },
-
-            willBecomeInactive: function (lc) {
-                // call all the unsubscribe functions
-                self.unsubscribeFuncs.map(function (f) { f() });
-            }
-        }
+            color: 'blue',
+            fillColor: '#CEE3F6',
+            width: 2
+        };
+        return mapTools._rectangle(lc, context);
     }
 }

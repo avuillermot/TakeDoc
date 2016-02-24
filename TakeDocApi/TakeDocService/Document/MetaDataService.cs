@@ -39,6 +39,12 @@ namespace TakeDocService.Document
             } 
         }
 
+        private bool IsBlob(string type)
+        {
+            return type.ToUpper().Equals("SIGNATURE")
+                || type.ToUpper().Equals("MAP");
+        }
+
         public void SetMetaData(Guid userId, TakeDocModel.Document document, TakeDocModel.Entity entity, bool startWorkflow, Newtonsoft.Json.Linq.JArray jsonMetaData)
         {
             ICollection<TakeDocModel.MetaData> metadatas = daoMetaData.GetBy(x => x.MetaDataVersionId == document.DocumentCurrentVersionId && x.EtatDeleteData == false && x.EntityId == document.EntityId);
@@ -51,7 +57,7 @@ namespace TakeDocService.Document
                 meta.MetaDataValue = obj.Value<string>("value");
                 meta.MetaDataText = obj.Value<string>("text");
 
-                if (obj.Value<string>("type") != null && obj.Value<string>("type").ToUpper().Equals("SIGNATURE")) {
+                if (obj.Value<string>("type") != null && IsBlob(obj.Value<string>("type"))) {
                     meta.MetaDataBlob = obj.Value<string>("value");
                     meta.MetaDataText = null;
                     meta.MetaDataValue = null;
@@ -278,9 +284,9 @@ namespace TakeDocService.Document
             ro.Label = metadata.DataField.DataFieldLabel;
             ro.Value = metadata.MetaDataValue;
             ro.Text = metadata.MetaDataText;
-            ro.Type = (metadata.DataField.DataFieldTypeId.ToUpper().Equals("SIGNATURE"))? "IMAGE" : metadata.DataField.DataFieldType.DataFieldInputType;
+            ro.Type = (this.IsBlob(metadata.DataField.DataFieldTypeId))? "IMAGE" : metadata.DataField.DataFieldType.DataFieldInputType;
 
-            if (ro.Type.ToUpper().Equals("IMAGE"))
+            if (this.IsBlob(ro.Type))
             {
                 ro.Value = metadata.MetaDataBlob;
                 ro.Text = metadata.MetaDataBlob;

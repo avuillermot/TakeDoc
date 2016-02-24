@@ -1,12 +1,12 @@
 ﻿<ion-list ng-show="loading == false" id="ion-list-metadata">
-    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | orderBy:['attributes.index']">
+    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | filter: filterFieldPaneMetaData  | orderBy:['attributes.index']">
 
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
             <div style="display:inline-block;width:70%">{{metadata.attributes.label}}</div>
             <div style="display: inline-block; width:25%">
                 <div class="button button-small button-light ion-close-circled" ng-click="doResetAutocomplete(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'autocomplete'"></div>
                 <div class="button button-small button-light ion-ios-fastforward" ng-click="doAutocompleteOnFocus(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'autocomplete'"></div>
-                
+
                 <div class="button button-small button-light ion-close-circled" ng-click="doResetBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
                 <div class="button button-small button-light ion-ios-fastforward" ng-click="doReadBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
 
@@ -29,7 +29,7 @@
                 <textarea ng-disabled="mode == 'READ'" rows="5" class="form-input-field" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" readonly="readonly"></textarea>
             </div>
             <input ng-switch-when="date" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
-            <input ng-switch-when="number" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
+            <input ng-switch-when="number" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" data-sm:number data-sm:number-format data-accuracy="0" />
             <input ng-switch-default="" ng-disabled="mode == 'READ'" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="{{metadata.attributes.type}}" ng-model="metadata.attributes.value" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" placeholder=" Saisir" class="form-input-field" />
         </div>
 
@@ -43,6 +43,6 @@
                 <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value}}" />
             </div>
             <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" class=" form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
-       </div>
+        </div>
     </ion-item>
 </ion-list>
