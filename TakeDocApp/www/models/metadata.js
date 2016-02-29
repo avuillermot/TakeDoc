@@ -58,6 +58,7 @@ var MetaData = Backbone.Model.extend({
         this.set("index", current.index);
         this.set("name", current.name);
         this.set("value", current.value);
+        if (current.type == 'map') this.set("value", JSON.parse(current.value));
         this.set("text", current.text);
         this.set("mandatory", current.mandatory);
         this.set("type", current.type);

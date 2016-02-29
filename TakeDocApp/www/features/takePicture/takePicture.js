@@ -4,7 +4,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     $scope.myDoc = new DocumentComplete();
     var isMapZoneInit = false;
 
-    $scope.filterFieldPaneMetaData = function (item) {
+    $scope.filterFieldMapMetaData = function (item) {
         return item.get("htmlType") != 'map';
     };
 
@@ -17,26 +17,20 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             elemSelector: '#literally'
         };
         drawMap.init(context);
+
         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-        if (current.length > 0) drawMap.lc.loadSnapshot(JSON.parse(current[0].get("value")));
+        if (current.length > 0 && current[0].get("value") != null
+            && current[0].get("value").canvas != null) drawMap.loadJsonCanvas(current[0].get("value").canvas);
+
         isMapZoneInit = true;
     };
 
     $scope.onActivePane = function (paneName) {
-        if ($scope.ActivePane == "MAP") {
-            var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-            if (current.length > 0 && drawMap.lc != null) {
-                var mapData = drawMap.lc.getSnapshot();
-                if (mapData != null) current[0].set("value", JSON.stringify(mapData));
-            }
-        }
         $scope.ActivePane = paneName;
-        if (isMapZoneInit == false) {
-            $timeout(fnInitMap, 500);
-        }
-        else {
+        if (paneName == "MAP") {
             var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-            if (current.length > 0) drawMap.lc.loadSnapshot(JSON.parse(current[0].get("value")));
+            if (current.length > 0) current[0].set("value", drawMap.getJsonCanvas());
+            if (isMapZoneInit == false) $timeout(fnInitMap, 1500);
         }
     };
 
@@ -124,7 +118,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     $scope.doResetSignature = function (id, name) {
         var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
         if (current.length > 0) {
-            current[0].set("value", "");
+            var signature = {
+                canvas: "",
+                base64: ""
+            }
+            current[0].set("value", JSON.stringify(signature));
             if (!$scope.$$phase) $scope.$apply();
             var f = function () {
                 var elem = $("#input-" + id + "-" + name);
@@ -138,7 +136,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
         if (current.length > 0) {
             var elem = $("#input-" + id + "-" + name);
-            current[0].set("value", elem.jSignature("getData", "default"));
+            var signature = {
+                canvas: "",
+                base64: elem.jSignature("getData", "default")
+            };
+
+            current[0].set("value", JSON.stringify(signature));
             if (!$scope.$$phase) $scope.$apply();
         }
     };
@@ -206,10 +209,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                             template: 'Enregistrement...'
                         });
                         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-                        if (current.length > 0 && drawMap.lc != null) {
-                            var mapData = drawMap.lc.getSnapshot();
-                            if (mapData != null) current[0].set("value", JSON.stringify(mapData));
-                        }
+                        if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));
 
                         $scope.myDoc.save(context);
                     }

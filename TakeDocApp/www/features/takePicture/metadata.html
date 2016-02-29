@@ -1,5 +1,5 @@
 ﻿<ion-list ng-show="loading == false" id="ion-list-metadata">
-    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | filter: filterFieldPaneMetaData  | orderBy:['attributes.index']">
+    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | filter: filterFieldMapMetaData  | orderBy:['attributes.index']">
 
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}}">
             <div style="display:inline-block;width:70%">{{metadata.attributes.label}}</div>
@@ -40,7 +40,7 @@
         </div>
         <div ng-if="metadata.attributes.htmlType == 'signature'">
             <div ng-if="metadata.attributes.value != '' && metadata.attributes.value != null">
-                <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value}}" />
+                <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value.base64}}" />
             </div>
             <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" class=" form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
         </div>

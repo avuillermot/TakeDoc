@@ -20,6 +20,7 @@
                     <li role="presentation" class="active"><a href="#infos" onclick="return false" aria-controls="infos" role="tab" data-toggle="tab">Informations</a></li>
                     <li role="presentation"><a href="#detail" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Données</a></li>
                     <li role="presentation"><a href="#photos" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Photos</a></li>
+                    <li role="presentation"><a href="#plan" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Plan</a></li>
                     <li role="presentation"><a href="#history" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Workflow</a></li>
                 </ul>
 
@@ -60,7 +61,7 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="detail">
                         <form class="form-horizontal" style="padding-left:15px;">
-                            <div ng-repeat="metadata in metadatas.models | orderBy:['attributes.index']" class="form-group" ng-switch="metadata.attributes.htmlType">
+                            <div ng-repeat="metadata in metadatas.models | filter: filterFieldMapMetaData | orderBy:['attributes.index']" class="form-group" ng-switch="metadata.attributes.htmlType">
                                 <label class="col-md-3 control-label input-metadata-title">
                                     {{metadata.attributes.label}}
                                     <span ng-if="metadata.attributes.mandatory == true" class="input-metadata-required">*</span>
@@ -93,6 +94,13 @@
                                     <button class="btn-xs btn-default glyphicon glyphicon-chevron-down" ng-click="moveDown(page.attributes.id)" data-toggle="tooltip" title="Pivoter" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
                                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="deletePicture(page.attributes.id)" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="plan">
+                        <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid">
+                            <div class="form-group" ng-repeat="map in metadatas.models | filter: { attributes: { htmlType: 'map'}} | orderBy:['attributes.pageNumber']">
+                                <img data-ng-src="{{map.attributes.value.base64}}" style="margin-left:10px; margin-right:10px; height:50% " />
                             </div>
                         </div>
                     </div>

@@ -1,5 +1,22 @@
 ﻿var drawMap = {
     lc: null,
+    data: function(canvas) {
+        return {
+            canvas: this.getJsonCanvas(),
+            base64: canvas.toDataURL()
+        }
+    },
+    getJsonCanvas: function () {
+        if (this.lc == null) return null;
+        var data = this.lc.getSnapshot();
+        if (data == null) return "";
+        return JSON.stringify(data);
+    },
+    loadJsonCanvas: function (data) {
+        if (this.lc == null) return null;
+        this.lc.loadSnapshot(data);
+    },
+
     checkAll: function (shapes) {
         var containers = [];
         var contents = []
