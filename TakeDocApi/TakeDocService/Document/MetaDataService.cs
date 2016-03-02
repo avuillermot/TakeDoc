@@ -286,10 +286,11 @@ namespace TakeDocService.Document
             ro.Text = metadata.MetaDataText;
             ro.Type = (this.IsBlob(metadata.DataField.DataFieldTypeId))? "IMAGE" : metadata.DataField.DataFieldType.DataFieldInputType;
 
-            if (this.IsBlob(ro.Type))
+            if (ro.Type.ToUpper().Equals("IMAGE"))
             {
-                ro.Value = metadata.MetaDataBlob;
-                ro.Text = metadata.MetaDataBlob;
+                Newtonsoft.Json.Linq.JObject img = Newtonsoft.Json.Linq.JObject.Parse(metadata.MetaDataBlob);
+                ro.Value = img.Value<string>("base64");
+                ro.Text = string.Empty;
             }
             return ro;
         }

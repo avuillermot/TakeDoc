@@ -14,7 +14,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
         return (mode === 'day' && (date.getDay() === 0 || date.getDay() === 6));
     };
 
-    // clone metadata to compare if data has changed before save
+    // clone metadata to compare if data has ope before save
     var clone = function () {
         cloneData = new Array();
         for (var i = 0; i < $scope.metadatas.length; i++) {
@@ -40,6 +40,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     $scope.openImage = function () {
         $("#enlarge-page-modal-label").html("Page " + this.page.get("pageNumber"));
         $("#enlarge-page-modal-body").html('<img style="width:100%" src="'+this.page.get("base64Image")+'" class="inbox-thumbnail-rotate'+this.page.get("rotation")+'" />');
+        $('#enlarge-page-modal').modal('show');
+    };
+    $scope.openMap = function () {
+        $("#enlarge-page-modal-label").html(this.map.get("label"));
+        $("#enlarge-page-modal-body").html('<img style="width:100%; background-color:white" src="' + this.map.get("value").base64 + '" />');
         $('#enlarge-page-modal').modal('show');
     };
 
@@ -199,11 +204,19 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
 
             if ($scope.hasChanged() == true && startWorkflow == false) {
                 $rootScope.showLoader("Enregistrement....");
+
+                var current = $scope.metadatas.where({ htmlType: "map" });
+                if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
+
                 myDocComplete.save(context);
             }
             else if (startWorkflow) {
                 var fn = function () {
                     $rootScope.showLoader("Enregistrement....");
+
+                    var current = $scope.metadatas.where({ htmlType: "map" });
+                    if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
+
                     myDocComplete.save(context);
                 };
                 $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);

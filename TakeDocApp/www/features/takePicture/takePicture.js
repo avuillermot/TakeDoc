@@ -17,7 +17,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             elemSelector: '#literally'
         };
         drawMap.init(context);
-
         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
         if (current.length > 0 && current[0].get("value") != null
             && current[0].get("value").canvas != null) drawMap.loadJsonCanvas(current[0].get("value").canvas);
@@ -28,13 +27,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     $scope.onActivePane = function (paneName) {
         $scope.ActivePane = paneName;
         if (paneName == "MAP") {
-            var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-            if (current.length > 0) current[0].set("value", drawMap.getJsonCanvas());
-            if (isMapZoneInit == false) $timeout(fnInitMap, 1500);
+            if (isMapZoneInit == false) $timeout(fnInitMap, 2500);
         }
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        isMapZoneInit = false;
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "BACK");
         $scope.ActivePane = 'METADATA';
@@ -66,7 +64,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         }
         var step = $rootScope.Scenario.next();
         $scope.nextUrl = step.to;
-
         var context = {
             versionId: states.stateParams.versionId,
             userId: $rootScope.User.Id,
@@ -120,7 +117,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         if (current.length > 0) {
             var signature = {
                 canvas: "",
-                base64: ""
+                base64Image: ""
             }
             current[0].set("value", JSON.stringify(signature));
             if (!$scope.$$phase) $scope.$apply();

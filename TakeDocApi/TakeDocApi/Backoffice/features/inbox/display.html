@@ -100,7 +100,7 @@
                     <div role="tabpanel" class="tab-pane" id="plan">
                         <div style="padding-top:5px;margin-left:0px;padding-left:0px" class="container-fluid">
                             <div class="form-group" ng-repeat="map in metadatas.models | filter: { attributes: { htmlType: 'map'}} | orderBy:['attributes.pageNumber']">
-                                <img data-ng-src="{{map.attributes.value.base64}}" style="margin-left:10px; margin-right:10px; height:50% " />
+                                <img data-ng-src="{{map.attributes.value.base64}}" class="inbox-thumbnail-map" ng-click="openMap()"/>&#160;{{map.attributes.label}}
                             </div>
                         </div>
                     </div>

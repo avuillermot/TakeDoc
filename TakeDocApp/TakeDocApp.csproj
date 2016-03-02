@@ -48,7 +48,7 @@
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.html" />
     <Content Include="www\features\selectTypeDocument\selectTypeDocument.js" />
     <Content Include="www\features\takePicture\map.html" />
-    <Content Include="www\features\takePicture\drawMap.js" />
+    <Content Include="www\utils\drawMap.js" />
     <Content Include="www\features\takePicture\photo.html" />
     <Content Include="www\features\takePicture\metadata.html" />
     <Content Include="www\features\takePicture\photo.js" />

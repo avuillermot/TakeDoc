@@ -221,6 +221,21 @@ form {
     border-radius: 5px;
 }
 
+.inbox-thumbnail-map {
+    min-width: 150px;
+    min-height: 150px;
+    max-width: 300px;
+    max-width: 300px;
+    margin-left: 5px;
+    margin-top: 5px;
+    padding: 5px;
+    cursor: pointer;
+    border-color: #D8D8D8;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+}
+
 .inbox-thumbnail-rotate000 {
     -webkit-transform: rotate(0deg);
     -moz-transform: rotate(0deg);
