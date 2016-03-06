@@ -19,15 +19,17 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         drawMap.init(context);
         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
         if (current.length > 0 && current[0].get("value") != null
-            && current[0].get("value").canvas != null) drawMap.loadJsonCanvas(current[0].get("value").canvas);
-
+            && current[0].get("value").canvas != null) {
+            drawMap.loadJsonCanvas(current[0].get("value").canvas);
+        }
+        if (!$scope.$$phase) $scope.$apply();
         isMapZoneInit = true;
     };
 
     $scope.onActivePane = function (paneName) {
         $scope.ActivePane = paneName;
         if (paneName == "MAP") {
-            if (isMapZoneInit == false) $timeout(fnInitMap, 2500);
+            if (isMapZoneInit == false) $timeout(fnInitMap, 3000);
         }
     };
 

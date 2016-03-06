@@ -1,5 +1,5 @@
 ﻿'use strict';
-backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory) {
+backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams', 'documentDisplay', 'documentsDirectory', '$interval', function ($scope, $rootScope, $stateParams, documentDisplay, documentsDirectory, $interval) {
 
     var myDocuments = new DocumentsExtended();
     var myDashBoards = new Dashboards();
@@ -142,5 +142,5 @@ backOffice.controller('inboxController', ['$scope', '$rootScope', '$stateParams'
     };
 
     $scope.setSelectedDirectory("COMPLETE");
-    setDashBoard();
+    $interval(setDashBoard, 60000);
 }]);
