@@ -23,6 +23,7 @@ namespace TakeDocService.Document
             ICollection<TakeDocModel.View_TypeDocumentDataField> fields = servDataField.GetDataField(typeDocumentId, entityId);
             foreach (TakeDocModel.View_TypeDocumentDataField field in fields)
             {
+                bool isSection = field.InputType.ToUpper().Equals("SECTION");
                 TakeDocModel.MetaData meta = new TakeDocModel.MetaData();
                 meta.DataFieldId = field.FieldId;
                 meta.DateCreateData = System.DateTime.UtcNow;
@@ -34,7 +35,9 @@ namespace TakeDocService.Document
                 meta.MetaDataId = System.Guid.NewGuid();
                 meta.MetaDataName = field.Reference;
                 meta.UserCreateData = userId;
-
+                if (isSection) {
+                    meta.MetaDataText = field.Label;
+                }
                 daoMetaData.Add(meta);
             } 
         }

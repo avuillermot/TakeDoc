@@ -115,11 +115,12 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doResetSignature = function (id, name) {
+        debugger;
         var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
         if (current.length > 0) {
             var signature = {
                 canvas: "",
-                base64Image: ""
+                base64: ""
             }
             current[0].set("value", JSON.stringify(signature));
             if (!$scope.$$phase) $scope.$apply();

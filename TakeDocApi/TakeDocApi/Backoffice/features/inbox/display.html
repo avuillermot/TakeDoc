@@ -62,13 +62,14 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="detail">
                         <form class="form-horizontal" style="padding-left:15px;">
-                            <div ng-repeat="metadata in metadatas.models | filter: filterFieldMapMetaData | orderBy:['attributes.index']" class="form-group" ng-switch="metadata.attributes.htmlType">
-                                <label class="col-md-3 control-label input-metadata-title">
+                            <div ng-repeat="metadata in metadatas.models | filter: filterFieldMapMetaData | orderBy:['attributes.index']" class="form-group form-group-metadata" ng-switch="metadata.attributes.htmlType">
+                                <label class="col-md-3 control-label input-metadata-title input-metadata-{{metadata.attributes.type}}">
                                     {{metadata.attributes.label}}
                                     <span ng-if="metadata.attributes.mandatory == true" class="input-metadata-required">*</span>
                                 </label>
 
                                 <div class="col-md-9 inbox-metadata" id="divinput-{{metadata.attributes.id}}-{{metadata.attributes.name}}">
+                                    <div ng-switch-when="section"></div>
                                     <select ng-switch-when="list" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" ng-change="isUpdate = true">
                                         <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                                     </select>

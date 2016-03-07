@@ -57,7 +57,7 @@
                         {{field.attributes.inputTypeLabel}}
                     </label>
 
-                    <label style="font-weight:normal; padding-left:15px">
+                    <label style="font-weight:normal; padding-left:15px" ng-hide="field.attributes.inputType == 'section' ">
                         (Obligatoire&#160;<input type="checkbox" ng-checked="field.attributes.mandatory" onclick="return true;" ng-model="field.attributes.mandatory">)
                     </label>
 
@@ -131,7 +131,7 @@
                 <h4 class="modal-title">Champs disponibles</h4>
             </div>
             <div class="modal-body">
-                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}&#160;-&#160;({{fieldsToAdd.attributes.reference}})</div>
+                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}&#160;-&#160;({{fieldsToAdd.attributes.reference}} - {{fieldsToAdd.attributes.inputType}})</div>
             </div>
         </div>
     </div>

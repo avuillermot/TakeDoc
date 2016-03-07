@@ -62,6 +62,14 @@ div.button-bar {
     padding-top:5px; 
 }
 
+.metadata-section {
+    background-color: #ACFA58;
+    border-radius: 5px;
+    width:95%;
+    padding-left:3px;
+    font-weight:bold;
+}
+
 .metadata-label-ion-toggle {
     margin-left:0px; 
     padding-left:0px;
@@ -89,6 +97,7 @@ div.button-bar {
     margin-right:0px;
     padding-top: 5px;
     font-size: small !important;
+    border: none;
 }
 
 .metadata-item-list-signature {
@@ -100,6 +109,7 @@ div.button-bar {
     margin-right:0px;
     padding-top: 5px;
     font-size: small !important;
+    border: none;
 }
 
 /* LOGIN - page de login */
@@ -172,9 +182,10 @@ div.button-bar {
 
 .form-input-field {
     width: 90% !important;
-    background-color: lightgray !important;
+    background-color: #F2F2F2 !important;
     height: 30px !important;
     margin-left: 5px;
+    border-radius:5px;
 }
 
 .form-input-field-signature {

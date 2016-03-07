@@ -192,6 +192,10 @@ form {
     color: #DF3A01;
 }
 
+.form-group-metadata {
+    margin:3px;
+}
+
 .form-group.required .control-label:after {
   content:"*";
   color:red;
@@ -299,6 +303,17 @@ form {
     text-align:left !important;
     padding-top:10px !important;
     padding-left:0px !important;
+}
+
+.input-metadata-section {
+    background-color:#F2F2F2;
+    border-radius: 5px;
+    width:100% !important;
+    height:35px;
+    margin-top:15px;
+    padding-bottom:15px !important;
+    padding-left:30px !important;
+    margin-bottom:0px !important;
 }
 
 .input-file-metadatafile-none {

@@ -37,7 +37,7 @@
         else if (this.get("inputType") == "ion-toggle") return "Oui/Non";
         else if (this.get("inputType") == "barcode") return "Code barre";
         else if (this.get("inputType") == "signature") return "Signature";
-        else return "(Inconnu)";
+        else return this.get("inputType");
     },
     parse: function () {
         var current = arguments[0];

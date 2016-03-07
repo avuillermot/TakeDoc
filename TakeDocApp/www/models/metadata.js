@@ -63,6 +63,7 @@ var MetaData = Backbone.Model.extend({
         this.set("mandatory", current.mandatory);
         this.set("type", current.type);
         this.set("label", current.label);
+        if (current.type == 'section') this.set("label", current.value);
         this.set("htmlType", current.htmlType);
         this.set("entityId", current.entityId);
         this.set("autoCompleteId", current.autoCompleteId);
