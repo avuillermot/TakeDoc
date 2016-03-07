@@ -1,10 +1,14 @@
 ﻿'use strict';
-backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', '$timeout', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, $timeout, documentDisplay, documentsDirectory) {
+backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParams', '$timeout', '$location', 'documentDisplay', 'documentsDirectory', function ($scope, $rootScope, $stateParams, $timeout, $location, documentDisplay, documentsDirectory) {
 
     var myDocComplete = new DocumentComplete();
     var wfHistory = new WorkflowHistorys();
     var answers = new WorkflowAnswers();
     var cloneData = new Array();
+
+    $scope.isViewAgenda = function () {
+        return $location.path() == '/agenda';
+    };
 
     $scope.filterFieldMapMetaData = function (item) {
         return item.get("htmlType") != 'map';
@@ -34,6 +38,11 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             if (meta != null && meta[0] != null && meta[0].get("value") != current.value) return true;
         }
         return false;
+    };
+
+    $scope.hasMapField = function () {
+        if ($scope.metadatas == null) return false;
+        return $scope.metadatas.where({ type: 'map' }).length > 0;
     };
 
     $scope.isUpdate = false;
@@ -73,7 +82,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     var loadHistory = function () {
-        var success = function () {
+       var success = function () {
             $scope.historys = arguments[0];
             if ($scope.document.get("ownerId") == $rootScope.getUser().Id) $scope.workflowIsEnable = false;
             else {
@@ -287,6 +296,10 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             userId: $rootScope.getUser().Id
         };
         documentService.SetArchive(param);
+    }
+
+    $scope.doDisplayAgenda = function () {
+        backOffice.doDisplayAgenda(documentDisplay);
     }
 
     /***********************************************/

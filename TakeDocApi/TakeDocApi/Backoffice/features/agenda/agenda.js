@@ -337,16 +337,7 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
 
 
     $scope.doDisplayAgenda = function () {
-        $("#viewRight").css("width", "0%");
-        $("#viewLeft").css("width", "95%");
-
-        $("#divGoBack").hide();
-        $("#divAgenda").show()
-        $("#viewRight").hide();
-
-        documentDisplay.data.document = null;
-        documentDisplay.data.calls = documentDisplay.data.calls + 1;
-        if (!$scope.$$phase) $scope.$apply();
+        backOffice.doDisplayAgenda(documentDisplay);
     }
 
     $scope.doDisplayDocument = function () {
@@ -355,11 +346,11 @@ backOffice.controller('agendaController', ['$scope', '$rootScope', 'uiCalendarCo
             toDisplay.set("entityId", $scope.current.entityId);
             toDisplay.set("versionId", $scope.current.documentVersionId);
             toDisplay.set("statusReference", $scope.current.documentStatutReference);
-            $("#viewRight").css("width", "60%");
-            $("#viewLeft").css("width", "35%");
+            $("#viewRight").css("width", "47%");
+            $("#viewLeft").css("width", "48%");
 
             $("#divGoBack").show();
-            $("#divAgenda").hide();
+            $("#divDetailFolder").hide();
             $("#viewRight").show();
 
             documentDisplay.data.document = toDisplay;

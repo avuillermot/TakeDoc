@@ -1,5 +1,6 @@
 ﻿<div id="divInboxDisplay" class="panel-primary" style="padding:5px;" ng-show="document.attributes.label != null">
     <div id="toolbarTakeDoc" class="panel-heading" role="toolbar">
+        <button class="btn-xs btn-default glyphicon glyphicon-fast-backward" ng-click="doDisplayAgenda();" ng-hide="isViewAgenda() == false" data-toggle="tooltip" title="Retour" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-floppy-disk" ng-click="doSave(false);" data-toggle="tooltip" title="Enregistrer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-plane" ng-click="doSave(true);" data-toggle="tooltip" title="Enregistrer et envoyer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
         <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemove();" data-toggle="tooltip" title="Supprimer" ng-hide="document.isReadOnly()" data-placement="bottom"></button>
@@ -20,7 +21,7 @@
                     <li role="presentation" class="active"><a href="#infos" onclick="return false" aria-controls="infos" role="tab" data-toggle="tab">Informations</a></li>
                     <li role="presentation"><a href="#detail" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Données</a></li>
                     <li role="presentation"><a href="#photos" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Photos</a></li>
-                    <li role="presentation"><a href="#plan" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Plan</a></li>
+                    <li role="presentation" ng-show="hasMapField() == true"><a href="#plan" onclick="return false" aria-controls="home" role="tab" data-toggle="tab">Plan</a></li>
                     <li role="presentation"><a href="#history" onclick="return false" aria-controls="profile" role="tab" data-toggle="tab">Workflow</a></li>
                 </ul>
 

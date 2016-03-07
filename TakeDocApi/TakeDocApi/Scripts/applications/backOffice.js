@@ -319,3 +319,17 @@ backOffice.factory('refreshDetail', function () {
         data: data
     }
 });
+
+backOffice.doDisplayAgenda = function (documentDisplay) {
+    $("#viewRight").css("width", "0%");
+    $("#viewLeft").css("width", "95%");
+
+    $("#divGoBack").hide();
+    $("#divDetailFolder").show()
+    $("#viewRight").hide();
+
+    if (documentDisplay != null) {
+        documentDisplay.data.document = null;
+        documentDisplay.data.calls = documentDisplay.data.calls + 1;
+    }
+}
