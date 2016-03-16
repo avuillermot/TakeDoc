@@ -122,7 +122,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 canvas: "",
                 base64: ""
             }
-            current[0].set("value", JSON.stringify(signature));
+            current[0].set("value", signature);
             if (!$scope.$$phase) $scope.$apply();
             var f = function () {
                 var elem = $("#input-" + id + "-" + name);
@@ -210,6 +210,8 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                         });
                         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
                         if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));
+                        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+                        if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
 
                         $scope.myDoc.save(context);
                     }

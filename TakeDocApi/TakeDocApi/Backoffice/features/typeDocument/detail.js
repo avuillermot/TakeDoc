@@ -131,7 +131,6 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
         numeroter(1, $scope.fields.length + 1);
     };
     $scope.doOpenModalAddField = function () {
-        debugger;
         $scope.fieldsToAdd = new Array();
 
         // we propose field that is not deleted and not already add in document type

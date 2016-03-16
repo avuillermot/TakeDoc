@@ -1,5 +1,5 @@
 ﻿<ion-list ng-show="loading == false" id="ion-list-metadata">
-    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in CurrentDocument.metadatas.models | filter: filterFieldMapMetaData  | orderBy:['attributes.index']">
+    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in myDoc.metadatas.models | filter: filterFieldMapMetaData  | orderBy:['attributes.index']">
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}} metadata-{{metadata.attributes.htmlType}}">
             <div style="display:inline-block;width:70%">{{metadata.attributes.label}}</div>
             <div style="display: inline-block; width:25%">

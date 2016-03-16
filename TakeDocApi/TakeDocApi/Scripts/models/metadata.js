@@ -60,10 +60,10 @@ var MetaData = Backbone.Model.extend({
         this.set("value", current.value);
         if (current.type == 'map' || current.type == 'signature') this.set("value", JSON.parse(current.value));
         this.set("text", current.text);
+        if (current.type == 'section') this.set("text", current.label);
         this.set("mandatory", current.mandatory);
         this.set("type", current.type);
         this.set("label", current.label);
-        if (current.type == 'section') this.set("label", current.value);
         this.set("htmlType", current.htmlType);
         this.set("entityId", current.entityId);
         this.set("autoCompleteId", current.autoCompleteId);
