@@ -3,6 +3,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.myDoc = new DocumentComplete();
     var isMapZoneInit = false;
+    $scope.actionWait = false;
 
     $scope.filterFieldMapMetaData = function (item) {
         return item.get("htmlType") != 'map';
@@ -34,6 +35,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
+        $scope.actionWait = true;
         isMapZoneInit = false;
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "BACK");
@@ -89,11 +91,17 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         var f = function () {
             var elems = $(".form-input-field-signature");
             elems.jSignature();
+            $scope.actionWait = false;
         };
         if ($scope.myDoc.metadatas != null) {
             var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-            if (current.length > 0) $timeout(f, 3500);
+            if (current.length > 0) {
+                $timeout(f, 0);
+            }
+            else $scope.actionWait = false;
         }
+        else $scope.actionWait = false;
+
         if ($scope.myDoc.metadatas != null) {
             var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
             if (current.length > 0) $scope.hasMap = true;
@@ -102,7 +110,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     });
 
     $scope.doResetAutocomplete = function (id) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        var current = $scope.myDoc.metadatas.where({ id: id });
         if (current.length > 0) {
             current[0].set("value", "");
             current[0].set("text", "");
@@ -115,7 +123,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
     };
 
     $scope.doResetSignature = function (id, name) {
-        debugger;
+        $scope.actionWait = true;
         var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
         if (current.length > 0) {
             var signature = {
@@ -127,13 +135,15 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
             var f = function () {
                 var elem = $("#input-" + id + "-" + name);
                 elem.jSignature();
+                $scope.actionWait = false;
             };
-            $timeout(f, 500);
+            $timeout(f, 1500);
         }
     };
 
     $scope.doValidSignature = function (id, name) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        $scope.actionWait = true;
+        var current = $scope.myDoc.metadatas.where({ id: id });
         if (current.length > 0) {
             var elem = $("#input-" + id + "-" + name);
             var signature = {
@@ -141,13 +151,14 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                 base64: elem.jSignature("getData", "default")
             };
 
-            current[0].set("value", JSON.stringify(signature));
+            current[0].set("value", signature);
             if (!$scope.$$phase) $scope.$apply();
         }
+        $scope.actionWait = false;
     };
 
     $scope.doResetBarCode = function (id) {
-        var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+        var current = $scope.myDoc.metadatas.where({ id: id });
         if (current.length > 0) {
             current[0].set("value", "");
             if (!$scope.$$phase) $scope.$apply();
@@ -158,7 +169,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         if (environnement.isApp == true) {
             cordova.plugins.barcodeScanner.scan(
                   function (result) {
-                      var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+                      var current = $scope.myDoc.metadatas.where({ id: id });
                       if (current.length > 0) {
                           current[0].set("value", result.text);
                           if (!$scope.$$phase) $scope.$apply();
@@ -170,7 +181,7 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
              );
         }
         else {
-            var current = $rootScope.CurrentDocument.metadatas.where({ id: id });
+            var current = $scope.myDoc.metadatas.where({ id: id });
             if (current.length > 0) {
                 current[0].set("value", "lu code barre");
             }
@@ -211,7 +222,9 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                         var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
                         if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));
                         var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-                        if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
+                        if (current.length > 0) {
+                            for (var i = 0; i < current.length; i++) current[i].set("value", JSON.stringify(current[i].get("value")));
+                        }
 
                         $scope.myDoc.save(context);
                     }

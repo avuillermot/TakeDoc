@@ -39,10 +39,10 @@
             </ion-toggle>
         </div>
         <div ng-if="metadata.attributes.htmlType == 'signature'">
-            <div ng-if="metadata.attributes.value != '' && metadata.attributes.value != null">
+            <div ng-if="metadata.attributes.value.base64 != '' && metadata.attributes.value.base64 != null">
                 <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value.base64}}" />
             </div>
-            <div ng-if="metadata.attributes.value == '' || metadata.attributes.value == null" class=" form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}" readonly="readonly"></div>
+            <div ng-if="metadata.attributes.value.base64 == '' || metadata.attributes.value.base64 == null" class="form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}"></div>
         </div>
     </ion-item>
 </ion-list>
