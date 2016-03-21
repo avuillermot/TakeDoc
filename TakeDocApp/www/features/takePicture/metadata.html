@@ -1,5 +1,5 @@
 ﻿<ion-list ng-show="loading == false" id="ion-list-metadata">
-    <ion-item id="item-{{metadata.attributes.id}}" ng-class="{'metadata-item-list-signature':metadata.attributes.htmlType == 'signature', 'metadata-item-list': metadata.attributes.htmlType != 'signature'}" ng-repeat="metadata in myDoc.metadatas.models | filter: filterFieldMapMetaData  | orderBy:['attributes.index']">
+    <ion-item id="item-{{metadata.attributes.id}}" class="metadata-item-list" ng-repeat="metadata in myDoc.metadatas.models | filter: filterFieldMetaData  | orderBy:['attributes.index']">
         <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" class="metadata-label metadata-mandatory-{{metadata.attributes.mandatory}} metadata-{{metadata.attributes.htmlType}}">
             <div style="display:inline-block;width:70%">{{metadata.attributes.label}}</div>
             <div style="display: inline-block; width:25%">
@@ -9,12 +9,10 @@
                 <div class="button button-small button-light ion-close-circled" ng-click="doResetBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
                 <div class="button button-small button-light ion-ios-fastforward" ng-click="doReadBarCode(metadata.attributes.id)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'barcode'"></div>
 
-                <div class="button button-small button-light ion-close-circled" ng-click="doResetSignature(metadata.attributes.id,metadata.attributes.name)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
-                <div class="button button-small button-light ion-checkmark-circled" ng-click="doValidSignature(metadata.attributes.id,metadata.attributes.name)" ng-show="mode != 'READ' && metadata.attributes.htmlType == 'signature'"></div>
             </div>
         </div>
 
-        <div ng-if="metadata.attributes.htmlType != 'ion-toggle' && metadata.attributes.htmlType != 'signature'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
+        <div ng-if="metadata.attributes.htmlType != 'ion-toggle''" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
             <div ng-switch-when="section"></div>
             <select ng-switch-when="list" ng-disabled="mode == 'READ'" ng-model="metadata.attributes.value" class="form-input-field" tabindex="{{metadata.attributes.index}}">
                 <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}" ng-selected="metadata.attributes.value == item.attributes.key">{{item.attributes.text}}</option>
@@ -42,7 +40,7 @@
             <div ng-if="metadata.attributes.value.base64 != '' && metadata.attributes.value.base64 != null">
                 <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value.base64}}" />
             </div>
-            <div ng-if="metadata.attributes.value.base64 == '' || metadata.attributes.value.base64 == null" class="form-input-field-signature" metadataid="{{metadata.attributes.id}}" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" tabindex="{{metadata.attributes.index}}"></div>
+            <div ng-if="metadata.attributes.value.base64 == '' || metadata.attributes.value.base64 == null" class="1form-input-field-signature" ></div>
         </div>
     </ion-item>
 </ion-list>

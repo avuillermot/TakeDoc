@@ -155,6 +155,8 @@ backOffice.controller('detailTypeDocumentController', ['$scope', '$rootScope', '
             // get type of this field
             var currentInputType = inputTypes.data.inputTypes.where({ id: this.fieldsToAdd.get("typeId") });
 
+            newIndex = (currentInputType[0].get("inputType") == "signature") ? 9999 : newIndex;
+
             var newField = new DocumentField();
             newField.create(
                 this.fieldsToAdd.get("id"),

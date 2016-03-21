@@ -43,12 +43,12 @@
                 <label for="inputLabel" class="form-tk-label">Champs</label>
 
                 <div ng-repeat="field in fields.models | orderBy:['attributes.index']" class="document-field-container" ng-hide="field.attributes.deleted">
-                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="moveUp(field.attributes.id)" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
-                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="moveDown(field.attributes.id)" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-up" ng-click="moveUp(field.attributes.id)" ng-style="{'visibility': (field.attributes.inputType == 'signature') ? 'hidden' : 'visible'}" data-toggle="tooltip" title="Avant" data-placement="bottom"></button>
+                    <button class="btn-xs btn-default glyphicon glyphicon-arrow-down" ng-click="moveDown(field.attributes.id)" ng-style="{'visibility': (field.attributes.inputType == 'signature') ? 'hidden' : 'visible'}" data-toggle="tooltip" title="Après" data-placement="bottom"></button>
                     <button class="btn-xs btn-default glyphicon glyphicon-remove" ng-click="doRemoveDataField(field.attributes.id);" data-toggle="tooltip" title="Supprimer" data-placement="bottom"></button>
 
                     <div class="document-field-label">
-                        {{field.attributes.label}}&#160;(p{{field.attributes.index}}){{field.attributes.delete}}
+                        {{field.attributes.label}}<!--&#160;(p{{field.attributes.index}}){{field.attributes.delete}}-->
                         <div ng-show="field.attributes.isList == 1" class="glyphicon glyphicon-list" style="display:inline-block; cursor:pointer" ng-click="displayListValuesInfo()"></div>
                         <div ng-show="field.attributes.isAutocomplete == 1" class="glyphicon glyphicon-sort-by-alphabet" style="display:inline-block; cursor:pointer" ng-click="displayAutocompleteInfo()"></div>
                     </div>
@@ -57,7 +57,7 @@
                         {{field.attributes.inputTypeLabel}}
                     </label>
 
-                    <label style="font-weight:normal; padding-left:15px" ng-hide="field.attributes.inputType == 'section' ">
+                    <label style="font-weight:normal; padding-left:15px" ng-hide="field.attributes.inputType == 'section' || field.attributes.inputType == 'signature' ">
                         (Obligatoire&#160;<input type="checkbox" ng-checked="field.attributes.mandatory" onclick="return true;" ng-model="field.attributes.mandatory">)
                     </label>
 
@@ -131,7 +131,7 @@
                 <h4 class="modal-title">Champs disponibles</h4>
             </div>
             <div class="modal-body">
-                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}&#160;-&#160;({{fieldsToAdd.attributes.reference}} - {{fieldsToAdd.attributes.inputType}})</div>
+                <div class="datafield-add" ng-repeat="fieldsToAdd in fieldsToAdd | orderBy:['attributes.label']" ng-click="doAddDataField()">{{fieldsToAdd.attributes.label}}&#160;-&#160;({{fieldsToAdd.attributes.reference}})</div>
             </div>
         </div>
     </div>

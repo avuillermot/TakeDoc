@@ -71,7 +71,8 @@ var DocumentFields = Backbone.Collection.extend({
     getLastIndex: function () {
         var back = -1;
         for (var i = 0; i < this.models.length; i++) {
-            if (this.models[i].get("index") > back) back = this.models[i].get("index");
+            var ko = this.models[i].get("inputType") == 'signature' || this.models[i].get("inputType") == 'map';
+            if (ko == false && this.models[i].get("index") > back) back = this.models[i].get("index");
         }
         if (back < 0) back = 0;
         return back;

@@ -2,16 +2,15 @@
 takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location', '$ionicModal', '$ionicLoading', '$timeout', function ($scope, $rootScope, $location, $ionicModal, $ionicLoading, $timeout) {
 
     $scope.myDoc = new DocumentComplete();
-    var isMapZoneInit = false;
-    $scope.actionWait = false;
+    //var isMapZoneInit = false;
 
-    $scope.filterFieldMapMetaData = function (item) {
-        return item.get("htmlType") != 'map';
+    $scope.filterFieldMetaData = function (item) {
+        return item.get("htmlType") != 'map' && item.get("htmlType") != 'signature';
     };
 
     var enlargePage = new modalHelper($ionicModal, $rootScope, 'enlarge-page-modal');
 
-    var fnInitMap = function () {
+    /*var fnInitMap = function () {
         var context = {
             backgroundImage: 'img/map/background.png',
             imageURLPrefix: 'img/map',
@@ -25,18 +24,18 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
         }
         if (!$scope.$$phase) $scope.$apply();
         isMapZoneInit = true;
-    };
+    };*/
 
     $scope.onActivePane = function (paneName) {
         $scope.ActivePane = paneName;
-        if (paneName == "MAP") {
+        /*if (paneName == "MAP") {
             if (isMapZoneInit == false) $timeout(fnInitMap, 3000);
-        }
+        }*/
     };
 
     $scope.$on("$ionicView.beforeEnter", function (scopes, states) {
-        $scope.actionWait = true;
-        isMapZoneInit = false;
+        //$scope.actionWait = true;
+        //isMapZoneInit = false;
         $scope.mode = states.stateParams.mode;
         $scope.loading = ($scope.mode != "BACK");
         $scope.ActivePane = 'METADATA';
@@ -88,25 +87,11 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.$on("$ionicView.afterEnter", function (scopes, states) {
 
-        var f = function () {
-            var elems = $(".form-input-field-signature");
-            elems.jSignature();
-            $scope.actionWait = false;
-        };
-        if ($scope.myDoc.metadatas != null) {
-            var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-            if (current.length > 0) {
-                $timeout(f, 0);
-            }
-            else $scope.actionWait = false;
-        }
-        else $scope.actionWait = false;
-
-        if ($scope.myDoc.metadatas != null) {
+        /*if ($scope.myDoc.metadatas != null) {
             var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
             if (current.length > 0) $scope.hasMap = true;
             else $scope.hasMap = false;
-        }
+        }*/
     });
 
     $scope.doResetAutocomplete = function (id) {
@@ -120,25 +105,6 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
 
     $scope.takePicture = function () {
         takePictureGo();
-    };
-
-    $scope.doResetSignature = function (id, name) {
-        $scope.actionWait = true;
-        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-        if (current.length > 0) {
-            var signature = {
-                canvas: "",
-                base64: ""
-            }
-            current[0].set("value", signature);
-            if (!$scope.$$phase) $scope.$apply();
-            var f = function () {
-                var elem = $("#input-" + id + "-" + name);
-                elem.jSignature();
-                $scope.actionWait = false;
-            };
-            $timeout(f, 1500);
-        }
     };
 
     $scope.doValidSignature = function (id, name) {
@@ -219,20 +185,41 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                         $ionicLoading.show({
                             template: 'Enregistrement...'
                         });
-                        var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
-                        if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));
-                        var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-                        if (current.length > 0) {
-                            for (var i = 0; i < current.length; i++) current[i].set("value", JSON.stringify(current[i].get("value")));
-                        }
-
-                        $scope.myDoc.save(context);
+                        /*var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
+                        if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));*/
+                        
+                        //$scope.myDoc.save(context);
                     }
                 }
             };
 
             if (startWorkflow) {
-                $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
+                var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+                if (current.length > 0) {
+                    var onTapNext = function (signatures, index) {
+                        if (index >= signatures.length) {
+                            var signature = signatures[index];
+                            // $(".form-input-field-signature").jSignature();
+                            onTapNext(signatures, index);
+                        }
+                    };
+                    for (var i = 0; i < current.length; i++) {
+                        var id = "input-" + current[0].get("id") + "-" + current[0].get("name");
+                        var content = "<div metadataid='" + id + "' class='form-input-field-signature'></div>";
+
+                        var onTap = function () {
+                            alert(arguments[0]);
+                        };
+
+                        $rootScope.PopupHelper.show(current[0].get("label"), content, "OkCancel", onTap);
+                        var fn = function () {
+                            $(".form-input-field-signature").jSignature();
+                        };
+                        $timeout(fn, 1000);
+                        //current[i].set("value", JSON.stringify(current[i].get("value")));
+                    }
+                }
+                //$rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
             }
             else fn("Ok");
         }
