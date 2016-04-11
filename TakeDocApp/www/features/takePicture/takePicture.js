@@ -188,38 +188,51 @@ takeDoc.controller('takePictureController', ['$scope', '$rootScope', '$location'
                         /*var current = $scope.myDoc.metadatas.where({ htmlType: "map" });
                         if (current.length > 0) current[0].set("value", JSON.stringify(drawMap.data($("#literally canvas")[1])));*/
                         
-                        //$scope.myDoc.save(context);
+                        $scope.myDoc.save(context);
                     }
                 }
             };
 
             if (startWorkflow) {
-                var current = $scope.myDoc.metadatas.where({ htmlType: "signature" });
-                if (current.length > 0) {
-                    var onTapNext = function (signatures, index) {
-                        if (index >= signatures.length) {
-                            var signature = signatures[index];
-                            // $(".form-input-field-signature").jSignature();
-                            onTapNext(signatures, index);
+                var signatures = $scope.myDoc.metadatas.where({ htmlType: "signature" });
+                if (signatures.length > 0) {
+                    var index = 0;
+                    var id = "input-" + signatures[0].get("id") + "-" + signatures[0].get("name");
+                    var content = "<div metadataid='" + id + "' class='form-input-field-signature'></div>";
+
+                    var onTap = function () {
+                        if (arguments[0] == 'Ok') {
+                            signatures[index].set("value", $(".form-input-field-signature").jSignature("getData", "default"));
+
+                            if (index + 1 < signatures.length) {
+                                // next signature
+                                index++;
+                                id = "input-" + signatures[index].get("id") + "-" + signatures[index].get("name");
+                                content = "<div metadataid='" + id + "' class='form-input-field-signature'></div>";
+                                $rootScope.PopupHelper.show(signatures[index].get("label"), content, "OkCancel", onTap);
+                                var fnSignature = function () {
+                                    $(".form-input-field-signature").jSignature();
+                                };
+                                $timeout(fnSignature, 1000);
+                            }
+                            else fn("Ok");
                         }
                     };
-                    for (var i = 0; i < current.length; i++) {
-                        var id = "input-" + current[0].get("id") + "-" + current[0].get("name");
-                        var content = "<div metadataid='" + id + "' class='form-input-field-signature'></div>";
 
-                        var onTap = function () {
-                            alert(arguments[0]);
-                        };
+                    var fnSignature = function () {
+                        $(".form-input-field-signature").jSignature();
+                    };
 
-                        $rootScope.PopupHelper.show(current[0].get("label"), content, "OkCancel", onTap);
-                        var fn = function () {
-                            $(".form-input-field-signature").jSignature();
-                        };
-                        $timeout(fn, 1000);
-                        //current[i].set("value", JSON.stringify(current[i].get("value")));
-                    }
+                    $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", function () {
+                        if (arguments[0] == 'Ok') {
+                            $rootScope.PopupHelper.show(signatures[index].get("label"), content, "OkCancel", onTap);
+                            $timeout(fnSignature, 1000);
+                        }
+                    });
                 }
-                //$rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", fn);
+                else $rootScope.PopupHelper.show("Workflow", "Confirmer l'envoi du document au back-office.", "OkCancel", function () {
+                    if (arguments[0] == 'Ok') fn("Ok");
+                });
             }
             else fn("Ok");
         }

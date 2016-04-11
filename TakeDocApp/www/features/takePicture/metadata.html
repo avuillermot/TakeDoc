@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <div ng-if="metadata.attributes.htmlType != 'ion-toggle''" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
+        <div ng-if="metadata.attributes.htmlType != 'ion-toggle'" ng-switch on="metadata.attributes.htmlType" style="display: inline-block;width:100%;">
             <div ng-switch-when="section"></div>
             <select ng-switch-when="list" ng-disabled="mode == 'READ'" ng-model="metadata.attributes.value" class="form-input-field" tabindex="{{metadata.attributes.index}}">
                 <option ng-repeat="item in metadata.attributes.valueList.models" value="{{item.attributes.key}}" ng-selected="metadata.attributes.value == item.attributes.key">{{item.attributes.text}}</option>
@@ -35,12 +35,6 @@
             <ion-toggle ng-disabled="mode == 'READ'" ng-model=" metadata.attributes.value" toggle-class="toggle-calm" class="metadata-label-ion-toggle metadata-mandatory-{{metadata.attributes.mandatory}}" tabindex="{{metadata.attributes.index}}">
                 {{metadata.attributes.label}}
             </ion-toggle>
-        </div>
-        <div ng-if="metadata.attributes.htmlType == 'signature'">
-            <div ng-if="metadata.attributes.value.base64 != '' && metadata.attributes.value.base64 != null">
-                <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value.base64}}" />
-            </div>
-            <div ng-if="metadata.attributes.value.base64 == '' || metadata.attributes.value.base64 == null" class="1form-input-field-signature" ></div>
         </div>
     </ion-item>
 </ion-list>
