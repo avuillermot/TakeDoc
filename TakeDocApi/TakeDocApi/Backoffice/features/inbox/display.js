@@ -178,8 +178,7 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
     };
 
     $scope.doSave = function (startWorkflow) {
-        var ok = utils.setStateInputField("divDetailDocument");
-        if (ok) {
+        
             var success = function () {
                 $rootScope.hideLoader();
 
@@ -214,24 +213,22 @@ backOffice.controller('displayController', ['$scope', '$rootScope', '$stateParam
             if ($scope.hasChanged() == true && startWorkflow == false) {
                 $rootScope.showLoader("Enregistrement....");
 
-                var current = $scope.metadatas.where({ htmlType: "map" });
-                if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
-
                 myDocComplete.save(context);
             }
             else if (startWorkflow) {
-                var fn = function () {
-                    $rootScope.showLoader("Enregistrement....");
+                // valid data before send to the workflow
+                var ok = utils.setStateInputField("divDetailDocument");
+                if (ok) {
+                    var fn = function () {
+                        $rootScope.showLoader("Enregistrement....");
 
-                    var current = $scope.metadatas.where({ htmlType: "map" });
-                    if (current.length > 0) current[0].set("value", JSON.stringify(current[0].get("value")));
-
-                    myDocComplete.save(context);
-                };
-                $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
+                        myDocComplete.save(context);
+                    };
+                    $rootScope.showOkCancelModal("Confirmer l'envoi du document au back-office", fn);
+                }
+                else $('#myTabPanel a[href="#detail"]').tab("show");
             }
-        }
-        else $('#myTabPanel a[href="#detail"]').tab("show");
+        
     };
     /***********************************************/
     // Workflow answer

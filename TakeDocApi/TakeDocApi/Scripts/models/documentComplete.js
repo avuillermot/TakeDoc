@@ -38,13 +38,6 @@
         if (result.valid) {
             var data = new Array();
 
-            for (var i = 0; i < this.metadatas.length; i++) {
-                var current = this.metadatas.at(i);
-                if (current.get("type") === "signature") {
-                    current.set("value",JSON.stringify(current.get("value")));
-                }
-            }
-
             data.push(context);
             data.push(this.document);
             data.push(this.metadatas);

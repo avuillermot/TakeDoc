@@ -291,7 +291,7 @@ namespace TakeDocService.Document
 
             if (ro.Type.ToUpper().Equals("IMAGE"))
             {
-                ro.Value = metadata.MetaDataBlob;
+                ro.Value = (string.IsNullOrEmpty(metadata.MetaDataBlob) ? string.Empty : metadata.MetaDataBlob);
                 ro.Text = string.Empty;
             }
             return ro;
