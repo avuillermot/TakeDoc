@@ -60,7 +60,7 @@ var requestHelper = {
     getAccessToken: function () {
         var ticks = ((moment.utc()._d.getTime() * 10000) + 621355968000000000);
         if ($.cookie('RefreshTokenTicks') < ticks) {
-            alert("Votre session a expirée (1).");
+            alert("Votre session a expirée (3).");
             window.location = environnement.getLoginUrl();
             return false;
         }

@@ -58,7 +58,6 @@ var MetaData = Backbone.Model.extend({
         this.set("index", current.index);
         this.set("name", current.name);
         this.set("value", current.value);
-        if (current.type == 'map' || current.type == 'signature') this.set("value", JSON.parse(current.value));
         this.set("text", current.text);
         if (current.type == 'section') this.set("text", current.label);
         this.set("mandatory", current.mandatory);

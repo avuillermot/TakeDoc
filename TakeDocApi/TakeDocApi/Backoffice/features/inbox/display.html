@@ -74,7 +74,7 @@
                                         <option ng-repeat="item in metadata.attributes.valueList.models" ng-selected="metadata.attributes.value == item.attributes.key" value="{{item.attributes.key}}">{{item.attributes.text}}</option>
                                     </select>
                                     <div ng-switch-when="signature">
-                                        <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value.base64}}" />
+                                        <img id="img-sign-{{metadata.attributes.id}}" data-ng-src="{{metadata.attributes.value}}" />
                                     </div>
                                     <input ng-switch-when="date" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" name="{{metadata.attributes.id}}" type="date" value="{{metadata.attributes.value}}" tabindex="{{metadata.attributes.index}}" class="form-control inbox-item-input" mandatory="{{metadata.attributes.mandatory}}" />
                                     <input ng-switch-when="ion-toggle" ng-disabled="document.isReadOnly()" id="input-{{metadata.attributes.id}}-{{metadata.attributes.name}}" type="checkbox" ng-checked="metadata.attributes.value" ng-model="metadata.attributes.value" tabindex="{{metadata.attributes.index}}" mandatory="{{metadata.attributes.mandatory}}" />

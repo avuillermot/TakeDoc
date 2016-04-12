@@ -291,8 +291,7 @@ namespace TakeDocService.Document
 
             if (ro.Type.ToUpper().Equals("IMAGE"))
             {
-                Newtonsoft.Json.Linq.JObject img = Newtonsoft.Json.Linq.JObject.Parse(metadata.MetaDataBlob);
-                ro.Value = img.Value<string>("base64");
+                ro.Value = metadata.MetaDataBlob;
                 ro.Text = string.Empty;
             }
             return ro;
