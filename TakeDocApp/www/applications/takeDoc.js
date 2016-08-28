@@ -1,8 +1,26 @@
 ﻿'use strict';
-var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute']);
+var takeDoc = angular.module("takeDoc", ['ionic', 'ngRoute','ngCordova']);
 
-takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading, $timeout) {
+takeDoc.run(function ($rootScope, $ionicPlatform, $ionicPopup, $location, $ionicLoading, $timeout, $cordovaSQLite) {
     
+    $ionicPlatform.ready(
+        function () {
+            var t = function () {
+                debugger;
+                var db = $cordovaSQLite.openDB("tkMobile.db");
+                $cordovaSQLite.execute(db, "insert into data (id) values('2222');").then(
+                    function () {
+                        alert('ok');
+                    },
+                    function () {
+                        alert('nok');
+                    }
+                );
+            };
+            $timeout(t, 6000);
+        }
+    );
+
     $rootScope.$on("$ionicView.beforeEnter", function (scopes, states) {
         $ionicLoading.hide();
 
